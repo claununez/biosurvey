@@ -1,6 +1,6 @@
 Package: biosurvey
 Type: Package
-Title: Tools Biological Survey Planning
+Title: Tools for Biological Survey Planning
 Version: 0.0.1
 Authors@R: c(
     person("Claudia", "Nunez-Penichet", email = "claununez199o@gmail.com", role = c("aut","cre")),
