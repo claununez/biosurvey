@@ -1,3 +1,38 @@
+#' Prepare a base object to perform further analyses
+#'
+#' @description Prepare an S3 object that will serve as the base to perform all
+#' further analyses. This object will contain geographic and environmental
+#' information that will be used to characterize the region of interest.
+#'
+#' @param region SpatialPolygonsDataFrame of the region of interest.
+#' @param variables RasterStack or RasterBrick of environmental variables.
+#' @param do_pca (logical) whether or not to perfor a Principal Component Analysis.
+#' Default = FALSE.
+#' @param center (logical) whether or not to center variables. Argument to be passed
+#' to the function \code{\link[stats]{prcomp}}. Default = TRUE.
+#' @param scale (logical) whether or not to scale the variables. Recommended when
+#' variables are in different units. Argument to be passed to the function
+#' \code{\link[stats]{prcomp}}. Default = FALSE.
+#' @param variables_in_matrix (character) name of variables to include in matrix.
+#' If NULL (the default) all variables will be inluded.
+#'
+#' @return
+#' A list containing the following elements:
+#' - A master matrix for the region of interest, with information
+#' about geographic location of raster cells, initial environmental data,
+#' and if \code{do_pca} is TRUE, the principal components derived from original data.
+#' - A spatial polygon representing the region of interest.
+#' - If \code{do_pca} is TRUE, other results from principal component analysis.
+#'
+#' @usage
+#' master_matrix(region, variables, do_pca = FALSE, center = TRUE, scale = FALSE,
+#'               variables_in_matrix = NULL)
+#'
+#' @export
+#' @importFrom raster mask crop rasterToPoints
+#' @importFrom stats prcomp
+
+
 master_matrix <- function(region, variables, do_pca = FALSE, center = TRUE,
                           scale = FALSE, variables_in_matrix = NULL) {
   # Initial tests
