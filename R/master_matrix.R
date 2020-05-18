@@ -31,6 +31,16 @@
 #' @export
 #' @importFrom raster mask crop rasterToPoints
 #' @importFrom stats prcomp
+#'
+#' @examples
+#' # Data
+#' data("mx", package = "biosurvey")
+#' variables <- raster::stack(list.files(system.file("extdata", package = "biosurvey"),
+#'                                       pattern = "variables", full.names = TRUE))
+#'
+#' # Create master matrix object
+#' m_matrix <- master_matrix(region = mx, variables = variables, do_pca = TRUE,
+#'                           center = TRUE, scale = TRUE)
 
 
 master_matrix <- function(region, variables, do_pca = FALSE, center = TRUE,
