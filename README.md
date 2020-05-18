@@ -1,6 +1,7 @@
 biosurvey: Tools for Biological Survey Planning
 ================
-Claudia Nunez-Penichet, Marlon E. Cobos, and A. Townsend Peterson
+Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Narayani
+Barve, Vijay Barve, Tomer Gueta
 
   - [Project description](#project-description)
 

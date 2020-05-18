@@ -5,10 +5,16 @@ Version: 0.0.2
 Authors@R: c(
     person("Claudia", "Nunez-Penichet", email = "claununez199o@gmail.com", role = c("aut","cre")),
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = "aut"),
-    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
+    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"),
+    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "ctb"),
+    person("Vijay", "Barve", email = "vijay.barve@gmail.com", role = "ctb"),
+    person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "ctb"))
 Author: Claudia Nunez-Penichet [aut, cre],
     Marlon E. Cobos [aut],
-    A. Townsend Peterson [aut]
+    A. Townsend Peterson [aut],
+    Narayani Barve [ctb],
+    Vijay Barve [ctb],
+    Tomer Gueta [ctb]
 Maintainer: Claudia Nunez-Penichet <claununez199o@gmail.com>
 Date: 2020-05-16
 Description: A collection of tools that allow users to select sampling sites 

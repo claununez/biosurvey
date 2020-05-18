@@ -1,6 +1,6 @@
 ---
 title: "biosurvey: Tools for Biological Survey Planning"
-author: "Claudia Nunez-Penichet, Marlon E. Cobos, and A. Townsend Peterson"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Narayani Barve, Vijay Barve, Tomer Gueta"
 output: 
   github_document:
     toc: yes
