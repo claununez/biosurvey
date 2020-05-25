@@ -1,6 +1,20 @@
 #' Create the grids in the geography to be used to extract the values of the base_pam
 #'
 #' @description
+#'
+#' @param region SpatialPolygonsDataFrame of the region of interest.
+#' @param cell_size
+#'
+#' @return
+#'
+#' @usage
+#' grid_from_region(region, cell_size)
+#'
+#' @export
+#' @importFrom raster extent raster res values mask rasterToPolygons rasterToPoints
+#' @importFrom sp proj4string
+#'
+#' @examples
 
 grid_from_region <- function(region, cell_size) {
   # Initial tests
@@ -49,6 +63,24 @@ grid_from_region <- function(region, cell_size) {
 
 
 
+
+#'
+#'
+#' @description
+#'
+#' @param data
+#' @param ID_column
+#' @param species_column
+#'
+#' @return
+#'
+#' @usage
+#' pam_from_table(data, ID_column, species_column)
+#'
+#' @export
+#'
+#' @examples
+
 pam_from_table <- function(data, ID_column, species_column) {
   # Initial tests
   if (missing(data)) {
@@ -86,6 +118,22 @@ pam_from_table <- function(data, ID_column, species_column) {
 
 
 
+#'
+#'
+#' @description
+#'
+#' @param species_layers
+#'
+#' @return
+#'
+#' @usage
+#' stack_2data(species_layers)
+#'
+#' @export
+#' @importFrom raster rasterToPoints
+#'
+#' @examples
+
 stack_2data <- function(species_layers) {
   # Initial tests
   if (missing(species_layers)) {
@@ -93,7 +141,7 @@ stack_2data <- function(species_layers) {
   }
 
   # Stack to matrix
-  sppm <- rasterToPoints(species_layers)
+  sppm <- raster::rasterToPoints(species_layers)
   spnames <- colnames(sppm)[-c(1,2)]
 
   # Preparing data
@@ -103,6 +151,51 @@ stack_2data <- function(species_layers) {
 
   sps <- do.call(rbind, sps)
   colnames(sps) <- c("Longitude", "Latitude", "Species")
+
+  return(sps)
+}
+
+
+
+
+
+#'
+#'
+#' @description
+#'
+#' @param species_layers
+#'
+#' @return
+#'
+#' @usage
+#' spdf_2data(spdf_object, spdf_grid)
+#'
+#' @export
+#' @importFrom sp over
+#'
+#' @examples
+
+spdf_2data <- function(spdf_object, spdf_grid) {
+  # Initial tests
+  if (missing(spdf_object)) {
+    stop("Argument 'spdf_object' must be defined")
+  }
+  if (missing(spdf_grid)) {
+    stop("Argument 'spdf_grid' must be defined")
+  }
+
+  # Names to be matched
+  ID <- spdf_grid@data$ID
+  spnames <- as.character(spdf_object@data$Species)
+
+  # Preparing data
+  sps <- lapply(1:length(spnames), function(x) {
+    na.omit(data.frame(ID, sp::over(spdf_grid,
+                                    spdf_object[spnames == spnames[x], ])))
+  })
+
+  sps <- do.call(rbind, sps)
+  colnames(sps) <- c("ID", "Species")
 
   return(sps)
 }
