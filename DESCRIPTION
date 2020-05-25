@@ -1,7 +1,7 @@
 Package: biosurvey
 Type: Package
 Title: Tools for Biological Survey Planning
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(
     person("Claudia", "Nunez-Penichet", email = "claununez199o@gmail.com", role = c("aut","cre")),
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = "aut"),
@@ -16,14 +16,16 @@ Author: Claudia Nunez-Penichet [aut, cre],
     Vijay Barve [ctb],
     Tomer Gueta [ctb]
 Maintainer: Claudia Nunez-Penichet <claununez199o@gmail.com>
-Date: 2020-05-16
+Date: 2020-05-25
 Description: A collection of tools that allow users to select sampling sites 
     increasing efficiency of biodiversity survey systems by considering the 
     relationship of environmental and geographic conditions in a region.
 URL: https://github.com/claununez/biosurvey
 BugReports: https://github.com/claununez/biosurvey/issues
 Imports:
-    raster (>= 3.0)
+    raster (>= 3.0),
+    rgdal (>= 1.4),
+    sp (>= 1.3)
 Depends:
     R (>= 3.5.0)
 License: GPL-3
