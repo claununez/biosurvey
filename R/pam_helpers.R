@@ -1,9 +1,11 @@
-#' Create the grids in the geography to be used to extract the values of the base_pam
+#' Creates the grids in the geography to be used to extract the values of the base_pam
 #'
-#' @description
+#' @description Divides the region of interest in grids of a determined size that
+#' will be used as the cells to extract the values of the base_pam function.
 #'
 #' @param region SpatialPolygonsDataFrame of the region of interest.
-#' @param cell_size
+#' @param cell_size Resolution for grid (single number or vector of two numbers)
+#' in decimal degrees.
 #'
 #' @return
 #'
@@ -13,8 +15,6 @@
 #' @export
 #' @importFrom raster extent raster res values mask rasterToPolygons rasterToPoints
 #' @importFrom sp proj4string
-#'
-#' @examples
 
 grid_from_region <- function(region, cell_size) {
   # Initial tests
@@ -64,11 +64,12 @@ grid_from_region <- function(region, cell_size) {
 
 
 
+#' Creates PAM from a data frame of species references
 #'
+#' @description Creates a presence-absence matrix (PAM) from a data frame that
+#' contains identifiers and species names.
 #'
-#' @description
-#'
-#' @param data
+#' @param data data frame objects of species' presence (1) absence (0)
 #' @param ID_column
 #' @param species_column
 #'
@@ -78,8 +79,6 @@ grid_from_region <- function(region, cell_size) {
 #' pam_from_table(data, ID_column, species_column)
 #'
 #' @export
-#'
-#' @examples
 
 pam_from_table <- function(data, ID_column, species_column) {
   # Initial tests
@@ -108,7 +107,7 @@ pam_from_table <- function(data, ID_column, species_column) {
   # Fixed details of PAM
   counts[counts > 0] <- 1
   nams <- colnames(counts)
-  counts <- data.frame(rownames(counts), counts) # as.numeric(rownames(counts)
+  counts <- data.frame(rownames(counts), counts)
   colnames(counts) <- c(ID_column, nams)
 
   return(counts)
@@ -118,11 +117,13 @@ pam_from_table <- function(data, ID_column, species_column) {
 
 
 
+#' Creates a data frame of specie's references from RasterStack
 #'
+#' @description Creates a data frame of specie's references that contains longitude,
+#' latitude, and species name, from a RasterStack or a RasterBrick.
 #'
-#' @description
-#'
-#' @param species_layers
+#' @param species_layers RasterStack or RasterBrick objects of species' presence (1)
+#' absence (0)
 #'
 #' @return
 #'
@@ -131,8 +132,6 @@ pam_from_table <- function(data, ID_column, species_column) {
 #'
 #' @export
 #' @importFrom raster rasterToPoints
-#'
-#' @examples
 
 stack_2data <- function(species_layers) {
   # Initial tests
@@ -142,7 +141,7 @@ stack_2data <- function(species_layers) {
 
   # Stack to matrix
   sppm <- raster::rasterToPoints(species_layers)
-  spnames <- colnames(sppm)[-c(1,2)]
+  spnames <- colnames(sppm)[-c(1, 2)]
 
   # Preparing data
   sps <- lapply(1:length(spnames), function(x) {
@@ -159,11 +158,15 @@ stack_2data <- function(species_layers) {
 
 
 
+#' Creates a data frame of specie's references from SpatialPolygonsDataFrame
 #'
+#' @description Creates a data frame of specie's references that contains identifiers
+#' and species name, from a SpatialPolygonsDataFrame.
 #'
-#' @description
-#'
-#' @param species_layers
+#' @param spdf_object SpatialPolygonsDataFrame objects of species' presence (1)
+#' absence (0)
+#' @param spdf_grid Grids in the geography of the region of interest (output
+#' of the function grid_from_region)
 #'
 #' @return
 #'
@@ -172,8 +175,6 @@ stack_2data <- function(species_layers) {
 #'
 #' @export
 #' @importFrom sp over
-#'
-#' @examples
 
 spdf_2data <- function(spdf_object, spdf_grid) {
   # Initial tests
@@ -196,6 +197,147 @@ spdf_2data <- function(spdf_object, spdf_grid) {
 
   sps <- do.call(rbind, sps)
   colnames(sps) <- c("ID", "Species")
+
+  return(sps)
+}
+
+
+
+
+
+#' Creates a data frame of specie's references from a list
+#'
+#' @description Creates a data frame of specie's references that contains longitude,
+#' latitude, and species name, from a list.
+#'
+#' @param raster_list list of RasterLayer objects of species' presence (1)
+#' absence (0)
+#'
+#' @return
+#'
+#' @usage
+#' rlist_2data(raster_list)
+#'
+#' @export
+#' @importFrom raster raster
+
+rlist_2data <- function(raster_list) {
+  # Initial tests
+  if (missing(raster_list)) {
+    stop("Argument 'raster_list' must be defined")
+  }
+
+  # Running in loop for all elements of list
+  sps <- lapply(1:length(spnames), function(x) {
+    # raster to matrix
+    sppm <- raster::rasterToPoints(raster_list[[x]])
+    spname <- names(raster_list[[x]])
+
+    # Preparing data
+    data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
+  })
+
+  sps <- do.call(rbind, sps)
+  colnames(sps) <- c("Longitude", "Latitude", "Species")
+
+  return(sps)
+}
+
+
+
+
+#'
+#'
+#' @description
+#'
+#' @param path
+#' @param format
+#' @param spdf_grid
+#'
+#' @return
+#'
+#' @usage
+#' files_2data(path, format, spdf_grid = NULL)
+#'
+#' @export
+#' @importFrom rgdal readOGR
+#' @importFrom raster raster
+
+files_2data <- function(path, format, spdf_grid = NULL) {
+  # Initial tests
+  if (missing(path)) {
+    stop("Argument 'path' must be defined")
+  }
+  if (missing(format)) {
+    stop("Argument 'format' must be defined")
+  }
+  if (!format %in% c("shp", "gpkg", "GTiff", "ascii")) {
+    stop(paste("'format'", format, "is not supported, see function's help"))
+  }
+
+  # Finding files according to format
+  if (format %in% c("shp", "gpkg")) {
+    if (is.null(spdf_grid)) {
+      stop("Argument 'spdf_grid' must be defined if 'format' is shp or gpkg")
+    }
+    # Names to be matched
+    ID <- spdf_grid@data$ID
+
+    if (format == "shp") {
+      patt <- ".shp$"
+      subs <- ".shp"
+      mlist <- gsub(subs, "", list.files(path = path, pattern = patt))
+      spnames <- mlist
+    } else {
+      patt <- ".gpkg$"
+      subs <- ".gpkg"
+      mlist <- list.files(path = path, pattern = patt)
+      spnames <- gsub(subs, "", mlist)
+    }
+  } else {
+    subs <- match_rformat(format)
+    patt <- paste0(subs, "$")
+    mlist <- list.files(path = path, pattern = patt, full.names = TRUE)
+    spnames <- gsub(subs, "", list.files(path = path, pattern = patt))
+  }
+
+  if (length(mlist) == 0) {
+    stop(paste("No file was found in", path, "with the extension specified in 'format'"))
+  }
+
+  # Running in loop for all elements of list
+  sps <- lapply(1:length(spnames), function(x) {
+    if (format %in% c("shp", "gpkg")) {
+      if (format == "shp") {
+        rs <- rgdal::readOGR(dsn = path, layer = mlist[x], verbose = FALSE)
+      } else {
+        rs <- rgdal::readOGR(paste0(path, "/", mlist[x]), spnames[x],
+                             verbose = FALSE)
+      }
+
+      sppm <- na.omit(data.frame(ID, Species = sp::over(spdf_grid, rs)[, 1]))
+      sppm$Species <- spnames[x]
+      return(sppm)
+
+    } else {
+      # Raster from file
+      rs <- raster::raster(mlist[x])
+
+      # Raster to matrix
+      sppm <- raster::rasterToPoints(rs[[x]])
+
+      # Preparing data
+      return(data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x]))
+    }
+  })
+
+  sps <- do.call(rbind, sps)
+
+  if (format %in% c("shp", "gpkg")) {
+    colnames(sps) <- c("ID", "Species")
+  } else {
+    colnames(sps) <- c("Longitude", "Latitude", "Species")
+  }
 
   return(sps)
 }
