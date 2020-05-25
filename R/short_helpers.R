@@ -25,7 +25,7 @@ is_pair <- function(x) {
 #' @export
 #'
 #' @examples
-#' rformat <- match_rformat("GTiff")
+#' match_rformat("GTiff")
 
 match_rformat <- function(format) {
   if (missing(format)) {stop("Argument 'format needs to be defined.")}

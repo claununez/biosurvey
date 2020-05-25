@@ -2,9 +2,38 @@
 #'
 #' @description Prepare a presence-absence matrix (PAM) in which all initial points
 #' of interest (rows) will have a representation of the species present in such
-#' areas (columns). Initial points of interest are represented by an ID, and
+#' areas (columns). Initial points of interest will be represented by an ID, and
 #' longitude and latitude coordinates.
 #'
+#' @param data species geographic ranges to be used to create a presence-absence
+#' matrix (PAM). This argument can be: RasterStack, RasterBrick, data.frame,
+#' list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
+#' details for description of characteristics of each option.
+#' @param format (character) if \code{data} is a character, available formats are:
+#' "shp", "gpkg", "GTiff", and "ascii".
+#' @param master_matrix object derived from function \code{\link{master_matrix}}.
+#' Optionally, if master_matrix is not necessary, a list containing an object of
+#' class SpatialPolygonsDataFrame, representinng the region of interest, can be
+#' used. The name of this element in the list must be "polygon". For instance:
+#' \code{my_list <- list(polygon = YOUR_SpatialPolygonsDataFrame)}.
+#' @param cell_size (numeric) resolution for grid (single number or vector of two
+#' numbers) in decimal degrees.
+#'
+#' @return
+#' A presence-absence matrix (PAM) for the region of interest associated with a
+#' SpatialPolygonsDataFrame, as in a grid of \code{cell_size} resolution. Each
+#' grid cell is related to a specific ID and longitude and latitude coordinates.
+#' Presence (1) and absence (0) values for each species in every cell of the PAM
+#' are included as apart of the data frame of the SpatialPolygonsDataFrame.
+#'
+#' @usage
+#' base_pam(data, format = NULL, master_matrix, cell_size)
+#'
+#' @export
+#' @importFrom sp SpatialPointsDataFrame over
+#'
+#' @examples
+
 base_pam <- function(data, format = NULL, master_matrix, cell_size) {
   # Initial tests
   clsdata <- class(data)[1]

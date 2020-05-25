@@ -1,13 +1,15 @@
-#' Creates the grids in the geography to be used to extract the values of the base_pam
+#' Creates grid for a given gegraphic region
 #'
-#' @description Divides the region of interest in grids of a determined size that
-#' will be used as the cells to extract the values of the base_pam function.
+#' @description Divides the region of interest in a grid of a specific cell size.
 #'
-#' @param region SpatialPolygonsDataFrame of the region of interest.
-#' @param cell_size Resolution for grid (single number or vector of two numbers)
-#' in decimal degrees.
+#' @param region SpatialPolygonsDataFrame of the region of interest. Object must
+#' be unprojected, World Geodetic System (WGS84).
+#' @param cell_size (numeric) resolution for grid (single number or vector of two
+#' numbers) in decimal degrees.
 #'
 #' @return
+#' Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
+#' is related to a specific ID and longitude and latitude coordinates.
 #'
 #' @usage
 #' grid_from_region(region, cell_size)
@@ -64,68 +66,19 @@ grid_from_region <- function(region, cell_size) {
 
 
 
-#' Creates PAM from a data frame of species references
+
+#' Creates a data frame of species' references from RasterStack
 #'
-#' @description Creates a presence-absence matrix (PAM) from a data frame that
-#' contains identifiers and species names.
+#' @description Creates a data frame of species' references that contains longitude,
+#' latitude, and species name, using a RasterStack or a RasterBrick as input.
 #'
-#' @param data data frame objects of species' presence (1) absence (0)
-#' @param ID_column
-#' @param species_column
-#'
-#' @return
-#'
-#' @usage
-#' pam_from_table(data, ID_column, species_column)
-#'
-#' @export
-
-pam_from_table <- function(data, ID_column, species_column) {
-  # Initial tests
-  if (missing(data)) {
-    stop("Argument 'data' must be defined")
-  }
-  if (missing(ID_column)) {
-    stop("Argument 'ID_column' must be defined")
-  }
-  if (missing(species_column)) {
-    stop("Argument 'species_column' must be defined")
-  }
-  if(class(data[, ID_column])[1] != "factor") {
-    data[, ID_column] <- as.factor(data[, ID_column])
-  }
-
-  # Transform species column to characters
-  allsp <- as.character(unique(data[, species_column]))
-
-  # Count of the species per ID
-  counts <- sapply(allsp, function(x) {
-    spp <- data[as.character(data[, species_column]) == x, ]
-    table(spp[, ID_column])
-  })
-
-  # Fixed details of PAM
-  counts[counts > 0] <- 1
-  nams <- colnames(counts)
-  counts <- data.frame(rownames(counts), counts)
-  colnames(counts) <- c(ID_column, nams)
-
-  return(counts)
-}
-
-
-
-
-
-#' Creates a data frame of specie's references from RasterStack
-#'
-#' @description Creates a data frame of specie's references that contains longitude,
-#' latitude, and species name, from a RasterStack or a RasterBrick.
-#'
-#' @param species_layers RasterStack or RasterBrick objects of species' presence (1)
-#' absence (0)
+#' @param species_layers RasterStack or RasterBrick object. Each layer must be
+#' named as the species that it represents, and values in each layer must be
+#' 1 (presence) and 0 (absence).
 #'
 #' @return
+#' A data frame of species geographic records derived from values of presence
+#' in each layer from the RasterStack.
 #'
 #' @usage
 #' stack_2data(species_layers)
@@ -158,17 +111,20 @@ stack_2data <- function(species_layers) {
 
 
 
-#' Creates a data frame of specie's references from SpatialPolygonsDataFrame
+#' Creates a data frame of species' references from SpatialPolygonsDataFrame
 #'
-#' @description Creates a data frame of specie's references that contains identifiers
-#' and species name, from a SpatialPolygonsDataFrame.
+#' @description Creates a data frame of species' references that contains identifiers
+#' of porition and species name, using a SpatialPolygonsDataFrame as input.
 #'
-#' @param spdf_object SpatialPolygonsDataFrame objects of species' presence (1)
-#' absence (0)
-#' @param spdf_grid Grids in the geography of the region of interest (output
-#' of the function grid_from_region)
+#' @param spdf_object SpatialPolygonsDataFrame representing species' geographic
+#' distributions. The data frame associated with the object must contain a column
+#' named "Species" to distinguish among features.
+#' @param spdf_grid geographic grid for the region of interest (output of function
+#' \code{\link{grid_from_region}}).
 #'
 #' @return
+#' A data frame of species' found in distint positions (defined with identifiers);
+#' includes two columns: "ID" and "Species".
 #'
 #' @usage
 #' spdf_2data(spdf_object, spdf_grid)
@@ -205,21 +161,25 @@ spdf_2data <- function(spdf_object, spdf_grid) {
 
 
 
-#' Creates a data frame of specie's references from a list
+#' Creates a data frame of species' references from a list of raster layers
 #'
-#' @description Creates a data frame of specie's references that contains longitude,
-#' latitude, and species name, from a list.
+#' @description Creates a data frame of species' references that contains longitude,
+#' latitude, and species name, using a list of raster layers as input. Useful when
+#' raster layers have distinct extent or resolution.
 #'
-#' @param raster_list list of RasterLayer objects of species' presence (1)
-#' absence (0)
+#' @param raster_list list of RasterLayer objects. Each raster layer must be named
+#' as the species that it represents, and values in each layer must be
+#' 1 (presence) and 0 (absence).
 #'
 #' @return
+#' A data frame of species geographic records derived from values of presence
+#' in each layer from the ist of raster layers.
 #'
 #' @usage
 #' rlist_2data(raster_list)
 #'
 #' @export
-#' @importFrom raster raster
+#' @importFrom raster rasterToPoints
 
 rlist_2data <- function(raster_list) {
   # Initial tests
@@ -246,22 +206,36 @@ rlist_2data <- function(raster_list) {
 
 
 
+#' Creates a data frame of species' references from files in a directory
 #'
+#' @description Creates a data frame of species' references that contains longitude,
+#' latitude, and species name, from a character.
 #'
-#' @description
-#'
-#' @param path
-#' @param format
-#' @param spdf_grid
+#' @param path (character) full path name of directory containing raster,
+#' shapefiles, or geopackage files representing species geographic ranges. Each
+#' file must be named as the species that it represents. All files must be in
+#' the same format. If files are raster, values in each layer must be 1 (presence)
+#' and 0 (absence).
+#' @param format (character) the format files found in \code{path}. Current
+#' available formats are: "shp", "gpkg", "GTiff", and "ascii".
+#' @param spdf_grid geographic grid for the region of interest (output of function
+#' \code{\link{grid_from_region}}). Used when format equals "shp", "gpkg".
+#' Default = NULL.
 #'
 #' @return
+#' If files are in ratser format, a data frame of species geographic records
+#' derived from values of presence in each layer.
+#'
+#' If files are not in raster format, a data frame of species' found in distint
+#' positions (defined with identifiers); includes two columns: "ID" and "Species".
 #'
 #' @usage
 #' files_2data(path, format, spdf_grid = NULL)
 #'
 #' @export
 #' @importFrom rgdal readOGR
-#' @importFrom raster raster
+#' @importFrom sp over
+#' @importFrom raster raster rasterToPoints
 
 files_2data <- function(path, format, spdf_grid = NULL) {
   # Initial tests
@@ -340,4 +314,60 @@ files_2data <- function(path, format, spdf_grid = NULL) {
   }
 
   return(sps)
+}
+
+
+
+
+
+#' Creates presence-absence matrix from a data frame
+#'
+#' @description Creates a presence-absence matrix (PAM) from a data frame that
+#' contains species names and identifiers of positions where species are found.
+#'
+#' @param data data frame of species' found in distint positions (defined by
+#' identifiers). Must include at least two columns: "ID" and "Species".
+#' @param ID_column (character) name of the column containing identifiers.
+#' @param species_column (character) name of the column containing species names.
+#'
+#' @return
+#' Species' presence (1) and absence (0) matrix for a set of positions defined
+#' by identifiers.
+#'
+#' @usage
+#' pam_from_table(data, ID_column, species_column)
+#'
+#' @export
+
+pam_from_table <- function(data, ID_column, species_column) {
+  # Initial tests
+  if (missing(data)) {
+    stop("Argument 'data' must be defined")
+  }
+  if (missing(ID_column)) {
+    stop("Argument 'ID_column' must be defined")
+  }
+  if (missing(species_column)) {
+    stop("Argument 'species_column' must be defined")
+  }
+  if(class(data[, ID_column])[1] != "factor") {
+    data[, ID_column] <- as.factor(data[, ID_column])
+  }
+
+  # Transform species column to characters
+  allsp <- as.character(unique(data[, species_column]))
+
+  # Count of the species per ID
+  counts <- sapply(allsp, function(x) {
+    spp <- data[as.character(data[, species_column]) == x, ]
+    table(spp[, ID_column])
+  })
+
+  # Fixed details of PAM
+  counts[counts > 0] <- 1
+  nams <- colnames(counts)
+  counts <- data.frame(rownames(counts), counts)
+  colnames(counts) <- c(ID_column, nams)
+
+  return(counts)
 }
