@@ -92,7 +92,7 @@ base_pam <- function(data, format = NULL, master_matrix, cell_size) {
   }
 
   # PAM from points
-  sp_points <- pam_from_table(sp_points, id_column = "ID",
+  sp_points <- pam_from_table(sp_points, ID_column = "ID",
                               species_column = "Species")
 
   # Complete PAM
