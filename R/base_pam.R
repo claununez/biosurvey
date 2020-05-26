@@ -18,6 +18,9 @@
 #' \code{my_list <- list(polygon = YOUR_SpatialPolygonsDataFrame)}.
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
 #' numbers) in decimal degrees.
+#' @param complete_cover (logical) whether or not to include cells of grid
+#' partially overlapped with the geographic region of interest contined in
+#' \code{master_matrix}. Default = FALSE.
 #'
 #' @return
 #' A presence-absence matrix (PAM) for the region of interest associated with a
@@ -27,14 +30,26 @@
 #' are included as apart of the data frame of the SpatialPolygonsDataFrame.
 #'
 #' @usage
-#' base_pam(data, format = NULL, master_matrix, cell_size)
+#' base_pam(data, format = NULL, master_matrix, cell_size,
+#'          complete_cover = FALSE)
 #'
 #' @export
 #' @importFrom sp SpatialPointsDataFrame over
+#' @importFrom methods as
 #'
 #' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#' data("species_data", package = "biosurvey")
+#'
+#' # Create base_pam
+#' b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 1)
+#'
+#' sp::plot(b_pam)
+#' summary(b_pam@data[, 1:6])
 
-base_pam <- function(data, format = NULL, master_matrix, cell_size) {
+base_pam <- function(data, format = NULL, master_matrix, cell_size,
+                     complete_cover = FALSE) {
   # Initial tests
   clsdata <- class(data)[1]
 
@@ -51,7 +66,7 @@ base_pam <- function(data, format = NULL, master_matrix, cell_size) {
   }
 
   # Create geographyc grid
-  grid_r_pol <- grid_from_region(master_matrix$polygon, cell_size)
+  grid_r_pol <- grid_from_region(master_matrix$polygon, cell_size, complete_cover)
 
   # Prepare SpaptialPoints from different objects
   if (!is.data.frame(data)) {
@@ -86,7 +101,7 @@ base_pam <- function(data, format = NULL, master_matrix, cell_size) {
   }
 
   if (class(data)[1] %in% c("data.frame", "SpatialPointsDataFrame")) {
-    sp_points <- data.frame(ID = sp::over(as(sp_points, "SpatialPoints"),
+    sp_points <- data.frame(ID = sp::over(methods::as(sp_points, "SpatialPoints"),
                                           grid_r_pol[, "ID"]),
                             Species = sp_points@data[, 3])
   }

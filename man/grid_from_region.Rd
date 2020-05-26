@@ -4,7 +4,7 @@
 \alias{grid_from_region}
 \title{Creates grid for a given gegraphic region}
 \usage{
-grid_from_region(region, cell_size)
+grid_from_region(region, cell_size, complete_cover = FALSE)
 }
 \arguments{
 \item{region}{SpatialPolygonsDataFrame of the region of interest. Object must
@@ -12,6 +12,9 @@ be unprojected, World Geodetic System (WGS84).}
 
 \item{cell_size}{(numeric) resolution for grid (single number or vector of two
 numbers) in decimal degrees.}
+
+\item{complete_cover}{(logical) whether or not to include cells of grid
+partially overlapped with region. Default = FALSE.}
 }
 \value{
 Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
@@ -19,4 +22,14 @@ is related to a specific ID and longitude and latitude coordinates.
 }
 \description{
 Divides the region of interest in a grid of a specific cell size.
+}
+\examples{
+# Data
+data("mx", package = "biosurvey")
+
+# Create grid from polygon
+grid_reg <- grid_from_region(region = mx, cell_size = 1)
+
+sp::plot(grid_reg)
+grid_reg
 }

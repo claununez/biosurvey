@@ -22,3 +22,11 @@ by identifiers.
 Creates a presence-absence matrix (PAM) from a data frame that
 contains species names and identifiers of positions where species are found.
 }
+\examples{
+# Data
+data("sp_data", package = "biosurvey")
+
+# PAM
+pam <- pam_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+pam[1:10, c(1, 21:25)]
+}

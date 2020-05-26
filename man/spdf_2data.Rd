@@ -22,3 +22,15 @@ includes two columns: "ID" and "Species".
 Creates a data frame of species' references that contains identifiers
 of porition and species name, using a SpatialPolygonsDataFrame as input.
 }
+\examples{
+# Data
+data("species_data", package = "biosurvey")
+data("mx", package = "biosurvey")
+
+# GRID
+grid_reg <- grid_from_region(region = mx, cell_size = 1)
+
+# species data from polygons
+sp_data <- spdf_2data(spdf_object = species_data, spdf_grid = grid_reg)
+summary(sp_data)
+}

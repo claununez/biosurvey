@@ -20,3 +20,14 @@ Creates a data frame of species' references that contains longitude,
 latitude, and species name, using a list of raster layers as input. Useful when
 raster layers have distinct extent or resolution.
 }
+\examples{
+# Data
+rsp <- raster::stack(system.file("extdata/sp_layers.tif", package = "biosurvey"))
+names(rsp) <- paste0("Species_", 1:5)
+
+rlist <- lapply(1:5, function(x) {rsp[[x]]})
+
+# species data from RasterStack
+sp_data <- rlist_2data(raster_list = rlist)
+summary(sp_data)
+}

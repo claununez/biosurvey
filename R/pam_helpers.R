@@ -6,19 +6,31 @@
 #' be unprojected, World Geodetic System (WGS84).
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
 #' numbers) in decimal degrees.
+#' @param complete_cover (logical) whether or not to include cells of grid
+#' partially overlapped with region. Default = FALSE.
 #'
 #' @return
 #' Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
 #' is related to a specific ID and longitude and latitude coordinates.
 #'
 #' @usage
-#' grid_from_region(region, cell_size)
+#' grid_from_region(region, cell_size, complete_cover = FALSE)
 #'
 #' @export
 #' @importFrom raster extent raster res values mask rasterToPolygons rasterToPoints
 #' @importFrom sp proj4string
+#'
+#' @examples
+#' # Data
+#' data("mx", package = "biosurvey")
+#'
+#' # Create grid from polygon
+#' grid_reg <- grid_from_region(region = mx, cell_size = 1)
+#'
+#' sp::plot(grid_reg)
+#' grid_reg
 
-grid_from_region <- function(region, cell_size) {
+grid_from_region <- function(region, cell_size, complete_cover = FALSE) {
   # Initial tests
   if (missing(region)) {
     stop("Argument 'region' must be defined")
@@ -41,13 +53,21 @@ grid_from_region <- function(region, cell_size) {
 
   # grid resolution and values
   raster::res(grid) <- cell_size
-  raster::values(grid) <- 0
+  raster::values(grid) <- 1
 
   # grid projection
   sp::proj4string(grid) <- sp::proj4string(region)
 
   # extract grid with region
-  grid_reg <- raster::mask(grid, region)
+  if (complete_cover == TRUE) {
+    SpP_ras <- raster::rasterize(region, grid, getCover = TRUE)
+    SpP_ras[SpP_ras == 0] <- NA
+    grid_reg <- raster::mask(grid, SpP_ras)
+  } else {
+    message("Cells partially covered by polygon representing region won't be included.",
+            "\nTo include such cells use 'complete_cover' = TRUE.")
+    grid_reg <- raster::mask(grid, region)
+  }
 
   # grid for region of interest
   grid_r_pol <- raster::rasterToPolygons(grid_reg)
@@ -61,9 +81,6 @@ grid_from_region <- function(region, cell_size) {
                                 Latitude = matrix_a[, 2])
   return(grid_r_pol)
 }
-
-
-
 
 
 
@@ -85,6 +102,16 @@ grid_from_region <- function(region, cell_size) {
 #'
 #' @export
 #' @importFrom raster rasterToPoints
+#'
+#' @examples
+#' # Data
+#' rsp <- raster::stack(system.file("extdata/sp_layers.tif",
+#'                                  package = "biosurvey"))
+#' names(rsp) <- paste0("Species_", 1:5)
+#'
+#' # species data from RasterStack
+#' sp_data <- stack_2data(species_layers = rsp)
+#' summary(sp_data)
 
 stack_2data <- function(species_layers) {
   # Initial tests
@@ -109,8 +136,6 @@ stack_2data <- function(species_layers) {
 
 
 
-
-
 #' Creates a data frame of species' references from SpatialPolygonsDataFrame
 #'
 #' @description Creates a data frame of species' references that contains identifiers
@@ -131,6 +156,19 @@ stack_2data <- function(species_layers) {
 #'
 #' @export
 #' @importFrom sp over
+#' @importFrom stats na.omit
+#'
+#' @examples
+#' # Data
+#' data("species_data", package = "biosurvey")
+#' data("mx", package = "biosurvey")
+#'
+#' # GRID
+#' grid_reg <- grid_from_region(region = mx, cell_size = 1)
+#'
+#' # species data from polygons
+#' sp_data <- spdf_2data(spdf_object = species_data, spdf_grid = grid_reg)
+#' summary(sp_data)
 
 spdf_2data <- function(spdf_object, spdf_grid) {
   # Initial tests
@@ -159,8 +197,6 @@ spdf_2data <- function(spdf_object, spdf_grid) {
 
 
 
-
-
 #' Creates a data frame of species' references from a list of raster layers
 #'
 #' @description Creates a data frame of species' references that contains longitude,
@@ -180,6 +216,17 @@ spdf_2data <- function(spdf_object, spdf_grid) {
 #'
 #' @export
 #' @importFrom raster rasterToPoints
+#'
+#' @examples
+#' # Data
+#' rsp <- raster::stack(system.file("extdata/sp_layers.tif", package = "biosurvey"))
+#' names(rsp) <- paste0("Species_", 1:5)
+#'
+#' rlist <- lapply(1:5, function(x) {rsp[[x]]})
+#'
+#' # species data from RasterStack
+#' sp_data <- rlist_2data(raster_list = rlist)
+#' summary(sp_data)
 
 rlist_2data <- function(raster_list) {
   # Initial tests
@@ -188,7 +235,7 @@ rlist_2data <- function(raster_list) {
   }
 
   # Running in loop for all elements of list
-  sps <- lapply(1:length(spnames), function(x) {
+  sps <- lapply(1:length(raster_list), function(x) {
     # raster to matrix
     sppm <- raster::rasterToPoints(raster_list[[x]])
     spname <- names(raster_list[[x]])
@@ -202,7 +249,6 @@ rlist_2data <- function(raster_list) {
 
   return(sps)
 }
-
 
 
 
@@ -236,6 +282,16 @@ rlist_2data <- function(raster_list) {
 #' @importFrom rgdal readOGR
 #' @importFrom sp over
 #' @importFrom raster raster rasterToPoints
+#' @importFrom stats na.omit
+#'
+#' @examples
+#' # example of how to define arguments, check argument descriptions above
+#'
+#' \donttest{
+#' # Using folder with rasters in GeoTiff format
+#' sp_data <- files_2data(path = "Folder_with_rasters", format = "GTiff")
+#' summary(sp_data)
+#' }
 
 files_2data <- function(path, format, spdf_grid = NULL) {
   # Initial tests
@@ -318,8 +374,6 @@ files_2data <- function(path, format, spdf_grid = NULL) {
 
 
 
-
-
 #' Creates presence-absence matrix from a data frame
 #'
 #' @description Creates a presence-absence matrix (PAM) from a data frame that
@@ -338,6 +392,14 @@ files_2data <- function(path, format, spdf_grid = NULL) {
 #' pam_from_table(data, ID_column, species_column)
 #'
 #' @export
+#'
+#' @examples
+#' # Data
+#' data("sp_data", package = "biosurvey")
+#'
+#' # PAM
+#' pam <- pam_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+#' pam[1:10, c(1, 21:25)]
 
 pam_from_table <- function(data, ID_column, species_column) {
   # Initial tests

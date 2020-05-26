@@ -31,3 +31,12 @@ positions (defined with identifiers); includes two columns: "ID" and "Species".
 Creates a data frame of species' references that contains longitude,
 latitude, and species name, from a character.
 }
+\examples{
+# example of how to define arguments, check argument descriptions above
+
+\donttest{
+# Using folder with rasters in GeoTiff format
+sp_data <- files_2data(path = "Folder_with_rasters", format = "GTiff")
+summary(sp_data)
+}
+}

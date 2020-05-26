@@ -19,3 +19,13 @@ in each layer from the RasterStack.
 Creates a data frame of species' references that contains longitude,
 latitude, and species name, using a RasterStack or a RasterBrick as input.
 }
+\examples{
+# Data
+rsp <- raster::stack(system.file("extdata/sp_layers.tif",
+                                 package = "biosurvey"))
+names(rsp) <- paste0("Species_", 1:5)
+
+# species data from RasterStack
+sp_data <- stack_2data(species_layers = rsp)
+summary(sp_data)
+}
