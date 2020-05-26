@@ -35,8 +35,8 @@
 #' @examples
 #' # Data
 #' data("mx", package = "biosurvey")
-#' variables <- raster::stack(list.files(system.file("extdata", package = "biosurvey"),
-#'                                       pattern = "variables", full.names = TRUE))
+#' variables <- raster::stack(system.file("extdata/variables.tif",
+#'                                        package = "biosurvey"))
 #'
 #' # Create master matrix object
 #' m_matrix <- master_matrix(region = mx, variables = variables, do_pca = TRUE,
