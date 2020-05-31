@@ -17,10 +17,10 @@
 #' used. The name of this element in the list must be "polygon". For instance:
 #' \code{my_list <- list(polygon = YOUR_SpatialPolygonsDataFrame)}.
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
-#' numbers) in decimal degrees.
+#' numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with the geographic region of interest contined in
-#' \code{master_matrix}. Default = FALSE.
+#' \code{master_matrix}. Default = TRUE.
 #'
 #' @return
 #' A presence-absence matrix (PAM) for the region of interest associated with a
@@ -31,7 +31,7 @@
 #'
 #' @usage
 #' base_pam(data, format = NULL, master_matrix, cell_size,
-#'          complete_cover = FALSE)
+#'          complete_cover = TRUE)
 #'
 #' @export
 #' @importFrom sp SpatialPointsDataFrame over
@@ -43,13 +43,13 @@
 #' data("species_data", package = "biosurvey")
 #'
 #' # Create base_pam
-#' b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 1)
+#' b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 100)
 #'
 #' sp::plot(b_pam)
 #' summary(b_pam@data[, 1:6])
 
 base_pam <- function(data, format = NULL, master_matrix, cell_size,
-                     complete_cover = FALSE) {
+                     complete_cover = TRUE) {
   # Initial tests
   clsdata <- class(data)[1]
 

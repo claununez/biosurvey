@@ -5,7 +5,7 @@
 \title{Prepare a presence-absence matrix (PAM)}
 \usage{
 base_pam(data, format = NULL, master_matrix, cell_size,
-         complete_cover = FALSE)
+         complete_cover = TRUE)
 }
 \arguments{
 \item{data}{species geographic ranges to be used to create a presence-absence
@@ -23,11 +23,11 @@ used. The name of this element in the list must be "polygon". For instance:
 \code{my_list <- list(polygon = YOUR_SpatialPolygonsDataFrame)}.}
 
 \item{cell_size}{(numeric) resolution for grid (single number or vector of two
-numbers) in decimal degrees.}
+numbers) in kilometers (km).}
 
 \item{complete_cover}{(logical) whether or not to include cells of grid
 partially overlapped with the geographic region of interest contined in
-\code{master_matrix}. Default = FALSE.}
+\code{master_matrix}. Default = TRUE.}
 }
 \value{
 A presence-absence matrix (PAM) for the region of interest associated with a
@@ -48,7 +48,7 @@ data("m_matrix", package = "biosurvey")
 data("species_data", package = "biosurvey")
 
 # Create base_pam
-b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 1)
+b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 100)
 
 sp::plot(b_pam)
 summary(b_pam@data[, 1:6])

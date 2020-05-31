@@ -5,44 +5,63 @@
 #' @param region SpatialPolygonsDataFrame of the region of interest. Object must
 #' be unprojected, World Geodetic System (WGS84).
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
-#' numbers) in decimal degrees.
+#' numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
-#' partially overlapped with region. Default = FALSE.
+#' partially overlapped with region. Default = TRUE.
 #'
 #' @return
 #' Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
 #' is related to a specific ID and longitude and latitude coordinates.
 #'
 #' @usage
-#' grid_from_region(region, cell_size, complete_cover = FALSE)
+#' grid_from_region(region, cell_size, complete_cover = TRUE)
 #'
 #' @export
 #' @importFrom raster extent raster res values mask rasterToPolygons rasterToPoints
-#' @importFrom sp proj4string
+#' @importFrom raster projectRaster rasterize
+#' @importFrom sp proj4string CRS spTransform
+#' @importFrom rgeos gCentroid
 #'
 #' @examples
 #' # Data
 #' data("mx", package = "biosurvey")
 #'
 #' # Create grid from polygon
-#' grid_reg <- grid_from_region(region = mx, cell_size = 1)
+#' grid_reg <- grid_from_region(region = mx, cell_size = 100)
 #'
 #' sp::plot(grid_reg)
 #' grid_reg
 
-grid_from_region <- function(region, cell_size, complete_cover = FALSE) {
+grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   # Initial tests
   if (missing(region)) {
     stop("Argument 'region' must be defined")
   }
   if (missing(cell_size)) {
     stop("Argument 'cell_size' must be defined")
-  }
-  dims <- raster::extent(region)
-  xdim <- diff(dims[1:2])
-  ydim <- diff(dims[3:4])
-  if (cell_size >= xdim & cell_size >= ydim) {
-    stop("'cell_size' must be smaller than at least one of the dimensions of 'region'")
+  } else {
+
+    # Projecting region toLambert equeal area projection
+    WGS84 <- region@proj4string
+    cent <- rgeos::gCentroid(region, byid = FALSE)@coords
+    LAEA <- sp::CRS(paste0("+proj=laea +lat_0=", cent[2], " +lon_0=", cent[1],
+                           " +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
+    region <- sp::spTransform(region, LAEA)
+
+    # test dimensions
+    dims <- raster::extent(region)
+    xdim <- diff(dims[1:2])
+    ydim <- diff(dims[3:4])
+    if (length(cell_size) > 2) {
+      stop("Argument 'cell_size' must be of length 1 or 2.")
+    } else {
+      if (length(cell_size) == 1) {
+        cell_size <- rep(cell_size, 2)
+      }
+      if (cell_size[1] >= xdim & cell_size[2] >= ydim) {
+        stop("'cell_size' must be smaller than at least one of the dimensions of 'region'")
+      }
+    }
   }
   if (is.na(sp::proj4string(region))) {
     stop("'region' must be projected to WGS84 (EPSG:4326)")
@@ -52,7 +71,7 @@ grid_from_region <- function(region, cell_size, complete_cover = FALSE) {
   grid <- raster::raster(raster::extent(region))
 
   # grid resolution and values
-  raster::res(grid) <- cell_size
+  raster::res(grid) <- cell_size * 1000
   raster::values(grid) <- 1
 
   # grid projection
@@ -68,6 +87,9 @@ grid_from_region <- function(region, cell_size, complete_cover = FALSE) {
             "\nTo include such cells use 'complete_cover' = TRUE.")
     grid_reg <- raster::mask(grid, region)
   }
+
+  # back to WGS84
+  grid_reg <- raster::projectRaster(grid_reg, crs = WGS84)
 
   # grid for region of interest
   grid_r_pol <- raster::rasterToPolygons(grid_reg)
