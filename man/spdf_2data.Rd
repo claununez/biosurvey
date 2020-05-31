@@ -28,7 +28,7 @@ data("species_data", package = "biosurvey")
 data("mx", package = "biosurvey")
 
 # GRID
-grid_reg <- grid_from_region(region = mx, cell_size = 1)
+grid_reg <- grid_from_region(region = mx, cell_size = 100)
 
 # species data from polygons
 sp_data <- spdf_2data(spdf_object = species_data, spdf_grid = grid_reg)
