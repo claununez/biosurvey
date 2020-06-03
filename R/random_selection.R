@@ -1,6 +1,6 @@
 #' Random selection of survey sites
 #'
-#' @description random selection of sites to be sampled in a survey. Sites are
+#' @description Random selection of sites to be sampled in a survey. Sites are
 #' selected from a set of points that are provided in one of the arguments.
 #'
 #' @param master_matrix object derived from function \code{\link{master_matrix}}.
@@ -11,8 +11,8 @@
 #' @param n_sites (numeric) number of sites to be selected from
 #' \code{master_matrix} to be used as sites to be sampled in survey.
 #' @param n_samplings (numeric) number of processes of selection, which will
-#' turn into multiple options for a process of survey planning. Defult = 1.
-#' @param set_seed (numeric) integer value to specify a initial seed.
+#' turn into multiple options for a process of survey planning. Default = 1.
+#' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
 #' The master_matrix list with an aditional element containing one or more sets

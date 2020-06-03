@@ -17,16 +17,16 @@ of this element in the list must be "master_matrix". For instance:
 \code{master_matrix} to be used as sites to be sampled in survey.}
 
 \item{n_samplings}{(numeric) number of processes of selection, which will
-turn into multiple options for a process of survey planning. Defult = 1.}
+turn into multiple options for a process of survey planning. Default = 1.}
 
-\item{set_seed}{(numeric) integer value to specify a initial seed.}
+\item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
 The master_matrix list with an aditional element containing one or more sets
 of selected sites.
 }
 \description{
-random selection of sites to be sampled in a survey. Sites are
+Random selection of sites to be sampled in a survey. Sites are
 selected from a set of points that are provided in one of the arguments.
 }
 \examples{
