@@ -1,7 +1,7 @@
 Package: biosurvey
 Type: Package
 Title: Tools for Biological Survey Planning
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: c(
     person("Claudia", "Nunez-Penichet", email = "claununez199o@gmail.com", role = c("aut","cre")),
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = "aut"),
@@ -28,7 +28,8 @@ Imports:
     rgdal (>= 1.4),
     rgeos (>= 0.5),
     sp (>= 1.3),
-    spatstat (>= 1.64)
+    spatstat (>= 1.64),
+    stats
 Depends:
     R (>= 3.5.0)
 License: GPL-3
