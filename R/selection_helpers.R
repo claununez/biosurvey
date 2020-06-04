@@ -114,3 +114,90 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
     return(lthins[1:nsel])
   }
 }
+
+
+
+
+
+closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
+                                id_column = NULL) {
+  # Initial tests
+  if (missing(data)) {
+    stop("Argument 'data' is not defined.")
+  }
+  if (missing(x_column)) {
+    stop("Argument 'x_column' is not defined.")
+  }
+  if (missing(y_column)) {
+    stop("Argument 'y_column' is not defined.")
+  }
+  if (missing(space)) {
+    stop("Argument 'space' is not defined.")
+  }
+
+  if(!is.null(id_column)) {
+    bda <- data[, id_column]
+    bs <- sort(unique(bda))
+  } else {
+    data <- cbind(data, id_column = 1)
+    bda <- data[, id_column]
+    bs <- sort(unique(bda))
+  }
+  ucent <- lapply(bs, function(x) {
+    gblock <- data[bda == x, ]
+    if (nrow(gblock) > 2) {
+      cent <- apply(gblock[, c(x_column, y_column)], 2, mean)
+      level <- 0.01
+      if (nrow(gblock) > 20) {
+        covm <- cov(gblock[, c(x_column, y_column)])
+        ndim <- length(cent); sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
+        stds <- 1 / sqrt(eigen(sigma_i)$values)
+        hl <- cent + stds; ll <- cent - stds
+        c1 <- gblock[, x_column] >= ll[1] & gblock[, x_column] <= hl[1] &
+          gblock[, y_column] >= ll[2] & gblock[, y_column] <= hl[2]
+        con <- sum(c1)
+
+        if (con <= 2) {
+          while (con == 0) {
+            if (level > 0.98) {
+              if (space == "G") {
+                ds <- raster::pointDistance(cent, gblock[, c(x_column, y_column)],
+                                            lonlat = TRUE)
+              } else {
+                ds <- stats::mahalanobis(x = gblock[, c(x_column, y_column)],
+                                         center = cent, cov = covm, tol = 0.0000009)
+              }
+              break()
+            }
+            level <- level + 0.01
+            sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
+            stds <- 1 / sqrt(eigen(sigma_i)$values); hl <- cent + stds
+            ll <- cent - stds
+            c1 <- gblock[, x_column] >= ll[1] & gblock[, x_column] <= hl[1] &
+              gblock[, y_column] >= ll[2] & gblock[, y_column] <= hl[2]
+            con <- sum(c1)
+            if (con > 0) {
+              break()
+            }
+          }
+        }
+      } else {
+        c1 <- rep(TRUE, nrow(gblock))
+      }
+      if (level > 0.98) {
+        return(gblock[which(ds == sort(ds)[1:n])[1:n], ])
+      }
+      if (space == "G") {
+        ds <- raster::pointDistance(cent, gblock[c1, c(x_column, y_column)],
+                                    lonlat = TRUE)
+        return(gblock[which(ds %in% sort(ds)[1:n])[1:n], ])
+      } else {
+        ds <- as.matrix(dist(rbind(cent, gblock[c1, c(x_column, y_column)])))[-1, 1]
+        return(gblock[which(ds %in% sort(ds)[1:n])[1:n], ])
+      }
+    } else {
+      return(gblock[1, ])
+    }
+  })
+  return(do.call(rbind, ucent))
+}
