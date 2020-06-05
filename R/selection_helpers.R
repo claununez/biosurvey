@@ -14,7 +14,7 @@
 #' "E", if it will be on the environmental space.
 #' @param max_n_samples (numeric) maximun number of samples to chose with most
 #' points included. Default = 1.
-#' @param replicates (numeric) number of random thinning replicates. Default = 10.
+#' @param replicates (numeric) number of thinning replicates. Default = 10.
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
@@ -119,6 +119,32 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 
 
 
+#' Detection of the closest points to the centroid of a cloud of points
+#'
+#' @param data a matrix or a data frame that contains at least two columns.
+#' @param x_column (character) the name of the X-axis.
+#' @param y_column (character) the name of the Y-axis.
+#' @param space (character) space in which the thinning will be performed. There
+#' are two options available: "G", if it will be in the geographyc space, and
+#' "E", if it will be on the environmental space.
+#' @param n (numeric) number of points that are close to the centroid to be
+#' detected. Default = 1.
+#' @param id_column (character or numeric) name or numeric index of the column
+#' in \code{data} containing identifiers of one or distint sets of points.
+#' If, NULL, the default, only one set is assumed.
+#'
+#' @return
+#' A data.frame containing \code{n} rows corresponding to the point or points that
+#' are the closest to the cenroid of all other points of reference.
+#'
+#' @usage
+#' closest_to_centroid(data, x_column, y_column, space, n = 1, id_column = NULL)
+#'
+#' @export
+#' @importFrom raster pointDistance
+#' @importFrom stats mahalanobis qchisq
+#'
+
 closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
                                 id_column = NULL) {
   # Initial tests
@@ -135,6 +161,7 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
     stop("Argument 'space' is not defined.")
   }
 
+  # Detection of sets of points
   if(!is.null(id_column)) {
     bda <- data[, id_column]
     bs <- sort(unique(bda))
@@ -143,6 +170,8 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
     bda <- data[, id_column]
     bs <- sort(unique(bda))
   }
+
+  # Detection of points closest to centroid
   ucent <- lapply(bs, function(x) {
     gblock <- data[bda == x, ]
     if (nrow(gblock) > 2) {
@@ -171,7 +200,8 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
             }
             level <- level + 0.01
             sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
-            stds <- 1 / sqrt(eigen(sigma_i)$values); hl <- cent + stds
+            stds <- 1 / sqrt(eigen(sigma_i)$values)
+            hl <- cent + stds
             ll <- cent - stds
             c1 <- gblock[, x_column] >= ll[1] & gblock[, x_column] <= hl[1] &
               gblock[, y_column] >= ll[2] & gblock[, y_column] <= hl[2]

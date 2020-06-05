@@ -25,7 +25,7 @@ are two options available: "G", if it will be in the geographyc space, and
 \item{max_n_samples}{(numeric) maximun number of samples to chose with most
 points included. Default = 1.}
 
-\item{replicates}{(numeric) number of random thinning replicates. Default = 10.}
+\item{replicates}{(numeric) number of thinning replicates. Default = 10.}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }

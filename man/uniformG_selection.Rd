@@ -19,7 +19,7 @@ of this element in the list must be "master_matrix". For instance:
 \item{max_n_samples}{(numeric) maximun number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}
 
-\item{initial_distance}{(numeric) distance in km to be used as for a first
+\item{initial_distance}{(numeric) distance in km to be used for a first
 process of thinning and detection of remaining points.}
 
 \item{increase}{(numeric) value to be added to \code{initial_distance} untill

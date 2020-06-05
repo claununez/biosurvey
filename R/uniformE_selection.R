@@ -1,3 +1,42 @@
+#' Selection of survey sites maximizing uniformity in environmental space
+#'
+#' @description Selection of sites to be sampled in a survey, with the goal of
+#' maximizing uniformity of points in environmental space.
+#'
+#' @param master_matrix object derived from function \code{\link{master_matrix}}.
+#' Optionally, if master_matrix is not necessary, a list containing an object of
+#' class data.frame with at least two columns represening two variables. The name
+#' of this element in the list must be "master_matrix". For instance:
+#' \code{my_list <- list(master_matrix = YOUR_data.frame)}.
+#' @param x_column (character) the name of the X-axis.
+#' @param y_column (character) the name of the Y-axis.
+#' @param selection_from (character) set of points to perfomr the selection from.
+#' Two options are available, "all_points" or "block_centroids". The first option
+#' picks the points from all points in the environmental cloud, and the second
+#' one selects points only from centroids of environmental blocks. See
+#' \code{\link{make_blocks}}. Default = "all_points".
+#' @param expected_points (numeric) number of survey points (sites) to be selected.
+#' @param max_n_samples (numeric) maximun number of samples to be chosen after
+#' performing all thinning \code{replicates}. Default = 1.
+#' @param initial_distance (numeric) euclidean distance to be used for a first
+#' process of thinning and detection of remaining points.
+#' @param increase (numeric) value to be added to \code{initial_distance} untill
+#' reaching the number of \code{expected_points}.
+#' @param replicates (numeric) number of thinning replicates. Default = 10.
+#' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
+#'
+#' @return
+#' The master_matrix list with an aditional element containing one or more sets
+#' of selected sites.
+#'
+#' @usage
+#' uniformE_selection(master_matrix, x_column, y_column,
+#'                    selection_from = "all_points", initial_distance,
+#'                    increase, expected_points, max_n_samples = 1,
+#'                    replicates = 10, set_seed = 1)
+#'
+#' @export
+#'
 
 uniformE_selection <- function(master_matrix, x_column, y_column,
                                selection_from = "all_points",
@@ -87,7 +126,7 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
         if (inin == 3) {
           stop(paste("No distance resulted in", expected_points,
                      "points after trying smaller intervals.",
-                     "n\Try a distance of", pdist,
+                     "\nTry a distance of", pdist,
                      "with a values for 'increase' below", increase))
         }
       }

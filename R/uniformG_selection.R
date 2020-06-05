@@ -11,7 +11,7 @@
 #' @param expected_points (numeric) number of survey points (sites) to be selected.
 #' @param max_n_samples (numeric) maximun number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.
-#' @param initial_distance (numeric) distance in km to be used as for a first
+#' @param initial_distance (numeric) distance in km to be used for a first
 #' process of thinning and detection of remaining points.
 #' @param increase (numeric) value to be added to \code{initial_distance} untill
 #' reaching the number of \code{expected_points}.
