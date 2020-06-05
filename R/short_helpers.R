@@ -40,3 +40,61 @@ match_rformat <- function(format) {
   if (format == "HFA") {format1 <- ".img"}
   return(format1)
 }
+
+
+
+
+
+#' Projected spatial points from geographic coordinates
+#'
+#' @param data a matrix or a data frame that contains at least two columns, one with
+#' longitude information and the other with latitud information.
+#' @param longitude (character) the name of the column that contains the longitude
+#' information.
+#' @param latitude (character) the name of the column that contains the latitude
+#' information.
+#' @param which (character) type of projection. There are two options available:
+#' "ED", for Azimuthal Equidistant and "EA", for Lambert Azimuthal Equal-Area.
+#' Default = "ED".
+#'
+#' @return SpatialPointsDataFrame projected to an option in \code{which}.
+#'
+#' @usage
+#' wgs84_2aed_laea(data, longitude, latitude, which = "ED")
+#'
+#' @export
+#' @importFrom sp CRS SpatialPointsDataFrame spTransform
+#'
+#' @examples
+#' data("sp_occurrences", package = "biosurvey")
+#'
+#' sp_occ <- wgs84_2aed_laea(sp_occurrences, longitude = "longitude",
+#'                           latitude = "latitude", which = "EA")
+
+wgs84_2aed_laea <- function (data, longitude, latitude, which = "ED") {
+  # Initial tests
+  if (missing(data)) {
+    stop("Argument 'data' is not defined.")
+  }
+  if (missing(longitude)) {
+    stop("Argument 'longitude' is not defined.")
+  }
+  if (missing(latitude)) {
+    stop("Argument 'latitude' is not defined.")
+  }
+
+  # Initial projection
+  WGS84 <- sp::CRS("+init=epsg:4326")
+  dat_s <- sp::SpatialPointsDataFrame(data[, c(longitude, latitude)],
+                                      data, proj4string = WGS84)
+
+  # Projecting points
+  cent <- apply(data[, c(longitude, latitude)], 2, mean)
+  ini <- ifelse(which[1] == "ED", "+proj=aeqd", "+proj=laea")
+  prj <- sp::CRS(paste0(ini, " +lat_0=", cent[2], " +lon_0=", cent[1],
+                        " +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
+
+  dat_s <- sp::spTransform(dat_s, prj)
+
+  return(dat_s)
+}

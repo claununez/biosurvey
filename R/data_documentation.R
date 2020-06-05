@@ -110,3 +110,21 @@ NULL
 #' raster::plot(variables[[1]])
 #' @name variables
 NULL
+
+
+#' Occurrence records for the species Parides gundlachianus
+#'
+#' @description A dataset containing geographic coordinates of a Cuban butterflie.
+#'
+#' @format A data frame with 19 rows and 3 columns.
+#' \describe{
+#'   \item{name}{character, species scientific name.}
+#'   \item{longitude}{numeric, longitude values.}
+#'   \item{latitude}{numeric, latitude values.}
+#' }
+#' @source \url{https://www.gbif.org/}
+#'
+#' @examples
+#' data("sp_occurrences", package = "biosurvey")
+#' head(sp_occurrences)
+"sp_occurrences"
