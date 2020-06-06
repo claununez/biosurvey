@@ -27,8 +27,15 @@
 #'                    initial_distance, increase, replicates = 10, set_seed = 1)
 #'
 #' @export
-
-
+#'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#'
+#' # Selecting sites uniformly in G space
+#' selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samples = 1,
+#'                                  initial_distance = 145, increase = 1,
+#'                                  replicates = 5, set_seed = 1)
 
 uniformG_selection <- function(master_matrix, expected_points, max_n_samples = 1,
                                initial_distance, increase, replicates = 10,
@@ -46,9 +53,6 @@ uniformG_selection <- function(master_matrix, expected_points, max_n_samples = 1
   if (missing(expected_points)) {
     stop("Argument 'expected_points' is not defined.")
   }
-  if (missing(space)) {
-    stop("Argument 'space' is not defined.")
-  }
 
   # preparing data
   data <- master_matrix$master_matrix
@@ -60,6 +64,7 @@ uniformG_selection <- function(master_matrix, expected_points, max_n_samples = 1
   np <- nrow(data)
   dist <- initial_distance
   inin <- 1
+  count <- 1
 
   # condition
   if (np < expected_points) {
@@ -86,27 +91,29 @@ uniformG_selection <- function(master_matrix, expected_points, max_n_samples = 1
         master_matrix$selected_sites <- thin
         return(master_matrix)
       } else {
-        # reducing increase distance
-        message(paste("No distance resulted in ", expected_points, " points.",
-                      "\nTrying distances between:\t", pdist, "and", dist))
-        dist <- pdist
-        if (inin == 1) {
+        if (count == 1) {
+          stop("'initial_distance' resulted in  ", np, "  points. Try smaler values.")
+        } else {
+          # reducing increase distance
+          message("\nNo distance resulted in  ", expected_points, "  points.",
+                  "\nTrying distances between  ", pdist, "  and  ", dist, ".\n")
+          dist <- pdist
+
           increase <- increase / 10
-          inin <- 2
-        }
-        if (inin == 2) {
-          increase <- increase / 10
-          inin <- 3
-        }
-        if (inin == 3) {
-          stop(paste("No distance resulted in", expected_points,
-                     "points after trying smaller intervals.",
-                     "\nTry a distance of", pdist,
-                     "with a values for 'increase' below", increase))
+          inin <- inin + 1
+
+          if (inin == 3) {
+            stop("\nNo distance resulted in  ", expected_points,
+                 "  points after trying smaller intervals.",
+                 "\nTry a distance of  ", pdist,
+                 "  with values for 'increase' below  ", increase, ".")
+          }
         }
       }
     }
+
     # starting again
+    count <- count + 1
     pdist <- dist
     dist <- dist + increase
   }

@@ -5,8 +5,8 @@
 \title{Selection of survey sites maximizing uniformity in environmental space}
 \usage{
 uniformE_selection(master_matrix, x_column, y_column,
-                   selection_from = "all_points", initial_distance,
-                   increase, expected_points, max_n_samples = 1,
+                   selection_from = "all_points", expected_points,
+                   max_n_samples = 1, initial_distance, increase,
                    replicates = 10, set_seed = 1)
 }
 \arguments{
@@ -26,16 +26,16 @@ picks the points from all points in the environmental cloud, and the second
 one selects points only from centroids of environmental blocks. See
 \code{\link{make_blocks}}. Default = "all_points".}
 
+\item{expected_points}{(numeric) number of survey points (sites) to be selected.}
+
+\item{max_n_samples}{(numeric) maximun number of samples to be chosen after
+performing all thinning \code{replicates}. Default = 1.}
+
 \item{initial_distance}{(numeric) euclidean distance to be used for a first
 process of thinning and detection of remaining points.}
 
 \item{increase}{(numeric) value to be added to \code{initial_distance} untill
 reaching the number of \code{expected_points}.}
-
-\item{expected_points}{(numeric) number of survey points (sites) to be selected.}
-
-\item{max_n_samples}{(numeric) maximun number of samples to be chosen after
-performing all thinning \code{replicates}. Default = 1.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
 
@@ -48,4 +48,24 @@ of selected sites.
 \description{
 Selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in environmental space.
+}
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+
+# Making blocks for analysis
+m_matrix <- make_blocks(m_matrix, variable_1 = "PC1",
+                        variable_2 = "PC2", n_cols = 10, n_rows = 10,
+                        block_type = "equal_area")
+
+# Checking column names
+colnames(m_matrix$master_matrix)
+summary(m_matrix$master_matrix[, 9:10])
+
+# Selecting sites uniformly in E space
+selectionE <- uniformE_selection(m_matrix, x_column = "PC1", y_column = "PC2",
+                                 selection_from = "block_centroids",
+                                 expected_points = 15, max_n_samples = 1,
+                                 initial_distance = 1, increase = 0.1,
+                                 replicates = 5, set_seed = 1)
 }

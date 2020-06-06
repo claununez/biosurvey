@@ -37,3 +37,12 @@ of selected sites.
 Selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in geographic space.
 }
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+
+# Selecting sites uniformly in G space
+selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samples = 1,
+                                 initial_distance = 145, increase = 1,
+                                 replicates = 5, set_seed = 1)
+}

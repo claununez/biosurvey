@@ -31,17 +31,35 @@
 #'
 #' @usage
 #' uniformE_selection(master_matrix, x_column, y_column,
-#'                    selection_from = "all_points", initial_distance,
-#'                    increase, expected_points, max_n_samples = 1,
+#'                    selection_from = "all_points", expected_points,
+#'                    max_n_samples = 1, initial_distance, increase,
 #'                    replicates = 10, set_seed = 1)
 #'
 #' @export
 #'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#'
+#' # Making blocks for analysis
+#' m_matrix <- make_blocks(m_matrix, variable_1 = "PC1",
+#'                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
+#'                         block_type = "equal_area")
+#'
+#' # Checking column names
+#' colnames(m_matrix$master_matrix)
+#' summary(m_matrix$master_matrix[, 9:10])
+#'
+#' # Selecting sites uniformly in E space
+#' selectionE <- uniformE_selection(m_matrix, x_column = "PC1", y_column = "PC2",
+#'                                  selection_from = "block_centroids",
+#'                                  expected_points = 15, max_n_samples = 1,
+#'                                  initial_distance = 1, increase = 0.1,
+#'                                  replicates = 5, set_seed = 1)
 
 uniformE_selection <- function(master_matrix, x_column, y_column,
-                               selection_from = "all_points",
-                               initial_distance, increase,
-                               expected_points, max_n_samples = 1,
+                               selection_from = "all_points", expected_points,
+                               max_n_samples = 1, initial_distance, increase,
                                replicates = 10, set_seed = 1) {
   # Initial tests
   if (missing(master_matrix)) {
@@ -62,10 +80,7 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
   if (missing(expected_points)) {
     stop("Argument 'expected_points' is not defined.")
   }
-  if (missing(space)) {
-    stop("Argument 'space' is not defined.")
-  }
-  if (!selection_from[1] %in% c("all_points", "centroids")) {
+  if (!selection_from[1] %in% c("all_points", "block_centroids")) {
     stop("Argument 'selection_from' is not valid, check function's help.")
   } else {
     # preparing data
@@ -76,23 +91,26 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
       data <- master_matrix$master_matrix
 
       # preparing centroids
-
+      data <- closest_to_centroid(data, x_column, y_column, space = "E",
+                                  n = 1, id_column = "Block")
     }
   }
-
-
 
   # preaparing selection variables
   np <- nrow(data)
   dist <- initial_distance
   inin <- 1
+  count <- 1
 
   # condition
+   mess <- ifelse(selection_from[1] == "all_points",
+                 "Number of points in 'master_matrix'",
+                 "Number of block centroid points")
   if (np < expected_points) {
-    stop("Number of points in 'master_matrix' is smaller than 'expected_points'.")
+    stop(mess, " is smaller than 'expected_points'.")
   }
   if (np == expected_points) {
-    message("Number of points in 'master_matrix' equals 'expected_points'.")
+    message(mess, " equals 'expected_points'.")
     master_matrix$selected_sites <- list(selection_1 = data)
     return(master_matrix)
   }
@@ -108,31 +126,33 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
     if (np <= expected_points) {
       if (np == expected_points) {
         # success
+        names(thin) <- paste0("selection_", 1:length(thin))
         master_matrix$selected_sites <- thin
         return(master_matrix)
       } else {
-        # reducing increase distance
-        message(paste("No distance resulted in ", expected_points, " points.",
-                      "\nTrying distances between:\t", pdist, "and", dist))
-        dist <- pdist
-        if (inin == 1) {
+        if (count == 1) {
+          stop("'initial_distance' resulted in  ", np, "  points. Try smaler values.")
+        } else {
+          # reducing increase distance
+          message("\nNo distance resulted in  ", expected_points, "  points.",
+                  "\nTrying distances between  ", pdist, "  and  ", dist, ".\n")
+          dist <- pdist
+
           increase <- increase / 10
-          inin <- 2
-        }
-        if (inin == 2) {
-          increase <- increase / 10
-          inin <- 3
-        }
-        if (inin == 3) {
-          stop(paste("No distance resulted in", expected_points,
-                     "points after trying smaller intervals.",
-                     "\nTry a distance of", pdist,
-                     "with a values for 'increase' below", increase))
+          inin <- inin + 1
+
+          if (inin == 3) {
+            stop("\nNo distance resulted in  ", expected_points,
+                 "  points after trying smaller intervals.",
+                 "\nTry a distance of  ", pdist,
+                 "  with values for 'increase' below  ", increase, ".")
+          }
         }
       }
     }
 
     # starting again
+    count <- count + 1
     pdist <- dist
     dist <- dist + increase
   }

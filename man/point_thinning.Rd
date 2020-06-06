@@ -38,3 +38,13 @@ are different in at least one of the selected points.
 Point thinning based on user-defined distances in geographic or
 environmental space.
 }
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+data1 <- m_matrix$master_matrix
+
+# Thinnig the points
+thin <- point_thinning(data1, x_column = "Longitude", y_column = "Latitude",
+                       thinning_distance = 200, space = "G",
+                       max_n_samples = 1, replicates = 5, set_seed = 1)
+}

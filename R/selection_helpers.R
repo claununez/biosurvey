@@ -29,8 +29,16 @@
 #' @export
 #' @importFrom sp coordinates
 #' @importFrom spatstat ppp closepairs
-
-
+#'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#' data1 <- m_matrix$master_matrix
+#'
+#' # Thinnig the points
+#' thin <- point_thinning(data1, x_column = "Longitude", y_column = "Latitude",
+#'                        thinning_distance = 200, space = "G",
+#'                        max_n_samples = 1, replicates = 5, set_seed = 1)
 
 point_thinning <- function(data, x_column, y_column, thinning_distance, space,
                            max_n_samples = 1, replicates = 10, set_seed = 1) {
@@ -73,10 +81,10 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
     xyo <- c(x_column, y_column)
     x_column <- "xaed"
     y_column <- "yaed"
+    thinning_distance <- thinning_distance * 1000
   }
 
   # Thinning points
-  thinning_distance <- thinning_distance * 1000
   lthins <- lapply(1:replicates, function(x) {
     set.seed(set_seed + x - 1)
 
@@ -84,7 +92,7 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
     X <- spatstat::ppp(data1[, x_column], data1[, y_column],
                        range(data1[, x_column]), range(data1[, y_column]))
 
-    close_index <- spatstat::closepairs(X, rmax = thin_distance,
+    close_index <- spatstat::closepairs(X, rmax = thinning_distance,
                                         what = "indices", twice = FALSE)$j
 
     return(data1[!1:nrow(data1) %in% close_index, !colnames(data1) %in%
@@ -144,6 +152,15 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 #' @importFrom raster pointDistance
 #' @importFrom stats mahalanobis qchisq
 #'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#' data1 <- m_matrix$master_matrix
+#'
+#' # Finding the closest point to the centroid
+#' centroid <- closest_to_centroid(data1, x_column = "Longitude",
+#'                                 y_column = "Latitude", space = "G",
+#'                                 n = 1, id_column = NULL)
 
 closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
                                 id_column = NULL) {
@@ -167,6 +184,7 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
     bs <- sort(unique(bda))
   } else {
     data <- cbind(data, id_column = 1)
+    id_column <- "id_column"
     bda <- data[, id_column]
     bs <- sort(unique(bda))
   }

@@ -31,3 +31,13 @@ are the closest to the cenroid of all other points of reference.
 \description{
 Detection of the closest points to the centroid of a cloud of points
 }
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+data1 <- m_matrix$master_matrix
+
+# Finding the closest point to the centroid
+centroid <- closest_to_centroid(data1, x_column = "Longitude",
+                                y_column = "Latitude", space = "G",
+                                n = 1, id_column = NULL)
+}
