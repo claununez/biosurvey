@@ -98,6 +98,7 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
 
   # preaparing selection variables
   np <- nrow(data)
+  ininp <- np
   dist <- initial_distance
   inin <- 1
   count <- 1
@@ -131,7 +132,7 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
         return(master_matrix)
       } else {
         if (count == 1) {
-          stop("'initial_distance' resulted in  ", np, "  points. Try smaler values.")
+          stop("'initial_distance' resulted in  ", np, "  points. Try smaller values.")
         } else {
           # reducing increase distance
           message("\nNo distance resulted in  ", expected_points, "  points.",
@@ -147,6 +148,8 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
                  "\nTry a distance of  ", pdist,
                  "  with values for 'increase' below  ", increase, ".")
           }
+
+          np <- ininp
         }
       }
     }

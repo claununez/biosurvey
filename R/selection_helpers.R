@@ -150,7 +150,7 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 #'
 #' @export
 #' @importFrom raster pointDistance
-#' @importFrom stats mahalanobis qchisq
+#' @importFrom stats mahalanobis qchisq cov dist
 #'
 #' @examples
 #' # Data
@@ -196,7 +196,7 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
       cent <- apply(gblock[, c(x_column, y_column)], 2, mean)
       level <- 0.01
       if (nrow(gblock) > 20) {
-        covm <- cov(gblock[, c(x_column, y_column)])
+        covm <- stats::cov(gblock[, c(x_column, y_column)])
         ndim <- length(cent); sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
         stds <- 1 / sqrt(eigen(sigma_i)$values)
         hl <- cent + stds; ll <- cent - stds
@@ -240,7 +240,8 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
                                     lonlat = TRUE)
         return(gblock[which(ds %in% sort(ds)[1:n])[1:n], ])
       } else {
-        ds <- as.matrix(dist(rbind(cent, gblock[c1, c(x_column, y_column)])))[-1, 1]
+        ds <- as.matrix(stats::dist(rbind(cent, gblock[c1, c(x_column,
+                                                             y_column)])))[-1, 1]
         return(gblock[which(ds %in% sort(ds)[1:n])[1:n], ])
       }
     } else {
