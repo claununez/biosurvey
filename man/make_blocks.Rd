@@ -33,7 +33,8 @@ the bi-dimensional space. Two options are available: "equal_area" and
 "equal_points". Default = "equal_area".}
 }
 \value{
-The master_matrix list with an aditional column on the master_matrix data.frame
+An S3 object of class master_blocks, containing the same elements found in a
+master_matrix object, with an aditional column on the master_matrix data.frame
 containing block identifiers.
 }
 \description{
@@ -49,6 +50,7 @@ which generally results in blocks of different sizes.
 # Data
 data("m_matrix", package = "biosurvey")
 
+# Creating blocks
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
                         block_type = "equal_area")

@@ -17,15 +17,15 @@
 #' If NULL (the default) all variables will be inluded.
 #'
 #' @return
-#' A list containing the following elements:
-#' - A master matrix for the region of interest, with information
-#' about geographic location of raster cells, initial environmental data,
-#' and if \code{do_pca} is TRUE, the principal components derived from original data.
-#' - A spatial polygon representing the region of interest.
-#' - A raster layer for the region of interest with a single value, to be used
-#' for plotting purposes.
-#' - If \code{do_pca} is TRUE, other results from principal component analysis.
-#' If FALSE, PCA_results element of the object is NULL.
+#' An S3 object of class master_matrix containing the following elements:
+#' - master_matrix: a date.frame with information about geographic location of
+#' raster cells, initial environmental data, and if \code{do_pca} is TRUE,
+#' the first two principal components derived from original data.
+#' - polygon: a SpatialPolygonsDataFrame representing the region of interest.
+#' - raster_base: a raster layer for the region of interest with a single value,
+#' to be used for plotting purposes.
+#' - PCA_results: if \code{do_pca} is TRUE, other results from principal
+#' component analysis. If FALSE, PCA_results element of the object is NULL.
 #'
 #' @usage
 #' master_matrix(region, variables, do_pca = FALSE, center = TRUE, scale = FALSE,

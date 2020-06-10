@@ -28,7 +28,8 @@
 #' which generally results in blocks of different sizes.
 #'
 #' @return
-#' The master_matrix list with an aditional column on the master_matrix data.frame
+#' An S3 object of class master_blocks, containing the same elements found in a
+#' master_matrix object, with an aditional column on the master_matrix data.frame
 #' containing block identifiers.
 #'
 #' @usage
@@ -42,6 +43,7 @@
 #' # Data
 #' data("m_matrix", package = "biosurvey")
 #'
+#' # Creating blocks
 #' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 #'                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
 #'                         block_type = "equal_area")
@@ -68,6 +70,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
   }
 
   data <- master_matrix$master_matrix
+  id <- paste(data[, 1], data[, 2])
   # Block partition
   if (block_type[1] == "equal_area") {
     # Detecting ranges and intervals
@@ -150,9 +153,9 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     # Finishing assigning
     all_cls <- do.call(rbind, all_cls)
     colnames(all_cls)[ncol(all_cls)] <- "Block"
-    all_cls <- all_cls[order(all_cls[, "Block"]), ]
   }
 
+  all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ]
   master_matrix$master_matrix <- all_cls
-  return(master_matrix)
+  return(structure(master_matrix, class = "master_blocks"))
 }
