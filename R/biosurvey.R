@@ -1,17 +1,22 @@
 #' biosurvey: Tools for Biological Survey Planning
 #'
-#' nichevol is a collection of tools that allow users to select sampling sites
+#' biosurvey is a collection of tools that allow users to select sampling sites
 #' increasing efficiency of biodiversity survey systems by considering the
 #' relationship of environmental and geographic conditions in a region.
 #'
 #' @section Main functions in biosurvey:
-#' \code{\link{master_matrix}}, \code{\link{base_pam}}
+#' \code{\link{base_pam}}, \code{\link{make_blocks}}, \code{\link{master_matrix}},
+#' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
+#' \code{\link{uniformG_selection}}
+#'
 #'
 #' Other functions (important helpers)
 #'
-#' \code{\link{files_2data}}, \code{\link{grid_from_region}},
-#' \code{\link{pam_from_table}}, \code{\link{rlist_2data}},
-#' \code{\link{spdf_2data}}, \code{\link{stack_2data}}
+#' \code{\link{closest_to_centroid}}, \code{\link{files_2data}},
+#' \code{\link{grid_from_region}}, \code{\link{match_rformat}},
+#' \code{\link{pam_from_table}}, \code{\link{point_thinning}},
+#' \code{\link{rlist_2data}}, \code{\link{spdf_2data}},
+#' \code{\link{stack_2data}}, \code{\link{wgs84_2aed_laea}}
 #'
 #' @docType package
 #' @name biosurvey
