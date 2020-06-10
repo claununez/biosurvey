@@ -22,7 +22,10 @@
 #' about geographic location of raster cells, initial environmental data,
 #' and if \code{do_pca} is TRUE, the principal components derived from original data.
 #' - A spatial polygon representing the region of interest.
+#' - A raster layer for the region of interest with a single value, to be used
+#' for plotting purposes.
 #' - If \code{do_pca} is TRUE, other results from principal component analysis.
+#' If FALSE, PCA_results element of the object is NULL.
 #'
 #' @usage
 #' master_matrix(region, variables, do_pca = FALSE, center = TRUE, scale = FALSE,
@@ -65,14 +68,18 @@ master_matrix <- function(region, variables, do_pca = FALSE, center = TRUE,
   # Mask variables to polygons (region of interest)
   variables <- raster::mask(raster::crop(variables, region), region)
 
+  # Base raster
+  b_raster <- variables[[1]]
+  names(b_raster) <- "base"
+  b_raster[!is.na(b_raster[])] <- 1
+
   # Raster to matrix
   variables <- raster::rasterToPoints(variables)
+  colnames(variables)[1:2] <- c("Longitude", "Latitude")
 
   # Selecting variables for the matrix
-  if (is.null(variables_in_matrix)) {
-    vars <- variables[, -(1:2)]
-  } else {
-    vars <- variables[, variables_in_matrix]
+  if (!is.null(variables_in_matrix)) {
+    variables <- variables[, c("Longitude", "Latitude", variables_in_matrix)]
   }
 
   # If do_pca is TRUE, do PCA
@@ -80,18 +87,20 @@ master_matrix <- function(region, variables, do_pca = FALSE, center = TRUE,
     pca <- stats::prcomp(variables[, -(1:2)], center = center, scale. = scale)
 
     # Create matrix
-    master_m <- data.frame(Longitude = variables[, 1], Latitude = variables[, 2],
-                           vars, pca$x[, 1:2])
+    master_m <- data.frame(variables, pca$x[, 1:2])
 
     # Return results
-    return(list(master_matrix = master_m, polygon = region, PCA_results = pca))
+    return(structure(list(master_matrix = master_m, polygon = region,
+                          raster_base = b_raster, PCA_results = pca),
+                     class = "master_matrix"))
 
   } else {
     # Create matrix
-    master_m <- data.frame(Longitude = variables[, 1], Latitude = variables[, 2],
-                           vars)
+    master_m <- data.frame(variables)
 
     # Return results
-    return(list(master_matrix = master_m, polygon = region))
+    return(structure(list(master_matrix = master_m, polygon = region,
+                          raster_base = b_raster, PCA_results = NULL),
+                     class = "master_matrix"))
   }
 }

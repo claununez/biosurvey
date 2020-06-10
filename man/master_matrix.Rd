@@ -32,7 +32,10 @@ A list containing the following elements:
 about geographic location of raster cells, initial environmental data,
 and if \code{do_pca} is TRUE, the principal components derived from original data.
 \item A spatial polygon representing the region of interest.
+\item A raster layer for the region of interest with a single value, to be used
+for plotting purposes.
 \item If \code{do_pca} is TRUE, other results from principal component analysis.
+If FALSE, PCA_results element of the object is NULL.
 }
 }
 \description{
