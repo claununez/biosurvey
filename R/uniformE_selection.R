@@ -3,11 +3,10 @@
 #' @description Selection of sites to be sampled in a survey, with the goal of
 #' maximizing uniformity of points in environmental space.
 #'
-#' @param master_matrix object derived from function \code{\link{master_matrix}}.
-#' Optionally, if master_matrix is not necessary, a list containing an object of
-#' class data.frame with at least two columns represening two variables. The name
-#' of this element in the list must be "master_matrix". For instance:
-#' \code{my_list <- list(master_matrix = YOUR_data.frame)}.
+#' @param master a master_matrix object derived from function
+#' \code{\link{master_matrix}} or a master_selection object derived from functions
+#' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
+#' or \code{EG_selection}.
 #' @param x_column (character) the name of the X-axis.
 #' @param y_column (character) the name of the Y-axis.
 #' @param selection_from (character) set of points to perfomr the selection from.
@@ -26,14 +25,14 @@
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
-#' The master_matrix list with an aditional element containing one or more sets
-#' of selected sites.
+#' A master_selection object (S3) with an aditional element called
+#' selected_sites_E containing one or more sets of selected sites.
 #'
 #' @usage
-#' uniformE_selection(master_matrix, x_column, y_column,
-#'                    selection_from = "all_points", expected_points,
-#'                    max_n_samples = 1, initial_distance, increase,
-#'                    replicates = 10, set_seed = 1)
+#' uniformE_selection(master, x_column, y_column,selection_from = "all_points",
+#'                    expected_points,max_n_samples = 1,
+#'                    initial_distance, increase, set_seed = 1)
+#'                    set_seed = 1)
 #'
 #' @export
 #'
@@ -57,13 +56,13 @@
 #'                                  initial_distance = 1, increase = 0.1,
 #'                                  replicates = 5, set_seed = 1)
 
-uniformE_selection <- function(master_matrix, x_column, y_column,
+uniformE_selection <- function(master, x_column, y_column,
                                selection_from = "all_points", expected_points,
                                max_n_samples = 1, initial_distance, increase,
                                replicates = 10, set_seed = 1) {
   # Initial tests
-  if (missing(master_matrix)) {
-    stop("Argument 'master_matrix' is not defined.")
+  if (missing(master)) {
+    stop("Argument 'master' is not defined.")
   }
   if (missing(x_column)) {
     stop("Argument 'x_column' is not defined.")
@@ -85,10 +84,10 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
   } else {
     # preparing data
     if (selection_from[1] == "all_points") {
-      data <- master_matrix$master_matrix
+      data <- master$master_matrix
       data <- data[!is.na(data[, x_column]) & !is.na(data[, y_column]), ]
     } else {
-      data <- master_matrix$master_matrix
+      data <- master$master_matrix
 
       # preparing centroids
       data <- closest_to_centroid(data, x_column, y_column, space = "E",
@@ -112,8 +111,8 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
   }
   if (np == expected_points) {
     message(mess, " equals 'expected_points'.")
-    master_matrix$selected_sites <- list(selection_1 = data)
-    return(master_matrix)
+    master$selected_sites_E <- list(selection_1 = data)
+    return(structure(master, class = "master_selection"))
   }
 
   # selection process
@@ -128,8 +127,8 @@ uniformE_selection <- function(master_matrix, x_column, y_column,
       if (np == expected_points) {
         # success
         names(thin) <- paste0("selection_", 1:length(thin))
-        master_matrix$selected_sites <- thin
-        return(master_matrix)
+        master$selected_sites_E <- thin
+        return(structure(master, class = "master_selection"))
       } else {
         if (count == 1) {
           stop("'initial_distance' resulted in  ", np, "  points. Try smaller values.")

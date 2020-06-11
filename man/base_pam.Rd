@@ -30,11 +30,12 @@ partially overlapped with the geographic region of interest contined in
 \code{master_matrix}. Default = TRUE.}
 }
 \value{
-A presence-absence matrix (PAM) for the region of interest associated with a
-SpatialPolygonsDataFrame, as in a grid of \code{cell_size} resolution. Each
-grid cell is related to a specific ID and longitude and latitude coordinates.
-Presence (1) and absence (0) values for each species in every cell of the PAM
-are included as apart of the data frame of the SpatialPolygonsDataFrame.
+A presence-absence matrix (PAM) of class base_pam for the region of interest
+associated with a SpatialPolygonsDataFrame, as in a grid of \code{cell_size}
+resolution. Each grid cell is related to a specific ID and longitude and
+latitude coordinates. Presence (1) and absence (0) values for each species
+in every cell of the PAM are included as apart of the data frame of the
+SpatialPolygonsDataFrame.
 }
 \description{
 Prepare a presence-absence matrix (PAM) in which all initial points

@@ -23,11 +23,12 @@
 #' \code{master_matrix}. Default = TRUE.
 #'
 #' @return
-#' A presence-absence matrix (PAM) for the region of interest associated with a
-#' SpatialPolygonsDataFrame, as in a grid of \code{cell_size} resolution. Each
-#' grid cell is related to a specific ID and longitude and latitude coordinates.
-#' Presence (1) and absence (0) values for each species in every cell of the PAM
-#' are included as apart of the data frame of the SpatialPolygonsDataFrame.
+#' A presence-absence matrix (PAM) of class base_pam for the region of interest
+#' associated with a SpatialPolygonsDataFrame, as in a grid of \code{cell_size}
+#' resolution. Each grid cell is related to a specific ID and longitude and
+#' latitude coordinates. Presence (1) and absence (0) values for each species
+#' in every cell of the PAM are included as apart of the data frame of the
+#' SpatialPolygonsDataFrame.
 #'
 #' @usage
 #' base_pam(data, format = NULL, master_matrix, cell_size,
@@ -117,7 +118,7 @@ base_pam <- function(data, format = NULL, master_matrix, cell_size,
   grid_r_pol@data <- merge(grid_r_pol@data, sp_points, by = "ID", all.x = TRUE)
   grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
 
-  return(grid_r_pol)
+  return(structure(grid_r_pol, class = "base_pam"))
 }
 
 

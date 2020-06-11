@@ -33,7 +33,7 @@ the bi-dimensional space. Two options are available: "equal_area" and
 "equal_points". Default = "equal_area".}
 }
 \value{
-An S3 object of class master_blocks, containing the same elements found in a
+An S3 object of class master_matrix, containing the same elements found in a
 master_matrix object, with an aditional column on the master_matrix data.frame
 containing block identifiers.
 }

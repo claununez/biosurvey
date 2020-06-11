@@ -4,15 +4,14 @@
 \alias{uniformG_selection}
 \title{Selection of survey sites maximizing uniformity in geography}
 \usage{
-uniformG_selection(master_matrix, expected_points, max_n_samples = 1,
+uniformG_selection(master, expected_points, max_n_samples = 1,
                    initial_distance, increase, replicates = 10, set_seed = 1)
 }
 \arguments{
-\item{master_matrix}{object derived from function \code{\link{master_matrix}}.
-Optionally, if master_matrix is not necessary, a list containing an object of
-class data.frame with at least two columns represening two variables. The name
-of this element in the list must be "master_matrix". For instance:
-\code{my_list <- list(master_matrix = YOUR_data.frame)}.}
+\item{master}{a master_matrix object derived from function
+\code{\link{master_matrix}} or a master_selection object derived from functions
+\code{\link{random_selection}}, \code{\link{uniformE_selection}},
+or \code{EG_selection}.}
 
 \item{expected_points}{(numeric) number of survey points (sites) to be selected.}
 
@@ -30,8 +29,8 @@ reaching the number of \code{expected_points}.}
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-The master_matrix list with an aditional element containing one or more sets
-of selected sites.
+A master_selection object (S3) with an aditional element called
+selected_sites_G containing one or more sets of selected sites.
 }
 \description{
 Selection of sites to be sampled in a survey, with the goal of

@@ -4,14 +4,13 @@
 \alias{random_selection}
 \title{Random selection of survey sites}
 \usage{
-random_selection(master_matrix, n_sites, n_samplings = 1, set_seed = 1)
+random_selection(master, n_sites, n_samplings = 1, set_seed = 1)
 }
 \arguments{
-\item{master_matrix}{object derived from function \code{\link{master_matrix}}.
-Optionally, if master_matrix is not necessary, a list containing an object of
-class data.frame with at least two columns represening two variables. The name
-of this element in the list must be "master_matrix". For instance:
-\code{my_list <- list(master_matrix = YOUR_data.frame)}.}
+\item{master}{a master_matrix object derived from function
+\code{\link{master_matrix}} or a master_selection object derived from functions
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
+or \code{EG_selection}.}
 
 \item{n_sites}{(numeric) number of sites to be selected from
 \code{master_matrix} to be used as sites to be sampled in survey.}
@@ -22,8 +21,8 @@ turn into multiple options for a process of survey planning. Default = 1.}
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-The master_matrix list with an aditional element containing one or more sets
-of selected sites.
+A master_selection object (S3) with an aditional element called
+selected_sites_random containing one or more sets of selected sites.
 }
 \description{
 Random selection of sites to be sampled in a survey. Sites are

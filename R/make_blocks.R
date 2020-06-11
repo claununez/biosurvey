@@ -28,7 +28,7 @@
 #' which generally results in blocks of different sizes.
 #'
 #' @return
-#' An S3 object of class master_blocks, containing the same elements found in a
+#' An S3 object of class master_matrix, containing the same elements found in a
 #' master_matrix object, with an aditional column on the master_matrix data.frame
 #' containing block identifiers.
 #'
@@ -157,5 +157,5 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
   all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ]
   master_matrix$master_matrix <- all_cls
-  return(structure(master_matrix, class = "master_blocks"))
+  return(structure(master_matrix, class = "master_matrix"))
 }
