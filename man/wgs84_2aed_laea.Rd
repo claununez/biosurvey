@@ -2,7 +2,7 @@
 % Please edit documentation in R/short_helpers.R
 \name{wgs84_2aed_laea}
 \alias{wgs84_2aed_laea}
-\title{Projected spatial points from geographic coordinates}
+\title{Project spatial points from geographic coordinates}
 \usage{
 wgs84_2aed_laea(data, longitude, latitude, which = "ED")
 }
@@ -24,7 +24,7 @@ Default = "ED".}
 SpatialPointsDataFrame projected to an option in \code{which}.
 }
 \description{
-Projected spatial points from geographic coordinates
+Project spatial points from geographic coordinates
 }
 \examples{
 data("sp_occurrences", package = "biosurvey")

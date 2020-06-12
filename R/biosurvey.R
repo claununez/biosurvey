@@ -6,8 +6,8 @@
 #'
 #' @section Main functions in biosurvey:
 #' \code{\link{base_pam}}, \code{\link{make_blocks}}, \code{\link{master_matrix}},
-#' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
-#' \code{\link{uniformG_selection}}
+#' \code{\link{plot_matrix_HD}}, \code{\link{random_selection}},
+#' \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}}
 #'
 #'
 #' Other functions (important helpers)

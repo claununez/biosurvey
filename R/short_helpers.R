@@ -45,7 +45,7 @@ match_rformat <- function(format) {
 
 
 
-#' Projected spatial points from geographic coordinates
+#' Project spatial points from geographic coordinates
 #'
 #' @param data a matrix or a data frame that contains at least two columns, one with
 #' longitude information and the other with latitud information.
@@ -97,4 +97,27 @@ wgs84_2aed_laea <- function (data, longitude, latitude, which = "ED") {
   dat_s <- sp::spTransform(dat_s, prj)
 
   return(dat_s)
+}
+
+
+# Create a bar legend for use in plotting functions
+
+bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0) {
+  # Initial tests
+  if (missing(value_range)) {
+    stop("Argument 'value_range' is required to produce the legend.")
+  }
+  if (missing(col)) {
+    stop("Argument 'col' is required to produce the legend.")
+  }
+
+  legend_image <- as.raster(matrix(scales::alpha(rev(col), alpha), ncol = 1))
+  text(x = 0.6, y = 0.55, labels = title, srt = 90)
+  if (is.numeric(value_range)) {
+    vals <- round(value_range, round)
+  } else {
+    vals <- value_range
+  }
+  text(x = 0.7, y = seq(0.2, 0.85, l = 2), labels = vals, cex = 0.8)
+  rasterImage(legend_image, 0.1, 0.2, 0.3, 0.85)
 }
