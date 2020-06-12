@@ -29,10 +29,9 @@
 #' selected_sites_E containing one or more sets of selected sites.
 #'
 #' @usage
-#' uniformE_selection(master, x_column, y_column,selection_from = "all_points",
-#'                    expected_points,max_n_samples = 1,
-#'                    initial_distance, increase, set_seed = 1)
-#'                    set_seed = 1)
+#' uniformE_selection(master, x_column, y_column, selection_from = "all_points",
+#'                    expected_points, max_n_samples = 1,
+#'                    initial_distance, increase, replicates = 10, set_seed = 1)
 #'
 #' @export
 #'

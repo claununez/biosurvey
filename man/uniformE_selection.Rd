@@ -4,10 +4,9 @@
 \alias{uniformE_selection}
 \title{Selection of survey sites maximizing uniformity in environmental space}
 \usage{
-uniformE_selection(master, x_column, y_column,selection_from = "all_points",
-                   expected_points,max_n_samples = 1,
-                   initial_distance, increase, set_seed = 1)
-                   set_seed = 1)
+uniformE_selection(master, x_column, y_column, selection_from = "all_points",
+                   expected_points, max_n_samples = 1,
+                   initial_distance, increase, replicates = 10, set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function

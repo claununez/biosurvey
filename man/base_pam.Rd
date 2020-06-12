@@ -50,7 +50,6 @@ data("species_data", package = "biosurvey")
 
 # Create base_pam
 b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 100)
-
-sp::plot(b_pam)
-summary(b_pam@data[, 1:6])
+sp::plot(b_pam$PAM)
+summary(b_pam$PAM@data[, 1:6])
 }

@@ -45,9 +45,9 @@
 #'
 #' # Create base_pam
 #' b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 100)
-#'
-#' sp::plot(b_pam)
-#' summary(b_pam@data[, 1:6])
+#' sp::plot(b_pam$PAM)
+#' summary(b_pam$PAM@data[, 1:6])
+
 
 base_pam <- function(data, format = NULL, master_matrix, cell_size,
                      complete_cover = TRUE) {
@@ -118,7 +118,7 @@ base_pam <- function(data, format = NULL, master_matrix, cell_size,
   grid_r_pol@data <- merge(grid_r_pol@data, sp_points, by = "ID", all.x = TRUE)
   grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
 
-  return(structure(grid_r_pol, class = "base_pam"))
+  return(structure(list(PAM = grid_r_pol, PAM_statistics = NULL), class = "base_pam"))
 }
 
 
