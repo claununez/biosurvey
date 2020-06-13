@@ -112,7 +112,7 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0) {
   }
 
   legend_image <- as.raster(matrix(scales::alpha(rev(col), alpha), ncol = 1))
-  text(x = 0.6, y = 0.55, labels = title, srt = 90)
+  text(x = 0.6, y = 0.525, labels = title, srt = 90)
   if (is.numeric(value_range)) {
     vals <- round(value_range, round)
   } else {
