@@ -16,11 +16,8 @@ details for description of characteristics of each option.}
 \item{format}{(character) if \code{data} is a character, available formats are:
 "shp", "gpkg", "GTiff", and "ascii".}
 
-\item{master_matrix}{object derived from function \code{\link{master_matrix}}.
-Optionally, if master_matrix is not necessary, a list containing an object of
-class SpatialPolygonsDataFrame, representinng the region of interest, can be
-used. The name of this element in the list must be "polygon". For instance:
-\code{my_list <- list(polygon = YOUR_SpatialPolygonsDataFrame)}.}
+\item{master_matrix}{object of class "master_matrix" or "master_selection". See
+details.}
 
 \item{cell_size}{(numeric) resolution for grid (single number or vector of two
 numbers) in kilometers (km).}
@@ -42,6 +39,12 @@ Prepare a presence-absence matrix (PAM) in which all initial points
 of interest (rows) will have a representation of the species present in such
 areas (columns). Initial points of interest will be represented by an ID, and
 longitude and latitude coordinates.
+}
+\details{
+Objects of class "master_matrix" or "master_selection" could be obtained from
+functions \code{\link{master_matrix}}, \code{\link{random_selection}},
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
+\code{uniformEG_selection}.
 }
 \examples{
 # Data
