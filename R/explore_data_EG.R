@@ -15,8 +15,8 @@
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis) to be explored (must be different from the first one).
 #' @param col_variable1 a color palette for \code{variable_1} defined
-#' using functions like \code{\link[=grDevices]{heat.colors}}, or one generated
-#' using functions like \code{\link[=grDevices]{colorRampPalette}}. The default,
+#' using functions like \code{\link{heat.colors}}, or one generated
+#' using functions like \code{\link{colorRampPalette}}. The default,
 #' NULL, uses \code{viridis::cividis(255)}.
 #' @param col_variable2 a color palette for \code{variable_2} defined
 #' using functions like \code{\link[=grDevices]{heat.colors}}, or one generated
