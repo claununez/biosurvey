@@ -5,7 +5,8 @@
 #' relationship of environmental and geographic conditions in a region.
 #'
 #' @section Main functions in biosurvey:
-#' \code{\link{base_pam}}, \code{\link{explore_data_EG}}, \code{\link{make_blocks}},
+#' \code{\link{base_pam}}, \code{\link{block_sample}},
+#' \code{\link{explore_data_EG}}, \code{\link{make_blocks}},
 #' \code{\link{master_matrix}}, \code{\link{plot_blocks_EG}},
 #' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
 #' \code{\link{uniformG_selection}}
