@@ -20,13 +20,13 @@ variable (X axis) to be explored.}
 variable (Y axis) to be explored (must be different from the first one).}
 
 \item{col_variable1}{a color palette for \code{variable_1} defined
-using functions like \code{\link[grDevices]{heat.colors}}, or one generated
-using functions like \code{\link[grDevices]{colorRampPalette}}. The default,
+using functions like \code{\link[=grDevices]{heat.colors}}, or one generated
+using functions like \code{\link[=grDevices]{colorRampPalette}}. The default,
 NULL, uses \code{viridis::cividis(255)}.}
 
 \item{col_variable2}{a color palette for \code{variable_2} defined
-using functions like \code{\link[grDevices]{heat.colors}}, or one generated
-using functions like \code{\link[grDevices]{colorRampPalette}}. The default,
+using functions like \code{\link[=grDevices]{heat.colors}}, or one generated
+using functions like \code{\link[=grDevices]{colorRampPalette}}. The default,
 NULL, uses \code{viridis::cividis(255)}.}
 
 \item{col_points}{color for points in environmental space. The default, NULL,
@@ -35,8 +35,8 @@ alpha of 0.6.}
 
 \item{col_density}{a color palette to represent representation density of points
 in environmental space. This palette can be defined using functions like
-\code{\link[grDevices]{heat.colors}}, or one generated using functions like
-\code{\link[grDevices]{colorRampPalette}}. The default, NULL, uses
+\code{\link[=grDevices]{heat.colors}}, or one generated using functions like
+\code{\link[=grDevices]{colorRampPalette}}. The default, NULL, uses
 \code{viridis::viridis(255)}, and changes the first color in the palette by NA.}
 }
 \value{
