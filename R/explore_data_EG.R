@@ -45,7 +45,7 @@
 #' @importFrom scales alpha
 #' @importFrom sp plot
 #' @importFrom raster image
-#' @importFrom graphics image layout par plot.new rasterImage text title
+#' @importFrom graphics image layout par plot.new rasterImage text title box points
 #' @importFrom grDevices as.raster
 #'
 #' @examples
