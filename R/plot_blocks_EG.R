@@ -183,6 +183,8 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
 
   ## selected blocks
   if (which == "selected") {
+    sel <- which(master$master_matrix$Selected_blocks == 1)
+    selected_data <- master$master_matrix[sel, ]
     points(selected_data[sel, evars], pch = pch_selected, cex = cex_selected,
            col = col_selected)
   }
@@ -208,8 +210,6 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
 
   ## selected blocks
   if (which == "selected") {
-    sel <- which(master$master_matrix$Selected_blocks == 1)
-    selected_data <- master$master_matrix[sel, ]
     points(selected_data[sel, gvars], pch = pch_selected, cex = cex_selected,
            col = col_selected)
   }
