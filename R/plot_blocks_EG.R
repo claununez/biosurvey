@@ -111,7 +111,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
       stop("Blocks are not defined in master_matrix of 'master', see function 'make_blocks'.")
     }
     if (which == "selected") {
-      if (is.null(master$selected_blocks)) {
+      if (is.null(master$master_matrix$Selected_blocks)) {
         stop("Object in 'master' does not contain selected blocks, see function 'block_sample'.")
       }
     }
