@@ -4,7 +4,7 @@
 \alias{uniformE_selection}
 \title{Selection of survey sites maximizing uniformity in environmental space}
 \usage{
-uniformE_selection(master, x_column, y_column, selection_from = "all_points",
+uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",
                    expected_points, max_n_samples = 1,
                    initial_distance, increase, replicates = 10, set_seed = 1)
 }
@@ -14,9 +14,11 @@ uniformE_selection(master, x_column, y_column, selection_from = "all_points",
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 or \code{EG_selection}.}
 
-\item{x_column}{(character) the name of the X-axis.}
+\item{variable_1}{(character or numeric) name or position of the first
+variable (X-axis).}
 
-\item{y_column}{(character) the name of the Y-axis.}
+\item{variable_2}{(character or numeric) name or position of the second
+variable (Y-axis).}
 
 \item{selection_from}{(character) set of points to perfomr the selection from.
 Two options are available, "all_points" or "block_centroids". The first option
@@ -61,7 +63,7 @@ colnames(m_matrix$master_matrix)
 summary(m_matrix$master_matrix[, 9:10])
 
 # Selecting sites uniformly in E space
-selectionE <- uniformE_selection(m_matrix, x_column = "PC1", y_column = "PC2",
+selectionE <- uniformE_selection(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
                                  selection_from = "block_centroids",
                                  expected_points = 15, max_n_samples = 1,
                                  initial_distance = 1, increase = 0.1,

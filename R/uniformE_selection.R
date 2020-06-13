@@ -7,8 +7,10 @@
 #' \code{\link{master_matrix}} or a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{EG_selection}.
-#' @param x_column (character) the name of the X-axis.
-#' @param y_column (character) the name of the Y-axis.
+#' @param variable_1 (character or numeric) name or position of the first
+#' variable (X-axis).
+#' @param variable_2 (character or numeric) name or position of the second
+#' variable (Y-axis).
 #' @param selection_from (character) set of points to perfomr the selection from.
 #' Two options are available, "all_points" or "block_centroids". The first option
 #' picks the points from all points in the environmental cloud, and the second
@@ -29,7 +31,7 @@
 #' selected_sites_E containing one or more sets of selected sites.
 #'
 #' @usage
-#' uniformE_selection(master, x_column, y_column, selection_from = "all_points",
+#' uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",
 #'                    expected_points, max_n_samples = 1,
 #'                    initial_distance, increase, replicates = 10, set_seed = 1)
 #'
@@ -49,13 +51,13 @@
 #' summary(m_matrix$master_matrix[, 9:10])
 #'
 #' # Selecting sites uniformly in E space
-#' selectionE <- uniformE_selection(m_matrix, x_column = "PC1", y_column = "PC2",
+#' selectionE <- uniformE_selection(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
 #'                                  selection_from = "block_centroids",
 #'                                  expected_points = 15, max_n_samples = 1,
 #'                                  initial_distance = 1, increase = 0.1,
 #'                                  replicates = 5, set_seed = 1)
 
-uniformE_selection <- function(master, x_column, y_column,
+uniformE_selection <- function(master, variable_1, variable_2,
                                selection_from = "all_points", expected_points,
                                max_n_samples = 1, initial_distance, increase,
                                replicates = 10, set_seed = 1) {
@@ -63,11 +65,11 @@ uniformE_selection <- function(master, x_column, y_column,
   if (missing(master)) {
     stop("Argument 'master' is not defined.")
   }
-  if (missing(x_column)) {
-    stop("Argument 'x_column' is not defined.")
+  if (missing(variable_1)) {
+    stop("Argument 'variable_1' is not defined.")
   }
-  if (missing(y_column)) {
-    stop("Argument 'y_column' is not defined.")
+  if (missing(variable_2)) {
+    stop("Argument 'variable_2' is not defined.")
   }
   if (missing(initial_distance)) {
     stop("Argument 'initial_distance' is not defined.")
@@ -84,12 +86,12 @@ uniformE_selection <- function(master, x_column, y_column,
     # preparing data
     if (selection_from[1] == "all_points") {
       data <- master$master_matrix
-      data <- data[!is.na(data[, x_column]) & !is.na(data[, y_column]), ]
+      data <- data[!is.na(data[, variable_1]) & !is.na(data[, variable_2]), ]
     } else {
       data <- master$master_matrix
 
       # preparing centroids
-      data <- closest_to_centroid(data, x_column, y_column, space = "E",
+      data <- closest_to_centroid(data, variable_1, variable_2, space = "E",
                                   n = 1, id_column = "Block")
     }
   }
@@ -117,7 +119,7 @@ uniformE_selection <- function(master, x_column, y_column,
   # selection process
   while (np > expected_points) {
     # thinning
-    thin <- point_thinning(data, x_column, y_column, dist, space = "E",
+    thin <- point_thinning(data, variable_1, variable_2, dist, space = "E",
                            max_n_samples, replicates, set_seed)
     np <- nrow(thin[[1]])
     message("    Distance  ", dist, "  resulted in  ", np, "  points")
