@@ -8,11 +8,7 @@ make_blocks(master_matrix, variable_1, variable_2, n_cols, n_rows = NULL,
             block_type = "equal_area")
 }
 \arguments{
-\item{master_matrix}{object derived from function \code{\link{master_matrix}}.
-Optionally, if master_matrix is not necessary, a list containing an object of
-class data.frame with at least two columns represening two variables. The name
-of this element in the list must be "master_matrix". For instance:
-\code{my_list <- list(master_matrix = YOUR_data.frame)}.}
+\item{master_matrix}{object derived from function \code{\link{master_matrix}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis) to be used to create blocks.}
