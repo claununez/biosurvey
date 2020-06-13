@@ -78,6 +78,9 @@ plot_matrix_HD <- function(master, variable_1, variable_2,
   if (missing(variable_2)) {
     stop("Argument 'variable_2' is required to produce the plot.")
   }
+  if (!class(master)[1] %in% c("master_matrix", "master_selection")) {
+    stop("Object defined in 'master' is not valid, see function's help.")
+  }
 
   # par settings
   opar <- par(no.readonly = TRUE)

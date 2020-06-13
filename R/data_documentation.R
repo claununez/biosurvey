@@ -1,12 +1,13 @@
 #' Example of object obtained from using the master_matrix function
 #'
-#' A list of 3 elements (m_matrix, polygon, PCA_results). See function
-#' \code{\link{master_matrix}}.
+#' A list of 4 elements (m_matrix, polygon, raster_base, and PCA_results).
+#' See function \code{\link{master_matrix}}.
 #'
-#' @format A list of 3 elements:
+#' @format A list of 4 elements:
 #' \describe{
 #'   \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
 #'   \item{polygon}{object of class SpatialPolygonsDataFrame}
+#'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #' }
 #'

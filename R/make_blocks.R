@@ -4,10 +4,6 @@
 #' a user-defined number of rows and columns.
 #'
 #' @param master_matrix object derived from function \code{\link{master_matrix}}.
-#' Optionally, if master_matrix is not necessary, a list containing an object of
-#' class data.frame with at least two columns represening two variables. The name
-#' of this element in the list must be "master_matrix". For instance:
-#' \code{my_list <- list(master_matrix = YOUR_data.frame)}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X axis) to be used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second

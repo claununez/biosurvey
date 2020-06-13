@@ -11,16 +11,19 @@
 #' details for description of characteristics of each option.
 #' @param format (character) if \code{data} is a character, available formats are:
 #' "shp", "gpkg", "GTiff", and "ascii".
-#' @param master_matrix object derived from function \code{\link{master_matrix}}.
-#' Optionally, if master_matrix is not necessary, a list containing an object of
-#' class SpatialPolygonsDataFrame, representinng the region of interest, can be
-#' used. The name of this element in the list must be "polygon". For instance:
-#' \code{my_list <- list(polygon = YOUR_SpatialPolygonsDataFrame)}.
+#' @param master_matrix object of class "master_matrix" or "master_selection". See
+#' details.
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
 #' numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with the geographic region of interest contined in
 #' \code{master_matrix}. Default = TRUE.
+#'
+#' @details
+#' Objects of class "master_matrix" or "master_selection" could be obtained from
+#' functions \code{\link{master_matrix}}, \code{\link{random_selection}},
+#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
+#' \code{uniformEG_selection}.
 #'
 #' @return
 #' A presence-absence matrix (PAM) of class base_pam for the region of interest

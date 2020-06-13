@@ -26,6 +26,7 @@ Imports:
     graphics,
     grDevices,
     ks (>= 1.11),
+    maps (>= 3.3),
     methods,
     raster (>= 3.0),
     rgdal (>= 1.4),
