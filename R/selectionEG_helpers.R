@@ -144,6 +144,7 @@ find_modes <- function(density) {
 find_clusters <- function(data, x_column, y_column, space, cluster_method = "hierarchical",
                           n_kmeans = NULL, split_distance = NULL) {
 
+  # initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined.")
   }
@@ -228,7 +229,7 @@ find_clusters <- function(data, x_column, y_column, space, cluster_method = "hie
 point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
                                  n = 1, cluster_method = "hierarchical",
                                  select_point = "E_centroid", id_column = NULL) {
-
+  # initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined.")
   }
@@ -270,10 +271,6 @@ point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
                           select_point = select_point, id_column = id_column)
       bse$clusters <- NULL
     } else {
-      bse <- block_point_sample(data = data[bda == x, ],
-                                block_column = block_column, n = n,
-                                select_point = select_point, g_cols = g_cols,
-                                e_cols = e_cols)
       bse <- point_sample(data = data[bda == x, ], variable_1, varaible_2, n = n,
                           select_point = select_point, id_column = id_column)
     }
@@ -282,4 +279,45 @@ point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
   mgsel <- do.call(rbind, mgsel)
 
   return(mgsel)
+}
+
+
+
+
+
+#'
+#'
+#' @description
+#'
+#' @param distance_list
+#'
+#' @return
+#'
+#' @usage
+#' unimodal_test(distance_list)
+#'
+#' @export
+#' @importFrom diptest dip.test
+#'
+unimodal_test <- function(distance_list) {
+
+  # initial tests
+  if (missing(distance_list)) {
+    stop("Argument 'distance_list' must be defined.")
+  }
+
+  bs <- names(distance_list)
+
+  dss <- lapply(bs, function(x) {
+    ds <- distance_list[[x]]
+
+    if (length(ds) <= 2) {
+      return(data.frame(Block = x, D = NA, p_alue = NA))
+    } else {
+      dp <- diptest::dip.test(ds, simulate.p.value = TRUE, B = 1000)
+      return(data.frame(Block = x, D = dp$statistic, p_alue = dp$p.value))
+    }
+  })
+
+  return(do.call(rbind, dss))
 }
