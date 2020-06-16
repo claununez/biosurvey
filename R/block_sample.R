@@ -11,8 +11,8 @@
 #' variable (Y axis) to be used to create blocks (must be different from the
 #' first one).
 #' @param expected_blocks (numeric) number of blocks to be selected.
-#' @param selection_type (character) Two options are available: "uniform" and
-#' "random". Default = "uniform".
+#' @param selection_type (character) Type of selection. Two options are available:
+#' "uniform" and "random". Default = "uniform".
 #' @param initial_distance (numeric) euclidean distance to be used for a first
 #' process of thinning and detection of remaining points. If \code{selection_type}
 #' = "uniform", this argument must be defined. Default = NULL.
