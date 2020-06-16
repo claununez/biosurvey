@@ -9,7 +9,7 @@
 #' variable (Y axis). Must be different from the first one.
 #' @param n (numeric) number of points that are close to the centroid to be
 #' detected. Default = 1.
-#' @param selection_point (character) Three options are available: "random",
+#' @param select_point (character) Three options are available: "random",
 #' "E_centroid", "G_centroid". Default = "E_centroid".
 #' @param id_column (character or numeric) name or numeric index of the column
 #' in \code{data} containing identifiers of one or distint sets of points.
@@ -189,4 +189,97 @@ find_clusters <- function(data, x_column, y_column, space, cluster_method = "hie
 
   data <- data.frame(data, clusters = cluster_vector)
   return(data)
+}
+
+
+
+
+
+#'
+#'
+#' @description
+#'
+#' @param data a matrix or a data frame that contains at least two columns.
+#' @param variable_1 (character or numeric) name or position of the first
+#' variable (X axis).
+#' @param variable_2 (character or numeric) name or position of the second
+#' variable (Y axis). Must be different from the first one.
+#' @param distance_list
+#' @param n (numeric) number of points that are close to the centroid to be
+#' detected. Default = 1.
+#' @param cluster_method (character) There are two options available:
+#' "hierarchical" and "k-means". Default = "hierarchical".
+#' @param select_point (character) Three options are available: "random",
+#' "E_centroid", "G_centroid". Default = "E_centroid".
+#' @param id_column (character or numeric) name or numeric index of the column
+#' in \code{data} containing identifiers of one or distint sets of points.
+#' If, NULL, the default, only one set is assumed.
+#'
+#' @return
+#'
+#' @usage
+#' point_sample_cluster(data, variable_1, varaible_2, distance_list,
+#'                      n = 1, cluster_method = "hierarchical",
+#'                      select_point = "E_centroid", id_column = NULL)
+#'
+#' @export
+#'
+
+point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
+                                 n = 1, cluster_method = "hierarchical",
+                                 select_point = "E_centroid", id_column = NULL) {
+
+  if (missing(data)) {
+    stop("Argument 'data' must be defined.")
+  }
+  if (missing(variable_1)) {
+    stop("Argument 'variable_1' must be defined.")
+  }
+  if (missing(varaible_2)) {
+    stop("Argument 'varaible_2' must be defined.")
+  }
+  if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
+    stop("Argument 'select_point' is not valid, options are:\n'random', 'E_centroid', 'G_centroid'")
+  }
+  if (missing(distance_list)) {
+    stop("Argument 'distance_list' must be defined")
+  }
+  if (!cluster_method[1] %in% c("hierarchical", "k-means")) {
+    stop("Argument 'cluster_method' is not valid.")
+  }
+
+  bda <- data[, id_column]
+  bs <- unique(bda)
+
+  mgsel <- lapply(bs, function(x) {
+    md <- find_modes(density = density(distance_list[[as.character(x)]]))
+
+    if (nrow(md) > 1) {
+      dens <- md$density
+      mdss <- md[order(dens), ]
+      dd <- abs(diff(mdss[(length(dens) - 1):length(dens), 1]))
+
+      clush <- find_clusters(data = data[bda == x, ], variable_1, variable_2,
+                             space = "G", cluster_method = cluster_method,
+                             split_distance = dd)
+
+      sel <- as.numeric(names(sort(table(clush$clusters), decreasing = T)[1:2]))
+
+      bse <- point_sample(data = clush[clush$clusters %in% sel, ],
+                          variable_1, varaible_2, n = n,
+                          select_point = select_point, id_column = id_column)
+      bse$clusters <- NULL
+    } else {
+      bse <- block_point_sample(data = data[bda == x, ],
+                                block_column = block_column, n = n,
+                                select_point = select_point, g_cols = g_cols,
+                                e_cols = e_cols)
+      bse <- point_sample(data = data[bda == x, ], variable_1, varaible_2, n = n,
+                          select_point = select_point, id_column = id_column)
+    }
+    return(bse)
+  })
+  mgsel <- do.call(rbind, mgsel)
+
+  return(mgsel)
 }
