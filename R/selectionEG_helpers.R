@@ -160,7 +160,7 @@ find_clusters <- function(data, x_column, y_column, space, cluster_method = "hie
 
   if (cluster_method %in% c("hierarchical", "k-means")) {
     if (cluster_method[1] == "hierarchical") {
-      is.null(split_distance) {
+      if (is.null(split_distance)) {
         stop("Argument 'split_distance' must be defined if 'cluster_method' = 'hierarchical'.")
       }
 
@@ -170,7 +170,7 @@ find_clusters <- function(data, x_column, y_column, space, cluster_method = "hie
       } else {
         cluster <- stats::hclust(as.dist(raster::pointDistance(data[, c(x_column, y_column)],
                                                                lonlat = T)),
-                          method = "complete")
+                                 method = "complete")
       }
 
       cluster_vector <- stats::cutree(cluster, h = split_distance)
@@ -182,7 +182,7 @@ find_clusters <- function(data, x_column, y_column, space, cluster_method = "hie
 
       set.seed(1)
       cluster_vector <- stats::kmeans(as.matrix(data[, c(x_column, y_column)]),
-                               n_kmeans)$cluster
+                                      n_kmeans)$cluster
     }
   } else {
     stop("Argument 'cluster_method' is not valid.")
@@ -299,6 +299,7 @@ point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
 #' @export
 #' @importFrom diptest dip.test
 #'
+
 unimodal_test <- function(distance_list) {
 
   # initial tests
