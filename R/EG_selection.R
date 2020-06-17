@@ -1,20 +1,30 @@
-#' Selection of survey sites maximizing uniformity in both environmental and
-#' geographic space
+#' Selection of survey sites maximizing uniformity in environmental space
+#' considering geographic structure
 #'
 #' @description Selection of sites to be sampled in a survey, with the goal of
-#' maximizing uniformity of points in environmental and geographic space.
+#' maximizing uniformity of points in environmental, but considering geographic
+#' patterns of data. Similar environments that have a disjoint pattern are selected
+#' twice (two survey sites are placed so they consider the biggest geographic
+#' clusters).
 #'
 #' @param master a master_matrix object derived from function
 #' \code{\link{master_matrix}} or a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
-#' or \code{\link{E_selection}}.
+#' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y-axis).
-#' @param select_point (character) Default = "E_centroid".
-#' @param cluster_method (character) Default = "hierarchical".
-#' @param sample_for_distance (numeric) Default = 250.
+#' @param select_point (character) How or which point will be selected. Three
+#' options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
+#' indicate that the point(s) closests to the respective centroid will be selected.
+#' Default = "E_centroid".
+#' @param cluster_method (character) name of the method to be used for detecting
+#' clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".
+#' See details in \code{\link{find_clusters}}
+#' @param sample_for_distance (numeric) sample to be considered when measuring
+#' the geographic distances among points in the blocks of environmental points.
+#' Default = 250.
 #'
 #' @return
 #' A master_selection object (S3) with an aditional element called

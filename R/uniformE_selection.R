@@ -6,7 +6,7 @@
 #' @param master a master_matrix object derived from function
 #' \code{\link{master_matrix}} or a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
-#' or \code{EG_selection}.
+#' or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second

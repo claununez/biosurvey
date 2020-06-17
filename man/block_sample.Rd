@@ -20,8 +20,8 @@ first one).}
 
 \item{expected_blocks}{(numeric) number of blocks to be selected.}
 
-\item{selection_type}{(character) Two options are available: "uniform" and
-"random". Default = "uniform".}
+\item{selection_type}{(character) Type of selection. Two options are available:
+"uniform" and "random". Default = "uniform".}
 
 \item{initial_distance}{(numeric) euclidean distance to be used for a first
 process of thinning and detection of remaining points. If \code{selection_type}

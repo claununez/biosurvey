@@ -11,7 +11,8 @@ relationship of environmental and geographic conditions in a region.
 }
 \section{Main functions in biosurvey}{
 
-\code{\link{base_pam}}, \code{\link{explore_data_EG}}, \code{\link{make_blocks}},
+\code{\link{base_pam}}, \code{\link{block_sample}},
+\code{\link{explore_data_EG}}, \code{\link{make_blocks}},
 \code{\link{master_matrix}}, \code{\link{plot_blocks_EG}},
 \code{\link{random_selection}}, \code{\link{uniformE_selection}},
 \code{\link{uniformG_selection}}
@@ -19,8 +20,10 @@ relationship of environmental and geographic conditions in a region.
 Other functions (important helpers)
 
 \code{\link{closest_to_centroid}}, \code{\link{files_2data}},
+\code{\link{find_clusters}}, \code{\link{find_modes}},
 \code{\link{grid_from_region}}, \code{\link{match_rformat}},
-\code{\link{pam_from_table}}, \code{\link{point_thinning}},
+\code{\link{pam_from_table}}, \code{\link{point_sample},
+\code{\link{point_sample_cluster}, \code{\link{point_thinning}},
 \code{\link{rlist_2data}}, \code{\link{spdf_2data}},
 \code{\link{stack_2data}}, \code{\link{wgs84_2aed_laea}}
 }

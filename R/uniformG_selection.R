@@ -6,7 +6,7 @@
 #' @param master a master_matrix object derived from function
 #' \code{\link{master_matrix}} or a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
-#' or \code{EG_selection}.
+#' or \code{\link{EG_selection}}.
 #' @param expected_points (numeric) number of survey points (sites) to be selected.
 #' @param max_n_samples (numeric) maximun number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.

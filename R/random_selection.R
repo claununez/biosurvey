@@ -6,7 +6,7 @@
 #' @param master a master_matrix object derived from function
 #' \code{\link{master_matrix}} or a master_selection object derived from functions
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
-#' or \code{EG_selection}.
+#' or \code{\link{EG_selection}}.
 #' @param n_sites (numeric) number of sites to be selected from
 #' \code{master_matrix} to be used as sites to be sampled in survey.
 #' @param n_samplings (numeric) number of processes of selection, which will
