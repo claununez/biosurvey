@@ -18,7 +18,7 @@
 #' \code{\link{find_clusters}}, \code{\link{find_modes}},
 #' \code{\link{grid_from_region}}, \code{\link{match_rformat}},
 #' \code{\link{pam_from_table}}, \code{\link{point_sample},
-#' \code{\link{point_sample_cluster}, \code{\link{point_thinning}},
+#' \code{\link{point_sample_cluster}}, \code{\link{point_thinning}},
 #' \code{\link{rlist_2data}}, \code{\link{spdf_2data}},
 #' \code{\link{stack_2data}}, \code{\link{wgs84_2aed_laea}}
 #'
