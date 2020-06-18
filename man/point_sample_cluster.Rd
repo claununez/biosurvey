@@ -4,7 +4,7 @@
 \alias{point_sample_cluster}
 \title{Sample points from a 2D environmental space potentially disjoint in geography}
 \usage{
-point_sample_cluster(data, variable_1, varaible_2, distance_list,
+point_sample_cluster(data, variable_1, variable_2, distance_list,
                      n = 1, cluster_method = "hierarchical",
                      select_point = "E_centroid", id_column = NULL)
 }
@@ -15,6 +15,9 @@ columns to represent the variables of the 2D environmental space.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis).}
+
+\item{variable_2}{(character or numeric) name or position of the second
+variable (Y axis). Must be different from the first one.}
 
 \item{distance_list}{list of vectors of geographic distances among all points.
 If \code{id_column} is not defined, only one element in the list is needed,
@@ -36,9 +39,6 @@ Default = "E_centroid".}
 \item{id_column}{(character or numeric) name or numeric index of the column
 in \code{data} containing identifiers of one or distint sets of points.
 If, NULL, the default, only one set is assumed.}
-
-\item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis). Must be different from the first one.}
 }
 \value{
 A data.frame containing \code{n} rows corresponding to the point or points that

@@ -4,7 +4,7 @@
 \alias{point_sample}
 \title{Sample points from a 2D environmental space}
 \usage{
-point_sample(data, variable_1, varaible_2, n = 1, select_point = "E_centroid",
+point_sample(data, variable_1, variable_2, n = 1, select_point = "E_centroid",
              id_column = NULL)
 }
 \arguments{
@@ -14,6 +14,9 @@ columns to represent the variables of the 2D environmental space.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis).}
+
+\item{variable_2}{(character or numeric) name or position of the second
+variable (Y axis). Must be different from the first one.}
 
 \item{n}{(numeric) number of points to be selected. If \code{id_column}is
 defined this argument indicates the numner of points per set. Default = 1.}
@@ -26,9 +29,6 @@ Default = "E_centroid".}
 \item{id_column}{(character or numeric) name or numeric index of the column
 in \code{data} containing identifiers of one or distint sets of points.
 If, NULL, the default, only one set is assumed.}
-
-\item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis). Must be different from the first one.}
 }
 \value{
 A data.frame containing \code{n} rows corresponding to the point or points that

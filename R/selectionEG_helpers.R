@@ -26,13 +26,13 @@
 #' were sampled.
 #'
 #' @usage
-#' point_sample(data, variable_1, varaible_2, n = 1, select_point = "E_centroid",
+#' point_sample(data, variable_1, variable_2, n = 1, select_point = "E_centroid",
 #'              id_column = NULL)
 #'
 #' @export
 #'
 
-point_sample <- function(data, variable_1, varaible_2, n = 1,
+point_sample <- function(data, variable_1, variable_2, n = 1,
                          select_point = "E_centroid", id_column = NULL) {
   # initial tests
   if (missing(data)) {
@@ -41,8 +41,8 @@ point_sample <- function(data, variable_1, varaible_2, n = 1,
   if (missing(variable_1)) {
     stop("Argument 'variable_1' must be defined.")
   }
-  if (missing(varaible_2)) {
-    stop("Argument 'varaible_2' must be defined.")
+  if (missing(variable_2)) {
+    stop("Argument 'variable_2' must be defined.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
     stop("Argument 'select_point' is not valid, options are:\n'random', 'E_centroid', 'G_centroid'")
@@ -145,6 +145,7 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 #'
 #' @export
 
+
 find_modes <- function(density) {
 
   # initial tests
@@ -206,16 +207,16 @@ find_modes <- function(density) {
 #'
 #' @usage
 #' find_clusters(data, x_column, y_column, space, cluster_method = "hierarchical",
-#'               n_kmeans = NULL, split_distance = NULL)
+#'               n_k_means = NULL, split_distance = NULL)
 #'
 #' @export
-#' @importFrom stats hclust cutree kmeans dist
+#' @importFrom stats hclust cutree kmeans dist as.dist
 #' @importFrom raster pointDistance
 #'
 
 find_clusters <- function(data, x_column, y_column, space,
                           cluster_method = "hierarchical",
-                          n_kmeans = NULL, split_distance = NULL) {
+                          n_k_means = NULL, split_distance = NULL) {
 
   # initial tests
   if (missing(data)) {
@@ -249,13 +250,13 @@ find_clusters <- function(data, x_column, y_column, space,
       cluster_vector <- stats::cutree(cluster, h = split_distance)
 
     } else {
-      if (is.null(n_kmeans)) {
-        stop("Argument 'n_kmeans' must be defined if 'cluster_method' = 'k-means'.")
+      if (is.null(n_k_means)) {
+        stop("Argument 'n_k_means' must be defined if 'cluster_method' = 'k-means'.")
       }
 
       set.seed(1)
       cluster_vector <- stats::kmeans(as.matrix(data[, c(x_column, y_column)]),
-                                      n_kmeans)$cluster
+                                      n_k_means)$cluster
     }
   } else {
     stop("Argument 'cluster_method' is not valid.")
@@ -308,14 +309,15 @@ find_clusters <- function(data, x_column, y_column, space,
 #' were sampled.
 #'
 #' @usage
-#' point_sample_cluster(data, variable_1, varaible_2, distance_list,
+#' point_sample_cluster(data, variable_1, variable_2, distance_list,
 #'                      n = 1, cluster_method = "hierarchical",
 #'                      select_point = "E_centroid", id_column = NULL)
 #'
 #' @export
+#' @importFrom stats density
 #'
 
-point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
+point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                                  n = 1, cluster_method = "hierarchical",
                                  select_point = "E_centroid", id_column = NULL) {
   # initial tests
@@ -325,8 +327,8 @@ point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
   if (missing(variable_1)) {
     stop("Argument 'variable_1' must be defined.")
   }
-  if (missing(varaible_2)) {
-    stop("Argument 'varaible_2' must be defined.")
+  if (missing(variable_2)) {
+    stop("Argument 'variable_2' must be defined.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
     stop("Argument 'select_point' is not valid, options are:\n'random', 'E_centroid', 'G_centroid'")
@@ -356,11 +358,11 @@ point_sample_cluster <- function(data, variable_1, varaible_2, distance_list,
       sel <- as.numeric(names(sort(table(clush$clusters), decreasing = T)[1:2]))
 
       bse <- point_sample(data = clush[clush$clusters %in% sel, ],
-                          variable_1, varaible_2, n = n,
+                          variable_1, variable_2, n = n,
                           select_point = select_point, id_column = id_column)
       bse$clusters <- NULL
     } else {
-      bse <- point_sample(data = data[bda == x, ], variable_1, varaible_2, n = n,
+      bse <- point_sample(data = data[bda == x, ], variable_1, variable_2, n = n,
                           select_point = select_point, id_column = id_column)
     }
     return(bse)

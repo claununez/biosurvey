@@ -5,7 +5,7 @@
 \title{Selection of survey sites maximizing uniformity in environmental space
 considering geographic structure}
 \usage{
-EG_selection(master, variable_1, varaible_2, select_point = "E_centroid",
+EG_selection(master, variable_1, variable_2, select_point = "E_centroid",
              cluster_method = "hierarchical", sample_for_distance = 250)
 }
 \arguments{
@@ -16,6 +16,9 @@ or \code{\link{uniformE_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X-axis).}
+
+\item{variable_2}{(character or numeric) name or position of the second
+variable (Y-axis).}
 
 \item{select_point}{(character) How or which point will be selected. Three
 options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
@@ -29,9 +32,6 @@ See details in \code{\link{find_clusters}}}
 \item{sample_for_distance}{(numeric) sample to be considered when measuring
 the geographic distances among points in the blocks of environmental points.
 Default = 250.}
-
-\item{variable_2}{(character or numeric) name or position of the second
-variable (Y-axis).}
 }
 \value{
 A master_selection object (S3) with an aditional element called

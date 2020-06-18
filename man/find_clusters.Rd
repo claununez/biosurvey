@@ -5,7 +5,7 @@
 \title{Detection of clusters in 2D spaces}
 \usage{
 find_clusters(data, x_column, y_column, space, cluster_method = "hierarchical",
-              n_kmeans = NULL, split_distance = NULL)
+              n_k_means = NULL, split_distance = NULL)
 }
 \arguments{
 \item{data}{a matrix or a data frame that contains at least two columns.}
@@ -21,12 +21,12 @@ are two options available: "G", if it will be in the geographyc space, and
 \item{cluster_method}{(character) name of the method to be used for detecting
 clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".}
 
+\item{n_k_means}{(numeric) number of clusters to be identified when using the
+"k-means" \code{cluster_method}.}
+
 \item{split_distance}{(numeric) distance in meters (if \code{space} = "G") or
 euclidean distance (if \code{space} = "E") to identify clusters if
 \code{cluster_method} = "hierarchical".}
-
-\item{n_k_means}{(numeric) number of clusters to be identified when using the
-"k-means" \code{cluster_method}.}
 }
 \value{
 A data.frame containing \code{data} and an additional column defining clusters.

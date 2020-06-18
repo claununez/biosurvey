@@ -31,13 +31,13 @@
 #' selected_sites_EG containing one set of selected sites.
 #'
 #' @usage
-#' EG_selection(master, variable_1, varaible_2, select_point = "E_centroid",
+#' EG_selection(master, variable_1, variable_2, select_point = "E_centroid",
 #'              cluster_method = "hierarchical", sample_for_distance = 250)
 #'
 #' @export
 
 
-EG_selection <- function(master, variable_1, varaible_2, select_point = "E_centroid",
+EG_selection <- function(master, variable_1, variable_2, select_point = "E_centroid",
                          cluster_method = "hierarchical", sample_for_distance = 250) {
 
   # Initial tests
@@ -47,8 +47,8 @@ EG_selection <- function(master, variable_1, varaible_2, select_point = "E_centr
   if (missing(variable_1)) {
     stop("Argument 'variable_1' must be defined.")
   }
-  if (missing(varaible_2)) {
-    stop("Argument 'varaible_2' must be defined.")
+  if (missing(variable_2)) {
+    stop("Argument 'variable_2' must be defined.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
     stop("Argument 'select_point' is not valid.")
@@ -83,19 +83,19 @@ EG_selection <- function(master, variable_1, varaible_2, select_point = "E_centr
   # no mode (very few points)
   unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
                                                 nmodp[, "Block"], ], variable_1,
-                         varaible_2, n = 1, select_point = "random",
+                         variable_2, n = 1, select_point = "random",
                          id_column = "Block")
 
   # unimodal
   ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
                                                 unimp[, "Block"], ], variable_1,
-                         varaible_2, n = 1, select_point = select_point,
+                         variable_2, n = 1, select_point = select_point,
                          id_column = "Block")
 
   # multimodal
   meselp <- point_sample_cluster(master$master_matrix[master$master_matrix[, "Block"] %in%
                                                         mmodp[, "Block"], ],
-                                 variable_1, varaible_2, distance_list = distsp,
+                                 variable_1, variable_2, distance_list = distsp,
                                  n = 1, cluster_method = cluster_method,
                                  select_point = select_point, id_column = "Block")
 
