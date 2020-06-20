@@ -129,3 +129,19 @@ NULL
 #' data("sp_occurrences", package = "biosurvey")
 #' head(sp_occurrences)
 "sp_occurrences"
+
+
+#' A list of vectors of distances
+#'
+#' @description A list of six vectors of point distances.
+#'
+#' @format A list.
+#' \describe{
+#'   \item{vector}{numeric, values of distances (six elements)}
+#' }
+#' @source \url{https://www.gbif.org/}
+#'
+#' @examples
+#' data("dist_list", package = "biosurvey")
+#' "dist_list"
+#'
