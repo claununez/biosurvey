@@ -139,9 +139,7 @@ NULL
 #' \describe{
 #'   \item{vector}{numeric, values of distances (six elements)}
 #' }
-#' @source \url{https://www.gbif.org/}
 #'
 #' @examples
 #' data("dist_list", package = "biosurvey")
-#' "dist_list"
-#'
+"dist_list"
