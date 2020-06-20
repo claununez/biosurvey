@@ -31,6 +31,17 @@
 #'
 #' @export
 #'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#'
+#' # Sampling points
+#' points_s <- point_sample(m_matrix$master_matrix, variable_1 = "Max_temperature",
+#'                          variable_2 = "Min_temperature", n = 1,
+#'                          select_point = "E_centroid", id_column = NULL)
+#'
+#' points_s
+
 
 point_sample <- function(data, variable_1, variable_2, n = 1,
                          select_point = "E_centroid", id_column = NULL) {
@@ -87,7 +98,7 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 #' \code{\link[diptest]{dip.test}}.
 #'
 #' @param values_list named list of vectors of class numeric. Names in
-#' \code{distance_list} are required. If only one set of values is used the list
+#' \code{values_list} are required. If only one set of values is used the list
 #' must contain only one element.
 #' @param MC_replicates (numeric) number of replicates for the Monte Carlo test
 #' to calculate p-value. Default = 1000.
@@ -100,6 +111,15 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 #'
 #' @export
 #' @importFrom diptest dip.test
+#'
+#' @examples
+#' # Data
+#' data("dist_list", package = "biosurvey")
+#'
+#' # Testing unimodality
+#' u_test <- unimodal_test(values_list = dist_list, MC_replicates = 500)
+#' u_test
+
 
 unimodal_test <- function(values_list, MC_replicates= 1000) {
 
@@ -144,6 +164,16 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 #' find_modes(density)
 #'
 #' @export
+#'
+#' @examples
+#' # Data
+#' data("dist_list", package = "biosurvey")
+#'
+#' dens <- density(dist_list$`12`)
+#'
+#' # Finding modes
+#' modes <- find_modes(density = dens)
+#' modes
 
 
 find_modes <- function(density) {
@@ -213,6 +243,17 @@ find_modes <- function(density) {
 #' @importFrom stats hclust cutree kmeans dist as.dist
 #' @importFrom raster pointDistance
 #'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#'
+#' # Cluster detection
+#' clusters <-  find_clusters(m_matrix$master_matrix, x_column = "PC1",
+#'                            y_column = "PC2", space = "E",
+#'                            cluster_method = "hierarchical", n_k_means = NULL,
+#'                            split_distance = 4)
+#' head(clusters)
+
 
 find_clusters <- function(data, x_column, y_column, space,
                           cluster_method = "hierarchical",
@@ -316,6 +357,24 @@ find_clusters <- function(data, x_column, y_column, space,
 #' @export
 #' @importFrom stats density
 #'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#' data("dist_list", package = "biosurvey")
+#'
+#' # Making blocks for analysis
+#' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
+#'                         n_cols = 10, n_rows = 10, block_type = "equal_area")
+#'
+#' datam <- m_blocks$master_matrix
+#' datam <- datam[datam$Block %in% names(dist_list), ]
+#'
+#' # Sampling points
+#' point_clus <- point_sample_cluster(datam, variable_1 = "PC1", variable_2 = "PC2",
+#'                                    distance_list = dist_list, n = 1,
+#'                                    cluster_method = "hierarchical",
+#'                                    select_point = "E_centroid", id_column = "Block")
+
 
 point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                                  n = 1, cluster_method = "hierarchical",

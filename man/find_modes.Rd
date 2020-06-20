@@ -18,3 +18,13 @@ for those partiular values.
 Find modes in a multimodal distibution of values based on the
 desisty of such values.
 }
+\examples{
+# Data
+data("dist_list", package = "biosurvey")
+
+dens <- density(dist_list$`12`)
+
+# Finding modes
+modes <- find_modes(density = dens)
+modes
+}

@@ -35,6 +35,30 @@
 #'              cluster_method = "hierarchical", sample_for_distance = 250)
 #'
 #' @export
+#'
+#' @examples
+#' # Data
+#' data("m_matrix", package = "biosurvey")
+#'
+#' # Making blocks for analysis
+#' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
+#'                         n_cols = 10, n_rows = 10, block_type = "equal_area")
+#'
+#' # Selecting blocks for analysis
+#' sel_blocks <- block_sample(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+#'                            expected_blocks = 6, initial_distance = 2,
+#'                            increase = 0.1, replicates = 3)
+#'
+#' # Checking column names
+#' colnames(sel_blocks$master_matrix)
+#'
+#' # Selecting sites uniformly in E and G spaces
+#' EG_sel <- EG_selection(master = sel_blocks, variable_1 = "PC1", variable_2 = "PC2",
+#'                        select_point = "E_centroid", cluster_method = "hierarchical",
+#'                        sample_for_distance = 100)
+#'
+#' head(EG_sel$selected_sites_EG[[1]])
+#' dim(EG_sel$selected_sites_EG[[1]])
 
 
 EG_selection <- function(master, variable_1, variable_2, select_point = "E_centroid",
@@ -56,8 +80,13 @@ EG_selection <- function(master, variable_1, variable_2, select_point = "E_centr
   if (!cluster_method[1] %in% c("hierarchical", "k-means")) {
     stop("Argument 'cluster_method' is not valid.")
   }
+  if (is.null(master$master_matrix$Selected_blocks)) {
+    rule <- is.numeric(master$master_matrix$Block)
+  } else {
+    rule <- master$master_matrix$Selected_blocks == 1
+  }
 
-  blocksp <- unique(master$master_matrix[, "Block"])
+  blocksp <- unique(master$master_matrix[rule, "Block"])
   g_cols <- c("Longitude", "Latitude")
 
   distsp <- lapply(blocksp, function(x) {
@@ -81,26 +110,45 @@ EG_selection <- function(master, variable_1, variable_2, select_point = "E_centr
   nmodp <- dpp[which(is.na(dpp$p_alue)), ]
 
   # no mode (very few points)
-  unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
-                                                nmodp[, "Block"], ], variable_1,
-                         variable_2, n = 1, select_point = "random",
-                         id_column = "Block")
+  if (nrow(nmodp) > 0) {
+    unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
+                                                  nmodp[, "Block"], ], variable_1,
+                           variable_2, n = 1, select_point = "random",
+                           id_column = "Block")
+  } else {
+    unselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
+    colnames(unselp) <- colnames(master$master_matrix)
+    unselp <- as.data.frame(unselp)
+  }
 
   # unimodal
-  ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
-                                                unimp[, "Block"], ], variable_1,
-                         variable_2, n = 1, select_point = select_point,
-                         id_column = "Block")
+  if (nrow(unimp) > 0) {
+    ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
+                                                  unimp[, "Block"], ], variable_1,
+                           variable_2, n = 1, select_point = select_point,
+                           id_column = "Block")
+  } else {
+    ueselp <- matrix(nrow = 1, ncol = ncol(master$master_matrix))
+    colnames(ueselp) <- colnames(master$master_matrix)
+    ueselp <- as.data.frame(na.omit(ueselp))
+  }
 
   # multimodal
-  meselp <- point_sample_cluster(master$master_matrix[master$master_matrix[, "Block"] %in%
-                                                        mmodp[, "Block"], ],
-                                 variable_1, variable_2, distance_list = distsp,
-                                 n = 1, cluster_method = cluster_method,
-                                 select_point = select_point, id_column = "Block")
+  if (nrow(mmodp) > 0) {
+    distsp <- distsp[as.character(mmodp$Block)]
+    meselp <- point_sample_cluster(master$master_matrix[master$master_matrix[, "Block"] %in%
+                                                          mmodp[, "Block"], ],
+                                   variable_1, variable_2, distance_list = distsp,
+                                   n = 1, cluster_method = cluster_method,
+                                   select_point = select_point, id_column = "Block")
+  } else {
+    meselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
+    colnames(meselp) <- colnames(master$master_matrix)
+    meselp <- as.data.frame(meselp)
+  }
 
   # combining
-  master$selected_sites_EG <- list(selection_1 = rbind(ueselp, unselp, meselp))
+  master$selected_sites_EG <- list(selection_1 = rbind(unselp, ueselp, meselp))
 
   return(structure(master, class = "master_selection"))
 }

@@ -44,3 +44,27 @@ patterns of data. Similar environments that have a disjoint pattern are selected
 twice (two survey sites are placed so they consider the biggest geographic
 clusters).
 }
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+
+# Making blocks for analysis
+m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
+                        n_cols = 10, n_rows = 10, block_type = "equal_area")
+
+# Selecting blocks for analysis
+sel_blocks <- block_sample(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+                           expected_blocks = 6, initial_distance = 2,
+                           increase = 0.1, replicates = 3)
+
+# Checking column names
+colnames(sel_blocks$master_matrix)
+
+# Selecting sites uniformly in E and G spaces
+EG_sel <- EG_selection(master = sel_blocks, variable_1 = "PC1", variable_2 = "PC2",
+                       select_point = "E_centroid", cluster_method = "hierarchical",
+                       sample_for_distance = 100)
+
+head(EG_sel$selected_sites_EG[[1]])
+dim(EG_sel$selected_sites_EG[[1]])
+}

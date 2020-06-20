@@ -51,3 +51,21 @@ sets of points to be sampled independently. Points to be sampled can be
 disjoint in geographic space and when that happens two points are selected
 considering the most numerous clusters.
 }
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+data("dist_list", package = "biosurvey")
+
+# Making blocks for analysis
+m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
+                        n_cols = 10, n_rows = 10, block_type = "equal_area")
+
+datam <- m_blocks$master_matrix
+datam <- datam[datam$Block \%in\% names(dist_list), ]
+
+# Sampling points
+point_clus <- point_sample_cluster(datam, variable_1 = "PC1", variable_2 = "PC2",
+                                   distance_list = dist_list, n = 1,
+                                   cluster_method = "hierarchical",
+                                   select_point = "E_centroid", id_column = "Block")
+}

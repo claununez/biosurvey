@@ -39,3 +39,14 @@ Sample one or more points from a two dimensional environmental
 space according to a selection rule and with the posibility of having distinct
 sets of points to be sampled independently.
 }
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+
+# Sampling points
+points_s <- point_sample(m_matrix$master_matrix, variable_1 = "Max_temperature",
+                         variable_2 = "Min_temperature", n = 1,
+                         select_point = "E_centroid", id_column = NULL)
+
+points_s
+}

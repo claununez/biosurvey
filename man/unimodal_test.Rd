@@ -8,7 +8,7 @@ unimodal_test(values_list, MC_replicates= 1000)
 }
 \arguments{
 \item{values_list}{named list of vectors of class numeric. Names in
-\code{distance_list} are required. If only one set of values is used the list
+\code{values_list} are required. If only one set of values is used the list
 must contain only one element.}
 
 \item{MC_replicates}{(numeric) number of replicates for the Monte Carlo test
@@ -21,4 +21,12 @@ A data.frame with the results of the test.
 Test of unimodality based in Hartigans' dip statistic Dn.
 Calculations of the statistic and p-value are done as in
 \code{\link[diptest]{dip.test}}.
+}
+\examples{
+# Data
+data("dist_list", package = "biosurvey")
+
+# Testing unimodality
+u_test <- unimodal_test(values_list = dist_list, MC_replicates = 500)
+u_test
 }

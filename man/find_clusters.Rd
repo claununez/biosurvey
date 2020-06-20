@@ -43,3 +43,14 @@ The k-means method tends to performs better when data are spatially grouped
 algorithm usually takes more time than the k-means method. Both methods make
 assumptions and they may work well on some data sets, and fail on others.
 }
+\examples{
+# Data
+data("m_matrix", package = "biosurvey")
+
+# Cluster detection
+clusters <-  find_clusters(m_matrix$master_matrix, x_column = "PC1",
+                           y_column = "PC2", space = "E",
+                           cluster_method = "hierarchical", n_k_means = NULL,
+                           split_distance = 4)
+head(clusters)
+}
