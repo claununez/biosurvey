@@ -42,16 +42,15 @@
 #' data("m_matrix", package = "biosurvey")
 #'
 #' # Making blocks for analysis
-#' m_matrix <- make_blocks(m_matrix, variable_1 = "PC1",
+#' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 #'                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
 #'                         block_type = "equal_area")
 #'
 #' # Checking column names
-#' colnames(m_matrix$master_matrix)
-#' summary(m_matrix$master_matrix[, 9:10])
+#' colnames(m_blocks$master_matrix)
 #'
 #' # Selecting sites uniformly in E space
-#' selectionE <- uniformE_selection(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
+#' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
 #'                                  selection_from = "block_centroids",
 #'                                  expected_points = 15, max_n_samples = 1,
 #'                                  initial_distance = 1, increase = 0.1,
