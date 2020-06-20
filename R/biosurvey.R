@@ -6,8 +6,9 @@
 #'
 #' @section Main functions in biosurvey:
 #' \code{\link{base_pam}}, \code{\link{block_sample}},
-#' \code{\link{explore_data_EG}}, \code{\link{make_blocks}},
-#' \code{\link{master_matrix}}, \code{\link{plot_blocks_EG}},
+#' \code{\link{EG_selection}}, \code{\link{explore_data_EG}},
+#' \code{\link{make_blocks}}, \code{\link{master_matrix}},
+#' \code{\link{plot_blocks_EG}}, \code{\link{plot_sites_EG}},
 #' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
 #' \code{\link{uniformG_selection}}
 #'
@@ -20,7 +21,8 @@
 #' \code{\link{pam_from_table}}, \code{\link{point_sample}},
 #' \code{\link{point_sample_cluster}}, \code{\link{point_thinning}},
 #' \code{\link{rlist_2data}}, \code{\link{spdf_2data}},
-#' \code{\link{stack_2data}}, \code{\link{wgs84_2aed_laea}}
+#' \code{\link{stack_2data}}, \code{\link{unimodal_test}},
+#' \code{\link{wgs84_2aed_laea}}
 #'
 #' @docType package
 #' @name biosurvey
