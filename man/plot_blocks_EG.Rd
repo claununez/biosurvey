@@ -14,7 +14,7 @@ plot_blocks_EG(master, variable_1, variable_2, which = "all",
 \item{master}{a master_matrix object derived from function
 \code{\link{master_matrix}} or a master_selection object derived from functions
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
-or \code{EG_selection}.}
+or \code{\link{EG_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis) used to create blocks.}
@@ -61,7 +61,7 @@ Default = TRUE. Titles added are "Envrionmental space" and "Geographic space".}
 }
 \value{
 A two-panel plot showing all the blocks of the region of interestand and the
-blocks that were selected. They re show in both spaces, geographic and
+blocks that were selected. They are show in both spaces, geographic and
 environmental.
 }
 \description{
