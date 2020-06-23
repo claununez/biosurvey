@@ -20,9 +20,24 @@ variable (X-axis).}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis).}
 
+\item{n_blocks}{(numeric) number of blocks to be selected from all existent
+blocks in \code{master$master_matrix}.}
+
+\item{initial_distance}{(numeric) euclidean distance to be used for a first
+process of thinning and detection of remaining points.}
+
+\item{increase}{(numeric) value to be added to \code{initial_distance} until
+reaching the number of \code{n_blocks}.}
+
+\item{replicates}{(numeric) number of thinning replicates performed to select
+blocks uniformly. Default = 10.}
+
+\item{max_n_samples}{(numeric) maximum number of samples to be chosen after
+performing all thinning \code{replicates}. Default = 1.}
+
 \item{select_point}{(character) How or which point will be selected. Three
 options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-indicate that the point(s) closests to the respective centroid will be selected.
+indicate that the point(s) closets to the respective centroid will be selected.
 Default = "E_centroid".}
 
 \item{cluster_method}{(character) name of the method to be used for detecting
@@ -32,10 +47,13 @@ See details in \code{\link{find_clusters}}}
 \item{sample_for_distance}{(numeric) sample to be considered when measuring
 the geographic distances among points in the blocks of environmental points.
 Default = 250.}
+
+\item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-A master_selection object (S3) with an aditional element called
-selected_sites_EG containing one set of selected sites.
+A master_selection object (S3) with an additional element called
+selected_sites_EG containing one or more sets of selected sites depending on
+\code{max_n_samples}.
 }
 \description{
 Selection of sites to be sampled in a survey, with the goal of
@@ -52,16 +70,11 @@ data("m_matrix", package = "biosurvey")
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
                         n_cols = 10, n_rows = 10, block_type = "equal_area")
 
-# Selecting blocks for analysis
-sel_blocks <- block_sample(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-                           expected_blocks = 6, initial_distance = 2,
-                           increase = 0.1, replicates = 3)
-
 # Checking column names
-colnames(sel_blocks$master_matrix)
+colnames(m_blocks$master_matrix)
 
 # Selecting sites uniformly in E and G spaces
-EG_sel <- EG_selection(master = sel_blocks, variable_1 = "PC1", variable_2 = "PC2",
+EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
                        select_point = "E_centroid", cluster_method = "hierarchical",
                        sample_for_distance = 100)
 
