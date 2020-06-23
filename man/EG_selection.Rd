@@ -5,8 +5,10 @@
 \title{Selection of survey sites maximizing uniformity in environmental space
 considering geographic structure}
 \usage{
-EG_selection(master, variable_1, variable_2, select_point = "E_centroid",
-             cluster_method = "hierarchical", sample_for_distance = 250)
+EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
+             increase, replicates = 10, max_n_samples = 1,
+             select_point = "E_centroid", cluster_method = "hierarchical",
+             sample_for_distance = 250, set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -75,7 +77,10 @@ colnames(m_blocks$master_matrix)
 
 # Selecting sites uniformly in E and G spaces
 EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-                       select_point = "E_centroid", cluster_method = "hierarchical",
+                       n_blocks = 10, initial_distance = 1.5, increase = 0.1,
+                       replicates = 10, max_n_samples = 1,
+                       select_point = "E_centroid",
+                       cluster_method = "hierarchical",
                        sample_for_distance = 100)
 
 head(EG_sel$selected_sites_EG[[1]])

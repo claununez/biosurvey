@@ -17,13 +17,13 @@
 #' variable (Y-axis).
 #' @param n_blocks (numeric) number of blocks to be selected from all existent
 #' blocks in \code{master$master_matrix}.
-#' @param initial_distance (numeric) euclidean distance to be used for a first 
-#' process of thinning and detection of remaining points. 
-#' @param increase (numeric) value to be added to \code{initial_distance} until 
+#' @param initial_distance (numeric) euclidean distance to be used for a first
+#' process of thinning and detection of remaining points.
+#' @param increase (numeric) value to be added to \code{initial_distance} until
 #' reaching the number of \code{n_blocks}.
-#' @param replicates (numeric) number of thinning replicates performed to select 
+#' @param replicates (numeric) number of thinning replicates performed to select
 #' blocks uniformly. Default = 10.
-#' @param max_n_samples (numeric) maximum number of samples to be chosen after 
+#' @param max_n_samples (numeric) maximum number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.
 #' @param select_point (character) How or which point will be selected. Three
 #' options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
@@ -43,8 +43,10 @@
 #' \code{max_n_samples}.
 #'
 #' @usage
-#' EG_selection(master, variable_1, variable_2, select_point = "E_centroid",
-#'              cluster_method = "hierarchical", sample_for_distance = 250)
+#' EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
+#'              increase, replicates = 10, max_n_samples = 1,
+#'              select_point = "E_centroid", cluster_method = "hierarchical",
+#'              sample_for_distance = 250, set_seed = 1)
 #'
 #' @export
 #'
@@ -61,7 +63,10 @@
 #'
 #' # Selecting sites uniformly in E and G spaces
 #' EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-#'                        select_point = "E_centroid", cluster_method = "hierarchical",
+#'                        n_blocks = 10, initial_distance = 1.5, increase = 0.1,
+#'                        replicates = 10, max_n_samples = 1,
+#'                        select_point = "E_centroid",
+#'                        cluster_method = "hierarchical",
 #'                        sample_for_distance = 100)
 #'
 #' head(EG_sel$selected_sites_EG[[1]])
@@ -104,39 +109,39 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks, initial_dista
   if (!cluster_method[1] %in% c("hierarchical", "k-means")) {
     stop("Argument 'cluster_method' is not valid.")
   }
-  
+
   # running in loop for multiple answers if needed
   all_sites <- lapply(1:max_n_samples, function(x) {
     ss <- set_seed + x - 1
-    
+
     rule <- block_sample(master, variable_1, variable_2, n_blocks,
-                         selection_type = "uniform", initial_distance, increase, 
+                         selection_type = "uniform", initial_distance, increase,
                          replicates, set_seed = ss)$master_matrix$Selected_blocks
     rule <- rule == 1
-    
+
     blocksp <- unique(master$master_matrix[rule, "Block"])
     g_cols <- c("Longitude", "Latitude")
-    
+
     distsp <- lapply(blocksp, function(x) {
       block_data <- master$master_matrix[master$master_matrix[, "Block"] == x,
                                          g_cols]
       tpoints <- nrow(block_data)
-      
+
       if (tpoints > sample_for_distance) {
         block_data <- block_data[sample(tpoints, sample_for_distance), ]
       }
-      
+
       dsnna <- na.omit(c(raster::pointDistance(block_data, lonlat = TRUE)))
       dsnna[dsnna != 0]
     })
     names(distsp) <- blocksp
-    
+
     dpp <- unimodal_test(distsp)
-    
+
     unimp <- dpp[which(dpp$p_alue > 0.05), ]
     mmodp <- dpp[which(dpp$p_alue <= 0.05), ]
     nmodp <- dpp[which(is.na(dpp$p_alue)), ]
-    
+
     # no mode (very few points)
     if (nrow(nmodp) > 0) {
       unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
@@ -148,7 +153,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks, initial_dista
       colnames(unselp) <- colnames(master$master_matrix)
       unselp <- as.data.frame(unselp)
     }
-    
+
     # unimodal
     if (nrow(unimp) > 0) {
       ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
@@ -160,7 +165,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks, initial_dista
       colnames(ueselp) <- colnames(master$master_matrix)
       ueselp <- as.data.frame(na.omit(ueselp))
     }
-    
+
     # multimodal
     if (nrow(mmodp) > 0) {
       distsp <- distsp[as.character(mmodp$Block)]
@@ -174,13 +179,13 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks, initial_dista
       colnames(meselp) <- colnames(master$master_matrix)
       meselp <- as.data.frame(meselp)
     }
-    
+
     # combining
     rbind(unselp, ueselp, meselp)
   })
-  
+
   names(all_sites) <- paste0("selection_", 1:length(all_sites))
-  
+
   master$selected_sites_EG <- all_sites
 
   return(structure(master, class = "master_selection"))
