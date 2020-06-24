@@ -4,7 +4,7 @@
 \alias{uniformG_selection}
 \title{Selection of survey sites maximizing uniformity in geography}
 \usage{
-uniformG_selection(master, expected_points, max_n_samples = 1,
+uniformG_selection(master, expected_points, max_n_samplings = 1,
                    initial_distance, increase, replicates = 10, set_seed = 1)
 }
 \arguments{
@@ -15,13 +15,13 @@ or \code{\link{EG_selection}}.}
 
 \item{expected_points}{(numeric) number of survey points (sites) to be selected.}
 
-\item{max_n_samples}{(numeric) maximun number of samples to be chosen after
+\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}
 
 \item{initial_distance}{(numeric) distance in km to be used for a first
 process of thinning and detection of remaining points.}
 
-\item{increase}{(numeric) value to be added to \code{initial_distance} untill
+\item{increase}{(numeric) value to be added to \code{initial_distance} until
 reaching the number of \code{expected_points}.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
@@ -29,19 +29,36 @@ reaching the number of \code{expected_points}.}
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-A master_selection object (S3) with an aditional element called
+A master_selection object (S3) with an additional element called
 selected_sites_G containing one or more sets of selected sites.
 }
 \description{
 Selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in geographic space.
 }
+\details{
+Survey sites are selected searching for maximum geographic distances among
+all sites. This approach helps in selecting points that can cover most of the
+geographic extent of the region of interest. This type of selection could be
+appropriate when the region of interest has a complex geographic pattern (e.g.,
+an archipelago). This type of selection does not consider environmental
+conditions in the region of interest, which is why important environmental
+combinations may not be represented in the final selection of sites.
+
+Exploring the geographic and environmental spaces of the region of interest
+would be a crucial first step before selecting survey sites. Such explorations
+can be done using the function \code{\link{explore_data_EG}}.
+}
 \examples{
 # Data
 data("m_matrix", package = "biosurvey")
 
 # Selecting sites uniformly in G space
-selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samples = 1,
+selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samplings = 1,
                                  initial_distance = 145, increase = 1,
                                  replicates = 5, set_seed = 1)
+}
+\seealso{
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+\code{\link{EG_selection}}, \code{\link{plot_sites_EG}
 }

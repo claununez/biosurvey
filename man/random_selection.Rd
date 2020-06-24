@@ -21,16 +21,32 @@ turn into multiple options for a process of survey planning. Default = 1.}
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-A master_selection object (S3) with an aditional element called
+A master_selection object (S3) with an additional element called
 selected_sites_random containing one or more sets of selected sites.
 }
 \description{
 Random selection of sites to be sampled in a survey. Sites are
-selected from a set of points that are provided in one of the arguments.
+selected from a set of points provided in \code{master}.
+}
+\details{
+Survey sites are selected randomly from the entire set of points provided in
+\code{master$master_matrix}. Considering the environmental space, as points
+are selected randomly, sites that have environmental conditions that are common
+in the region of interest will be sampled more that other sites that present
+condition that are not as common.
+
+To see how common or rare are distinct environments in the region of interest
+the function \code{\link{explore_data_EG}} can be used. Common environmental
+conditions are those that are present in areas of higher density in one of the
+plots obtained with \code{\link{explore_data_EG}}.
 }
 \examples{
 # Data
 data("m_matrix", package = "biosurvey")
 
 r_selection <- random_selection(m_matrix, n_sites = 20, n_samplings = 5)
+}
+\seealso{
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+\code{\link{EG_selection}}, \code{\link{plot_sites_EG}
 }

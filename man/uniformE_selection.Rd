@@ -5,7 +5,7 @@
 \title{Selection of survey sites maximizing uniformity in environmental space}
 \usage{
 uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",
-                   expected_points, max_n_samples = 1,
+                   expected_points, max_n_samplings = 1,
                    initial_distance, increase, replicates = 10, set_seed = 1)
 }
 \arguments{
@@ -20,7 +20,7 @@ variable (X-axis).}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis).}
 
-\item{selection_from}{(character) set of points to perfomr the selection from.
+\item{selection_from}{(character) set of points to perform the selection from.
 Two options are available, "all_points" or "block_centroids". The first option
 picks the points from all points in the environmental cloud, and the second
 one selects points only from centroids of environmental blocks. See
@@ -28,13 +28,13 @@ one selects points only from centroids of environmental blocks. See
 
 \item{expected_points}{(numeric) number of survey points (sites) to be selected.}
 
-\item{max_n_samples}{(numeric) maximun number of samples to be chosen after
+\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}
 
 \item{initial_distance}{(numeric) euclidean distance to be used for a first
 process of thinning and detection of remaining points.}
 
-\item{increase}{(numeric) value to be added to \code{initial_distance} untill
+\item{increase}{(numeric) value to be added to \code{initial_distance} until
 reaching the number of \code{expected_points}.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
@@ -42,12 +42,25 @@ reaching the number of \code{expected_points}.}
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-A master_selection object (S3) with an aditional element called
+A master_selection object (S3) with an additional element called
 selected_sites_E containing one or more sets of selected sites.
 }
 \description{
 Selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in environmental space.
+}
+\details{
+Survey sites are selected in ways in which points will be uniformly dispersed
+in environmental space, helping to select sites that present different
+environmental conditions across the area of interest. This type of selection
+is very useful to include, in the selected sites, distinct environmental
+combinations existent in the area of interest. However, as the distribution of
+climatic or other environmental combinations is not uniform in geography, the
+sites selected with this function could appear clustered when looked in a map.
+
+Exploring the geographic and environmental spaces of the region of interest
+would be a crucial first step before selecting survey sites. Such explorations
+can be done using the function \code{\link{explore_data_EG}}.
 }
 \examples{
 # Data
@@ -64,7 +77,11 @@ colnames(m_blocks$master_matrix)
 # Selecting sites uniformly in E space
 selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
                                  selection_from = "block_centroids",
-                                 expected_points = 15, max_n_samples = 1,
+                                 expected_points = 15, max_n_samplings = 1,
                                  initial_distance = 1, increase = 0.1,
                                  replicates = 5, set_seed = 1)
+}
+\seealso{
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+\code{\link{EG_selection}}, \code{\link{plot_sites_EG}
 }

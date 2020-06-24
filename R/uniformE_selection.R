@@ -30,6 +30,23 @@
 #' A master_selection object (S3) with an additional element called
 #' selected_sites_E containing one or more sets of selected sites.
 #'
+#' @details
+#' Survey sites are selected in ways in which points will be uniformly dispersed
+#' in environmental space, helping to select sites that present different
+#' environmental conditions across the area of interest. This type of selection
+#' is very useful to include, in the selected sites, distinct environmental
+#' combinations existent in the area of interest. However, as the distribution of
+#' climatic or other environmental combinations is not uniform in geography, the
+#' sites selected with this function could appear clustered when looked in a map.
+#'
+#' Exploring the geographic and environmental spaces of the region of interest
+#' would be a crucial first step before selecting survey sites. Such explorations
+#' can be done using the function \code{\link{explore_data_EG}}.
+#'
+#' @seealso
+#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+#' \code{\link{EG_selection}}, \code{\link{plot_sites_EG}
+#'
 #' @usage
 #' uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",
 #'                    expected_points, max_n_samplings = 1,

@@ -21,6 +21,23 @@
 #' A master_selection object (S3) with an additional element called
 #' selected_sites_G containing one or more sets of selected sites.
 #'
+#' @details
+#' Survey sites are selected searching for maximum geographic distances among
+#' all sites. This approach helps in selecting points that can cover most of the
+#' geographic extent of the region of interest. This type of selection could be
+#' appropriate when the region of interest has a complex geographic pattern (e.g.,
+#' an archipelago). This type of selection does not consider environmental
+#' conditions in the region of interest, which is why important environmental
+#' combinations may not be represented in the final selection of sites.
+#'
+#' Exploring the geographic and environmental spaces of the region of interest
+#' would be a crucial first step before selecting survey sites. Such explorations
+#' can be done using the function \code{\link{explore_data_EG}}.
+#'
+#' @seealso
+#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+#' \code{\link{EG_selection}}, \code{\link{plot_sites_EG}
+#'
 #' @usage
 #' uniformG_selection(master, expected_points, max_n_samplings = 1,
 #'                    initial_distance, increase, replicates = 10, set_seed = 1)
