@@ -11,28 +11,28 @@
 #' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y-axis).
-#' @param selection_from (character) set of points to perfomr the selection from.
+#' @param selection_from (character) set of points to perform the selection from.
 #' Two options are available, "all_points" or "block_centroids". The first option
 #' picks the points from all points in the environmental cloud, and the second
 #' one selects points only from centroids of environmental blocks. See
 #' \code{\link{make_blocks}}. Default = "all_points".
 #' @param expected_points (numeric) number of survey points (sites) to be selected.
-#' @param max_n_samples (numeric) maximun number of samples to be chosen after
+#' @param max_n_samplings (numeric) maximum number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.
 #' @param initial_distance (numeric) euclidean distance to be used for a first
 #' process of thinning and detection of remaining points.
-#' @param increase (numeric) value to be added to \code{initial_distance} untill
+#' @param increase (numeric) value to be added to \code{initial_distance} until
 #' reaching the number of \code{expected_points}.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
-#' A master_selection object (S3) with an aditional element called
+#' A master_selection object (S3) with an additional element called
 #' selected_sites_E containing one or more sets of selected sites.
 #'
 #' @usage
 #' uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",
-#'                    expected_points, max_n_samples = 1,
+#'                    expected_points, max_n_samplings = 1,
 #'                    initial_distance, increase, replicates = 10, set_seed = 1)
 #'
 #' @export
@@ -52,13 +52,13 @@
 #' # Selecting sites uniformly in E space
 #' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
 #'                                  selection_from = "block_centroids",
-#'                                  expected_points = 15, max_n_samples = 1,
+#'                                  expected_points = 15, max_n_samplings = 1,
 #'                                  initial_distance = 1, increase = 0.1,
 #'                                  replicates = 5, set_seed = 1)
 
 uniformE_selection <- function(master, variable_1, variable_2,
                                selection_from = "all_points", expected_points,
-                               max_n_samples = 1, initial_distance, increase,
+                               max_n_samplings = 1, initial_distance, increase,
                                replicates = 10, set_seed = 1) {
   # Initial tests
   if (missing(master)) {
@@ -119,7 +119,7 @@ uniformE_selection <- function(master, variable_1, variable_2,
   while (np > expected_points) {
     # thinning
     thin <- point_thinning(data, variable_1, variable_2, dist, space = "E",
-                           max_n_samples, replicates, set_seed)
+                           max_n_samplings, replicates, set_seed)
     np <- nrow(thin[[1]])
     message("    Distance  ", dist, "  resulted in  ", np, "  points")
 

@@ -23,7 +23,7 @@
 #' reaching the number of \code{n_blocks}.
 #' @param replicates (numeric) number of thinning replicates performed to select
 #' blocks uniformly. Default = 10.
-#' @param max_n_samples (numeric) maximum number of samples to be chosen after
+#' @param max_n_samplings (numeric) maximum number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.
 #' @param select_point (character) How or which point will be selected. Three
 #' options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
@@ -40,11 +40,11 @@
 #' @return
 #' A master_selection object (S3) with an additional element called
 #' selected_sites_EG containing one or more sets of selected sites depending on
-#' \code{max_n_samples}.
+#' \code{max_n_samplings}.
 #'
 #' @usage
 #' EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
-#'              increase, replicates = 10, max_n_samples = 1,
+#'              increase, replicates = 10, max_n_samplings = 1,
 #'              select_point = "E_centroid", cluster_method = "hierarchical",
 #'              sample_for_distance = 250, set_seed = 1)
 #'
@@ -64,7 +64,7 @@
 #' # Selecting sites uniformly in E and G spaces
 #' EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
 #'                        n_blocks = 10, initial_distance = 1.5, increase = 0.1,
-#'                        replicates = 1, max_n_samples = 1,
+#'                        replicates = 1, max_n_samplings = 1,
 #'                        select_point = "E_centroid",
 #'                        cluster_method = "hierarchical",
 #'                        sample_for_distance = 100)
@@ -74,7 +74,7 @@
 
 
 EG_selection <- function(master, variable_1, variable_2, n_blocks, initial_distance,
-                         increase, replicates = 10, max_n_samples = 1,
+                         increase, replicates = 10, max_n_samplings = 1,
                          select_point = "E_centroid", cluster_method = "hierarchical",
                          sample_for_distance = 250, set_seed = 1) {
 
@@ -97,8 +97,8 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks, initial_dista
   if (missing(increase)) {
     stop("Argument 'increase' must be defined.")
   }
-  if (max_n_samples > replicates) {
-    stop("Argument 'replicates' must be larger than 'max_n_samples'.")
+  if (max_n_samplings > replicates) {
+    stop("Argument 'replicates' must be larger than 'max_n_samplings'.")
   }
   if (is.null(master$master_matrix$Block)) {
     stop("Blocks are not defined in 'master', see function 'make_blocks'.")
@@ -111,7 +111,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks, initial_dista
   }
 
   # running in loop for multiple answers if needed
-  all_sites <- lapply(1:max_n_samples, function(x) {
+  all_sites <- lapply(1:max_n_samplings, function(x) {
     ss <- set_seed + x - 1
 
     rule <- block_sample(master, variable_1, variable_2, n_blocks,

@@ -8,21 +8,21 @@
 #' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
 #' or \code{\link{EG_selection}}.
 #' @param expected_points (numeric) number of survey points (sites) to be selected.
-#' @param max_n_samples (numeric) maximun number of samples to be chosen after
+#' @param max_n_samplings (numeric) maximum number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.
 #' @param initial_distance (numeric) distance in km to be used for a first
 #' process of thinning and detection of remaining points.
-#' @param increase (numeric) value to be added to \code{initial_distance} untill
+#' @param increase (numeric) value to be added to \code{initial_distance} until
 #' reaching the number of \code{expected_points}.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
-#' A master_selection object (S3) with an aditional element called
+#' A master_selection object (S3) with an additional element called
 #' selected_sites_G containing one or more sets of selected sites.
 #'
 #' @usage
-#' uniformG_selection(master, expected_points, max_n_samples = 1,
+#' uniformG_selection(master, expected_points, max_n_samplings = 1,
 #'                    initial_distance, increase, replicates = 10, set_seed = 1)
 #'
 #' @export
@@ -32,11 +32,11 @@
 #' data("m_matrix", package = "biosurvey")
 #'
 #' # Selecting sites uniformly in G space
-#' selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samples = 1,
+#' selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samplings = 1,
 #'                                  initial_distance = 145, increase = 1,
 #'                                  replicates = 5, set_seed = 1)
 
-uniformG_selection <- function(master, expected_points, max_n_samples = 1,
+uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
                                initial_distance, increase, replicates = 10,
                                set_seed = 1) {
   # initial tests
@@ -80,7 +80,7 @@ uniformG_selection <- function(master, expected_points, max_n_samples = 1,
   while (np > expected_points) {
     # thinning
     thin <- point_thinning(data, x_column, y_column, dist, space = "G",
-                           max_n_samples, replicates, set_seed)
+                           max_n_samplings, replicates, set_seed)
     np <- nrow(thin[[1]])
     message("    Distance  ", dist, "  resulted in  ", np, "  points")
 

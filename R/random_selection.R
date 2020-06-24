@@ -1,7 +1,7 @@
 #' Random selection of survey sites
 #'
 #' @description Random selection of sites to be sampled in a survey. Sites are
-#' selected from a set of points that are provided in one of the arguments.
+#' selected from a set of points provided in \code{master}.
 #'
 #' @param master a master_matrix object derived from function
 #' \code{\link{master_matrix}} or a master_selection object derived from functions
@@ -14,7 +14,7 @@
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
-#' A master_selection object (S3) with an aditional element called
+#' A master_selection object (S3) with an additional element called
 #' selected_sites_random containing one or more sets of selected sites.
 #'
 #' @usage
