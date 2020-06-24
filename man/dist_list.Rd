@@ -4,10 +4,12 @@
 \name{dist_list}
 \alias{dist_list}
 \title{A list of vectors of distances}
-\format{A list.
+\format{
+A list.
 \describe{
 \item{vector}{numeric, values of distances (six elements)}
-}}
+}
+}
 \usage{
 dist_list
 }

@@ -3,10 +3,12 @@
 \name{sp_layers}
 \alias{sp_layers}
 \title{Example of stack of layers of suitable and unsuitable conditions for species}
-\format{A RasterStack with 109 rows, 182 columns, 19838 cells, and 5 layers:
+\format{
+A RasterStack with 109 rows, 182 columns, 19838 cells, and 5 layers:
 \describe{
 \item{RasterLayer}{suitable (1) and unsuitable (0) conditions}
-}}
+}
+}
 \description{
 An object of class RasterStack containing information about suitable and
 unsuitable conditions for five species.

@@ -4,11 +4,13 @@
 \name{sp_data}
 \alias{sp_data}
 \title{Example of a data frame of species' found in distint positions}
-\format{data frame:
+\format{
+data frame:
 \describe{
 \item{ID}{identifier of position}
 \item{Species}{different species in the table}
-}}
+}
+}
 \usage{
 sp_data
 }

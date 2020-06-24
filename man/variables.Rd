@@ -3,11 +3,13 @@
 \name{variables}
 \alias{variables}
 \title{Example of variables to be used for preparing a master matrix}
-\format{A RasterStack with 109 rows, 190 columns, 20710 cells, and 6 layers:
+\format{
+A RasterStack with 109 rows, 190 columns, 20710 cells, and 6 layers:
 \describe{
 \item{Temperature}{temperature, in Celsius degrees times 10.}
 \item{Precipitation}{precipitation, in milimeters.}
-}}
+}
+}
 \source{
 \url{https://www.worldclim.org/data/index.html}
 }

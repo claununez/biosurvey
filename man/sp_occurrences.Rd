@@ -4,12 +4,14 @@
 \name{sp_occurrences}
 \alias{sp_occurrences}
 \title{Occurrence records for the species Parides gundlachianus}
-\format{A data frame with 19 rows and 3 columns.
+\format{
+A data frame with 19 rows and 3 columns.
 \describe{
 \item{name}{character, species scientific name.}
 \item{longitude}{numeric, longitude values.}
 \item{latitude}{numeric, latitude values.}
-}}
+}
+}
 \source{
 \url{https://www.gbif.org/}
 }

@@ -4,12 +4,14 @@
 \name{species_data}
 \alias{species_data}
 \title{Example of species ranges as SpatialPolygonsDataFrame}
-\format{data frame:
+\format{
+data frame:
 \describe{
 \item{data}{data frame wiht 25 rows and 1 column}
 \item{polygons}{SpatialPolygons}
 \item{proj4string}{object of class CRS}
-}}
+}
+}
 \usage{
 species_data
 }

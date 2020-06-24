@@ -4,13 +4,15 @@
 \name{m_matrix}
 \alias{m_matrix}
 \title{Example of object obtained from using the master_matrix function}
-\format{A list of 4 elements:
+\format{
+A list of 4 elements:
 \describe{
 \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
 \item{polygon}{object of class SpatialPolygonsDataFrame}
 \item{raster_base}{object of class RasterLayer}
 \item{PCA_results}{list of length 5}
-}}
+}
+}
 \usage{
 m_matrix
 }
