@@ -78,7 +78,7 @@
 #'
 #' @seealso
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
-#' \code{\link{EG_selection}}, \code{\link{make_blocks}},
+#' \code{\link{random_selection}}, \code{\link{make_blocks}},
 #' \code{\link{plot_sites_EG}}
 #'
 #' @usage
