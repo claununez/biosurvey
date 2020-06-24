@@ -4,6 +4,8 @@ Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Narayani
 Barve, Vijay Barve, Tomer Gueta
 
   - [Project description](#project-description)
+  - [Package description](#package-description)
+  - [Installing the package](#installing-the-package)
 
 <br>
 
@@ -38,3 +40,36 @@ sampled and unsampled areas. Given the need for more solutions, the
 **biosurvey** package aimed for considering the relationship between
 environmental and geographic conditions in a region when designing
 survey systems that allow sampling of most of its biodiversity.
+
+<br>
+
+## Package description
+
+The biosurvey R package implements multiple tools to allow users to
+select sampling sites increasing efficiency of biodiversity survey
+systems by considering the relationship of environmental and geographic
+conditions in a region.
+
+<br>
+
+## Installing the package
+
+biosurvey is in a GitHub repository and can be installed and/or loaded
+using the code below (make sure to have Internet connection). If you
+have any problem during installation, restart R session, close other
+RStudio essions you may have open, and try again. If during the
+installation you are asked to update packages, do so if you don’t need a
+specific version of one or more of the packages to be installed. If any
+of the packages gives an error when updating, please install it alone
+using install.packages(), then try re-installing biosurvey again.
+
+``` r
+# Installing and loading packages
+if(!require(remotes)){
+  install.packages("remotes")
+}
+if(!require(biosurvey)){
+  remotes::install_github("claununez/biosurvey")
+  library(biosurvey)
+}
+```
