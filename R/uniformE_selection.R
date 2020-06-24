@@ -45,7 +45,8 @@
 #'
 #' @seealso
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
-#' \code{\link{EG_selection}}, \code{\link{plot_sites_EG}
+#' \code{\link{EG_selection}}, \code{\link{make_blocks}},
+#' \code{\link{plot_sites_EG}}
 #'
 #' @usage
 #' uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",

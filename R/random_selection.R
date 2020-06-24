@@ -31,7 +31,7 @@
 #'
 #' @seealso
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
-#' \code{\link{EG_selection}}, \code{\link{plot_sites_EG}
+#' \code{\link{EG_selection}}, \code{\link{plot_sites_EG}}
 #'
 #' @usage
 #' random_selection(master, n_sites, n_samplings = 1, set_seed = 1)

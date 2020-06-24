@@ -13,8 +13,8 @@ Authors@R: c(
     comment = c(ORCID = "0000-0002-7893-8774")),
     person("Vijay", "Barve", email = "vijay.barve@gmail.com", role = "ctb",
     comment = c(ORCID = "0000-0002-4852-2567")),
-    person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "ctb"), 
-    comment = c(ORCID = "0000-0003-1557-8596"))
+    person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "ctb", 
+    comment = c(ORCID = "0000-0003-1557-8596")))
 Author: Claudia Nunez-Penichet [aut, cre],
     Marlon E. Cobos [aut],
     A. Townsend Peterson [aut],

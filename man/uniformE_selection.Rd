@@ -83,5 +83,6 @@ selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2
 }
 \seealso{
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
-\code{\link{EG_selection}}, \code{\link{plot_sites_EG}
+\code{\link{EG_selection}}, \code{\link{make_blocks}},
+\code{\link{plot_sites_EG}}
 }

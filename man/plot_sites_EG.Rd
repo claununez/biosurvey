@@ -74,7 +74,7 @@ colnames(m_blocks$master_matrix)
 # Selecting sites uniformly in E space
 selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
                                  selection_from = "block_centroids",
-                                 expected_points = 25, max_n_samples = 1,
+                                 expected_points = 25, max_n_samplings = 1,
                                  initial_distance = 1, increase = 0.1,
                                  replicates = 5, set_seed = 1)
 

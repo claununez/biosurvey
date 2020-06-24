@@ -60,5 +60,5 @@ selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samplings
 }
 \seealso{
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
-\code{\link{EG_selection}}, \code{\link{plot_sites_EG}
+\code{\link{EG_selection}}, \code{\link{plot_sites_EG}}
 }

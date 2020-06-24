@@ -48,5 +48,5 @@ r_selection <- random_selection(m_matrix, n_sites = 20, n_samplings = 5)
 }
 \seealso{
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
-\code{\link{EG_selection}}, \code{\link{plot_sites_EG}
+\code{\link{EG_selection}}, \code{\link{plot_sites_EG}}
 }
