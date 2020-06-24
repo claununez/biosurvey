@@ -6,7 +6,7 @@
 considering geographic structure}
 \usage{
 EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
-             increase, replicates = 10, max_n_samples = 1,
+             increase, replicates = 10, max_n_samplings = 1,
              select_point = "E_centroid", cluster_method = "hierarchical",
              sample_for_distance = 250, set_seed = 1)
 }
@@ -34,7 +34,7 @@ reaching the number of \code{n_blocks}.}
 \item{replicates}{(numeric) number of thinning replicates performed to select
 blocks uniformly. Default = 10.}
 
-\item{max_n_samples}{(numeric) maximum number of samples to be chosen after
+\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}
 
 \item{select_point}{(character) How or which point will be selected. Three
@@ -44,7 +44,7 @@ Default = "E_centroid".}
 
 \item{cluster_method}{(character) name of the method to be used for detecting
 clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".
-See details in \code{\link{find_clusters}}}
+See details in \code{\link{find_clusters}}.}
 
 \item{sample_for_distance}{(numeric) sample to be considered when measuring
 the geographic distances among points in the blocks of environmental points.
@@ -55,7 +55,7 @@ Default = 250.}
 \value{
 A master_selection object (S3) with an additional element called
 selected_sites_EG containing one or more sets of selected sites depending on
-\code{max_n_samples}.
+\code{max_n_samplings}.
 }
 \description{
 Selection of sites to be sampled in a survey, with the goal of
@@ -63,6 +63,40 @@ maximizing uniformity of points in environmental, but considering geographic
 patterns of data. Similar environments that have a disjoint pattern are selected
 twice (two survey sites are placed so they consider the biggest geographic
 clusters).
+}
+\details{
+Two important steps are needed before using this function: exploring data in
+environmental and geographic spaces, and performing a rationalization of the
+environmental space. Exploring the data can be done using the function
+\code{\link{explore_data_EG}}. This step is optional but strongly recommended,
+as may important decisions that need to be taken depend on the configuration
+of the data in the two spaces. A rationalization of the environmental space
+of the region of interest helps in defining important parts of your region
+that should be considered to select sites. This can be done using the function
+\code{\link{make_blocks}}. Later the regions created in environmental space
+will be used for selecting one or more sampling sites per block depending on
+the geographic pattern of such environmental combinations.
+
+The process of survey-site selection with this function is the most complex
+among all functions in this package. The complexity derives from the aim of the
+function, which is to select sites that sample appropriately environmental
+combinations in the region of interest (environmental space), but also
+considering the geographic patterns of such environmental regions (geographic
+space). Two options for selection are available:
+\enumerate{
+\item "distance_rule".- In this option, multiple sets of sites are selected
+aiming for uniform distributions in environmental space, then, geographic
+distances are measured among points of candidate sets, and only the set or
+sets with maximum median distances are kept.
+\item "G_clusters"._ Here, the first step is to select candidate blocks (from the
+ones obtained with \code{\link{make_blocks}}) that are uniformly distributed
+in environmental space. The geographic configuration of points in such
+blocks is explored to detect whether they are clustered (i.e., similar
+environmental conditions are present in distant places in the region of
+interest). For blocks with points that are not clustered in geographic space,
+only one survey site is selected, and for those with clustered geographic
+patterns, two survey sites are selected considering the largest clusters.
+}
 }
 \examples{
 # Data
@@ -78,11 +112,16 @@ colnames(m_blocks$master_matrix)
 # Selecting sites uniformly in E and G spaces
 EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
                        n_blocks = 10, initial_distance = 1.5, increase = 0.1,
-                       replicates = 1, max_n_samples = 1,
+                       replicates = 1, max_n_samplings = 1,
                        select_point = "E_centroid",
                        cluster_method = "hierarchical",
                        sample_for_distance = 100)
 
 head(EG_sel$selected_sites_EG[[1]])
 dim(EG_sel$selected_sites_EG[[1]])
+}
+\seealso{
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+\code{\link{EG_selection}}, \code{\link{make_blocks}},
+\code{\link{plot_sites_EG}}
 }
