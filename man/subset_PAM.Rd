@@ -2,22 +2,36 @@
 % Please edit documentation in R/reduce_pam.R
 \name{subset_PAM}
 \alias{subset_PAM}
-\title{Data
-
-data("m_matrix", package = "biosurvey")
-data("species_data", package = "biosurvey")
-Subset PAM according to selected sites}
+\title{Subset PAM according to selected sites}
 \usage{
 subset_PAM(base_PAM, master_selection, selection_type = "all")
 }
-\description{
-Data
+\arguments{
+\item{base_PAM}{object of class base_PAM obtained using the function
+\code{\link{base_PAM}}.}
 
-data("m_matrix", package = "biosurvey")
-data("species_data", package = "biosurvey")
-Subset PAM according to selected sites
+\item{master_selection}{object of class master_selection. This object can be
+obtained using the functions: \code{\link{random_selection}},
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+\code{\link{EG_selection}},}
+
+\item{selection_type}{type of selection to be considered to subset
+\code{base_PAM}. Options are: "all", "selected_sites_random", "selected_sites_E",
+"selected_sites_G", "selected_sites_EG". The default, "all", uses all selection
+types present in \code{master_selection}.}
+}
+\value{
+An object of class PAM_subset containing the original \code{base_PAM} and
+other subsets of the PAM according to \code{selection_type}.
+}
+\description{
+
 }
 \examples{
+# Data
+data("m_matrix", package = "biosurvey")
+data("species_data", package = "biosurvey")
+
 # Create base_pam
 b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 100)
 
