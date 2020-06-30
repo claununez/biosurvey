@@ -59,6 +59,6 @@ selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samplings
                                  replicates = 5, set_seed = 1)
 }
 \seealso{
-\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
+\code{\link{random_selection}}, \code{\link{uniformE_selection}},
 \code{\link{EG_selection}}, \code{\link{plot_sites_EG}}
 }
