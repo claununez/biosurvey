@@ -26,7 +26,7 @@
 #' \code{uniformEG_selection}.
 #'
 #' @return
-#' A presence-absence matrix (PAM) of class base_pam for the region of interest
+#' A presence-absence matrix (PAM) of class base_PAM for the region of interest
 #' associated with a SpatialPolygonsDataFrame, as in a grid of \code{cell_size}
 #' resolution. Each grid cell is related to a specific ID and longitude and
 #' latitude coordinates. Presence (1) and absence (0) values for each species
@@ -34,7 +34,7 @@
 #' SpatialPolygonsDataFrame.
 #'
 #' @usage
-#' base_pam(data, format = NULL, master_matrix, cell_size,
+#' base_PAM(data, format = NULL, master_matrix, cell_size,
 #'          complete_cover = TRUE)
 #'
 #' @export
@@ -46,13 +46,13 @@
 #' data("m_matrix", package = "biosurvey")
 #' data("species_data", package = "biosurvey")
 #'
-#' # Create base_pam
-#' b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 100)
+#' # Create base_PAM
+#' b_pam <- base_PAM(data = species_data, master_matrix = m_matrix, cell_size = 100)
 #' sp::plot(b_pam$PAM)
 #' summary(b_pam$PAM@data[, 1:6])
 
 
-base_pam <- function(data, format = NULL, master_matrix, cell_size,
+base_PAM <- function(data, format = NULL, master_matrix, cell_size,
                      complete_cover = TRUE) {
   # Initial tests
   clsdata <- class(data)[1]
@@ -121,7 +121,7 @@ base_pam <- function(data, format = NULL, master_matrix, cell_size,
   grid_r_pol@data <- merge(grid_r_pol@data, sp_points, by = "ID", all.x = TRUE)
   grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
 
-  return(structure(list(PAM = grid_r_pol, PAM_statistics = NULL), class = "base_pam"))
+  return(structure(list(PAM = grid_r_pol, PAM_statistics = NULL), class = "base_PAM"))
 }
 
 
