@@ -25,33 +25,37 @@ An object of class PAM_subset containing the original \code{base_PAM} and
 other subsets of the PAM according to \code{selection_type}.
 }
 \description{
-
+Subsets of a base_PAM object according to survey sites contained
+in a master_selection object.
 }
 \examples{
-# Data
 data("m_matrix", package = "biosurvey")
 data("species_data", package = "biosurvey")
 
 # Create base_pam
-b_pam <- base_pam(data = species_data, master_matrix = m_matrix, cell_size = 100)
+b_pam <- base_PAM(data = species_data, master_matrix = m_matrix, cell_size = 100)
 
-# Making blocks for analysis with master matrix
+# Making blocks for posterior analyses
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
                         n_cols = 20, n_rows = 20, block_type = "equal_area")
 
-# Selections
+# Sampling site selections
 ## Randomly
 m_selection <- random_selection(m_blocks, n_sites = 20, n_samplings = 2)
 
 ## Uniformly in G space
 m_selection <- uniformG_selection(m_selection, expected_points = 20,
-                                  max_n_samplings = 1, initial_distance = 165,
-                                  increase = 1, replicates = 5)
+                                  max_n_samplings = 1, initial_distance = 222,
+                                  increase = 1, replicates = 2)
 
 ## Uniformly in E space
 m_selection <- uniformE_selection(m_selection, variable_1 = "PC1", variable_2 = "PC2",
                                   selection_from = "block_centroids",
-                                  expected_points = 15, max_n_samplings = 1,
+                                  expected_points = 20, max_n_samplings = 1,
                                   initial_distance = 1, increase = 0.1,
-                                  replicates = 5)
+                                  replicates = 2)
+
+# Subsetting base PAM according to selections
+## only uniform in G
+sub_pam_G <- subset_PAM(b_pam, m_selection, selection_type = "selected_sites_G")
 }
