@@ -14,19 +14,19 @@ closest_to_centroid(data, x_column, y_column, space, n = 1, id_column = NULL)
 \item{y_column}{(character) the name of the Y-axis.}
 
 \item{space}{(character) space in which the thinning will be performed. There
-are two options available: "G", if it will be in the geographyc space, and
-"E", if it will be on the environmental space.}
+are two options available: "G", if it will be in geographic space, and
+"E", if it will be in environmental space.}
 
 \item{n}{(numeric) number of points that are close to the centroid to be
 detected. Default = 1.}
 
 \item{id_column}{(character or numeric) name or numeric index of the column
-in \code{data} containing identifiers of one or distint sets of points.
+in \code{data} containing identifiers of one or distinct sets of points.
 If, NULL, the default, only one set is assumed.}
 }
 \value{
 A data.frame containing \code{n} rows corresponding to the point or points that
-are the closest to the cenroid of all other points of reference.
+are the closest to the centroid of all other points of reference.
 }
 \description{
 Detection of the closest points to the centroid of a cloud of points

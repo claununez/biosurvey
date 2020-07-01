@@ -53,14 +53,14 @@ selected blocks relative to the default. Default = 1.}
 \item{pch_all}{(numeric) integer specifying a symbol when plotting points of
 all blocks. Default = 16.}
 
-\item{pch_selected}{(numeric) nteger specifying a symbol when plotting points
+\item{pch_selected}{(numeric) integer specifying a symbol when plotting points
 of selected blocks. Default = 16.}
 
 \item{add_main}{(logical) whether or not to add fixed titles to the plot.
-Default = TRUE. Titles added are "Envrionmental space" and "Geographic space".}
+Default = TRUE. Titles added are "Environmental space" and "Geographic space".}
 }
 \value{
-A two-panel plot showing all the blocks of the region of interestand and the
+A two-panel plot showing all the blocks of the region of interest and the
 blocks that were selected. They are show in both spaces, geographic and
 environmental.
 }
@@ -73,7 +73,7 @@ Defining colors in \code{col_all} depends on what is chosen in \code{which}.
 If "all" is chosen, it is convenient to define \code{col_all} as a color
 ramp palette (randomly arranged) or a set of colors depending on the number
 of blocks in the object defined in \code{master}. If "selected" is chosen
-in \code{which} it is recommended to use a single color, preferebly a light
+in \code{which} it is recommended to use a single color, preferably a light
 one, so the selected blocks can be easily identified. See examples.
 }
 \examples{

@@ -18,7 +18,7 @@ to calculate p-value. Default = 1000.}
 A data.frame with the results of the test.
 }
 \description{
-Test of unimodality based in Hartigans' dip statistic Dn.
+Test of unimodality based in Hartigans' dip statistic D.
 Calculations of the statistic and p-value are done as in
 \code{\link[diptest]{dip.test}}.
 }

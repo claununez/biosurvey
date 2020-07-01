@@ -19,10 +19,10 @@ selected according to the space, km for geographic and euclidean distances for
 environmental space.}
 
 \item{space}{(character) space in which the thinning will be performed. There
-are two options available: "G", if it will be in the geographyc space, and
-"E", if it will be on the environmental space.}
+are two options available: "G", if it will be in geographic space, and
+"E", if it will be in environmental space.}
 
-\item{max_n_samples}{(numeric) maximun number of samples to chose with most
+\item{max_n_samples}{(numeric) maximum number of samples to chose with most
 points included. Default = 1.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}

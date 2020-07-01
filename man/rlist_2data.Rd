@@ -13,7 +13,7 @@ as the species that it represents, and values in each layer must be
 }
 \value{
 A data frame of species geographic records derived from values of presence
-in each layer from the ist of raster layers.
+in each layer from the list of raster layers.
 }
 \description{
 Creates a data frame of species' references that contains longitude,

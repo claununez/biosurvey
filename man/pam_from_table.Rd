@@ -7,7 +7,7 @@
 pam_from_table(data, ID_column, species_column)
 }
 \arguments{
-\item{data}{data frame of species' found in distint positions (defined by
+\item{data}{data frame of species' found in distinct positions (defined by
 identifiers). Must include at least two columns: "ID" and "Species".}
 
 \item{ID_column}{(character) name of the column containing identifiers.}

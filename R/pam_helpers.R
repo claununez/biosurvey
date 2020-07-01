@@ -1,4 +1,4 @@
-#' Creates grid for a given gegraphic region
+#' Creates grid for a given geographic region
 #'
 #' @description Divides the region of interest in a grid of a specific cell size.
 #'
@@ -161,7 +161,7 @@ stack_2data <- function(species_layers) {
 #' Creates a data frame of species' references from SpatialPolygonsDataFrame
 #'
 #' @description Creates a data frame of species' references that contains identifiers
-#' of porition and species name, using a SpatialPolygonsDataFrame as input.
+#' of portion and species name, using a SpatialPolygonsDataFrame as input.
 #'
 #' @param spdf_object SpatialPolygonsDataFrame representing species' geographic
 #' distributions. The data frame associated with the object must contain a column
@@ -170,7 +170,7 @@ stack_2data <- function(species_layers) {
 #' \code{\link{grid_from_region}}).
 #'
 #' @return
-#' A data frame of species' found in distint positions (defined with identifiers);
+#' A data frame of species' found in distinct positions (defined with identifiers);
 #' includes two columns: "ID" and "Species".
 #'
 #' @usage
@@ -231,7 +231,7 @@ spdf_2data <- function(spdf_object, spdf_grid) {
 #'
 #' @return
 #' A data frame of species geographic records derived from values of presence
-#' in each layer from the ist of raster layers.
+#' in each layer from the list of raster layers.
 #'
 #' @usage
 #' rlist_2data(raster_list)
@@ -291,10 +291,10 @@ rlist_2data <- function(raster_list) {
 #' Default = NULL.
 #'
 #' @return
-#' If files are in ratser format, a data frame of species geographic records
+#' If files are in raster format, a data frame of species geographic records
 #' derived from values of presence in each layer.
 #'
-#' If files are not in raster format, a data frame of species' found in distint
+#' If files are not in raster format, a data frame of species' found in distinct
 #' positions (defined with identifiers); includes two columns: "ID" and "Species".
 #'
 #' @usage
@@ -401,7 +401,7 @@ files_2data <- function(path, format, spdf_grid = NULL) {
 #' @description Creates a presence-absence matrix (PAM) from a data frame that
 #' contains species names and identifiers of positions where species are found.
 #'
-#' @param data data frame of species' found in distint positions (defined by
+#' @param data data frame of species' found in distinct positions (defined by
 #' identifiers). Must include at least two columns: "ID" and "Species".
 #' @param ID_column (character) name of the column containing identifiers.
 #' @param species_column (character) name of the column containing species names.

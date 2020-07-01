@@ -38,7 +38,7 @@ blocks uniformly. Default = 10.}
 }
 \value{
 An S3 object of class master_matrix, containing the same elements found in the
-input master_matrix object, with an aditional column in the master_matrix
+input master_matrix object, with an additional column in the master_matrix
 data.frame containing a binary code for selected (1) and non-selected (0) blocks.
 }
 \description{
@@ -47,7 +47,7 @@ to be used in further analysis in order to define sampling sites for a survey
 system.
 }
 \details{
-When blocks in \code{master_matrix} were defined using the option "equal_poinst"
+When blocks in \code{master_matrix} were defined using the option "equal_points"
 (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could result
 in blocks with high density per area being overlooked.
 }

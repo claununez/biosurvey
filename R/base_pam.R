@@ -16,7 +16,7 @@
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
 #' numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
-#' partially overlapped with the geographic region of interest contined in
+#' partially overlapped with the geographic region of interest contained in
 #' \code{master_matrix}. Default = TRUE.
 #'
 #' @details

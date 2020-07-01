@@ -18,10 +18,10 @@ variable (Y axis) to be used to create blocks (must be different from the
 first one).}
 
 \item{n_cols}{(numeric) number of columns of a grid used to creates blocks and
-split the bi-dimensinal space.}
+split the bi-dimensional space.}
 
 \item{n_rows}{(numeric) number of rows of a grid used to creates blocks and
-split the bi-dimensinal space. If not defined, \code{n_cols = n_rows}.
+split the bi-dimensional space. If not defined, \code{n_cols = n_rows}.
 Default = NULL.}
 
 \item{block_type}{(character) type of blocks to be use for dividing
@@ -30,7 +30,7 @@ the bi-dimensional space. Two options are available: "equal_area" and
 }
 \value{
 An S3 object of class master_matrix, containing the same elements found in a
-master_matrix object, with an aditional column on the master_matrix data.frame
+master_matrix object, with an additional column on the master_matrix data.frame
 containing block identifiers.
 }
 \description{

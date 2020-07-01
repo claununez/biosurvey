@@ -33,11 +33,11 @@ detected. Default = 1.}
 
 \item{select_point}{(character) How or which point will be selected. Three
 options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-indicate that the point(s) closests to the respective centroid will be selected.
+indicate that the point(s) closest to the respective centroid will be selected.
 Default = "E_centroid".}
 
 \item{id_column}{(character or numeric) name or numeric index of the column
-in \code{data} containing identifiers of one or distint sets of points.
+in \code{data} containing identifiers of one or distinct sets of points.
 If, NULL, the default, only one set is assumed.}
 }
 \value{
@@ -46,7 +46,7 @@ were sampled.
 }
 \description{
 Sample one or more points from a two dimensional environmental
-space according to a selection rule and with the posibility of having distinct
+space according to a selection rule and with the possibility of having distinct
 sets of points to be sampled independently. Points to be sampled can be
 disjoint in geographic space and when that happens two points are selected
 considering the most numerous clusters.

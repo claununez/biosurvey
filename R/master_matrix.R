@@ -6,7 +6,7 @@
 #'
 #' @param region SpatialPolygonsDataFrame of the region of interest.
 #' @param variables RasterStack or RasterBrick of environmental variables.
-#' @param do_pca (logical) whether or not to perfor a Principal Component Analysis.
+#' @param do_pca (logical) whether or not to perform a Principal Component Analysis.
 #' Default = FALSE.
 #' @param center (logical) whether or not to center variables. Argument to be passed
 #' to the function \code{\link[stats]{prcomp}}. Default = TRUE.
@@ -14,7 +14,7 @@
 #' variables are in different units. Argument to be passed to the function
 #' \code{\link[stats]{prcomp}}. Default = FALSE.
 #' @param variables_in_matrix (character) name of variables to include in matrix.
-#' If NULL (the default) all variables will be inluded.
+#' If NULL (the default) all variables will be included.
 #'
 #' @return
 #' An S3 object of class master_matrix containing the following elements:

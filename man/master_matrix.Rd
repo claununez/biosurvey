@@ -12,7 +12,7 @@ master_matrix(region, variables, do_pca = FALSE, center = TRUE, scale = FALSE,
 
 \item{variables}{RasterStack or RasterBrick of environmental variables.}
 
-\item{do_pca}{(logical) whether or not to perfor a Principal Component Analysis.
+\item{do_pca}{(logical) whether or not to perform a Principal Component Analysis.
 Default = FALSE.}
 
 \item{center}{(logical) whether or not to center variables. Argument to be passed
@@ -23,7 +23,7 @@ variables are in different units. Argument to be passed to the function
 \code{\link[stats]{prcomp}}. Default = FALSE.}
 
 \item{variables_in_matrix}{(character) name of variables to include in matrix.
-If NULL (the default) all variables will be inluded.}
+If NULL (the default) all variables will be included.}
 }
 \value{
 An S3 object of class master_matrix containing the following elements:

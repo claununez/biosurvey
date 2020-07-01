@@ -29,6 +29,7 @@ Subsets of a base_PAM object according to survey sites contained
 in a master_selection object.
 }
 \examples{
+# Data
 data("m_matrix", package = "biosurvey")
 data("species_data", package = "biosurvey")
 

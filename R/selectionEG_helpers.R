@@ -1,7 +1,7 @@
 #' Sample points from a 2D environmental space
 #'
 #' @description Sample one or more points from a two dimensional environmental
-#' space according to a selection rule and with the posibility of having distinct
+#' space according to a selection rule and with the possibility of having distinct
 #' sets of points to be sampled independently.
 #'
 #' @param data a matrix or a data frame that contains at least four columns:
@@ -12,13 +12,13 @@
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis). Must be different from the first one.
 #' @param n (numeric) number of points to be selected. If \code{id_column}is
-#' defined this argument indicates the numner of points per set. Default = 1.
+#' defined this argument indicates the number of points per set. Default = 1.
 #' @param select_point (character) How or which point will be selected. Three
 #' options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-#' indicate that the point(s) closests to the respective centroid will be selected.
+#' indicate that the point(s) closest to the respective centroid will be selected.
 #' Default = "E_centroid".
 #' @param id_column (character or numeric) name or numeric index of the column
-#' in \code{data} containing identifiers of one or distint sets of points.
+#' in \code{data} containing identifiers of one or distinct sets of points.
 #' If, NULL, the default, only one set is assumed.
 #'
 #' @return
@@ -93,7 +93,7 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 
 #' Unimodality test for list of one or multiple sets of values
 #'
-#' @description Test of unimodality based in Hartigans' dip statistic Dn.
+#' @description Test of unimodality based in Hartigans' dip statistic D.
 #' Calculations of the statistic and p-value are done as in
 #' \code{\link[diptest]{dip.test}}.
 #'
@@ -150,15 +150,15 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 
 #' Find modes in a multimodal distribution
 #'
-#' @description Find modes in a multimodal distibution of values based on the
-#' desisty of such values.
+#' @description Find modes in a multimodal distribution of values based on the
+#' density of such values.
 #'
 #' @param density an object of class density obtained using the function
 #' \code{\link{density}}.
 #'
 #' @return
-#' A data.frame conaining the values corresponding to the modes and the density
-#' for those partiular values.
+#' A data.frame containing the values corresponding to the modes and the density
+#' for those particular values.
 #'
 #' @usage
 #' find_modes(density)
@@ -207,13 +207,13 @@ find_modes <- function(density) {
 
 #' Detection of clusters in 2D spaces
 #'
-#' @description Finds clustes of data in two dimensions based on distinct methods.
+#' @description Finds clusters of data in two dimensions based on distinct methods.
 #'
 #' @param data a matrix or a data frame that contains at least two columns.
 #' @param x_column (character) the name of the X-axis.
 #' @param y_column (character) the name of the Y-axis.
 #' @param space (character) space in which the thinning will be performed. There
-#' are two options available: "G", if it will be in the geographyc space, and
+#' are two options available: "G", if it will be in the geographic space, and
 #' "E", if it will be on the environmental space.
 #' @param cluster_method (character) name of the method to be used for detecting
 #' clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".
@@ -314,7 +314,7 @@ find_clusters <- function(data, x_column, y_column, space,
 #' Sample points from a 2D environmental space potentially disjoint in geography
 #'
 #' @description Sample one or more points from a two dimensional environmental
-#' space according to a selection rule and with the posibility of having distinct
+#' space according to a selection rule and with the possibility of having distinct
 #' sets of points to be sampled independently. Points to be sampled can be
 #' disjoint in geographic space and when that happens two points are selected
 #' considering the most numerous clusters.
@@ -327,7 +327,7 @@ find_clusters <- function(data, x_column, y_column, space,
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis). Must be different from the first one.
 #' @param n (numeric) number of points to be selected. If \code{id_column}is
-#' defined this argument indicates the numner of points per set. Default = 1.
+#' defined this argument indicates the number of points per set. Default = 1.
 #' @param distance_list list of vectors of geographic distances among all points.
 #' If \code{id_column} is not defined, only one element in the list is needed,
 #' otherwise, \code{distance_list} must contain as many elements as unique IDs in
@@ -339,10 +339,10 @@ find_clusters <- function(data, x_column, y_column, space,
 #' "hierarchical" and "k-means". Default = "hierarchical".
 #' @param select_point (character) How or which point will be selected. Three
 #' options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-#' indicate that the point(s) closests to the respective centroid will be selected.
+#' indicate that the point(s) closest to the respective centroid will be selected.
 #' Default = "E_centroid".
 #' @param id_column (character or numeric) name or numeric index of the column
-#' in \code{data} containing identifiers of one or distint sets of points.
+#' in \code{data} containing identifiers of one or distinct sets of points.
 #' If, NULL, the default, only one set is assumed.
 #'
 #' @return

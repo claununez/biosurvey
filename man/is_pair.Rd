@@ -2,7 +2,7 @@
 % Please edit documentation in R/short_helpers.R
 \name{is_pair}
 \alias{is_pair}
-\title{Test wheather a number is pair}
+\title{Test whether a number is pair}
 \usage{
 is_pair(x)
 }
@@ -13,7 +13,7 @@ is_pair(x)
 Logical value
 }
 \description{
-Test wheather a number is pair
+Test whether a number is pair
 }
 \examples{
 is_pair(4)

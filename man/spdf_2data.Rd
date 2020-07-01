@@ -15,12 +15,12 @@ named "Species" to distinguish among features.}
 \code{\link{grid_from_region}}).}
 }
 \value{
-A data frame of species' found in distint positions (defined with identifiers);
+A data frame of species' found in distinct positions (defined with identifiers);
 includes two columns: "ID" and "Species".
 }
 \description{
 Creates a data frame of species' references that contains identifiers
-of porition and species name, using a SpatialPolygonsDataFrame as input.
+of portion and species name, using a SpatialPolygonsDataFrame as input.
 }
 \examples{
 # Data

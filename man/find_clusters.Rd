@@ -15,7 +15,7 @@ find_clusters(data, x_column, y_column, space, cluster_method = "hierarchical",
 \item{y_column}{(character) the name of the Y-axis.}
 
 \item{space}{(character) space in which the thinning will be performed. There
-are two options available: "G", if it will be in the geographyc space, and
+are two options available: "G", if it will be in the geographic space, and
 "E", if it will be on the environmental space.}
 
 \item{cluster_method}{(character) name of the method to be used for detecting
@@ -32,7 +32,7 @@ euclidean distance (if \code{space} = "E") to identify clusters if
 A data.frame containing \code{data} and an additional column defining clusters.
 }
 \description{
-Finds clustes of data in two dimensions based on distinct methods.
+Finds clusters of data in two dimensions based on distinct methods.
 }
 \details{
 Clustering methods make distinct assumptions and one of them may perform better

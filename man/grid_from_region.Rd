@@ -2,7 +2,7 @@
 % Please edit documentation in R/pam_helpers.R
 \name{grid_from_region}
 \alias{grid_from_region}
-\title{Creates grid for a given gegraphic region}
+\title{Creates grid for a given geographic region}
 \usage{
 grid_from_region(region, cell_size, complete_cover = TRUE)
 }

@@ -23,7 +23,7 @@ details.}
 numbers) in kilometers (km).}
 
 \item{complete_cover}{(logical) whether or not to include cells of grid
-partially overlapped with the geographic region of interest contined in
+partially overlapped with the geographic region of interest contained in
 \code{master_matrix}. Default = TRUE.}
 }
 \value{

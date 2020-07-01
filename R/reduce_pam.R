@@ -26,7 +26,7 @@
 #' @importFrom sp SpatialPointsDataFrame over
 #'
 #' @examples
-# Data
+#' # Data
 #' data("m_matrix", package = "biosurvey")
 #' data("species_data", package = "biosurvey")
 #'

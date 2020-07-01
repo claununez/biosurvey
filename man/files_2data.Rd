@@ -21,10 +21,10 @@ available formats are: "shp", "gpkg", "GTiff", and "ascii".}
 Default = NULL.}
 }
 \value{
-If files are in ratser format, a data frame of species geographic records
+If files are in raster format, a data frame of species geographic records
 derived from values of presence in each layer.
 
-If files are not in raster format, a data frame of species' found in distint
+If files are not in raster format, a data frame of species' found in distinct
 positions (defined with identifiers); includes two columns: "ID" and "Species".
 }
 \description{

@@ -24,13 +24,13 @@
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @details
-#' When blocks in \code{master_matrix} were defined using the option "equal_poinst"
+#' When blocks in \code{master_matrix} were defined using the option "equal_points"
 #' (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could result
 #' in blocks with high density per area being overlooked.
 #'
 #' @return
 #' An S3 object of class master_matrix, containing the same elements found in the
-#' input master_matrix object, with an aditional column in the master_matrix
+#' input master_matrix object, with an additional column in the master_matrix
 #' data.frame containing a binary code for selected (1) and non-selected (0) blocks.
 #'
 #' @usage

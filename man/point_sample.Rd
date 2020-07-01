@@ -19,15 +19,15 @@ variable (X axis).}
 variable (Y axis). Must be different from the first one.}
 
 \item{n}{(numeric) number of points to be selected. If \code{id_column}is
-defined this argument indicates the numner of points per set. Default = 1.}
+defined this argument indicates the number of points per set. Default = 1.}
 
 \item{select_point}{(character) How or which point will be selected. Three
 options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-indicate that the point(s) closests to the respective centroid will be selected.
+indicate that the point(s) closest to the respective centroid will be selected.
 Default = "E_centroid".}
 
 \item{id_column}{(character or numeric) name or numeric index of the column
-in \code{data} containing identifiers of one or distint sets of points.
+in \code{data} containing identifiers of one or distinct sets of points.
 If, NULL, the default, only one set is assumed.}
 }
 \value{
@@ -36,7 +36,7 @@ were sampled.
 }
 \description{
 Sample one or more points from a two dimensional environmental
-space according to a selection rule and with the posibility of having distinct
+space according to a selection rule and with the possibility of having distinct
 sets of points to be sampled independently.
 }
 \examples{

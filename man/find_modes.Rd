@@ -11,12 +11,12 @@ find_modes(density)
 \code{\link{density}}.}
 }
 \value{
-A data.frame conaining the values corresponding to the modes and the density
-for those partiular values.
+A data.frame containing the values corresponding to the modes and the density
+for those particular values.
 }
 \description{
-Find modes in a multimodal distibution of values based on the
-desisty of such values.
+Find modes in a multimodal distribution of values based on the
+density of such values.
 }
 \examples{
 # Data

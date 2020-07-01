@@ -40,7 +40,7 @@ in environmental space. This palette can be defined using functions like
 \code{viridis::viridis(255)}, and changes the first color in the palette by NA.}
 }
 \value{
-A multipanel plot showing two of the environmental preditors in the region of
+A multi-panel plot showing two of the environmental predictors in the region of
 interest in both spaces, geographic and environmental.
 }
 \description{

@@ -115,7 +115,7 @@ NULL
 
 #' Occurrence records for the species Parides gundlachianus
 #'
-#' @description A dataset containing geographic coordinates of a Cuban butterflie.
+#' @description A dataset containing geographic coordinates of a Cuban butterfly.
 #'
 #' @format A data frame with 19 rows and 3 columns.
 #' \describe{

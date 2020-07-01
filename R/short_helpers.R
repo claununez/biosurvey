@@ -1,4 +1,4 @@
-#' Test wheather a number is pair
+#' Test whether a number is pair
 #'
 #' @param x (numeric) value to be tested.
 #' @return Logical value
@@ -48,7 +48,7 @@ match_rformat <- function(format) {
 #' Project spatial points from geographic coordinates
 #'
 #' @param data a matrix or a data frame that contains at least two columns, one with
-#' longitude information and the other with latitud information.
+#' longitude information and the other with latitude information.
 #' @param longitude (character) the name of the column that contains the longitude
 #' information.
 #' @param latitude (character) the name of the column that contains the latitude
@@ -100,7 +100,7 @@ wgs84_2aed_laea <- function (data, longitude, latitude, which = "ED") {
 }
 
 
-# Create a bar legend for use in plotting functions
+# Create a bar legend to be used in plotting functions
 
 bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0) {
   # Initial tests

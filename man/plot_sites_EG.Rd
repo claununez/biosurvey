@@ -45,11 +45,11 @@ relative to the default. Default = 1.}
 \item{pch_all}{(numeric) integer specifying a symbol when plotting all points.
 Default = 16.}
 
-\item{pch_sites}{(numeric) nteger specifying a symbol when plotting points
+\item{pch_sites}{(numeric) integer specifying a symbol when plotting points
 of selected sites. Default = 16.}
 
 \item{add_main}{(logical) whether or not to add fixed titles to the plot.
-Default = TRUE. Titles added are "Envrionmental space" and "Geographic space".}
+Default = TRUE. Titles added are "Environmental space" and "Geographic space".}
 }
 \value{
 A two-panel plot showing the selected sites. They are show in both spaces,
