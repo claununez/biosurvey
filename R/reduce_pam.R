@@ -23,7 +23,7 @@
 #'
 #' @export
 #'
-#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPointsDataFrame over
 #'
 #' @examples
 # Data
