@@ -180,22 +180,32 @@ EG_selection <- function(master, variable_1, variable_2,
         diag(dis) <- NA
         median(c(dis), na.rm = T)
       })
-      all_sites <- all_sites[[dists == max(dists)]]
+      all_sites <- all_sites[dists == max(dists)]
     }
   } else {
-    all_sites <- lapply(1:max_n_samplings, function(x) {
+    ## creating rule for block selection
+    rules <- lapply(1:replicates, function(x) {
       ss <- set_seed + x - 1
+      rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
+                                            selection_type = "uniform",
+                                            initial_distance, increase, replicates = 1,
+                                            set_seed = ss)$master_matrix$Selected_blocks)
+      which(rule == 1)
+    })
 
-      rule <- block_sample(master, variable_1, variable_2, n_blocks,
-                           selection_type = "uniform", initial_distance, increase,
-                           replicates, set_seed = ss)$master_matrix$Selected_blocks
-      rule <- rule == 1
+    cd <- sapply(rules, function(x) {paste0(sort(x), collapse = "_")})
 
-      blocksp <- unique(master$master_matrix[rule, "Block"])
-      g_cols <- c("Longitude", "Latitude")
+    rules <- rules[which(!duplicated(cd))]
 
-      distsp <- lapply(blocksp, function(x) {
-        block_data <- master$master_matrix[master$master_matrix[, "Block"] == x,
+    g_cols <- c("Longitude", "Latitude") # defning columns with coordinates
+
+    all_sites <- lapply(rules, function(x) {
+      ## subsetting based on rule
+      blocksp <- unique(master$master_matrix[x, "Block"])
+
+      ## measuring distances
+      distsp <- lapply(blocksp, function(y) {
+        block_data <- master$master_matrix[master$master_matrix[, "Block"] == y,
                                            g_cols]
         tpoints <- nrow(block_data)
 
@@ -208,13 +218,14 @@ EG_selection <- function(master, variable_1, variable_2,
       })
       names(distsp) <- blocksp
 
+      ## unimodal tests and splitting data according to results
       dpp <- unimodal_test(distsp)
 
       unimp <- dpp[which(dpp$p_alue > 0.05), ]
       mmodp <- dpp[which(dpp$p_alue <= 0.05), ]
       nmodp <- dpp[which(is.na(dpp$p_alue)), ]
 
-      # no mode (very few points)
+      ## analysis with no mode (very few points)
       if (nrow(nmodp) > 0) {
         unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
                                                       nmodp[, "Block"], ], variable_1,
@@ -226,7 +237,7 @@ EG_selection <- function(master, variable_1, variable_2,
         unselp <- as.data.frame(unselp)
       }
 
-      # unimodal
+      ## analysis with unimodal
       if (nrow(unimp) > 0) {
         ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
                                                       unimp[, "Block"], ], variable_1,
@@ -238,7 +249,7 @@ EG_selection <- function(master, variable_1, variable_2,
         ueselp <- as.data.frame(na.omit(ueselp))
       }
 
-      # multimodal
+      ## analysis with multimodal
       if (nrow(mmodp) > 0) {
         distsp <- distsp[as.character(mmodp$Block)]
         meselp <- point_sample_cluster(master$master_matrix[master$master_matrix[, "Block"] %in%
@@ -252,7 +263,7 @@ EG_selection <- function(master, variable_1, variable_2,
         meselp <- as.data.frame(meselp)
       }
 
-      # combining
+      ## combining all results
       rbind(unselp, ueselp, meselp)
     })
   }
