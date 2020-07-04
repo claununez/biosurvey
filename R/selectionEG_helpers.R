@@ -418,7 +418,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
 
       bse <- point_sample(data = clush[clush$clusters %in% sel, ],
                           variable_1, variable_2, n = n,
-                          select_point = select_point, id_column = id_column)
+                          select_point = select_point, id_column = "clusters")
       bse$clusters <- NULL
     } else {
       bse <- point_sample(data = data[bda == x, ], variable_1, variable_2, n = n,
