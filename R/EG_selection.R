@@ -96,6 +96,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Data
 #' data("m_matrix", package = "biosurvey")
 #'
@@ -116,6 +117,7 @@
 #'
 #' head(EG_sel$selected_sites_EG[[1]])
 #' dim(EG_sel$selected_sites_EG[[1]])
+#' }
 
 
 EG_selection <- function(master, variable_1, variable_2,

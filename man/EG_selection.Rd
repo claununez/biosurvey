@@ -5,10 +5,11 @@
 \title{Selection of survey sites maximizing uniformity in environmental space
 considering geographic structure}
 \usage{
-EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
-             increase, replicates = 10, max_n_samplings = 1,
-             select_point = "E_centroid", cluster_method = "hierarchical",
-             sample_for_distance = 250, set_seed = 1)
+EG_selection(master, variable_1, variable_2, selection_option = "distance_rule",
+             n_blocks = NULL, initial_distance, increase, replicates = 10,
+             max_n_samplings = 1, select_point = "E_centroid",
+             cluster_method = "hierarchical", sample_for_distance = 250,
+             set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -22,8 +23,15 @@ variable (X-axis).}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis).}
 
-\item{n_blocks}{(numeric) number of blocks to be selected from all existent
-blocks in \code{master$master_matrix}.}
+\item{selection_option}{(character) option of site selection; options are:
+"distance_rule" and "G_clusters". Default = "distance_rule". See details.}
+
+\item{expected_points}{(numeric) if \code{selection_option} = "distance_rule",
+number of survey points (sites) to be selected. Default = NULL.}
+
+\item{n_blocks}{(numeric) if \code{selection_option} = "G_clusters",
+number of blocks to be selected from all existent blocks in
+\code{master$master_matrix}. Default = NULL.}
 
 \item{initial_distance}{(numeric) euclidean distance to be used for a first
 process of thinning and detection of remaining points.}
@@ -99,6 +107,7 @@ patterns, two survey sites are selected considering the largest clusters.
 }
 }
 \examples{
+\donttest{
 # Data
 data("m_matrix", package = "biosurvey")
 
@@ -119,6 +128,7 @@ EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2"
 
 head(EG_sel$selected_sites_EG[[1]])
 dim(EG_sel$selected_sites_EG[[1]])
+}
 }
 \seealso{
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
