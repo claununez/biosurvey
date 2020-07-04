@@ -88,12 +88,13 @@
 #'
 #' @usage
 #' EG_selection(master, variable_1, variable_2, selection_option = "distance_rule",
-#'              n_blocks = NULL, initial_distance, increase, replicates = 10,
-#'              max_n_samplings = 1, select_point = "E_centroid",
-#'              cluster_method = "hierarchical", sample_for_distance = 250,
-#'              set_seed = 1)
+#'              expected_points = NULL, n_blocks = NULL, initial_distance,
+#'              increase, replicates = 10, max_n_samplings = 1,
+#'              select_point = "E_centroid", cluster_method = "hierarchical",
+#'              sample_for_distance = 250, set_seed = 1)
 #'
 #' @export
+#' @importFrom stats median
 #'
 #' @examples
 #' \donttest{
