@@ -120,7 +120,8 @@ colnames(m_blocks$master_matrix)
 
 # Selecting sites uniformly in E and G spaces
 EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-                       n_blocks = 10, initial_distance = 1.5, increase = 0.1,
+                       selection_option = "G_clusters", n_blocks = 10,
+                       initial_distance = 1.5, increase = 0.1,
                        replicates = 1, max_n_samplings = 1,
                        select_point = "E_centroid",
                        cluster_method = "hierarchical",
