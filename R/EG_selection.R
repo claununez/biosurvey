@@ -168,7 +168,7 @@ EG_selection <- function(master, variable_1, variable_2,
   }
 
   # running
-  if (selection_option = "distance_rule") {
+  if (selection_option == "distance_rule") {
     all_sites <- uniformE_selection(master, variable_1, variable_2,
                                     selection_from = "all_points", expected_points,
                                     max_n_samplings, initial_distance, increase,
