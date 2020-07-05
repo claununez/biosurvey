@@ -40,6 +40,9 @@
 #' @param sample_for_distance (numeric) sample to be considered when measuring
 #' the geographic distances among points in the blocks of environmental points.
 #' Default = 250.
+#' @param median_distance_filter (character) optional argument to define a median
+#' distance-based filter based on which sets of sampling sites will be selected.
+#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
@@ -81,6 +84,14 @@
 #' only one survey site is selected, and for those with clustered geographic
 #' patterns, two survey sites are selected considering the largest clusters.
 #'
+#' As multiple sets could result from selection the an argument of the function
+#' \code{median_distance_filter} could be used to select the set of sites with
+#' the maximum ("max") or minimum ("min") median distance among selected sites.
+#' Option "max" will increase the geographic distance among sampling sites, which
+#' could be desirable if the goal is to cover the region of interest more broadly.
+#' The other option "min", could be used in case when the goal is to reduce
+#' resources and time needed to sample such sites.
+#'
 #' @seealso
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
 #' \code{\link{random_selection}}, \code{\link{make_blocks}},
@@ -91,7 +102,7 @@
 #'              expected_points = NULL, n_blocks = NULL, initial_distance,
 #'              increase, replicates = 10, max_n_samplings = 1,
 #'              select_point = "E_centroid", cluster_method = "hierarchical",
-#'              sample_for_distance = 250, set_seed = 1)
+#'              median_distance_filter = NULL, sample_for_distance = 250, set_seed = 1)
 #'
 #' @export
 #' @importFrom stats median
@@ -128,6 +139,7 @@ EG_selection <- function(master, variable_1, variable_2,
                          initial_distance, increase, replicates = 10,
                          max_n_samplings = 1, select_point = "E_centroid",
                          cluster_method = "hierarchical",
+                         median_distance_filter = NULL,
                          sample_for_distance = 250, set_seed = 1) {
 
   # Initial tests
@@ -165,10 +177,15 @@ EG_selection <- function(master, variable_1, variable_2,
     stop("Blocks are not defined in 'master', see function 'make_blocks'.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
-    stop("Argument 'select_point' is not valid. See function's help.")
+    stop("Argument 'select_point' is not valid, see function's help.")
   }
   if (!cluster_method[1] %in% c("hierarchical", "k-means")) {
-    stop("Argument 'cluster_method' is not valid.")
+    stop("Argument 'cluster_method' is not valid, see function's help.")
+  }
+  if (!is.null(median_distance_filter)) {
+    if (!median_distance_filter %in% c("max", "min")) {
+      stop("Argument 'median_distance_filter' is not valid, see function's help.")
+    }
   }
 
   # running
@@ -177,15 +194,6 @@ EG_selection <- function(master, variable_1, variable_2,
                                     selection_from = "all_points", expected_points,
                                     max_n_samplings, initial_distance, increase,
                                     replicates, set_seed)$selected_sites_E
-
-    if (length(all_sites) > 1) {
-      dists <- sapply(all_sites, function(x) {
-        dis <- raster::pointDistance(x[, c("Longitude", "Latitude")], lonlat = TRUE)
-        diag(dis) <- NA
-        median(c(dis), na.rm = T)
-      })
-      all_sites <- all_sites[dists == max(dists)]
-    }
   } else {
     ## creating rule for block selection
     rules <- lapply(1:replicates, function(x) {
@@ -201,7 +209,7 @@ EG_selection <- function(master, variable_1, variable_2,
 
     rules <- rules[which(!duplicated(cd))]
 
-    g_cols <- c("Longitude", "Latitude") # defning columns with coordinates
+    g_cols <- c("Longitude", "Latitude") # defining columns with coordinates
 
     all_sites <- lapply(rules, function(x) {
       ## subsetting based on rule
@@ -272,6 +280,22 @@ EG_selection <- function(master, variable_1, variable_2,
     })
   }
 
+  # select final set based on median geographic distance
+  if (length(all_sites) > 1 | !is.null(median_distance_filter)) {
+    dists <- sapply(all_sites, function(x) {
+      dis <- raster::pointDistance(x[, c("Longitude", "Latitude")], lonlat = TRUE)
+      diag(dis) <- NA
+      median(c(dis), na.rm = T)
+    })
+
+    if (median_distance_filter == "max") {
+      all_sites <- all_sites[dists == max(dists)]
+    } else {
+      all_sites <- all_sites[dists == min(dists)]
+    }
+  }
+
+  # preparing and returning results
   names(all_sites) <- paste0("selection_", 1:length(all_sites))
 
   master$selected_sites_EG <- all_sites

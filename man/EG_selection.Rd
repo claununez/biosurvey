@@ -9,7 +9,7 @@ EG_selection(master, variable_1, variable_2, selection_option = "distance_rule",
              expected_points = NULL, n_blocks = NULL, initial_distance,
              increase, replicates = 10, max_n_samplings = 1,
              select_point = "E_centroid", cluster_method = "hierarchical",
-             sample_for_distance = 250, set_seed = 1)
+             median_distance_filter = NULL, sample_for_distance = 250, set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -53,6 +53,10 @@ Default = "E_centroid".}
 \item{cluster_method}{(character) name of the method to be used for detecting
 clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".
 See details in \code{\link{find_clusters}}.}
+
+\item{median_distance_filter}{(character) optional argument to define a median
+distance-based filter based on which sets of sampling sites will be selected.
+The default, NULL, does not apply such a filter. Options are: "max" and "min".}
 
 \item{sample_for_distance}{(numeric) sample to be considered when measuring
 the geographic distances among points in the blocks of environmental points.
@@ -105,6 +109,14 @@ interest). For blocks with points that are not clustered in geographic space,
 only one survey site is selected, and for those with clustered geographic
 patterns, two survey sites are selected considering the largest clusters.
 }
+
+As multiple sets could result from selection the an argument of the function
+\code{median_distance_filter} could be used to select the set of sites with
+the maximum ("max") or minimum ("min") median distance among selected sites.
+Option "max" will increase the geographic distance among sampling sites, which
+could be desirable if the goal is to cover the region of interest more broadly.
+The other option "min", could be used in case when the goal is to reduce
+resources and time needed to sample such sites.
 }
 \examples{
 \donttest{
