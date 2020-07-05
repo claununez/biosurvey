@@ -410,7 +410,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
       mdss <- md[order(dens), ]
       dd <- abs(diff(mdss[(length(dens) - 1):length(dens), 1]))
 
-      clush <- find_clusters(data = data[bda == x, ], variable_1, variable_2,
+      clush <- find_clusters(data = data[bda == x, ], "Longitude", "Latitude",
                              space = "G", cluster_method = cluster_method,
                              split_distance = dd)
 
