@@ -32,6 +32,14 @@
 #' conditions are those that are present in areas of higher density in one of the
 #' plots obtained with \code{\link{explore_data_EG}}.
 #'
+#' As multiple sets could result from selection the an argument of the function
+#' \code{median_distance_filter} could be used to select the set of sites with
+#' the maximum ("max") or minimum ("min") median distance among selected sites.
+#' Option "max" will increase the geographic distance among sampling sites, which
+#' could be desirable if the goal is to cover the region of interest more broadly.
+#' The other option "min", could be used in case when the goal is to reduce
+#' resources and time needed to sample such sites.
+#'
 #' @seealso
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
 #' \code{\link{EG_selection}}, \code{\link{plot_sites_EG}}
