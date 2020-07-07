@@ -4,7 +4,8 @@
 \alias{random_selection}
 \title{Random selection of survey sites}
 \usage{
-random_selection(master, n_sites, n_samplings = 1, set_seed = 1)
+random_selection(master, n_sites, n_samplings = 1,
+                 median_distance_filter = NULL, set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -17,6 +18,10 @@ or \code{\link{EG_selection}}.}
 
 \item{n_samplings}{(numeric) number of processes of selection, which will
 turn into multiple options for a process of survey planning. Default = 1.}
+
+\item{median_distance_filter}{(character) optional argument to define a median
+distance-based filter based on which sets of sampling sites will be selected.
+The default, NULL, does not apply such a filter. Options are: "max" and "min".}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
