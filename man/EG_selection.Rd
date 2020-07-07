@@ -5,11 +5,11 @@
 \title{Selection of survey sites maximizing uniformity in environmental space
 considering geographic structure}
 \usage{
-EG_selection(master, variable_1, variable_2, selection_option = "distance_rule",
-             expected_points = NULL, n_blocks = NULL, initial_distance,
+EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
              increase, replicates = 10, max_n_samplings = 1,
              select_point = "E_centroid", cluster_method = "hierarchical",
-             median_distance_filter = NULL, sample_for_distance = 250, set_seed = 1)
+             median_distance_filter = NULL, sample_for_distance = 250,
+             set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -22,12 +22,6 @@ variable (X-axis).}
 
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis).}
-
-\item{selection_option}{(character) option of site selection; options are:
-"distance_rule" and "G_clusters". Default = "distance_rule". See details.}
-
-\item{expected_points}{(numeric) if \code{selection_option} = "distance_rule",
-number of survey points (sites) to be selected. Default = NULL.}
 
 \item{n_blocks}{(numeric) if \code{selection_option} = "G_clusters",
 number of blocks to be selected from all existent blocks in
@@ -94,13 +88,9 @@ among all functions in this package. The complexity derives from the aim of the
 function, which is to select sites that sample appropriately environmental
 combinations in the region of interest (environmental space), but also
 considering the geographic patterns of such environmental regions (geographic
-space). Two options for selection are available:
-\enumerate{
-\item "distance_rule".- In this option, multiple sets of sites are selected
-aiming for uniform distributions in environmental space, then, geographic
-distances are measured among points of candidate sets, and only the set or
-sets with maximum median distances are kept.
-\item "G_clusters"._ Here, the first step is to select candidate blocks (from the
+space).
+
+In this approach, the first step is to select candidate blocks (from the
 ones obtained with \code{\link{make_blocks}}) that are uniformly distributed
 in environmental space. The geographic configuration of points in such
 blocks is explored to detect whether they are clustered (i.e., similar
@@ -108,7 +98,6 @@ environmental conditions are present in distant places in the region of
 interest). For blocks with points that are not clustered in geographic space,
 only one survey site is selected, and for those with clustered geographic
 patterns, two survey sites are selected considering the largest clusters.
-}
 
 As multiple sets could result from selection the an argument of the function
 \code{median_distance_filter} could be used to select the set of sites with
@@ -132,8 +121,7 @@ colnames(m_blocks$master_matrix)
 
 # Selecting sites uniformly in E and G spaces
 EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-                       selection_option = "G_clusters", n_blocks = 10,
-                       initial_distance = 1.5, increase = 0.1,
+                       n_blocks = 10, initial_distance = 1.5, increase = 0.1,
                        replicates = 1, max_n_samplings = 1,
                        select_point = "E_centroid",
                        cluster_method = "hierarchical",

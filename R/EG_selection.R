@@ -15,10 +15,6 @@
 #' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y-axis).
-#' @param selection_option (character) option of site selection; options are:
-#' "distance_rule" and "G_clusters". Default = "distance_rule". See details.
-#' @param expected_points (numeric) if \code{selection_option} = "distance_rule",
-#' number of survey points (sites) to be selected. Default = NULL.
 #' @param n_blocks (numeric) if \code{selection_option} = "G_clusters",
 #' number of blocks to be selected from all existent blocks in
 #' \code{master$master_matrix}. Default = NULL.
@@ -68,14 +64,9 @@
 #' function, which is to select sites that sample appropriately environmental
 #' combinations in the region of interest (environmental space), but also
 #' considering the geographic patterns of such environmental regions (geographic
-#' space). Two options for selection are available:
+#' space).
 #'
-#' 1. "distance_rule".- In this option, multiple sets of sites are selected
-#' aiming for uniform distributions in environmental space, then, geographic
-#' distances are measured among points of candidate sets, and only the set or
-#' sets with maximum median distances are kept.
-#'
-#' 2. "G_clusters"._ Here, the first step is to select candidate blocks (from the
+#' In this approach, the first step is to select candidate blocks (from the
 #' ones obtained with \code{\link{make_blocks}}) that are uniformly distributed
 #' in environmental space. The geographic configuration of points in such
 #' blocks is explored to detect whether they are clustered (i.e., similar
@@ -98,14 +89,13 @@
 #' \code{\link{plot_sites_EG}}
 #'
 #' @usage
-#' EG_selection(master, variable_1, variable_2, selection_option = "distance_rule",
-#'              expected_points = NULL, n_blocks = NULL, initial_distance,
+#' EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
 #'              increase, replicates = 10, max_n_samplings = 1,
 #'              select_point = "E_centroid", cluster_method = "hierarchical",
-#'              median_distance_filter = NULL, sample_for_distance = 250, set_seed = 1)
+#'              median_distance_filter = NULL, sample_for_distance = 250,
+#'              set_seed = 1)
 #'
 #' @export
-#' @importFrom stats median
 #'
 #' @examples
 #' \donttest{
@@ -121,8 +111,7 @@
 #'
 #' # Selecting sites uniformly in E and G spaces
 #' EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-#'                        selection_option = "G_clusters", n_blocks = 10,
-#'                        initial_distance = 1.5, increase = 0.1,
+#'                        n_blocks = 10, initial_distance = 1.5, increase = 0.1,
 #'                        replicates = 1, max_n_samplings = 1,
 #'                        select_point = "E_centroid",
 #'                        cluster_method = "hierarchical",
@@ -133,9 +122,7 @@
 #' }
 
 
-EG_selection <- function(master, variable_1, variable_2,
-                         selection_option = "distance_rule",
-                         expected_points = NULL, n_blocks = NULL,
+EG_selection <- function(master, variable_1, variable_2, n_blocks,
                          initial_distance, increase, replicates = 10,
                          max_n_samplings = 1, select_point = "E_centroid",
                          cluster_method = "hierarchical",
@@ -152,17 +139,8 @@ EG_selection <- function(master, variable_1, variable_2,
   if (missing(variable_2)) {
     stop("Argument 'variable_2' must be defined.")
   }
-  if (!selection_option %in% c("distance_rule", "G_clusters")) {
-    stop("Argument 'selection_option' is not valid. See function's help.")
-  }
-  if (selection_option == "G_clusters") {
-    if (is.null(n_blocks)) {
-      stop("If 'selection_option' = 'G_clusters', argument 'n_blocks' must be defined.")
-    }
-  } else {
-    if (is.null(expected_points)) {
-      stop("If 'selection_option' = 'distance_rule', argument 'expected_points' must be defined.")
-    }
+  if (missing(n_blocks)) {
+    stop("Argument 'n_blocks' must be defined.")
   }
   if (missing(initial_distance)) {
     stop("Argument 'initial_distance' must be defined.")
@@ -189,139 +167,116 @@ EG_selection <- function(master, variable_1, variable_2,
   }
 
   # running
-  if (selection_option == "distance_rule") {
-    all_sites <- uniformE_selection(master, variable_1, variable_2,
-                                    selection_from = "all_points", expected_points,
-                                    max_n_samplings, initial_distance, increase,
-                                    replicates, set_seed)$selected_sites_E
+  ## creating rule for block selection
+  rules <- lapply(1:replicates, function(x) {
+    ss <- set_seed + x - 1
+    rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
+                                          selection_type = "uniform",
+                                          initial_distance, increase, replicates = 1,
+                                          set_seed = ss)$master_matrix$Selected_blocks)
+    which(rule == 1)
+  })
 
-    if (length(all_sites) == 1) {
-      warning("Initial selection considering environmental space returned only one result,",
-              "\nno geographic filter will be applied. This results are identical to those",
-              "\nthat can be obtained with function 'uniformE_selection'.")
+  cd <- sapply(rules, function(x) {paste0(sort(x), collapse = "_")})
+
+  rules <- rules[which(!duplicated(cd))]
+
+  g_cols <- c("Longitude", "Latitude") # defining columns with coordinates
+
+  all_sites <- lapply(rules, function(x) {
+    ## subsetting based on rule
+    blocksp <- unique(master$master_matrix[x, "Block"])
+
+    ## measuring distances
+    distsp <- lapply(blocksp, function(y) {
+      block_data <- master$master_matrix[master$master_matrix[, "Block"] == y,
+                                         g_cols]
+      tpoints <- nrow(block_data)
+
+      if (tpoints > sample_for_distance) {
+        block_data <- block_data[sample(tpoints, sample_for_distance), ]
+      }
+
+      dsnna <- na.omit(c(raster::pointDistance(block_data, lonlat = TRUE)))
+      dsnna[dsnna != 0]
+    })
+    names(distsp) <- blocksp
+
+    ## unimodal tests and splitting data according to results
+    dpp <- unimodal_test(distsp)
+
+    unimp <- dpp[which(dpp$p_alue > 0.05), ]
+    mmodp <- dpp[which(dpp$p_alue <= 0.05), ]
+    nmodp <- dpp[which(is.na(dpp$p_alue)), ]
+
+    ## analysis with no mode (very few points)
+    if (nrow(nmodp) > 0) {
+      unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
+                                                    nmodp[, "Block"], ], variable_1,
+                             variable_2, n = 1, select_point = "random",
+                             id_column = "Block")
+    } else {
+      unselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
+      colnames(unselp) <- colnames(master$master_matrix)
+      unselp <- as.data.frame(unselp)
     }
+
+    ## analysis with unimodal
+    if (nrow(unimp) > 0) {
+      ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
+                                                    unimp[, "Block"], ], variable_1,
+                             variable_2, n = 1, select_point = select_point,
+                             id_column = "Block")
+    } else {
+      ueselp <- matrix(nrow = 1, ncol = ncol(master$master_matrix))
+      colnames(ueselp) <- colnames(master$master_matrix)
+      ueselp <- as.data.frame(na.omit(ueselp))
+    }
+
+    ## analysis with multimodal
+    if (nrow(mmodp) > 0) {
+      distsp <- distsp[as.character(mmodp$Block)]
+      meselp <- point_sample_cluster(master$master_matrix[master$master_matrix[, "Block"] %in%
+                                                            mmodp[, "Block"], ],
+                                     variable_1, variable_2, distance_list = distsp,
+                                     n = 1, cluster_method = cluster_method,
+                                     select_point = select_point, id_column = "Block")
+    } else {
+      meselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
+      colnames(meselp) <- colnames(master$master_matrix)
+      meselp <- as.data.frame(meselp)
+    }
+
+    ## combining all results
+    rbind(unselp, ueselp, meselp)
+  })
+
+  # Getting needed samples form the most numerous ones
+  lns <- sapply(all_sites, nrow)
+  all_sites <- all_sites[which(lns == max(lns))]
+
+  cd <- sapply(all_sites, function(x) {
+    y <- x[order(x[, variable_1], x[, variable_2]), ]
+    paste0(paste0(y[, variable_1], y[, variable_2]), collapse = "_")
+  })
+
+  all_sites <- all_sites[which(!duplicated(cd))]
+  nsel <- ifelse(length(all_sites) < max_n_samplings, length(all_sites),
+                 max_n_samplings)
+
+  # Returning results
+  if (nsel == 1) {
+    all_sites <- list(all_sites[[1]])
   } else {
-    ## creating rule for block selection
-    rules <- lapply(1:replicates, function(x) {
-      ss <- set_seed + x - 1
-      rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
-                                            selection_type = "uniform",
-                                            initial_distance, increase, replicates = 1,
-                                            set_seed = ss)$master_matrix$Selected_blocks)
-      which(rule == 1)
-    })
-
-    cd <- sapply(rules, function(x) {paste0(sort(x), collapse = "_")})
-
-    rules <- rules[which(!duplicated(cd))]
-
-    g_cols <- c("Longitude", "Latitude") # defining columns with coordinates
-
-    all_sites <- lapply(rules, function(x) {
-      ## subsetting based on rule
-      blocksp <- unique(master$master_matrix[x, "Block"])
-
-      ## measuring distances
-      distsp <- lapply(blocksp, function(y) {
-        block_data <- master$master_matrix[master$master_matrix[, "Block"] == y,
-                                           g_cols]
-        tpoints <- nrow(block_data)
-
-        if (tpoints > sample_for_distance) {
-          block_data <- block_data[sample(tpoints, sample_for_distance), ]
-        }
-
-        dsnna <- na.omit(c(raster::pointDistance(block_data, lonlat = TRUE)))
-        dsnna[dsnna != 0]
-      })
-      names(distsp) <- blocksp
-
-      ## unimodal tests and splitting data according to results
-      dpp <- unimodal_test(distsp)
-
-      unimp <- dpp[which(dpp$p_alue > 0.05), ]
-      mmodp <- dpp[which(dpp$p_alue <= 0.05), ]
-      nmodp <- dpp[which(is.na(dpp$p_alue)), ]
-
-      ## analysis with no mode (very few points)
-      if (nrow(nmodp) > 0) {
-        unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
-                                                      nmodp[, "Block"], ], variable_1,
-                               variable_2, n = 1, select_point = "random",
-                               id_column = "Block")
-      } else {
-        unselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
-        colnames(unselp) <- colnames(master$master_matrix)
-        unselp <- as.data.frame(unselp)
-      }
-
-      ## analysis with unimodal
-      if (nrow(unimp) > 0) {
-        ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
-                                                      unimp[, "Block"], ], variable_1,
-                               variable_2, n = 1, select_point = select_point,
-                               id_column = "Block")
-      } else {
-        ueselp <- matrix(nrow = 1, ncol = ncol(master$master_matrix))
-        colnames(ueselp) <- colnames(master$master_matrix)
-        ueselp <- as.data.frame(na.omit(ueselp))
-      }
-
-      ## analysis with multimodal
-      if (nrow(mmodp) > 0) {
-        distsp <- distsp[as.character(mmodp$Block)]
-        meselp <- point_sample_cluster(master$master_matrix[master$master_matrix[, "Block"] %in%
-                                                              mmodp[, "Block"], ],
-                                       variable_1, variable_2, distance_list = distsp,
-                                       n = 1, cluster_method = cluster_method,
-                                       select_point = select_point, id_column = "Block")
-      } else {
-        meselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
-        colnames(meselp) <- colnames(master$master_matrix)
-        meselp <- as.data.frame(meselp)
-      }
-
-      ## combining all results
-      rbind(unselp, ueselp, meselp)
-    })
-
-    # Getting needed samples form the most numerous ones
-    lns <- sapply(all_sites, nrow)
-    all_sites <- all_sites[which(lns == max(lns))]
-
-    cd <- sapply(all_sites, function(x) {
-      y <- x[order(x[, variable_1], x[, variable_2]), ]
-      paste0(paste0(y[, variable_1], y[, variable_2]), collapse = "_")
-    })
-
-    all_sites <- all_sites[which(!duplicated(cd))]
-    nsel <- ifelse(length(all_sites) < max_n_samplings, length(all_sites),
-                   max_n_samplings)
-
-    # Returning results
-    if (nsel == 1) {
-      all_sites <- list(all_sites[[1]])
-    } else {
-      all_sites <- all_sites[1:nsel]
-    }
+    all_sites <- all_sites[1:nsel]
   }
 
-  # select final set based on median geographic distance
+  # Select final set based on median geographic distance
   if (length(all_sites) > 1 & !is.null(median_distance_filter)) {
-    dists <- sapply(all_sites, function(x) {
-      dis <- raster::pointDistance(x[, c("Longitude", "Latitude")], lonlat = TRUE)
-      diag(dis) <- NA
-      median(c(dis), na.rm = T)
-    })
-
-    if (median_distance_filter == "max") {
-      all_sites <- all_sites[dists == max(dists)]
-    } else {
-      all_sites <- all_sites[dists == min(dists)]
-    }
+    all_sites <- distance_filter(all_sites, median_distance_filter)
   }
 
-  # preparing and returning results
+  # Preparing and returning results
   names(all_sites) <- paste0("selection_", 1:length(all_sites))
 
   master$selected_sites_EG <- all_sites
