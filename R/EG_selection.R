@@ -194,6 +194,12 @@ EG_selection <- function(master, variable_1, variable_2,
                                     selection_from = "all_points", expected_points,
                                     max_n_samplings, initial_distance, increase,
                                     replicates, set_seed)$selected_sites_E
+
+    if (length(all_sites) == 1) {
+      warning("Initial selection considering environmental space returned only one result,",
+              "\nno geographic filter will be applied. This results are identical to those",
+              "\nthat can be obtained with function 'uniformE_selection'.")
+    }
   } else {
     ## creating rule for block selection
     rules <- lapply(1:replicates, function(x) {
@@ -278,10 +284,30 @@ EG_selection <- function(master, variable_1, variable_2,
       ## combining all results
       rbind(unselp, ueselp, meselp)
     })
+
+    # Getting needed samples form the most numerous ones
+    lns <- sapply(all_sites, nrow)
+    all_sites <- all_sites[which(lns == max(lns))]
+
+    cd <- sapply(all_sites, function(x) {
+      y <- x[order(x[, variable_1], x[, variable_2]), ]
+      paste0(paste0(y[, variable_1], y[, variable_2]), collapse = "_")
+    })
+
+    all_sites <- all_sites[which(!duplicated(cd))]
+    nsel <- ifelse(length(all_sites) < max_n_samplings, length(all_sites),
+                   max_n_samplings)
+
+    # Returning results
+    if (nsel == 1) {
+      all_sites <- list(all_sites[[1]])
+    } else {
+      all_sites <- all_sites[1:nsel]
+    }
   }
 
   # select final set based on median geographic distance
-  if (length(all_sites) > 1 | !is.null(median_distance_filter)) {
+  if (length(all_sites) > 1 & !is.null(median_distance_filter)) {
     dists <- sapply(all_sites, function(x) {
       dis <- raster::pointDistance(x[, c("Longitude", "Latitude")], lonlat = TRUE)
       diag(dis) <- NA
