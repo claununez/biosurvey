@@ -15,6 +15,9 @@
 #' @param increase (numeric) value to be added to \code{initial_distance} until
 #' reaching the number of \code{expected_points}.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
+#' @param median_distance_filter (character) optional argument to define a median
+#' distance-based filter based on which sets of sampling sites will be selected.
+#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
@@ -40,7 +43,8 @@
 #'
 #' @usage
 #' uniformG_selection(master, expected_points, max_n_samplings = 1,
-#'                    initial_distance, increase, replicates = 10, set_seed = 1)
+#'                    initial_distance, increase, replicates = 10,
+#'                    median_distance_filter = NULL, set_seed = 1)
 #'
 #' @export
 #'
@@ -55,7 +59,7 @@
 
 uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
                                initial_distance, increase, replicates = 10,
-                               set_seed = 1) {
+                               median_distance_filter = NULL, set_seed = 1) {
   # initial tests
   if (missing(master)) {
     stop("Argument 'master' is not defined.")
@@ -69,6 +73,11 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
   if (missing(expected_points)) {
     stop("Argument 'expected_points' is not defined.")
   }
+  if (!is.null(median_distance_filter)) {
+    if (!median_distance_filter %in% c("max", "min")) {
+      stop("Argument 'median_distance_filter' is not valid, see function's help.")
+    }
+  }
 
   # preparing data
   data <- master$master_matrix
@@ -76,7 +85,7 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
   y_column <- "Latitude"
   data <- data[!is.na(data[, x_column]) & !is.na(data[, y_column]), ]
 
-  # preaparing selection variables
+  # preparing selection variables
   np <- nrow(data)
   ininp <- np
   dist <- initial_distance
@@ -104,6 +113,10 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
     if (np <= expected_points) {
       if (np == expected_points) {
         # success
+        if (length(thin) > 1 & !is.null(median_distance_filter)) {
+          thin <- distance_filter(thin, median_distance_filter)
+
+        }
         names(thin) <- paste0("selection_", 1:length(thin))
         master$selected_sites_G <- thin
         return(structure(master, class = "master_selection"))

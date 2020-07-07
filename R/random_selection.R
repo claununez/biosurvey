@@ -41,7 +41,6 @@
 #'                  median_distance_filter = NULL, set_seed = 1)
 #'
 #' @export
-#' @importFrom stats median
 #'
 #' @examples
 #' # Data
@@ -77,17 +76,8 @@ random_selection <- function(master, n_sites, n_samplings = 1,
 
   # Post filtering of sites according to distance argument
   if (length(selected_sites) > 1 & !is.null(median_distance_filter)) {
-    dists <- sapply(selected_sites, function(x) {
-      dis <- raster::pointDistance(x[, c("Longitude", "Latitude")], lonlat = TRUE)
-      diag(dis) <- NA
-      median(c(dis), na.rm = T)
-    })
+    selected_sites <- distance_filter(selected_sites, median_distance_filter)
 
-    if (median_distance_filter == "max") {
-      selected_sites <- selected_sites[dists == max(dists)]
-    } else {
-      selected_sites <- selected_sites[dists == min(dists)]
-    }
   }
 
   # Returning results

@@ -5,7 +5,8 @@
 \title{Selection of survey sites maximizing uniformity in geography}
 \usage{
 uniformG_selection(master, expected_points, max_n_samplings = 1,
-                   initial_distance, increase, replicates = 10, set_seed = 1)
+                   initial_distance, increase, replicates = 10,
+                   median_distance_filter = NULL, set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -25,6 +26,10 @@ process of thinning and detection of remaining points.}
 reaching the number of \code{expected_points}.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
+
+\item{median_distance_filter}{(character) optional argument to define a median
+distance-based filter based on which sets of sampling sites will be selected.
+The default, NULL, does not apply such a filter. Options are: "max" and "min".}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }

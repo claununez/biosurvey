@@ -24,6 +24,9 @@
 #' @param increase (numeric) value to be added to \code{initial_distance} until
 #' reaching the number of \code{expected_points}.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
+#' @param median_distance_filter (character) optional argument to define a median
+#' distance-based filter based on which sets of sampling sites will be selected.
+#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @return
@@ -51,7 +54,8 @@
 #' @usage
 #' uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",
 #'                    expected_points, max_n_samplings = 1,
-#'                    initial_distance, increase, replicates = 10, set_seed = 1)
+#'                    initial_distance, increase, replicates = 10,
+#'                    median_distance_filter = NULL, set_seed = 1)
 #'
 #' @export
 #'
@@ -77,7 +81,8 @@
 uniformE_selection <- function(master, variable_1, variable_2,
                                selection_from = "all_points", expected_points,
                                max_n_samplings = 1, initial_distance, increase,
-                               replicates = 10, set_seed = 1) {
+                               replicates = 10, median_distance_filter = NULL,
+                               set_seed = 1) {
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is not defined.")
@@ -112,8 +117,13 @@ uniformE_selection <- function(master, variable_1, variable_2,
                                   n = 1, id_column = "Block")
     }
   }
+  if (!is.null(median_distance_filter)) {
+    if (!median_distance_filter %in% c("max", "min")) {
+      stop("Argument 'median_distance_filter' is not valid, see function's help.")
+    }
+  }
 
-  # preaparing selection variables
+  # preparing selection variables
   np <- nrow(data)
   ininp <- np
   dist <- initial_distance
@@ -144,6 +154,10 @@ uniformE_selection <- function(master, variable_1, variable_2,
     if (np <= expected_points) {
       if (np == expected_points) {
         # success
+        if (length(thin) > 1 & !is.null(median_distance_filter)) {
+          thin <- distance_filter(thin, median_distance_filter)
+
+        }
         names(thin) <- paste0("selection_", 1:length(thin))
         master$selected_sites_E <- thin
         return(structure(master, class = "master_selection"))
