@@ -80,7 +80,6 @@ random_selection <- function(master, n_sites, n_samplings = 1,
     sam <- sample(nrow(data), n_sites)
     dat <- data[sam, ]
   })
-  names(selected_sites) <- paste0("selection_", 1:n_samplings)
 
   # Post filtering of sites according to distance argument
   if (length(selected_sites) > 1 & !is.null(median_distance_filter)) {
@@ -89,6 +88,7 @@ random_selection <- function(master, n_sites, n_samplings = 1,
   }
 
   # Returning results
+  names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
   master$selected_sites_random <- selected_sites
 
   return(structure(master, class = "master_selection"))
