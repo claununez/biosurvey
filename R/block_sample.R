@@ -96,7 +96,7 @@ block_sample <- function(master_matrix, variable_1, variable_2, expected_blocks,
                                     selection_from = "block_centroids",
                                     expected_blocks, max_n_samplings = 1,
                                     initial_distance, increase, replicates,
-                                    set_seed)
+                                    set_seed = set_seed)
     pairs_sel <- pairs_sel$selected_sites_E$selection_1$Block
   } else {
     pairs_sel <- sample(unique(master_matrix$master_matrix$Block),
