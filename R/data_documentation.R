@@ -143,3 +143,46 @@ NULL
 #' @examples
 #' data("dist_list", package = "biosurvey")
 "dist_list"
+
+
+#' Example of object obtained from using functions for selecting sampling sites
+#'
+#' A list of 7 elements (m_matrix, polygon, raster_base, and PCA_results).
+#' See functions \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
+#' \code{\link{random_selection}}, or \code{\link{EG_selection}}.
+#'
+#' @format A list of 7 elements:
+#' \describe{
+#'   \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
+#'   \item{polygon}{object of class SpatialPolygonsDataFrame}
+#'   \item{raster_base}{object of class RasterLayer}
+#'   \item{PCA_results}{list of length 5}
+#'   \item{selected_sites_random}{list with one data.frame}
+#'   \item{selected_sites_G}{list with one data.frame}
+#'   \item{selected_sites_E}{list with one data.frame}
+#' }
+#'
+#' @examples
+#' data("m_selection", package = "biosurvey")
+#'
+#' summary(m_selection)
+"m_selection"
+
+
+
+#' Example of object obtained from using the function base_PAM
+#'
+#' A list of 2 elements (PAM, PAM_statistics). See functions \code{\link{base_PAM}}.
+#'
+#' @format A list of 2 elements:
+#' \describe{
+#'   \item{PAM}{SpatialPolygonsDataFrame wiht 306 features}
+#'   \item{PAM_statistics}{empty element (NULL)}
+#' }
+#'
+#' @examples
+#' data("b_pam", package = "biosurvey")
+#'
+#' summary(b_pam)
+"b_pam"
+
