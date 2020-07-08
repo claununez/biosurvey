@@ -455,3 +455,44 @@ pam_from_table <- function(data, ID_column, species_column) {
 
   return(counts)
 }
+
+
+
+
+
+#' Helper to subset PAM according to selected sites
+#' @param selected_sites list of selected sites. See any of the main functions
+#' to perform such a selection: \code{\link{random_selection}},
+#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
+#' \code{\link{EG_selection}}.
+#' @param base_PAM object of class base_PAM obtained using the function
+#' \code{\link{base_PAM}}.
+#'
+#' @return
+#' A list of selected site data.frames with information of PAM added as
+#' additional columns.
+#'
+#' @export
+#' @importFrom sp CRS over SpatialPointsDataFrame
+
+selected_sites_PAM <- function(selected_sites, base_PAM) {
+  if(missing(selected_sites)) {
+    stop("Argument 'selected_sites' must be defined.")
+  }
+  if (missing(base_PAM)) {
+    stop("Argument 'base_PAM' must be defined.")
+  }
+
+  WGS84 <- sp::CRS("+init=epsg:4326")
+
+  ls <- lapply(selected_sites, function(x) {
+    xp <- sp::SpatialPointsDataFrame(x[, 1:2], x, proj4string = WGS84)
+    xid <- data.frame(sp::over(xp, base_PAM$PAM[, "ID"]), x)
+    pam <- base_PAM$PAM@data
+    colnames(pam)[2:3] <- c("Longitude_PAM", "Latitude_PAM")
+    colnames(xid)[2:3] <- c("Longitude_master", "Latitude_master")
+    merge(xid, pam, by = "ID")
+  })
+  names(ls) <- names(selected_sites)
+  return(ls)
+}
