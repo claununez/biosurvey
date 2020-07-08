@@ -52,11 +52,13 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
     stop("Argument 'selection_type' is not valid, options are:\n'selected_sites_random', 'selected_sites_E', 'selected_sites_G', or 'selected_sites_EG'.")
   }
 
-  # Joining PAM with selected sites
+  # Identifying selection types if all
   if (selection_type == "all") {
     selects <- names(master_selection)
     selection_type <- grep("selected_sites", selects, value = TRUE)
   }
+
+  # Joining PAM with selected sites
 
   if ("selected_sites_random" %in% selection_type) {
     rsel <- master_selection$selected_sites_random
