@@ -192,10 +192,12 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
   # Detection of points closest to centroid
   ucent <- lapply(bs, function(x) {
     gblock <- data[bda == x, ]
+    ## process for more than 2 points
     if (nrow(gblock) > 2) {
       cent <- apply(gblock[, c(x_column, y_column)], 2, mean)
       level <- 0.01
       if (nrow(gblock) > 20) {
+        ## process for more than 20 points
         covm <- stats::cov(gblock[, c(x_column, y_column)])
         ndim <- length(cent); sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
         stds <- 1 / sqrt(eigen(sigma_i)$values)
@@ -205,17 +207,21 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
         con <- sum(c1)
 
         if (con <= 2) {
+          ## loop for measuring distances among distinct amount of points
           while (con == 0) {
             if (level > 0.98) {
+              ## distance in G space
               if (space == "G") {
                 ds <- raster::pointDistance(cent, gblock[, c(x_column, y_column)],
                                             lonlat = TRUE)
               } else {
+                ## distance in E space
                 ds <- stats::mahalanobis(x = gblock[, c(x_column, y_column)],
                                          center = cent, cov = covm, tol = 0.0000009)
               }
               break()
             }
+            ## detecting whether closest point was detected or not
             level <- level + 0.01
             sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
             stds <- 1 / sqrt(eigen(sigma_i)$values)
@@ -232,6 +238,8 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
       } else {
         c1 <- rep(TRUE, nrow(gblock))
       }
+
+      # Returning results according to condition
       if (level > 0.98) {
         return(gblock[which(ds == sort(ds)[1:n])[1:n], ])
       }

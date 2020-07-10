@@ -31,7 +31,8 @@
 #' resolution. Each grid cell is related to a specific ID and longitude and
 #' latitude coordinates. Presence (1) and absence (0) values for each species
 #' in every cell of the PAM are included as apart of the data frame of the
-#' SpatialPolygonsDataFrame.
+#' SpatialPolygonsDataFrame. PAM statistics is returned as NULL, but other
+#' functions can be used to calculate such statistics.
 #'
 #' @usage
 #' base_PAM(data, format = NULL, master_matrix, cell_size,
@@ -74,14 +75,17 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
 
   # Prepare SpaptialPoints from different objects
   if (!is.data.frame(data)) {
+    ## from raster objects
     if (clsdata %in% c("RasterStack", "RasterBrick")) {
       data <- stack_2data(species_layers = data)
     }
 
+    ## from a list
     if (clsdata == "list") {
       data <- rlist_2data(raster_list = data)
     }
 
+    ## from files stored in a directory
     if (clsdata == "character" & !clsdata %in% c("shp", "gpkg")) {
       data <- files_2data(path = data, format)
     }
@@ -94,7 +98,8 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     }
   }
 
-  # Asign ID to points
+  # Assign ID to points depending of type of data if needed
+  ## direct step from SPDF or character data argument
   if (clsdata %in% c("SpatialPolygonsDataFrame", "character")) {
     if (clsdata == "SpatialPolygonsDataFrame") {
       sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol)
@@ -104,6 +109,7 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     }
   }
 
+  ## merging with ID if any other object is defined in data
   if (class(data)[1] %in% c("data.frame", "SpatialPointsDataFrame")) {
     if (class(data)[1] %in% "SpatialPointsDataFrame") {
       sp_points <- data
@@ -121,6 +127,7 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   grid_r_pol@data <- merge(grid_r_pol@data, sp_points, by = "ID", all.x = TRUE)
   grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
 
+  # Returning results
   return(structure(list(PAM = grid_r_pol, PAM_statistics = NULL), class = "base_PAM"))
 }
 

@@ -89,6 +89,7 @@ block_sample <- function(master_matrix, variable_1, variable_2, expected_blocks,
 
   # block selection
   if (selection_type[1] == "uniform") {
+    ## searching for uniformity in E space
     if (any(is.null(initial_distance), is.null(increase))) {
       stop("If 'selection_type' = uniform, the following arguments must be defined:\n'initial_distance', 'increase'")
     }
@@ -99,6 +100,7 @@ block_sample <- function(master_matrix, variable_1, variable_2, expected_blocks,
                                     set_seed = set_seed)
     pairs_sel <- pairs_sel$selected_sites_E$selection_1$Block
   } else {
+    ## randomly
     pairs_sel <- sample(unique(master_matrix$master_matrix$Block),
                         expected_blocks)
   }

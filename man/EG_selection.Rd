@@ -12,7 +12,7 @@ EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
              set_seed = 1)
 }
 \arguments{
-\item{master}{a master_matrix object derived from function
+\item{master}{a master_matrix object derived from the function
 \code{\link{master_matrix}} or a master_selection object derived from functions
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 or \code{\link{uniformE_selection}}.}
@@ -23,15 +23,15 @@ variable (X-axis).}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis).}
 
-\item{n_blocks}{(numeric) if \code{selection_option} = "G_clusters",
-number of blocks to be selected from all existent blocks in
-\code{master$master_matrix}. Default = NULL.}
+\item{n_blocks}{(numeric) number of blocks to be selected to be used as the
+base for further explorations. Default = NULL.}
 
 \item{initial_distance}{(numeric) euclidean distance to be used for a first
-process of thinning and detection of remaining points.}
+process of thinning and detection of remaining blocks. See details in
+\code{\link{point_thinning}}.}
 
 \item{increase}{(numeric) value to be added to \code{initial_distance} until
-reaching the number of \code{n_blocks}.}
+reaching the number in \code{n_blocks}.}
 
 \item{replicates}{(numeric) number of thinning replicates performed to select
 blocks uniformly. Default = 10.}
@@ -39,44 +39,46 @@ blocks uniformly. Default = 10.}
 \item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}
 
-\item{select_point}{(character) How or which point will be selected. Three
+\item{select_point}{(character) how or which point will be selected. Three
 options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
 indicate that the point(s) closets to the respective centroid will be selected.
 Default = "E_centroid".}
 
 \item{cluster_method}{(character) name of the method to be used for detecting
-clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".
-See details in \code{\link{find_clusters}}.}
+clusters of block points in geographic space. Options are "hierarchical" and
+"k-means"; default = "hierarchical". See details in \code{\link{find_clusters}}.}
 
 \item{median_distance_filter}{(character) optional argument to define a median
 distance-based filter based on which sets of sampling sites will be selected.
-The default, NULL, does not apply such a filter. Options are: "max" and "min".}
+The default, NULL, does not apply such a filter. Options are: "max" and "min".
+See details.}
 
 \item{sample_for_distance}{(numeric) sample to be considered when measuring
 the geographic distances among points in the blocks of environmental points.
-Default = 250.}
+The distances measured are then used to test whether points are distributed
+uniformly or not in the geography. Default = 250.}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-A master_selection object (S3) with an additional element called
+A master_selection object (S3) with a special element called
 selected_sites_EG containing one or more sets of selected sites depending on
-\code{max_n_samplings}.
+\code{max_n_samplings} and \code{median_distance_filter}.
 }
 \description{
 Selection of sites to be sampled in a survey, with the goal of
-maximizing uniformity of points in environmental, but considering geographic
-patterns of data. Similar environments that have a disjoint pattern are selected
-twice (two survey sites are placed so they consider the biggest geographic
-clusters).
+maximizing uniformity of points in environment, but considering geographic
+patterns of data. Sets of points that are environmentally similar and have a
+disjoint pattern in geography, are selected twice (two survey sites are placed
+so they consider the biggest geographic).
 }
 \details{
-Two important steps are needed before using this function: exploring data in
-environmental and geographic spaces, and performing a rationalization of the
+Two important steps are needed before using this function: 1) exploring data in
+environmental and geographic spaces, and 2) performing a regionalization of the
 environmental space. Exploring the data can be done using the function
 \code{\link{explore_data_EG}}. This step is optional but strongly recommended,
-as may important decisions that need to be taken depend on the configuration
-of the data in the two spaces. A rationalization of the environmental space
+as important decisions that need to be taken depend on the configuration
+of the data in the two spaces. A regionalization of the environmental space
 of the region of interest helps in defining important parts of your region
 that should be considered to select sites. This can be done using the function
 \code{\link{make_blocks}}. Later the regions created in environmental space
@@ -86,7 +88,7 @@ the geographic pattern of such environmental combinations.
 The process of survey-site selection with this function is the most complex
 among all functions in this package. The complexity derives from the aim of the
 function, which is to select sites that sample appropriately environmental
-combinations in the region of interest (environmental space), but also
+combinations in the region of interest (environmental space), but
 considering the geographic patterns of such environmental regions (geographic
 space).
 
@@ -95,16 +97,17 @@ ones obtained with \code{\link{make_blocks}}) that are uniformly distributed
 in environmental space. The geographic configuration of points in such
 blocks is explored to detect whether they are clustered (i.e., similar
 environmental conditions are present in distant places in the region of
-interest). For blocks with points that are not clustered in geographic space,
-only one survey site is selected, and for those with clustered geographic
-patterns, two survey sites are selected considering the largest clusters.
+interest). For blocks with points that present one cluster in geography,
+only one survey site is selected, and for those with multiple clusters in
+geographic space, two survey sites are selected considering the two largest
+clusters.
 
-As multiple sets could result from selection the an argument of the function
+As multiple sets could result from selection, the argument of the function
 \code{median_distance_filter} could be used to select the set of sites with
 the maximum ("max") or minimum ("min") median distance among selected sites.
 Option "max" will increase the geographic distance among sampling sites, which
 could be desirable if the goal is to cover the region of interest more broadly.
-The other option "min", could be used in case when the goal is to reduce
+The other option "min", could be used in cases when the goal is to reduce
 resources and time needed to sample such sites.
 }
 \examples{

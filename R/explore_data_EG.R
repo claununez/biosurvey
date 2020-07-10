@@ -87,12 +87,14 @@ explore_data_EG <- function(master, variable_1, variable_2,
   # colors
   if (is.null(col_variable1) & is.null(col_variable2) & is.null(col_points) &
       is.null(col_density)) {
+    ## if all null
     col_density <- viridis::viridis(255)
     col_points <- scales::alpha(col_density[25], 0.6)
     col_variable1 <- viridis::cividis(255)
     col_variable2 <- col_variable1
     col_density[1] <- NA
   } else {
+    ## if some of them are null
     if (is.null(col_variable1)) {
       col_variable1 <- viridis::cividis(255)
     }
@@ -133,6 +135,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   plot.new()
   text(0.5, 0.5, "Geographic space", cex = 1.2, srt = 90)
 
+  ### variable 1
   sp::plot(master$polygon, border = NA)
   var <- master$raster_base
   var[!is.na(var[])] <- master$master_matrix[, variable_1]
@@ -143,7 +146,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   plot.new()
   bar_legend(value_range, col = col_variable1, title = variable_1)
 
-
+  ### variable 2
   sp::plot(master$polygon, border = NA)
   var[!is.na(var[])] <- master$master_matrix[, variable_2]
   value_range <- c(var@data@min, var@data@max)

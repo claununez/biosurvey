@@ -64,6 +64,7 @@ selected_sites_SAC <- function(PAM_subset, selection_type = "all",
   }
 
   # SAC calculations
+  ## random
   if ("PAM_selected_sites_random" %in% selection_type) {
     rsel <- PAM_subset$PAM_selected_sites_random
     sac$SAC_selected_sites_random  <- lapply(rsel, function(x) {
@@ -71,6 +72,7 @@ selected_sites_SAC <- function(PAM_subset, selection_type = "all",
     })
   }
 
+  ## E
   if ("PAM_selected_sites_E" %in% selection_type) {
     rsel <- PAM_subset$PAM_selected_sites_E
     sac$SAC_selected_sites_E  <- lapply(rsel, function(x) {
@@ -78,6 +80,7 @@ selected_sites_SAC <- function(PAM_subset, selection_type = "all",
     })
   }
 
+  ## G
   if ("PAM_selected_sites_G" %in% selection_type) {
     rsel <- PAM_subset$PAM_selected_sites_G
     sac$SAC_selected_sites_G  <- lapply(rsel, function(x) {
@@ -85,6 +88,7 @@ selected_sites_SAC <- function(PAM_subset, selection_type = "all",
     })
   }
 
+  ## EG
   if ("PAM_selected_sites_EG" %in% selection_type) {
     rsel <- PAM_subset$PAM_selected_sites_EG
     sac$SAC_selected_sites_EG  <- lapply(rsel, function(x) {

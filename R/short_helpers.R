@@ -8,6 +8,9 @@
 #' is_pair(5)
 
 is_pair <- function(x) {
+  # initial test
+  if (missing(x)) {stop("Argument 'x' needs to be defined.")}
+  # test
   x / 2 == as.integer(x / 2)
 }
 
@@ -28,7 +31,9 @@ is_pair <- function(x) {
 #' match_rformat("GTiff")
 
 match_rformat <- function(format) {
-  if (missing(format)) {stop("Argument 'format needs to be defined.")}
+  # initial test
+  if (missing(format)) {stop("Argument 'format' needs to be defined.")}
+  # defining format
   if (format == "raster") {format1 <- ".grd"}
   if (format == "GTiff") {format1 <- ".tif"}
   if (format == "EHdr") {format1 <- ".bil"}
@@ -111,6 +116,7 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0) {
     stop("Argument 'col' is required to produce the legend.")
   }
 
+  # bar plot
   legend_image <- as.raster(matrix(scales::alpha(rev(col), alpha), ncol = 1))
   text(x = 0.6, y = 0.525, labels = title, srt = 90)
   if (is.numeric(value_range)) {

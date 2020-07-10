@@ -32,7 +32,8 @@ associated with a SpatialPolygonsDataFrame, as in a grid of \code{cell_size}
 resolution. Each grid cell is related to a specific ID and longitude and
 latitude coordinates. Presence (1) and absence (0) values for each species
 in every cell of the PAM are included as apart of the data frame of the
-SpatialPolygonsDataFrame.
+SpatialPolygonsDataFrame. PAM statistics is returned as NULL, but other
+functions can be used to calculate such statistics.
 }
 \description{
 Prepare a presence-absence matrix (PAM) in which all initial points

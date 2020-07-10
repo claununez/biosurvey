@@ -146,7 +146,7 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   title(xlab = variable_1, line = 2.3, cex.lab = 1.1)
   title(ylab = variable_2, line = 2.3, cex.lab = 1.1)
 
-  ## selected blocks
+  ## selected sites
   selected_data <- master_selection[[selection_type]][[selection_number]]
   points(selected_data[, evars], pch = pch_sites, cex = cex_sites, col = col_sites)
 
@@ -159,5 +159,7 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   points(master_selection$master_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
   sp::plot(master_selection$polygon, add = TRUE)
+
+  ## selected sites
   points(selected_data[, gvars], pch = pch_sites, cex = cex_sites, col = col_sites)
 }

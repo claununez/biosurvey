@@ -65,8 +65,10 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     stop("Argument 'block_type' is not valid.")
   }
 
+  # Preparing data
   data <- master_matrix$master_matrix
   id <- paste(data[, 1], data[, 2])
+
   # Block partition
   if (block_type[1] == "equal_area") {
     # Detecting ranges and intervals
@@ -82,6 +84,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
     # Assigning block numbers
     all_cls <- lapply(1:(length(xlb) - 1), function(x) {
+      ## x axis
       if(x == 1){
         x1 <- data[, variable_1] >= xlb[x]
       } else {
@@ -91,6 +94,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
       pd <- data[xid, ]
       pd <- cbind(pd, NA)
       if (nrow(pd) > 0) {
+        ## y axis
         for (y in 1:(length(ylb) - 1)) {
           if(y == 1) {
             y1 <- pd[, variable_2] >= ylb[y]
@@ -122,6 +126,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
     # Assigning block numbers
     all_cls <- lapply(1:(length(xlb) - 1), function(x) {
+      ## x axis
       q1 <- quantile(data[, variable_1], xlb[x])
       x1 <- ifelse(x == 1, q1, (q1 + 0.000000000000001))
       x2 <- quantile(data[, variable_1], xlb[(x + 1)])
@@ -135,6 +140,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
       } else {
         ylb <- xlb
       }
+      ## y axis
       for (y in 1:(length(ylb) - 1)) {
         qy1 <- quantile(pd[, variable_2], ylb[y])
         y1 <- ifelse(y == 1, qy1, (qy1 + 0.000000000000001))
@@ -151,6 +157,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     colnames(all_cls)[ncol(all_cls)] <- "Block"
   }
 
+  # Returning results
   all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ]
   master_matrix$master_matrix <- all_cls
   return(structure(master_matrix, class = "master_matrix"))

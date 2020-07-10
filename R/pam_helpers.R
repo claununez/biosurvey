@@ -42,13 +42,14 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   } else {
 
     # Projecting region toLambert equeal area projection
-    WGS84 <- region@proj4string
+    WGS84 <- sp::CRS("+init=epsg:4326")
+    region <- sp::spTransform(region, WGS84)
     cent <- rgeos::gCentroid(region, byid = FALSE)@coords
     LAEA <- sp::CRS(paste0("+proj=laea +lat_0=", cent[2], " +lon_0=", cent[1],
                            " +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
     region <- sp::spTransform(region, LAEA)
 
-    # test dimensions
+    # test if dimensions are valid
     dims <- raster::extent(region)
     xdim <- diff(dims[1:2])
     ydim <- diff(dims[3:4])
@@ -101,6 +102,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   ID <- raster::extract(grid_reg, matrix_a[, 1:2], cellnumbers = TRUE)[, 1]
   grid_r_pol@data <- data.frame(ID = ID, Longitude = matrix_a[, 1],
                                 Latitude = matrix_a[, 2])
+
   return(grid_r_pol)
 }
 
@@ -360,6 +362,7 @@ files_2data <- function(path, format, spdf_grid = NULL) {
   # Running in loop for all elements of list
   sps <- lapply(1:length(spnames), function(x) {
     if (format %in% c("shp", "gpkg")) {
+      ## reading data
       if (format == "shp") {
         rs <- rgdal::readOGR(dsn = path, layer = mlist[x], verbose = FALSE)
       } else {
@@ -367,18 +370,19 @@ files_2data <- function(path, format, spdf_grid = NULL) {
                              verbose = FALSE)
       }
 
+      ## preparing data
       sppm <- na.omit(data.frame(ID, Species = sp::over(spdf_grid, rs)[, 1]))
       sppm$Species <- spnames[x]
       return(sppm)
 
     } else {
-      # Raster from file
+      ## Raster from file
       rs <- raster::raster(mlist[x])
 
-      # Raster to matrix
+      ## Raster to matrix
       sppm <- raster::rasterToPoints(rs[[x]])
 
-      # Preparing data
+      ## Preparing data
       return(data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x]))
     }
   })
@@ -476,6 +480,7 @@ pam_from_table <- function(data, ID_column, species_column) {
 #' @importFrom sp CRS over SpatialPointsDataFrame
 
 selected_sites_PAM <- function(selected_sites, base_PAM) {
+  # Initial tests
   if(missing(selected_sites)) {
     stop("Argument 'selected_sites' must be defined.")
   }
@@ -485,6 +490,7 @@ selected_sites_PAM <- function(selected_sites, base_PAM) {
 
   WGS84 <- sp::CRS("+init=epsg:4326")
 
+  # Matching sites with PAM IDs
   ls <- lapply(selected_sites, function(x) {
     xp <- sp::SpatialPointsDataFrame(x[, 1:2], x, proj4string = WGS84)
     xid <- data.frame(sp::over(xp, base_PAM$PAM[, "ID"]), x)

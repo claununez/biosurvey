@@ -59,11 +59,13 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
     stop("Argument 'select_point' is not valid, options are:\n'random', 'E_centroid', 'G_centroid'")
   }
 
+  # preparing data
   e_cols <- c(variable_1, variable_2)
   g_cols <- c("Longitude", "Latitude")
   bda <- data[, id_column]
   bs <- unique(bda)
 
+  # rabdom option
   if (select_point[1] == "random") {
     samp <- lapply(bs, function(x) {
       bd <- data[bda == x, ]
@@ -74,11 +76,13 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
     colnames(bsam) <- colnames(data)
   }
 
+  # E centroid option
   if (select_point[1] == "E_centroid") {
     bsam <- closest_to_centroid(data, e_cols[1], e_cols[2], space = "E",
                                 id_column = id_column)
   }
 
+  # G centroid option
   if (select_point[1] == "G_centroid") {
     bsam <- closest_to_centroid(data, g_cols[1], g_cols[2], space = "G",
                                 id_column = id_column)
@@ -122,14 +126,15 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 
 
 unimodal_test <- function(values_list, MC_replicates= 1000) {
-
   # initial tests
   if (missing(values_list)) {
     stop("Argument 'values_list' must be defined.")
   }
 
+  # preparing data
   bs <- names(values_list)
 
+  # tests in loop
   dss <- lapply(bs, function(x) {
     ds <- values_list[[x]]
 
@@ -177,21 +182,23 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 
 
 find_modes <- function(density) {
-
   # initial tests
   if (missing(density)) {
     stop("Argument 'density' must be defined.")
   }
 
+  # preparing data
   density_y <- density$y
   modes <- NULL
 
+  # finding modes in loop
   for (i in 2:(length(density_y) - 1)) {
     if ((density_y[i] > density_y[i - 1]) & (density_y[i] > density_y[i + 1])) {
       modes <- c(modes, i)
     }
   }
 
+  # returning results in a data.frame
   if ( length(modes) == 0 ) {
     message("This is a monotonic distribution. Returning NA.")
     return(data.frame(mode = NA, density = NA))
@@ -258,7 +265,6 @@ find_modes <- function(density) {
 find_clusters <- function(data, x_column, y_column, space,
                           cluster_method = "hierarchical",
                           n_k_means = NULL, split_distance = NULL) {
-
   # initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined.")
@@ -275,19 +281,23 @@ find_clusters <- function(data, x_column, y_column, space,
 
   if (cluster_method %in% c("hierarchical", "k-means")) {
     if (cluster_method[1] == "hierarchical") {
+      # finding clusters hierarchically by distance
       if (is.null(split_distance)) {
         stop("Argument 'split_distance' must be defined if 'cluster_method' = 'hierarchical'.")
       }
 
       if (space == "E") {
+        ## in E
         cluster <- stats::hclust(dist(data[, c(x_column, y_column)]),
                                  method = "complete")
       } else {
+        ## in G
         cluster <- stats::hclust(as.dist(raster::pointDistance(data[, c(x_column, y_column)],
                                                                lonlat = T)),
                                  method = "complete")
       }
 
+      ## vector defining clusters
       cluster_vector <- stats::cutree(cluster, h = split_distance)
 
     } else {
@@ -295,6 +305,7 @@ find_clusters <- function(data, x_column, y_column, space,
         stop("Argument 'n_k_means' must be defined if 'cluster_method' = 'k-means'.")
       }
 
+      ## vector defining clusters
       set.seed(1)
       cluster_vector <- stats::kmeans(as.matrix(data[, c(x_column, y_column)]),
                                       n_k_means)$cluster
@@ -303,6 +314,7 @@ find_clusters <- function(data, x_column, y_column, space,
     stop("Argument 'cluster_method' is not valid.")
   }
 
+  # returning results
   data <- data.frame(data, clusters = cluster_vector)
   return(data)
 }
@@ -399,13 +411,16 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
     stop("Argument 'cluster_method' is not valid.")
   }
 
+  # preparing data
   bda <- data[, id_column]
   bs <- unique(bda)
 
   mgsel <- lapply(bs, function(x) {
+    # finding modes
     md <- suppressMessages(find_modes(density = density(distance_list[[as.character(x)]])))
 
     if (nrow(md) > 1) {
+      # defining clusters for locks with more than one mode
       dens <- md$density
       mdss <- md[order(dens), ]
       dd <- abs(diff(mdss[(length(dens) - 1):length(dens), 1]))
@@ -414,6 +429,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                              space = "G", cluster_method = cluster_method,
                              split_distance = dd)
 
+      # sampling blocks according to most numerous clusters
       sel <- as.numeric(names(sort(table(clush$clusters), decreasing = T)[1:2]))
 
       bse <- point_sample(data = clush[clush$clusters %in% sel, ],
@@ -421,6 +437,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                           select_point = select_point, id_column = "clusters")
       bse$clusters <- NULL
     } else {
+      # sampling if unimodal
       bse <- point_sample(data = data[bda == x, ], variable_1, variable_2, n = n,
                           select_point = select_point, id_column = id_column)
     }
@@ -428,6 +445,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
   })
   mgsel <- do.call(rbind, mgsel)
 
+  # returning results
   return(mgsel)
 }
 
@@ -444,6 +462,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
 #' @importFrom stats median
 
 distance_filter <- function(site_list, median_distance_filter = "max") {
+  # initial tests
   if (!median_distance_filter %in% c("max", "min")) {
     stop("Argument 'median_distance_filter' is not valid, see function's help.")
   }

@@ -59,22 +59,25 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
   }
 
   # Joining PAM with selected sites
-
+  ## random
   if ("selected_sites_random" %in% selection_type) {
     rsel <- master_selection$selected_sites_random
     base_PAM$PAM_selected_sites_random <- selected_sites_PAM(rsel, base_PAM)
   }
 
+  ## E
   if ("selected_sites_E" %in% selection_type) {
     rsel <- master_selection$selected_sites_E
     base_PAM$PAM_selected_sites_E <- selected_sites_PAM(rsel, base_PAM)
   }
 
+  ## G
   if ("selected_sites_G" %in% selection_type) {
     rsel <- master_selection$selected_sites_G
     base_PAM$PAM_selected_sites_G <- selected_sites_PAM(rsel, base_PAM)
   }
 
+  ## EG
   if ("selected_sites_EG" %in% selection_type) {
     rsel <- master_selection$selected_sites_EG
     base_PAM$PAM_selected_sites_EG <- selected_sites_PAM(rsel, base_PAM)
