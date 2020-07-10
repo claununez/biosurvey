@@ -10,7 +10,6 @@ always_allow_html: true
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, message=FALSE, warning=FALSE}
 library(knitr)
-library(kableExtra)
 opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 ```
 
