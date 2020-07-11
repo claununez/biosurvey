@@ -5,15 +5,9 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
                       alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
                       ylab = "Species", ...) {
 
-  # Inital tests
-  if (missing(PAM_selection)) {
+  # Initial tests
+  if (missing(SAC_selected_sites)) {
     stop("Argument 'PAM_selection' must be defined.")
-  }
-  if (missing(SAC1)) {
-    stop("Argument 'SAC1' must be defined.")
-  }
-  if (missing(SAC2)) {
-    stop("Argument 'SAC2' must be defined.")
   }
 
   # Needed library
@@ -49,24 +43,19 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
     }
 
   } else {
-    ## Defining par settings
-    nl <- length(y)
-    if (missing(nc)) {
-      nc <- ceiling(sqrt(nl))
-    } else {
-      nc <- max(1, min(nl, round(nc)))
-    }
-    if (missing(nr)) {
-      nr <- ceiling(nl / nc)
-    } else {
-      nr <- max(1, min(nl, round(nr)))
-      nc <- ceiling(nl / nr)
-    }
+    ## par settings
+    opar <- par(no.readonly = TRUE)
+    on.exit(par(opar))
 
-    par(mfrow = c(nr, nc), cex = par_cex)
+    ## Defining new par settings
+    nl <- length(SAC_selected_sites)
+    nc <- ceiling(sqrt(nl))
+    nr <- ceiling(nl / nc)
+
+    par(mfrow = c(nr, nc))
 
     ## Plots in loop
-    for (i in 1:length(SAC_selected_sites)) {
+    for (i in 1:nl) {
       if (length(SAC_selected_sites[[i]]) > 1) {
         ## Preparing limits if more than one SAC
         maxy <- max(sapply(SAC_selected_sites[[i]], function(x) {max(x$richness)}))
