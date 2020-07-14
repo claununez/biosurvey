@@ -51,7 +51,7 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
   }
 
   # Needed library
-  suppressPackageStartupMessages(library(vegan))
+  # suppressPackageStartupMessages(library(vegan))
 
   # Plotting
   if (length(SAC_selected_sites) == 1) {
