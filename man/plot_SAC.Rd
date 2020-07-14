@@ -35,12 +35,16 @@ interval; default = 0.2.}
 
 \item{ylab}{(character) label for y axis of plot; default = "Species".}
 
+\item{line_for_multiple}{(logical) whether to plot SACs only as lines when
+multiple objects are in one or more of the internal lists in
+\code{SAC_selected_sites}.}
+
 \item{...}{other arguments to be passed to plot method for objects of class
 "\code{specaccum}".}
 }
 \value{
 A plot of species "\code{specaccum}" objects. Multiple panels will be plotted
-if \code{SA_selected_sites} list contains more than one element.
+if \code{SAC_selected_sites} list contains more than one element.
 }
 \description{
 Creates species accumulation curve plots (one or multiple panels)

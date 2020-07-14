@@ -14,15 +14,19 @@
 #' interval; default = 0.2.
 #' @param xlab (character) label for x axis of plot; default = "Number of sites".
 #' @param ylab (character) label for y axis of plot; default = "Species".
+#' @param line_for_multiple (logical) whether to plot SACs only as lines when
+#' multiple objects are in one or more of the internal lists in
+#' \code{SAC_selected_sites}.
 #' @param ... other arguments to be passed to plot method for objects of class
 #' "\code{specaccum}".
 #'
 #' @return
 #' A plot of species "\code{specaccum}" objects. Multiple panels will be plotted
-#' if \code{SA_selected_sites} list contains more than one element.
+#' if \code{SAC_selected_sites} list contains more than one element.
 #'
 #' @export
 #' @importFrom scales alpha
+#' @import vegan
 #'
 #' @examples
 #' # data
