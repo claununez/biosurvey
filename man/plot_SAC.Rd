@@ -4,17 +4,9 @@
 \alias{plot_SAC}
 \title{Plotting lists of species accumulation curves}
 \usage{
-plot_SAC(
-  SAC_selected_sites,
-  col_mean = "blue",
-  col_CI = "lightblue",
-  alpha_mean = 0.7,
-  alpha_CI = 0.2,
-  xlab = "Number of sites",
-  ylab = "Species",
-  line_for_multiple = TRUE,
-  ...
-)
+plot_SAC(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue",
+         alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
+         ylab = "Species", line_for_multiple = TRUE, ...)
 }
 \arguments{
 \item{SAC_selected_sites}{nested list of "\code{specaccum}" objects obtained

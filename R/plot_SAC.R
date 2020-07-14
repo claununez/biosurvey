@@ -24,6 +24,11 @@
 #' A plot of species "\code{specaccum}" objects. Multiple panels will be plotted
 #' if \code{SAC_selected_sites} list contains more than one element.
 #'
+#' @usage
+#' plot_SAC(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue",
+#'          alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
+#'          ylab = "Species", line_for_multiple = TRUE, ...)
+#'
 #' @export
 #' @importFrom scales alpha
 #' @import vegan

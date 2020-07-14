@@ -22,6 +22,9 @@
 #' Important details about the process performed to obtain each of the SACs can
 #' be seen in the help for function \code{\link[vegan]{specaccum}}.
 #'
+#' @usage
+#' selected_sites_SAC(PAM_subset, selection_type = "all", method = "exact", ...)
+#'
 #' @export
 #' @importFrom vegan specaccum
 #'
