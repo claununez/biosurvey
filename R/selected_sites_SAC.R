@@ -15,8 +15,8 @@
 #' @param ... other arguments to be passed to function \code{\link[vegan]{specaccum}}.
 #'
 #' @return
-#' A list of species accumulation curves (SACs) for all sets of selected sites
-#' according to option defined in \code{selection_type}.
+#' A list of species accumulation curves (SACs, "\code{specaccum}" objects) for
+#' all sets of selected sites according to option defined in \code{selection_type}.
 #'
 #' @details
 #' Important details about the process performed to obtain each of the SACs can

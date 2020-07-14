@@ -21,8 +21,8 @@ elements in \code{PAM_subset}. Options are: "all", "selected_sites_random",
 \item{...}{other arguments to be passed to function \code{\link[vegan]{specaccum}}.}
 }
 \value{
-A list of species accumulation curves (SACs) for all sets of selected sites
-according to option defined in \code{selection_type}.
+A list of species accumulation curves (SACs, "\code{specaccum}" objects) for
+all sets of selected sites according to option defined in \code{selection_type}.
 }
 \description{
 Creates species accumulation curves for each set of selected sites
