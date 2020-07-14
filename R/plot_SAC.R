@@ -1,9 +1,45 @@
-
-
+#' Plotting lists of species accumulation curves
+#'
+#' @description Creates species accumulation curve plots (one or multiple panels)
+#' from information contained in lists.
+#'
+#' @param SAC_selected_sites nested list of "\code{specaccum}" objects obtained
+#' with function \code{\link{selected_sites_SAC}}.
+#' @param col_mean (character) color for mean value of curve; default = "blue".
+#' @param col_CI (character) color for confidence interval region for the curve;
+#' default = "lightblue".
+#' @param alpha_mean (numeric) alpha level for line representing the mean, values
+#' from 0 to 1; default = 0.7. Values close to 0 increase transparency.
+#' @param alpha_CI (numeric) alpha level for the region representing the confidence
+#' interval; default = 0.2.
+#' @param xlab (character) label for x axis of plot; default = "Number of sites".
+#' @param ylab (character) label for y axis of plot; default = "Species".
+#' @param ... other arguments to be passed to plot method for objects of class
+#' "\code{specaccum}".
+#'
+#' @return
+#' A plot of species "\code{specaccum}" objects. Multiple panels will be plotted
+#' if \code{SA_selected_sites} list contains more than one element.
+#'
+#' @export
+#' @importFrom scales alpha
+#'
+#' @examples
+#' # data
+#' data("b_pam", package = "biosurvey")
+#' data("m_selection", package = "biosurvey")
+#'
+#' # Subsetting base PAM according to selections
+#' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
+#'
+#' SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")
+#'
+#' # plotting
+#' plot_SAC(SACs)
 
 plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue",
                       alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
-                      ylab = "Species", ...) {
+                      ylab = "Species", line_for_multiple = TRUE, ...) {
 
   # Initial tests
   if (missing(SAC_selected_sites)) {
@@ -21,16 +57,32 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
       y_lim <- c(0, maxy)
 
       ## Plot
-      pple <- lapply(SAC_selected_sites[[1]], function(x) {
-        if (x == 1) {
-          plot(x, ci.type = "line", ci = 0,
-               col = scales::alpha(col_mean, alpha_mean),
-               ylim = y_lim, xlab = xlab, ylab = ylab, ...)
-        } else {
-          plot(x, ci.type = "line", ci = 0,
-               col = scales::alpha(col_mean, alpha_mean), add = TRUE, ...)
-        }
-      })
+      if (line_for_multiple == TRUE) {
+        pple <- lapply(SAC_selected_sites[[1]], function(x) {
+          if (x == 1) {
+            plot(x, ci.type = "line", ci = 0,
+                 col = scales::alpha(col_mean, alpha_mean),
+                 ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+          } else {
+            plot(x, ci.type = "line", ci = 0,
+                 col = scales::alpha(col_mean, alpha_mean), add = TRUE, ...)
+          }
+        })
+      } else {
+        pple <- lapply(SAC_selected_sites[[1]], function(x) {
+          if (x == 1) {
+            plot(x, ci.type = "poly",
+                 col =  scales::alpha(col_mean, alpha_mean),
+                 ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
+                 ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+          } else {
+            plot(x, ci.type = "poly",
+                 col =  scales::alpha(col_mean, alpha_mean),
+                 ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
+                 add = TRUE, ...)
+          }
+        })
+      }
     } else {
       ## Limits for one SAC
       y_lim <- c(0, max(SAC_selected_sites[[1]][[1]]$richness))
@@ -62,16 +114,32 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
         y_lim <- c(0, maxy)
 
         ## Plot
-        pple <- lapply(SAC_selected_sites[[i]], function(x) {
-          if (x == 1) {
-            plot(x, ci.type = "line", ci = 0,
-                 col = scales::alpha(col_mean, alpha_mean),
-                 ylim = y_lim, xlab = xlab, ylab = ylab, ...)
-          } else {
-            plot(x, ci.type = "line", ci = 0,
-                 col = scales::alpha(col_mean, alpha_mean), add = TRUE, ...)
-          }
-        })
+        if (line_for_multiple == TRUE) {
+          pple <- lapply(SAC_selected_sites[[i]], function(x) {
+            if (x == 1) {
+              plot(x, ci.type = "line", ci = 0,
+                   col = scales::alpha(col_mean, alpha_mean),
+                   ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+            } else {
+              plot(x, ci.type = "line", ci = 0,
+                   col = scales::alpha(col_mean, alpha_mean), add = TRUE, ...)
+            }
+          })
+        } else {
+          pple <- lapply(SAC_selected_sites[[i]], function(x) {
+            if (x == 1) {
+              plot(x, ci.type = "poly",
+                   col =  scales::alpha(col_mean, alpha_mean),
+                   ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
+                   ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+            } else {
+              plot(x, ci.type = "poly",
+                   col =  scales::alpha(col_mean, alpha_mean),
+                   ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
+                   add = TRUE, ...)
+            }
+          })
+        }
       } else {
         ## Limits for one SAC
         y_lim <- c(0, max(SAC_selected_sites[[i]][[1]]$richness))
