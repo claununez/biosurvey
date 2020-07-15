@@ -1,3 +1,63 @@
+#' Comparative plots of species accumulation curves
+#'
+#' @description Creates comparative plots of two species accumulation curves
+#' from information contained in lists obtained with the function
+#' \code{\link{selected_sites_SAC}}.
+#'
+#' @param SAC_selected_sites nested list of "\code{specaccum}" objects obtained
+#' with function \code{\link{selected_sites_SAC}}.
+#' @param element_1 (numeric or character) index of position or name of the first
+#' element (type of selection) present in \code{SAC_selected_sites} to be plotted.
+#' @param element_2 (numeric or character) index of position or name of the second
+#' element (type of selection) present in \code{SAC_selected_sites} to be plotted.
+#' @param col_mean1 (character) color for mean value of curve in \code{element_1};
+#' default = "blue".
+#' @param col_mean2 (character) color for mean value of curve in \code{element_2};
+#' default = "gray15".
+#' @param col_CI1 (character) color for confidence interval region for the curve
+#' in \code{element_1}; default = "lightblue".
+#' @param col_CI2 (character) color for confidence interval region for the curve
+#' in \code{element_1}; default = "gray65".
+#' @param alpha_mean (numeric) alpha level for line representing the mean, values
+#' from 0 to 1; default = 0.7. Values close to 0 increase transparency.
+#' @param alpha_CI (numeric) alpha level for the region representing the confidence
+#' interval; default = 0.2.
+#' @param xlab (character) label for x axis of plot; default = "Number of sites".
+#' @param ylab (character) label for y axis of plot; default = "Species".
+#' @param line_for_multiple (logical) whether to plot SACs only as lines when
+#' multiple objects are in one or more of the internal lists in
+#' \code{SAC_selected_sites}. Default = TRUE.
+#' @param add_legend (logical) whether to add default legend to plot; default =
+#' TRUE.
+#' @param ... other arguments to be passed to plot method for objects of class
+#' "\code{specaccum}".
+#'
+#' @return
+#' A comparative plot of two species "\code{specaccum}" objects done based on what
+#' is defined in \code{element_1} and  \code{element_2}.
+#'
+#' @usage
+#' compare_SAC(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
+#'             col_CI1 = "lightblue", alpha_mean = 0.7, alpha_CI = 0.2,
+#'             col_mean2 = "gray15", col_CI2 = "gray65",
+#'             xlab = "Number of sites", ylab = "Species",
+#'             line_for_multiple = TRUE, add_legend = TRUE, ...)
+#'
+#' @export
+#' @importFrom scales alpha
+#' @import vegan
+#'
+#' @examples
+#' # Data
+#' data("b_pam", package = "biosurvey")
+#' data("m_selection", package = "biosurvey")
+#'
+#' # Subsetting base PAM according to selections
+#' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
+#'
+#' SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")
+#'
+#' compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 2)
 
 compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
                         col_CI1 = "lightblue", alpha_mean = 0.7, alpha_CI = 0.2,
