@@ -45,6 +45,7 @@
 #'
 #' @export
 #' @importFrom scales alpha
+#' @importFrom graphics legend
 #' @import vegan
 #'
 #' @examples
