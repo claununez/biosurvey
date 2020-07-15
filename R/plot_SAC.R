@@ -60,6 +60,10 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
 
   lsac <- length(SAC_selected_sites)
 
+  # par settings
+  opar <- par(no.readonly = TRUE)
+  on.exit(par(opar))
+
   # Final colors
   cm <- scales::alpha(col_mean, alpha_mean)
   cci <- scales::alpha(col_CI, alpha_CI)
