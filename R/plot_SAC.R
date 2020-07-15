@@ -47,19 +47,44 @@
 #' plot_SAC(SACs)
 
 plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue",
-                      alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
-                      ylab = "Species", line_for_multiple = TRUE, ...) {
+                     alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
+                     ylab = "Species", line_for_multiple = TRUE, main = NULL, ...) {
 
   # Initial tests
   if (missing(SAC_selected_sites)) {
-    stop("Argument 'PAM_selection' must be defined.")
+    stop("Argument 'SAC_selected_sites' must be defined.")
   }
 
-  # Needed library
-  # suppressPackageStartupMessages(library(vegan))
+  lsac <- length(SAC_selected_sites)
+
+  # Final colors
+  cm <- scales::alpha(col_mean, alpha_mean)
+  cci <- scales::alpha(col_CI, alpha_CI)
+
+  # Mains
+  if (is.null(main)) {
+    mains <- gsub("_", " ", names(SAC_selected_sites))
+  } else {
+    ## options if not null
+    if (class(main) != "character") {
+      main <- as.character(main)
+    }
+
+    if (length(main) == 1) {
+      mains <- rep(main, lsac)
+    } else {
+      if (length(main) != lsac) {
+        message("length of 'main' does not coincide with length of 'SAC_selected_sites'",
+                "\n'main' elements in 'main' will be recycled.")
+        mains <- rep(main, lsac)[1:lsac]
+      } else {
+        mains <- main
+      }
+    }
+  }
 
   # Plotting
-  if (length(SAC_selected_sites) == 1) {
+  if (lsac == 1) {
     if (length(SAC_selected_sites[[1]]) > 1) {
       ## Preparing limits if more than one SAC
       maxy <- max(sapply(SAC_selected_sites[[1]], function(x) {max(x$richness)}))
@@ -69,25 +94,19 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
       if (line_for_multiple == TRUE) {
         pple <- lapply(SAC_selected_sites[[1]], function(x) {
           if (x == 1) {
-            plot(x, ci.type = "line", ci = 0,
-                 col = scales::alpha(col_mean, alpha_mean),
-                 ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+            plot(x, ci.type = "line", ci = 0, col = cm,
+                 ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[1], ...)
           } else {
-            plot(x, ci.type = "line", ci = 0,
-                 col = scales::alpha(col_mean, alpha_mean), add = TRUE, ...)
+            plot(x, ci.type = "line", ci = 0, col = cm, add = TRUE, ...)
           }
         })
       } else {
         pple <- lapply(SAC_selected_sites[[1]], function(x) {
           if (x == 1) {
-            plot(x, ci.type = "poly",
-                 col =  scales::alpha(col_mean, alpha_mean),
-                 ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
-                 ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+            plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
+                 ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[1], ...)
           } else {
-            plot(x, ci.type = "poly",
-                 col =  scales::alpha(col_mean, alpha_mean),
-                 ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
+            plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
                  add = TRUE, ...)
           }
         })
@@ -97,10 +116,9 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
       y_lim <- c(0, max(SAC_selected_sites[[1]][[1]]$richness))
 
       ## Plot
-      plot(SAC_selected_sites[[1]][[1]], ci.type = "poly",
-           col =  scales::alpha(col_mean, alpha_mean),
-           ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
-           ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+      plot(SAC_selected_sites[[1]][[1]], ci.type = "poly", col =  cm,
+           ci.lty = 0, ci.col = cci, ylim = y_lim, xlab = xlab, ylab = ylab,
+           main = mains[1], ...)
     }
 
   } else {
@@ -126,25 +144,19 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
         if (line_for_multiple == TRUE) {
           pple <- lapply(SAC_selected_sites[[i]], function(x) {
             if (x == 1) {
-              plot(x, ci.type = "line", ci = 0,
-                   col = scales::alpha(col_mean, alpha_mean),
-                   ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+              plot(x, ci.type = "line", ci = 0, col = cm,
+                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i], ...)
             } else {
-              plot(x, ci.type = "line", ci = 0,
-                   col = scales::alpha(col_mean, alpha_mean), add = TRUE, ...)
+              plot(x, ci.type = "line", ci = 0, col = cm, add = TRUE, ...)
             }
           })
         } else {
           pple <- lapply(SAC_selected_sites[[i]], function(x) {
             if (x == 1) {
-              plot(x, ci.type = "poly",
-                   col =  scales::alpha(col_mean, alpha_mean),
-                   ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
-                   ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+              plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
+                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i], ...)
             } else {
-              plot(x, ci.type = "poly",
-                   col =  scales::alpha(col_mean, alpha_mean),
-                   ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
+              plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
                    add = TRUE, ...)
             }
           })
@@ -154,10 +166,9 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
         y_lim <- c(0, max(SAC_selected_sites[[i]][[1]]$richness))
 
         ## Plot
-        plot(SAC_selected_sites[[i]][[1]], ci.type = "poly",
-             col =  scales::alpha(col_mean, alpha_mean),
-             ci.lty = 0, ci.col = scales::alpha(col_CI, alpha_CI),
-             ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+        plot(SAC_selected_sites[[i]][[1]], ci.type = "poly", col =  cm,
+             ci.lty = 0, ci.col = cci, ylim = y_lim, xlab = xlab, ylab = ylab,
+             main = mains[i], ...)
       }
     }
   }
