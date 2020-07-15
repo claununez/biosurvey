@@ -6,7 +6,7 @@
 \usage{
 plot_SAC(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue",
          alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
-         ylab = "Species", line_for_multiple = TRUE, ...)
+         ylab = "Species", line_for_multiple = TRUE, main = NULL, ...)
 }
 \arguments{
 \item{SAC_selected_sites}{nested list of "\code{specaccum}" objects obtained
@@ -29,7 +29,10 @@ interval; default = 0.2.}
 
 \item{line_for_multiple}{(logical) whether to plot SACs only as lines when
 multiple objects are in one or more of the internal lists in
-\code{SAC_selected_sites}.}
+\code{SAC_selected_sites}. Default = TRUE.}
+
+\item{main}{(character) title or titles for plots. The default, NULL, adds
+titles according to names of elements in \code{SAC_selected_sites}.}
 
 \item{...}{other arguments to be passed to plot method for objects of class
 "\code{specaccum}".}
@@ -40,7 +43,8 @@ if \code{SAC_selected_sites} list contains more than one element.
 }
 \description{
 Creates species accumulation curve plots (one or multiple panels)
-from information contained in lists.
+from information contained in lists obtained with the function
+\code{\link{selected_sites_SAC}}.
 }
 \examples{
 # data

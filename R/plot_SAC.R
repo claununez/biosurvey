@@ -1,7 +1,8 @@
 #' Plotting lists of species accumulation curves
 #'
 #' @description Creates species accumulation curve plots (one or multiple panels)
-#' from information contained in lists.
+#' from information contained in lists obtained with the function
+#' \code{\link{selected_sites_SAC}}.
 #'
 #' @param SAC_selected_sites nested list of "\code{specaccum}" objects obtained
 #' with function \code{\link{selected_sites_SAC}}.
@@ -16,7 +17,9 @@
 #' @param ylab (character) label for y axis of plot; default = "Species".
 #' @param line_for_multiple (logical) whether to plot SACs only as lines when
 #' multiple objects are in one or more of the internal lists in
-#' \code{SAC_selected_sites}.
+#' \code{SAC_selected_sites}. Default = TRUE.
+#' @param main (character) title or titles for plots. The default, NULL, adds
+#' titles according to names of elements in \code{SAC_selected_sites}.
 #' @param ... other arguments to be passed to plot method for objects of class
 #' "\code{specaccum}".
 #'
@@ -27,7 +30,7 @@
 #' @usage
 #' plot_SAC(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue",
 #'          alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
-#'          ylab = "Species", line_for_multiple = TRUE, ...)
+#'          ylab = "Species", line_for_multiple = TRUE, main = NULL, ...)
 #'
 #' @export
 #' @importFrom scales alpha
