@@ -68,6 +68,14 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
   cm <- scales::alpha(col_mean, alpha_mean)
   cci <- scales::alpha(col_CI, alpha_CI)
 
+  # Y limits
+  maxy <- max(unlist(lapply(SAC_selected_sites, function(w) {
+    sapply(w, function(x) {max(x$richness + (1.96 * x$sd))})
+  })))
+
+  y_lim <- c(0, maxy)
+
+
   # Mains
   if (is.null(main)) {
     mains <- gsub("_", " ", names(SAC_selected_sites))
@@ -93,10 +101,6 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
   # Plotting
   if (lsac == 1) {
     if (length(SAC_selected_sites[[1]]) > 1) {
-      ## Preparing limits if more than one SAC
-      maxy <- max(sapply(SAC_selected_sites[[1]], function(x) {max(x$richness)}))
-      y_lim <- c(0, maxy)
-
       ## Plot
       if (line_for_multiple == TRUE) {
         pple <- lapply(SAC_selected_sites[[1]], function(x) {
@@ -119,9 +123,6 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
         })
       }
     } else {
-      ## Limits for one SAC
-      y_lim <- c(0, max(SAC_selected_sites[[1]][[1]]$richness))
-
       ## Plot
       plot(SAC_selected_sites[[1]][[1]], ci.type = "poly", col =  cm,
            ci.lty = 0, ci.col = cci, ylim = y_lim, xlab = xlab, ylab = ylab,
@@ -143,10 +144,6 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
     ## Plots in loop
     for (i in 1:nl) {
       if (length(SAC_selected_sites[[i]]) > 1) {
-        ## Preparing limits if more than one SAC
-        maxy <- max(sapply(SAC_selected_sites[[i]], function(x) {max(x$richness)}))
-        y_lim <- c(0, maxy)
-
         ## Plot
         if (line_for_multiple == TRUE) {
           pple <- lapply(SAC_selected_sites[[i]], function(x) {
@@ -169,9 +166,6 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
           })
         }
       } else {
-        ## Limits for one SAC
-        y_lim <- c(0, max(SAC_selected_sites[[i]][[1]]$richness))
-
         ## Plot
         plot(SAC_selected_sites[[i]][[1]], ci.type = "poly", col =  cm,
              ci.lty = 0, ci.col = cci, ylim = y_lim, xlab = xlab, ylab = ylab,

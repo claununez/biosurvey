@@ -61,9 +61,9 @@
 #' compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 2)
 
 compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
-                        col_CI1 = "lightblue", alpha_mean = 0.7, alpha_CI = 0.2,
-                        col_mean2 = "gray15", col_CI2 = "gray65",
-                        xlab = "Number of sites", ylab = "Species",
+                        col_CI1 = "lightblue", alpha_mean = 0.9, alpha_CI = 0.3,
+                        col_mean2 = "gray15", col_CI2 = "gray65", lty1 = 1,
+                        lty2 = 2, xlab = "Number of sites", ylab = "Species",
                         line_for_multiple = TRUE, add_legend = TRUE, ...) {
   # Initial tests
   if (missing(SAC_selected_sites)) {
@@ -108,27 +108,27 @@ compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "b
     if (line_for_multiple == TRUE) {
       pple <- lapply(sac1, function(x) {
         if (x == 1) {
-          plot(x, ci.type = "line", ci = 0, col = cm1,
+          plot(x, ci.type = "line", ci = 0, col = cm1, lty = lty1,
                ylim = y_lim, xlab = xlab, ylab = ylab, ...)
         } else {
-          plot(x, ci.type = "line", ci = 0, col = cm1, add = TRUE, ...)
+          plot(x, ci.type = "line", ci = 0, col = cm1, lty = lty1, add = TRUE, ...)
         }
       })
     } else {
       pple <- lapply(sac1, function(x) {
         if (x == 1) {
           plot(x, ci.type = "poly", col =  cm1, ci.lty = 0, ci.col = ci1,
-               ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+               lty = lty1, ylim = y_lim, xlab = xlab, ylab = ylab, ...)
         } else {
           plot(x, ci.type = "poly", col =  cm1, ci.lty = 0, ci.col = ci1,
-               add = TRUE, ...)
+               lty = lty1, add = TRUE, ...)
         }
       })
     }
   } else {
     ## Plot
     plot(sac1[[1]], ci.type = "poly", col =  cm1, ci.lty = 0, ci.col = ci1,
-         ylim = y_lim, xlab = xlab, ylab = ylab, ...)
+         lty = lty1, ylim = y_lim, xlab = xlab, ylab = ylab, ...)
   }
 
   ## Plot 2
@@ -136,22 +136,22 @@ compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "b
     ### Plot
     if (line_for_multiple == TRUE) {
       pple <- lapply(sac2, function(x) {
-        plot(x, ci.type = "line", ci = 0, col = cm2, add = TRUE, ...)
+        plot(x, ci.type = "line", ci = 0, col = cm2, lty = lty2, add = TRUE, ...)
       })
     } else {
       pple <- lapply(sac2, function(x) {
         plot(x, ci.type = "poly", col =  cm2, ci.lty = 0, ci.col = ci2,
-             add = TRUE, ...)
+             lty = lty2, add = TRUE, ...)
       })
     }
   } else {
     ## Plot
     plot(sac2[[1]], ci.type = "poly", col =  cm2, ci.lty = 0, ci.col = ci2,
-         add = TRUE, ...)
+         lty = lty2, add = TRUE, ...)
   }
 
   if (add_legend == TRUE) {
-    legend("bottomright", legend = c(sac1nam, sac2nam), bty = "n", lty = 1,
-           col = c(cm1, cm2), cex = 0.8)
+    legend("bottomright", legend = c(sac1nam, sac2nam), bty = "n",
+           lty = c(lty1, lty2), col = c(cm1, cm2), cex = 0.8)
   }
 }
