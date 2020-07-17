@@ -17,11 +17,13 @@
 #' @param col_CI1 (character) color for confidence interval region for the curve
 #' in \code{element_1}; default = "lightblue".
 #' @param col_CI2 (character) color for confidence interval region for the curve
-#' in \code{element_1}; default = "gray65".
+#' in \code{element_2}; default = "gray65".
+#' @param lty1 type of line for \code{element_1}. See lty in \code{\link{par}}.
+#' @param lty2 type of line for \code{element_2}.
 #' @param alpha_mean (numeric) alpha level for line representing the mean, values
-#' from 0 to 1; default = 0.7. Values close to 0 increase transparency.
+#' from 0 to 1; default = 0.9. Values close to 0 increase transparency.
 #' @param alpha_CI (numeric) alpha level for the region representing the confidence
-#' interval; default = 0.2.
+#' interval; default = 0.3.
 #' @param xlab (character) label for x axis of plot; default = "Number of sites".
 #' @param ylab (character) label for y axis of plot; default = "Species".
 #' @param line_for_multiple (logical) whether to plot SACs only as lines when
@@ -38,10 +40,9 @@
 #'
 #' @usage
 #' compare_SAC(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
-#'             col_CI1 = "lightblue", alpha_mean = 0.7, alpha_CI = 0.2,
-#'             col_mean2 = "gray15", col_CI2 = "gray65",
-#'             xlab = "Number of sites", ylab = "Species",
-#'             line_for_multiple = TRUE, add_legend = TRUE, ...)
+#'             col_CI1 = "lightblue", col_mean2 = "gray15", col_CI2 = "gray65",
+#'             alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
+#'             ylab = "Species", line_for_multiple = TRUE, add_legend = TRUE, ...)
 #'
 #' @export
 #' @importFrom scales alpha
@@ -61,8 +62,8 @@
 #' compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 2)
 
 compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
-                        col_CI1 = "lightblue", alpha_mean = 0.9, alpha_CI = 0.3,
-                        col_mean2 = "gray15", col_CI2 = "gray65", lty1 = 1,
+                        col_CI1 = "lightblue", col_mean2 = "gray15",
+                        col_CI2 = "gray65", lty1 = 1, alpha_mean = 0.9, alpha_CI = 0.3,
                         lty2 = 2, xlab = "Number of sites", ylab = "Species",
                         line_for_multiple = TRUE, add_legend = TRUE, ...) {
   # Initial tests
