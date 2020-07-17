@@ -4,13 +4,18 @@
 \alias{master_matrix}
 \title{Prepare a base object to perform further analyses}
 \usage{
-master_matrix(region, variables, do_pca = FALSE, center = TRUE, scale = FALSE,
-              variables_in_matrix = NULL)
+master_matrix(region, variables, mask = NULL, do_pca = FALSE, center = TRUE,
+              scale = FALSE, variables_in_matrix = NULL)
 }
 \arguments{
-\item{region}{SpatialPolygonsDataFrame of the region of interest.}
+\item{region}{SpatialPolygons* of the region of interest; for instance,
+a country, another type of administrative are, or a protected area.}
 
 \item{variables}{RasterStack or RasterBrick of environmental variables.}
+
+\item{mask}{(optional) SpatialPolygons* object to mask \code{variables} and
+reduce \code{region} to an area that is more relevant for analysis (e.g., only
+areas with natural vegetation cover). Default = NULL.}
 
 \item{do_pca}{(logical) whether or not to perform a Principal Component Analysis.
 Default = FALSE.}
@@ -31,9 +36,10 @@ An S3 object of class master_matrix containing the following elements:
 \item master_matrix: a date.frame with information about geographic location of
 raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 the first two principal components derived from original data.
-\item polygon: a SpatialPolygonsDataFrame representing the region of interest.
+\item region: a SpatialPolygons* representing the region of interest.
 \item raster_base: a raster layer for the region of interest with a single value,
 to be used for plotting purposes.
+\item mask: SpatialPolygons* object used. Present only if \code{mask} was defined.
 \item PCA_results: if \code{do_pca} is TRUE, other results from principal
 component analysis. If FALSE, PCA_results element of the object is NULL.
 }
@@ -42,6 +48,16 @@ component analysis. If FALSE, PCA_results element of the object is NULL.
 Prepare an S3 object that will serve as the base to perform all
 further analyses. This object will contain geographic and environmental
 information that will be used to characterize the region of interest.
+}
+\details{
+This function helps in preparing all data as needed for further analyses
+aiming to define a survey sampling system considering geographic and
+environmental spaces in the \code{region} of interest.
+
+If \code{mask} is defined all analyses will be restricted to such an area. If
+\code{mask} is not fully contained by \code{region}, the mask used for reducing
+\code{variables}, and returned as part of the S3 object (master_matrix) is the
+intersection between them.
 }
 \examples{
 # Data
