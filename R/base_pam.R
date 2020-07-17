@@ -70,8 +70,11 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     }
   }
 
+  # Where to prepare spatial PAM
+  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+
   # Create geographyc grid
-  grid_r_pol <- grid_from_region(master_matrix$polygon, cell_size, complete_cover)
+  grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size, complete_cover)
 
   # Prepare SpaptialPoints from different objects
   if (!is.data.frame(data)) {

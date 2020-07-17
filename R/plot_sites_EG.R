@@ -97,9 +97,12 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
     stop("Argument 'selection_type' is not valid, options are:\n'selected_sites_random', 'selected_sites_E', 'selected_sites_G', or 'selected_sites_EG'.")
   }
 
+  # Where to visualize data
+  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+
   # preparing data
-  xlim <- master_selection$polygon@bbox[1, ]
-  ylim <- master_selection$polygon@bbox[2, ]
+  xlim <- master_selection[[where]]@bbox[1, ]
+  ylim <- master_selection[[where]]@bbox[2, ]
 
   gvars <- c("Longitude", "Latitude")
   evars <- c(variable_1, variable_2)
@@ -152,13 +155,16 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
 
   ## geographic space
   par(mar = rep(0.5, 4))
-  sp::plot(master_selection$polygon, border = "transparent")
+  sp::plot(master_selection[[where]], border = "transparent")
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
   points(master_selection$master_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
-  sp::plot(master_selection$polygon, add = TRUE)
+  if (is.null(master_matrix$mask)) {
+    sp::plot(master$region, border = "gray70", add = TRUE)
+  }
+  sp::plot(master_selection[[where]], add = TRUE)
 
   ## selected sites
   points(selected_data[, gvars], pch = pch_sites, cex = cex_sites, col = col_sites)

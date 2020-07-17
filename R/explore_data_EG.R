@@ -1,10 +1,10 @@
 #' Plots to explore environmental factors in environmental and geographic space
 #'
 #' @description Creates a four-panel plot with information of two environmental
-#' predictors (at a time) in the region of interest. The two top panels contain
-#' the information in geographic space (one predictor per panel). The two panels
-#' at the bottom contain information in a 2D environmental space for the two
-#' variables.
+#' predictors (at a time) in the region of interest (or region reduced with mask,
+#' if used). The two top panels contain the information in geographic space (one
+#' predictor per panel). The two panels at the bottom contain information in a
+#' 2D environmental space for the two variables.
 #'
 #' @param master a master_matrix object derived from function
 #' \code{\link{master_matrix}} or a master_selection object derived from functions
@@ -77,6 +77,9 @@ explore_data_EG <- function(master, variable_1, variable_2,
     stop("Object defined in 'master' is not valid, see function's help.")
   }
 
+  # Where to visualize data
+  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+
   # par settings
   opar <- par(no.readonly = TRUE)
   on.exit(par(opar))
@@ -136,22 +139,28 @@ explore_data_EG <- function(master, variable_1, variable_2,
   text(0.5, 0.5, "Geographic space", cex = 1.2, srt = 90)
 
   ### variable 1
-  sp::plot(master$polygon, border = NA)
+  sp::plot(master[[where]], border = NA)
   var <- master$raster_base
   var[!is.na(var[])] <- master$master_matrix[, variable_1]
   value_range <- c(var@data@min, var@data@max)
   raster::image(var, col = col_variable1, add = TRUE)
-  sp::plot(master$polygon, add = TRUE)
+  if (is.null(master_matrix$mask)) {
+    sp::plot(master$region, border = "gray70", add = TRUE)
+  }
+  sp::plot(master[[where]], add = TRUE)
 
   plot.new()
   bar_legend(value_range, col = col_variable1, title = variable_1)
 
   ### variable 2
-  sp::plot(master$polygon, border = NA)
+  sp::plot(master[[where]], border = NA)
   var[!is.na(var[])] <- master$master_matrix[, variable_2]
   value_range <- c(var@data@min, var@data@max)
   raster::image(var, col = col_variable2, add = TRUE)
-  sp::plot(master$polygon, add = TRUE)
+  if (is.null(master_matrix$mask)) {
+    sp::plot(master$region, border = "gray70", add = TRUE)
+  }
+  sp::plot(master[[where]], add = TRUE)
 
   plot.new()
   bar_legend(value_range, col = col_variable2, title = variable_2)

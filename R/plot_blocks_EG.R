@@ -117,9 +117,12 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
     }
   }
 
+  # Where to visualize data
+  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+
   # preparing data
-  xlim <- master$polygon@bbox[1, ]
-  ylim <- master$polygon@bbox[2, ]
+  xlim <- master[[where]]@bbox[1, ]
+  ylim <- master[[where]]@bbox[2, ]
 
   ublocks <- unique(master$master_matrix$Block)
   nblocks <- length(ublocks)
@@ -200,13 +203,16 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
 
   ## geographic space
   par(mar = rep(0.5, 4))
-  sp::plot(master$polygon, border = "transparent")
+  sp::plot(master[[where]], border = "transparent")
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
   points(master$master_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
-  sp::plot(master$polygon, add = TRUE)
+  if (is.null(master_matrix$mask)) {
+    sp::plot(master$region, border = "gray70", add = TRUE)
+  }
+  sp::plot(master[[where]], add = TRUE)
 
   ## selected blocks
   if (which == "selected") {
