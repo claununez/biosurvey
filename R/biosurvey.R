@@ -8,7 +8,7 @@
 #' \code{\link{base_PAM}}, \code{\link{block_sample}},
 #' \code{\link{compare_SAC}}, \code{\link{EG_selection}},
 #' \code{\link{explore_data_EG}}, \code{\link{make_blocks}},
-#' \code{\link{master_matrix}}, \code{\link{PAM_indices}},
+#' \code{\link{master_matrix}},
 #' \code{\link{plot_blocks_EG}}, \code{\link{plot_SAC}},
 #' \code{\link{plot_sites_EG}}, \code{\link{random_selection}},
 #' \code{\link{selected_sites_SAC}}, \code{\link{subset_PAM}},
