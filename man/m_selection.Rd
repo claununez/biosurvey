@@ -8,7 +8,8 @@
 A list of 7 elements:
 \describe{
 \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
-\item{polygon}{object of class SpatialPolygonsDataFrame}
+\item{region}{object of class SpatialPolygons*}
+\item{mask}{object of class SpatialPolygons*}
 \item{raster_base}{object of class RasterLayer}
 \item{PCA_results}{list of length 5}
 \item{selected_sites_random}{list with one data.frame}
@@ -20,7 +21,7 @@ A list of 7 elements:
 m_selection
 }
 \description{
-A list of 7 elements (m_matrix, polygon, raster_base, and PCA_results).
+A list of 8 elements (m_matrix, region, mask, raster_base, and PCA_results).
 See functions \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
 \code{\link{random_selection}}, or \code{\link{EG_selection}}.
 }

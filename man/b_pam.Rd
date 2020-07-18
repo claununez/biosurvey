@@ -8,7 +8,7 @@
 A list of 2 elements:
 \describe{
 \item{PAM}{SpatialPolygonsDataFrame wiht 306 features}
-\item{PAM_statistics}{empty element (NULL)}
+\item{PAM_indices}{empty element (NULL)}
 }
 }
 \usage{

@@ -26,9 +26,9 @@
 #' raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 #' the first two principal components derived from original data.
 #' - region: a SpatialPolygons* representing the region of interest.
+#' - mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
 #' - raster_base: a raster layer for the region of interest with a single value,
 #' to be used for plotting purposes.
-#' - mask: SpatialPolygons* object used. Present only if \code{mask} was defined.
 #' - PCA_results: if \code{do_pca} is TRUE, other results from principal
 #' component analysis. If FALSE, PCA_results element of the object is NULL.
 #'
@@ -114,7 +114,7 @@ master_matrix <- function(region, variables, mask = NULL, do_pca = FALSE,
     master_m <- data.frame(variables, pca$x[, 1:2])
 
     # Return results
-    return(structure(list(master_matrix = master_m, polygon = region, mask = mask,
+    return(structure(list(master_matrix = master_m, region = region, mask = mask,
                           raster_base = b_raster, PCA_results = pca),
                      class = "master_matrix"))
 

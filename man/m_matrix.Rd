@@ -8,7 +8,8 @@
 A list of 4 elements:
 \describe{
 \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
-\item{polygon}{object of class SpatialPolygonsDataFrame}
+\item{region}{object of class SpatialPolygons*}
+\item{mask}{object of class SpatialPolygons*}
 \item{raster_base}{object of class RasterLayer}
 \item{PCA_results}{list of length 5}
 }
@@ -17,7 +18,7 @@ A list of 4 elements:
 m_matrix
 }
 \description{
-A list of 4 elements (m_matrix, polygon, raster_base, and PCA_results).
+A list of 5 elements (m_matrix, region, mask, raster_base, and PCA_results).
 See function \code{\link{master_matrix}}.
 }
 \examples{

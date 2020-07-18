@@ -37,9 +37,9 @@ An S3 object of class master_matrix containing the following elements:
 raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 the first two principal components derived from original data.
 \item region: a SpatialPolygons* representing the region of interest.
+\item mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
 \item raster_base: a raster layer for the region of interest with a single value,
 to be used for plotting purposes.
-\item mask: SpatialPolygons* object used. Present only if \code{mask} was defined.
 \item PCA_results: if \code{do_pca} is TRUE, other results from principal
 component analysis. If FALSE, PCA_results element of the object is NULL.
 }

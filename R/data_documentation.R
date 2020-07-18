@@ -1,12 +1,13 @@
 #' Example of object obtained from using the master_matrix function
 #'
-#' A list of 4 elements (m_matrix, polygon, raster_base, and PCA_results).
+#' A list of 5 elements (m_matrix, region, mask, raster_base, and PCA_results).
 #' See function \code{\link{master_matrix}}.
 #'
 #' @format A list of 4 elements:
 #' \describe{
 #'   \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
-#'   \item{polygon}{object of class SpatialPolygonsDataFrame}
+#'   \item{region}{object of class SpatialPolygons*}
+#'   \item{mask}{object of class SpatialPolygons*}
 #'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #' }
@@ -147,14 +148,15 @@ NULL
 
 #' Example of object obtained from using functions for selecting sampling sites
 #'
-#' A list of 7 elements (m_matrix, polygon, raster_base, and PCA_results).
+#' A list of 8 elements (m_matrix, region, mask, raster_base, and PCA_results).
 #' See functions \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
 #' \code{\link{random_selection}}, or \code{\link{EG_selection}}.
 #'
 #' @format A list of 7 elements:
 #' \describe{
 #'   \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
-#'   \item{polygon}{object of class SpatialPolygonsDataFrame}
+#'   \item{region}{object of class SpatialPolygons*}
+#'   \item{mask}{object of class SpatialPolygons*}
 #'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #'   \item{selected_sites_random}{list with one data.frame}
@@ -177,7 +179,7 @@ NULL
 #' @format A list of 2 elements:
 #' \describe{
 #'   \item{PAM}{SpatialPolygonsDataFrame wiht 306 features}
-#'   \item{PAM_statistics}{empty element (NULL)}
+#'   \item{PAM_indices}{empty element (NULL)}
 #' }
 #'
 #' @examples
