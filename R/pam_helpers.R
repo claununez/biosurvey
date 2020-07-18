@@ -415,7 +415,7 @@ files_2data <- function(path, format, spdf_grid = NULL) {
 #' by identifiers.
 #'
 #' @usage
-#' pam_from_table(data, ID_column, species_column)
+#' PAM_from_table(data, ID_column, species_column)
 #'
 #' @export
 #'
@@ -424,10 +424,10 @@ files_2data <- function(path, format, spdf_grid = NULL) {
 #' data("sp_data", package = "biosurvey")
 #'
 #' # PAM
-#' pam <- pam_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+#' pam <- PAM_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
 #' pam[1:10, c(1, 21:25)]
 
-pam_from_table <- function(data, ID_column, species_column) {
+PAM_from_table <- function(data, ID_column, species_column) {
   # Initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined")

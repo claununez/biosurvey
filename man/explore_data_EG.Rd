@@ -45,10 +45,10 @@ interest in both spaces, geographic and environmental.
 }
 \description{
 Creates a four-panel plot with information of two environmental
-predictors (at a time) in the region of interest. The two top panels contain
-the information in geographic space (one predictor per panel). The two panels
-at the bottom contain information in a 2D environmental space for the two
-variables.
+predictors (at a time) in the region of interest (or region reduced with mask,
+if used). The two top panels contain the information in geographic space (one
+predictor per panel). The two panels at the bottom contain information in a
+2D environmental space for the two variables.
 }
 \examples{
 # Data
