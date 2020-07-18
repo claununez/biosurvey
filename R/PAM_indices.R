@@ -20,7 +20,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   } else {
     if (cpam == "base_PAM") {
       bpam <- PAM
-      PAM <- as.matrix(b_pam$PAM@data[, -1])
+      PAM <- as.matrix(bpam$PAM@data[, -(1:3)])
+      rownames(PAM) <- bpam$PAM@data[, "ID"]
       exclude_column <- NULL
     }
   }
@@ -168,7 +169,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
 
   # if base_PAM
   if (cpam == "base_PAM") {
-    b_pam$PAM_indices <- list(One_value_indices = tab_in, Richness = rich,
+    bpam$PAM_indices <- list(One_value_indices = tab_in, Richness = rich,
                               Range = rang, Richness_standard = richS,
                               Range_standard = rangN, Dispersal_field = d_field,
                               Shared_community_composition = sc_comp,
