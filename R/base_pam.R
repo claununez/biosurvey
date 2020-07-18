@@ -131,7 +131,7 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
 
   # Returning results
-  return(structure(list(PAM = grid_r_pol, PAM_statistics = NULL), class = "base_PAM"))
+  return(structure(list(PAM = grid_r_pol, PAM_indices = NULL), class = "base_PAM"))
 }
 
 
