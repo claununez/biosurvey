@@ -78,7 +78,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   }
 
   # Where to visualize data
-  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+  where <- ifelse(!is.null(master$mask), "mask", "region")
 
   # par settings
   opar <- par(no.readonly = TRUE)
@@ -144,7 +144,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   var[!is.na(var[])] <- master$master_matrix[, variable_1]
   value_range <- c(var@data@min, var@data@max)
   raster::image(var, col = col_variable1, add = TRUE)
-  if (is.null(master_matrix$mask)) {
+  if (is.null(master$mask)) {
     sp::plot(master$region, border = "gray70", add = TRUE)
   }
   sp::plot(master[[where]], add = TRUE)
@@ -157,7 +157,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   var[!is.na(var[])] <- master$master_matrix[, variable_2]
   value_range <- c(var@data@min, var@data@max)
   raster::image(var, col = col_variable2, add = TRUE)
-  if (is.null(master_matrix$mask)) {
+  if (is.null(master$mask)) {
     sp::plot(master$region, border = "gray70", add = TRUE)
   }
   sp::plot(master[[where]], add = TRUE)

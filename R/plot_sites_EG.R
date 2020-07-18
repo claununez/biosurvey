@@ -98,7 +98,7 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   }
 
   # Where to visualize data
-  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+  where <- ifelse(!is.null(master_selection$mask), "mask", "region")
 
   # preparing data
   xlim <- master_selection[[where]]@bbox[1, ]
@@ -161,8 +161,8 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   box(which = "plot")
   points(master_selection$master_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
-  if (is.null(master_matrix$mask)) {
-    sp::plot(master$region, border = "gray70", add = TRUE)
+  if (is.null(master_selection$mask)) {
+    sp::plot(master_selection$region, border = "gray70", add = TRUE)
   }
   sp::plot(master_selection[[where]], add = TRUE)
 

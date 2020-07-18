@@ -118,7 +118,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   }
 
   # Where to visualize data
-  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+  where <- ifelse(!is.null(master$mask), "mask", "region")
 
   # preparing data
   xlim <- master[[where]]@bbox[1, ]
@@ -209,7 +209,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   box(which = "plot")
   points(master$master_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
-  if (is.null(master_matrix$mask)) {
+  if (is.null(master$mask)) {
     sp::plot(master$region, border = "gray70", add = TRUE)
   }
   sp::plot(master[[where]], add = TRUE)
