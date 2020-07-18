@@ -41,8 +41,9 @@
 #' @usage
 #' compare_SAC(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
 #'             col_CI1 = "lightblue", col_mean2 = "gray15", col_CI2 = "gray65",
-#'             alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
-#'             ylab = "Species", line_for_multiple = TRUE, add_legend = TRUE, ...)
+#'             lty1 = 1, lty2 = 2, alpha_mean = 0.7, alpha_CI = 0.2,
+#'             xlab = "Number of sites", ylab = "Species",
+#'             line_for_multiple = TRUE, add_legend = TRUE, ...)
 #'
 #' @export
 #' @importFrom scales alpha
@@ -63,8 +64,9 @@
 
 compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
                         col_CI1 = "lightblue", col_mean2 = "gray15",
-                        col_CI2 = "gray65", lty1 = 1, alpha_mean = 0.9, alpha_CI = 0.3,
-                        lty2 = 2, xlab = "Number of sites", ylab = "Species",
+                        col_CI2 = "gray65", lty1 = 1, lty2 = 2,
+                        alpha_mean = 0.9, alpha_CI = 0.3,
+                        xlab = "Number of sites", ylab = "Species",
                         line_for_multiple = TRUE, add_legend = TRUE, ...) {
   # Initial tests
   if (missing(SAC_selected_sites)) {

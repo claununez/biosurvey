@@ -6,8 +6,9 @@
 \usage{
 compare_SAC(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
             col_CI1 = "lightblue", col_mean2 = "gray15", col_CI2 = "gray65",
-            alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
-            ylab = "Species", line_for_multiple = TRUE, add_legend = TRUE, ...)
+            lty1 = 1, lty2 = 2, alpha_mean = 0.7, alpha_CI = 0.2,
+            xlab = "Number of sites", ylab = "Species",
+            line_for_multiple = TRUE, add_legend = TRUE, ...)
 }
 \arguments{
 \item{SAC_selected_sites}{nested list of "\code{specaccum}" objects obtained
@@ -33,13 +34,13 @@ in \code{element_2}; default = "gray65".}
 
 \item{lty1}{type of line for \code{element_1}. See lty in \code{\link{par}}.}
 
+\item{lty2}{type of line for \code{element_2}.}
+
 \item{alpha_mean}{(numeric) alpha level for line representing the mean, values
 from 0 to 1; default = 0.9. Values close to 0 increase transparency.}
 
 \item{alpha_CI}{(numeric) alpha level for the region representing the confidence
 interval; default = 0.3.}
-
-\item{lty2}{type of line for \code{element_2}.}
 
 \item{xlab}{(character) label for x axis of plot; default = "Number of sites".}
 
