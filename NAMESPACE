@@ -2,6 +2,7 @@
 
 export(EG_selection)
 export(PAM_from_table)
+export(PAM_indices)
 export(base_PAM)
 export(block_sample)
 export(closest_to_centroid)

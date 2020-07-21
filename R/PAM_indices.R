@@ -1,5 +1,63 @@
-
-
+#' Biodiversity indices derived from PAM
+#'
+#' @description Calculates a set of biodiversity indices using values contained
+#' in a presence-absence matrix.
+#'
+#' @param PAM matrix, data.frame, or base_PAM object containing information on
+#' species presence and absence for a set of sites. Sites are organized in the
+#' rows and species in the columns. See details.
+#' @param indices (character) code for indices to be calculated. Basic indices
+#' are calculated all the time, other indices need to be specified. Options are:
+#' "all", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC", "CMSC",
+#' and "CMSR". See details. Default = "all"
+#' @param exclude_column (optional) name or numeric index of columns to be
+#' excluded.Default = NULL.
+#'
+#' @return
+#' If \code{PAM} is a matrix or data.frame, the result is a list with the results
+#' described below (depending on \code{indices}). If \code{PAM} is a base_PAM
+#' object, a base_PAM object will be returned and the list described above will
+#' be appended to the element PAM_indices in such an element.
+#'
+#' @details
+#' Description of the codes of all indices to be calculated is presented in the
+#' table below. Basic indices are calculated in all cases not matter the codes
+#' defined in \code{indices}. For further details on the way calculations are
+#' performed and the meaning of the indices see Soberon and Cavner (2015)
+#' \doi{https://doi.org/10.17161/bi.v10i0.4801}.
+#'
+#' |Code  |Index                                    |Calculation            |
+#' |:-----|----------------------------------------:|----------------------:|
+#' |      |Richness                                 |Basic                  |
+#' |      |Range                                    |Basic                  |
+#' |      |Richness standarized                     |Basic                  |
+#' |      |Range standarized                        |Basic                  |
+#' |AB    |Additive Beta                            |Needs to be defined    |
+#' |BW    |Beta Whittaker                           |Needs to be defined    |
+#' |BL    |Beta Legendre                            |Needs to be defined    |
+#' |SCSC  |Schluter covariance sites-composition    |Needs to be defined    |
+#' |SCSR  |Schluter covariance species-ranges       |Needs to be defined    |
+#' |DF    |Dispersal field                          |Needs to be defined    |
+#' |SCC   |Shared community composition             |Needs to be defined    |
+#' |WRN   |Wright-Reeves nestedness                 |Needs to be defined    |
+#' |SRC   |Stone-Roberts Cscore                     |Needs to be defined    |
+#' |CMSC  |Covariance matrix sites-composition      |Needs to be defined    |
+#' |CMSR  |Covariance matrix species-ranges         |Needs to be defined    |
+#'
+#' @usage
+#' PAM_indices(PAM, indices = "all", exclude_column = NULL)
+#'
+#' @export
+#'
+#' @examples
+#' # Data
+#' data("sp_data", package = "biosurvey")
+#'
+#' # PAM
+#' pam <- PAM_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+#'
+#' pam_ind <- PAM_indices(pam, exclude_column = 1)
+#' pam_ind[1:3]
 
 PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   # Initial test
@@ -7,7 +65,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     stop("Argument 'PAM' must be defined.")
   }
 
-  all_in <- c("all", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
+  all_in <- c("all", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "SCC", "WRN", "SRC",
               "CMSC", "CMSR")
   if (any(!indices %in% all_in)) {
     stop("One or more elements defined in 'indices' is not valid, check function's help.")
@@ -80,7 +138,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   ## values shared community composition
-  if (any(indices %in% c("all", "SC"))) {
+  if (any(indices %in% c("all", "SCC"))) {
     sc_comp <- c(tm1 %*% rich)
     names(sc_comp) <- colnames(PAM)
     ## average
@@ -170,8 +228,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   # if base_PAM
   if (cpam == "base_PAM") {
     bpam$PAM_indices <- list(One_value_indices = tab_in, Richness = rich,
-                              Range = rang, Richness_standard = richS,
-                              Range_standard = rangN, Dispersal_field = d_field,
+                              Range = rang, Richness_standardized = richS,
+                              Range_standardized = rangN, Dispersal_field = d_field,
                               Shared_community_composition = sc_comp,
                               Cov_mat_sites_composition = CS_cov,
                               Cov_mat_species_ranges = RS_cov)
@@ -179,7 +237,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   } else {
     # if matrix
     return(list(One_value_indices = tab_in, Richness = rich, Range = rang,
-                Richness_standard = richS, Range_standard = rangN,
+                Richness_standardized = richS, Range_standardized = rangN,
                 Dispersal_field = d_field, Shared_comm_composition = sc_comp,
                 Cov_mat_sites_composition = CS_cov, Cov_mat_species_ranges = RS_cov))
   }
