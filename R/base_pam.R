@@ -6,7 +6,7 @@
 #' longitude and latitude coordinates.
 #'
 #' @param data species geographic ranges to be used to create a presence-absence
-#' matrix (PAM). This argument can be: RasterStack, RasterBrick, data.frame,
+#' matrix (PAM). This argument can be: data.frame, RasterStack, RasterBrick,
 #' list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
 #' details for description of characteristics of each option.
 #' @param format (character) if \code{data} is a character, available formats are:
@@ -24,6 +24,27 @@
 #' functions \code{\link{master_matrix}}, \code{\link{random_selection}},
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
 #' \code{uniformEG_selection}.
+#'
+#' Description of objects to be used as \code{data}:
+#' - data.frame.- a table containing  three columns. Columns must be in the
+#' following order: Longitude, Latitude, Species.
+#' - RasterStack or RasterBrick.- Each layer must be named as the species which
+#' range it represents, and values in each layer must be 1 (presence) and 0
+#' (absence).
+#' - list.-  a list of RasterLayers that cannot be stacked because of extent or
+#' resolution differences. Each element of the list must be named as the species
+#' which range it represents, and values in each RasterLayer must be 1 (presence)
+#' and 0 (absence).
+#' - SpatialPolygonsDataFrame.- object representing species' geographic ranges.
+#' The data frame associated with the object must contain a column
+#' named "Species" to distinguish among features representing each species range.
+#' - SpatialPointsDataFrame.- object of spatial points where each record of a
+#' species must be a point. The associated data.frame must contain the following
+#' columns (in that order): Longitude, Latitude, Species.
+#' - character.- name of directory containing raster, shapefiles, or geopackage
+#' files representing species geographic ranges. Each file must be named as the
+#' species that it represents. All files must be in an only format. If files are
+#' raster, values in each layer must be 1 (presence) and 0 (absence).
 #'
 #' @return
 #' A presence-absence matrix (PAM) of class base_PAM for the region of interest
@@ -73,7 +94,7 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   # Where to prepare spatial PAM
   where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
 
-  # Create geographyc grid
+  # Create geographic grid
   grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size, complete_cover)
 
   # Prepare SpaptialPoints from different objects
