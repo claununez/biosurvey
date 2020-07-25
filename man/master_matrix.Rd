@@ -4,8 +4,9 @@
 \alias{master_matrix}
 \title{Prepare a base object to perform further analyses}
 \usage{
-master_matrix(region, variables, mask = NULL, do_pca = FALSE, center = TRUE,
-              scale = FALSE, variables_in_matrix = NULL)
+master_matrix(region, variables, mask = NULL, preselected_sites = NULL, 
+              do_pca = FALSE, center = TRUE, scale = FALSE, 
+              variables_in_matrix = NULL)
 }
 \arguments{
 \item{region}{SpatialPolygons* of the region of interest; for instance,
@@ -16,6 +17,10 @@ a country, another type of administrative are, or a protected area.}
 \item{mask}{(optional) SpatialPolygons* object to mask \code{variables} and
 reduce \code{region} to an area that is more relevant for analysis (e.g., only
 areas with natural vegetation cover). Default = NULL.}
+
+\item{preselected_sites}{data.frame containing sites that must be included
+in posterior selections of sites for the survey system. Columns must be:
+"Sites", "Longitude", "Latitude", in that order.}
 
 \item{do_pca}{(logical) whether or not to perform a Principal Component Analysis.
 Default = FALSE.}
@@ -38,6 +43,8 @@ raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 the first two principal components derived from original data.
 \item region: a SpatialPolygons* representing the region of interest.
 \item mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
+\item preselected_sites: sites defined by used. NULL if \code{preselected_sites}
+was not defined.
 \item raster_base: a raster layer for the region of interest with a single value,
 to be used for plotting purposes.
 \item PCA_results: if \code{do_pca} is TRUE, other results from principal
@@ -58,6 +65,10 @@ If \code{mask} is defined all analyses will be restricted to such an area. If
 \code{mask} is not fully contained by \code{region}, the mask used for reducing
 \code{variables}, and returned as part of the S3 object (master_matrix) is the
 intersection between them.
+
+If \code{preselected_sites} is defined, environmental values and, if
+\code{do_pca} = TRUE, principal components are added to such records. These
+records and their characteristics will be considered in further analyses.
 }
 \examples{
 # Data
