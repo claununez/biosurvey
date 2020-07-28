@@ -33,8 +33,10 @@ in a presence-absence matrix.
 Description of the codes of all indices to be calculated is presented in the
 table below. If \code{indices} = "basic", only basic indices are calculated.
 However, basic indices are calculated in all cases not matter the code(s)
-defined in \code{indices}. For further details on the way calculations are
-performed and the meaning of the indices see Soberon and Cavner (2015)
+defined in \code{indices}. Some indices require previous calculations of other
+indices, in such cases, all indices required are added to the final list.
+For further details on the way calculations are performed and the meaning of
+the indices see Soberon and Cavner (2015)
 \doi{https://doi.org/10.17161/bi.v10i0.4801}.\tabular{lrr}{
    Code \tab Index \tab Calculation \cr
     \tab Richness \tab Basic \cr
@@ -43,13 +45,13 @@ performed and the meaning of the indices see Soberon and Cavner (2015)
     \tab Range standarized \tab Basic \cr
    AB \tab Additive Beta \tab Needs to be defined \cr
    BW \tab Beta Whittaker \tab Needs to be defined \cr
-   BL \tab Beta Legendre \tab Needs to be defined \cr
-   SCSC \tab Schluter covariance sites-composition \tab Needs to be defined \cr
-   SCSR \tab Schluter covariance species-ranges \tab Needs to be defined \cr
+   BL \tab Beta Legendre \tab Needs to be defined and DF \cr
+   SCSC \tab Schluter covariance sites-composition \tab Needs to be defined and CMSC \cr
+   SCSR \tab Schluter covariance species-ranges \tab Needs to be defined and CMSR \cr
    DF \tab Dispersal field \tab Needs to be defined \cr
    SCC \tab Shared community composition \tab Needs to be defined \cr
-   WRN \tab Wright-Reeves nestedness \tab Needs to be defined \cr
-   SRC \tab Stone-Roberts Cscore \tab Needs to be defined \cr
+   WRN \tab Wright-Reeves nestedness \tab Needs to be defined, BW, and DF \cr
+   SRC \tab Stone-Roberts Cscore \tab Needs to be defined and DF \cr
    CMSC \tab Covariance matrix sites-composition \tab Needs to be defined \cr
    CMSR \tab Covariance matrix species-ranges \tab Needs to be defined \cr
 }
