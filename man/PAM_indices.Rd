@@ -13,11 +13,11 @@ rows and species in the columns. See details.}
 
 \item{indices}{(character) code for indices to be calculated. Basic indices
 are calculated all the time, other indices need to be specified. Options are:
-"all", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC", "CMSC",
-and "CMSR". See details. Default = "all"}
+"all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
+"CMSC", and "CMSR". See details. Default = "all"}
 
 \item{exclude_column}{(optional) name or numeric index of columns to be
-excluded.Default = NULL.}
+excluded. Default = NULL.}
 }
 \value{
 If \code{PAM} is a matrix or data.frame, the result is a list with the results
@@ -31,7 +31,8 @@ in a presence-absence matrix.
 }
 \details{
 Description of the codes of all indices to be calculated is presented in the
-table below. Basic indices are calculated in all cases not matter the codes
+table below. If \code{indices} = "basic", only basic indices are calculated.
+However, basic indices are calculated in all cases not matter the code(s)
 defined in \code{indices}. For further details on the way calculations are
 performed and the meaning of the indices see Soberon and Cavner (2015)
 \doi{https://doi.org/10.17161/bi.v10i0.4801}.\tabular{lrr}{

@@ -502,3 +502,167 @@ selected_sites_PAM <- function(selected_sites, base_PAM) {
   names(ls) <- names(selected_sites)
   return(ls)
 }
+
+
+# Helper to refill a list of PAM indices
+
+refill_PAM_indices <- function(initial_index_list, new_index_list) {
+  # Initial test
+  if (missing(initial_index_list)) {
+    stop("Argument 'initial_index_list' must be defined.")
+  }
+  if (missing(new_index_list)) {
+    stop("Argument 'new_index_list' must be defined.")
+  }
+
+  # starting filling list
+  index_list <- list()
+
+  ov <- data.frame(Value = rep(NA, 11),
+                   row.names = c("Sites_Cells", "Species", "Av_dispersal_field",
+                                 "Av_shared_community_composition",
+                                 "Additive_Beta", "Beta_Whittaker",
+                                 "Beta_Legendre", "Schluter_cov_sites_composition",
+                                 "Schluter_cov_species_ranges",
+                                 "Wright_Reeves_nestedness",
+                                 "Stone_Roberts_Cscore"))
+
+  index_list$One_value_indices <- ov
+
+  # basic ones
+  ## lists
+  if (all(is.na(new_index_list$Richness)) & any(!is.na(initial_index_list$Richness))) {
+    index_list$Richness <- initial_index_list$Richness
+  } else {
+    index_list$Richness <- new_index_list$Richness
+  }
+
+  if (all(is.na(new_index_list$Range)) & any(!is.na(initial_index_list$Range))) {
+    index_list$Range <- initial_index_list$Range
+  } else {
+    index_list$Range <- new_index_list$Range
+  }
+
+  if (all(is.na(new_index_list$Richness_standarized)) &
+      any(!is.na(initial_index_list$Richness_standarized))) {
+    index_list$Richness_standarized <- initial_index_list$Richness_standarized
+  } else {
+    index_list$Richness_standarized <- new_index_list$Richness_standarized
+  }
+
+  if (all(is.na(new_index_list$Range_standarized)) &
+      any(!is.na(initial_index_list$Range_standarized))) {
+    index_list$Range_standarized <- initial_index_list$Range_standarized
+  } else {
+    index_list$Range_standarized <- new_index_list$Range_standarized
+  }
+
+  ## one value basic
+  index_list$One_value_indices["Sites_Cells", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Sites_Cells", ]) &
+      !is.na(initial_index_list$One_value_indices["Sites_Cells", ]),
+    initial_index_list$One_value_indices["Sites_Cells", ],
+    new_index_list$One_value_indices["Sites_Cells", ]
+  )
+
+  index_list$One_value_indices["Species", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Species", ]) &
+      !is.na(initial_index_list$One_value_indices["Species", ]),
+    initial_index_list$One_value_indices["Species", ],
+    new_index_list$One_value_indices["Species", ]
+  )
+
+  # non basic
+  ## one value
+  index_list$One_value_indices["Av_dispersal_field", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Av_dispersal_field", ]) &
+      !is.na(initial_index_list$One_value_indices["Av_dispersal_field", ]),
+    initial_index_list$One_value_indices["Av_dispersal_field", ],
+    new_index_list$One_value_indices["Av_dispersal_field", ]
+  )
+
+  index_list$One_value_indices["Av_shared_community_composition", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Av_shared_community_composition", ]) &
+      !is.na(initial_index_list$One_value_indices["Av_shared_community_composition", ]),
+    initial_index_list$One_value_indices["Av_shared_community_composition", ],
+    new_index_list$One_value_indices["Av_shared_community_composition", ]
+  )
+
+  index_list$One_value_indices["Additive_Beta", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Additive_Beta", ]) &
+      !is.na(initial_index_list$One_value_indices["Additive_Beta", ]),
+    initial_index_list$One_value_indices["Additive_Beta", ],
+    new_index_list$One_value_indices["Additive_Beta", ]
+  )
+
+  index_list$One_value_indices["Beta_Whittaker", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Beta_Whittaker", ]) &
+      !is.na(initial_index_list$One_value_indices["Beta_Whittaker", ]),
+    initial_index_list$One_value_indices["Beta_Whittaker", ],
+    new_index_list$One_value_indices["Beta_Whittaker", ]
+  )
+
+  index_list$One_value_indices["Beta_Legendre", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Beta_Legendre", ]) &
+      !is.na(initial_index_list$One_value_indices["Beta_Legendre", ]),
+    initial_index_list$One_value_indices["Beta_Legendre", ],
+    new_index_list$One_value_indices["Beta_Legendre", ]
+  )
+
+  index_list$One_value_indices["Schluter_cov_sites_composition", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Schluter_cov_sites_composition", ]) &
+      !is.na(initial_index_list$One_value_indices["Schluter_cov_sites_composition", ]),
+    initial_index_list$One_value_indices["Schluter_cov_sites_composition", ],
+    new_index_list$One_value_indices["Schluter_cov_sites_composition", ]
+  )
+
+  index_list$One_value_indices["Schluter_cov_species_ranges", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Schluter_cov_species_ranges", ]) &
+      !is.na(initial_index_list$One_value_indices["Schluter_cov_species_ranges", ]),
+    initial_index_list$One_value_indices["Schluter_cov_species_ranges", ],
+    new_index_list$One_value_indices["Schluter_cov_species_ranges", ]
+  )
+  index_list$One_value_indices["Wright_Reeves_nestedness", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Wright_Reeves_nestedness", ]) &
+      !is.na(initial_index_list$One_value_indices["Wright_Reeves_nestedness", ]),
+    initial_index_list$One_value_indices["Wright_Reeves_nestedness", ],
+    new_index_list$One_value_indices["Wright_Reeves_nestedness", ]
+  )
+  index_list$One_value_indices["Stone_Roberts_Cscore", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Stone_Roberts_Cscore", ]) &
+      !is.na(initial_index_list$One_value_indices["Stone_Roberts_Cscore", ]),
+    initial_index_list$One_value_indices["Stone_Roberts_Cscore", ],
+    new_index_list$One_value_indices["Stone_Roberts_Cscore", ]
+  )
+
+  ## lists
+  if (all(is.na(new_index_list$Dispersal_field)) &
+      any(!is.na(initial_index_list$Dispersal_field))) {
+    index_list$Dispersal_field <- initial_index_list$Dispersal_field
+  } else {
+    index_list$Dispersal_field <- new_index_list$Dispersal_field
+  }
+
+  if (all(is.na(new_index_list$Shared_community_composition)) &
+      any(!is.na(initial_index_list$Shared_community_composition))) {
+    index_list$Shared_community_composition <- initial_index_list$Shared_community_composition
+  } else {
+    index_list$Shared_community_composition <- new_index_list$Shared_community_composition
+  }
+
+  if (all(is.na(new_index_list$Cov_mat_sites_composition)) &
+      any(!is.na(initial_index_list$Cov_mat_sites_composition))) {
+    index_list$Cov_mat_sites_composition <- initial_index_list$Cov_mat_sites_composition
+  } else {
+    index_list$Cov_mat_sites_composition <- new_index_list$Cov_mat_sites_composition
+  }
+
+  if (all(is.na(new_index_list$Cov_mat_species_ranges)) &
+      any(!is.na(initial_index_list$Cov_mat_species_ranges))) {
+    index_list$Cov_mat_species_ranges <- initial_index_list$Cov_mat_species_ranges
+  } else {
+    index_list$Cov_mat_species_ranges <- new_index_list$Cov_mat_species_ranges
+  }
+
+  return(index_list)
+}
