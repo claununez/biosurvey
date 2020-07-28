@@ -1,16 +1,17 @@
-#' Prepare a presence-absence matrix (PAM)
+#' Presence-absence matrix (PAM) linked to a spatial grid 
 #'
-#' @description Prepare a presence-absence matrix (PAM) in which all initial points
-#' of interest (rows) will have a representation of the species present in such
-#' areas (columns). Initial points of interest will be represented by an ID, and
-#' longitude and latitude coordinates.
+#' @description Prepares a presence-absence matrix (PAM) in which all sites
+#' of interest (rows) will have a value for presence or absence of a species 
+#' of interest (columns). Initial points of interest will be represented by an ID, 
+#' and longitude and latitude coordinates. The PAM will be linked to a spatial 
+#' grid.
 #'
 #' @param data species geographic ranges to be used to create a presence-absence
 #' matrix (PAM). This argument can be: data.frame, RasterStack, RasterBrick,
 #' list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
 #' details for description of characteristics of each option.
-#' @param format (character) if \code{data} is a character, available formats are:
-#' "shp", "gpkg", "GTiff", and "ascii".
+#' @param format (character) if \code{data} is of class character, available 
+#' options are: "shp", "gpkg", "GTiff", and "ascii".
 #' @param master_matrix object of class "master_matrix" or "master_selection". See
 #' details.
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
@@ -18,12 +19,20 @@
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with the geographic region of interest contained in
 #' \code{master_matrix}. Default = TRUE.
+#' @param clip_grid (logical) whether to clip the spatial grid using the region
+#' of interest. Clipping improves visualization but depending on how complex the 
+#' region of interest is it could take time to perform this task. 
+#' @param indices (character) code for indices to be calculated. Basic indices
+#' are calculated all the time, other indices need to be specified. Options are:
+#' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC", 
+#' "CMSC", and "CMSR". See details. Default = "basic". See details.
 #'
 #' @details
 #' Objects of class "master_matrix" or "master_selection" could be obtained from
 #' functions \code{\link{master_matrix}}, \code{\link{random_selection}},
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
-#' \code{uniformEG_selection}.
+#' \code{uniformEG_selection}. The element region or mask if this last is not 
+#' NULL is used to prepare the spatial grid.
 #'
 #' Description of objects to be used as \code{data}:
 #' - data.frame.- a table containing  three columns. Columns must be in the
@@ -45,6 +54,28 @@
 #' files representing species geographic ranges. Each file must be named as the
 #' species that it represents. All files must be in an only format. If files are
 #' raster, values in each layer must be 1 (presence) and 0 (absence).
+#' 
+#' A list of codes and indices that can be calculated is described below. For 
+#' further details on the way calculations are performed and the meaning of the 
+#' indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.4801}.
+#'
+#' |Code  |Index                                    |Calculation            |
+#' |:-----|----------------------------------------:|----------------------:|
+#' |      |Richness                                 |Basic                  |
+#' |      |Range                                    |Basic                  |
+#' |      |Richness standarized                     |Basic                  |
+#' |      |Range standarized                        |Basic                  |
+#' |AB    |Additive Beta                            |Needs to be defined    |
+#' |BW    |Beta Whittaker                           |Needs to be defined    |
+#' |BL    |Beta Legendre                            |Needs to be defined    |
+#' |SCSC  |Schluter covariance sites-composition    |Needs to be defined    |
+#' |SCSR  |Schluter covariance species-ranges       |Needs to be defined    |
+#' |DF    |Dispersal field                          |Needs to be defined    |
+#' |SCC   |Shared community composition             |Needs to be defined    |
+#' |WRN   |Wright-Reeves nestedness                 |Needs to be defined    |
+#' |SRC   |Stone-Roberts Cscore                     |Needs to be defined    |
+#' |CMSC  |Covariance matrix sites-composition      |Needs to be defined    |
+#' |CMSR  |Covariance matrix species-ranges         |Needs to be defined    |
 #'
 #' @return
 #' A presence-absence matrix (PAM) of class base_PAM for the region of interest
@@ -52,12 +83,12 @@
 #' resolution. Each grid cell is related to a specific ID and longitude and
 #' latitude coordinates. Presence (1) and absence (0) values for each species
 #' in every cell of the PAM are included as apart of the data frame of the
-#' SpatialPolygonsDataFrame. PAM statistics is returned as NULL, but other
-#' functions can be used to calculate such statistics.
+#' SpatialPolygonsDataFrame. PAM indices is returned with the basic indices of 
+#' biodiversity as default, but can be changed using the argument \code{indices}.
 #'
 #' @usage
 #' base_PAM(data, format = NULL, master_matrix, cell_size,
-#'          complete_cover = TRUE)
+#'          complete_cover = TRUE, indices = "basic")
 #'
 #' @export
 #' @importFrom sp SpatialPointsDataFrame over
@@ -75,53 +106,61 @@
 
 
 base_PAM <- function(data, format = NULL, master_matrix, cell_size,
-                     complete_cover = TRUE) {
+                     complete_cover = TRUE, clip_grid = FALSE, indices = "basic") {
   # Initial tests
   clsdata <- class(data)[1]
-
+  
   if (!clsdata %in% c("RasterStack", "RasterBrick", "data.frame", "list",
-                     "SpatialPolygonsDataFrame", "SpatialPointsDataFrame",
-                     "character")) {
+                      "SpatialPolygonsDataFrame", "SpatialPointsDataFrame",
+                      "character")) {
     stop("Argument 'data' is not valid, check function's help.")
   }
-
+  
   if (clsdata == "character") {
     if (is.null(format)) {
       stop("Argument 'format' must be defined if class of 'data' is character")
     }
   }
-
+  
+  all_in <- c("all", "basic", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "SCC", 
+              "WRN", "SRC", "CMSC", "CMSR")
+  if (any(!indices %in% all_in)) {
+    stop("One or more elements defined in 'indices' is not valid, check function's help.")
+  }
+  
   # Where to prepare spatial PAM
   where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
-
+  
   # Create geographic grid
+  message("Preparing spatial grid.")
   grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size, complete_cover)
-
+  
   # Prepare SpaptialPoints from different objects
+  message("Preparing PAM from 'data'.")
   if (!is.data.frame(data)) {
     ## from raster objects
     if (clsdata %in% c("RasterStack", "RasterBrick")) {
       data <- stack_2data(species_layers = data)
     }
-
+    
     ## from a list
     if (clsdata == "list") {
       data <- rlist_2data(raster_list = data)
     }
-
+    
     ## from files stored in a directory
     if (clsdata == "character" & !clsdata %in% c("shp", "gpkg")) {
       data <- files_2data(path = data, format)
     }
   }
-
+  
   # SpatialPointsDataFrame from data if needed
   if (!clsdata %in% c("SpatialPointsDataFrame", "SpatialPolygonsDataFrame")) {
     if (clsdata == "character" & !clsdata %in% c("shp", "gpkg")) {
       sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data)
     }
   }
-
+  
   # Assign ID to points depending of type of data if needed
   ## direct step from SPDF or character data argument
   if (clsdata %in% c("SpatialPolygonsDataFrame", "character")) {
@@ -132,7 +171,7 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
       sp_points <- files_2data(path = data, format, spdf_grid = grid_r_pol)
     }
   }
-
+  
   ## merging with ID if any other object is defined in data
   if (class(data)[1] %in% c("data.frame", "SpatialPointsDataFrame")) {
     if (class(data)[1] %in% "SpatialPointsDataFrame") {
@@ -142,17 +181,25 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
                                           grid_r_pol[, "ID"]),
                             Species = sp_points@data[, 3])
   }
-
+  
   # PAM from points
   sp_points <- PAM_from_table(sp_points, ID_column = "ID",
                               species_column = "Species")
-
+  
   # Complete PAM
   grid_r_pol@data <- merge(grid_r_pol@data, sp_points, by = "ID", all.x = TRUE)
   grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
-
-  # Returning results
-  return(structure(list(PAM = grid_r_pol, PAM_indices = NULL), class = "base_PAM"))
+  
+  # Clipping if needed
+  if (clip_grid == TRUE) {
+    grid_r_pol <- raster::intersect(grid_r_pol, master_matrix[[where]])
+  }
+  
+  # Preparing and returning results
+  message("Calculating basic PAM indices.")
+  bPAM <- structure(list(PAM = grid_r_pol, PAM_indices = NULL), class = "base_PAM")
+  
+  bPAM <- PAM_indices(bPAM, indices = "basic")
+  
+  return(bPAM)
 }
-
-

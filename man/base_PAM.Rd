@@ -2,10 +2,10 @@
 % Please edit documentation in R/base_pam.R
 \name{base_PAM}
 \alias{base_PAM}
-\title{Prepare a presence-absence matrix (PAM)}
+\title{Presence-absence matrix (PAM) linked to a spatial grid}
 \usage{
 base_PAM(data, format = NULL, master_matrix, cell_size,
-         complete_cover = TRUE)
+         complete_cover = TRUE, indices = "basic")
 }
 \arguments{
 \item{data}{species geographic ranges to be used to create a presence-absence
@@ -13,8 +13,8 @@ matrix (PAM). This argument can be: data.frame, RasterStack, RasterBrick,
 list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
 details for description of characteristics of each option.}
 
-\item{format}{(character) if \code{data} is a character, available formats are:
-"shp", "gpkg", "GTiff", and "ascii".}
+\item{format}{(character) if \code{data} is of class character, available
+options are: "shp", "gpkg", "GTiff", and "ascii".}
 
 \item{master_matrix}{object of class "master_matrix" or "master_selection". See
 details.}
@@ -25,6 +25,15 @@ numbers) in kilometers (km).}
 \item{complete_cover}{(logical) whether or not to include cells of grid
 partially overlapped with the geographic region of interest contained in
 \code{master_matrix}. Default = TRUE.}
+
+\item{clip_grid}{(logical) whether to clip the spatial grid using the region
+of interest. Clipping improves visualization but depending on how complex the
+region of interest is it could take time to perform this task.}
+
+\item{indices}{(character) code for indices to be calculated. Basic indices
+are calculated all the time, other indices need to be specified. Options are:
+"all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
+"CMSC", and "CMSR". See details. Default = "basic". See details.}
 }
 \value{
 A presence-absence matrix (PAM) of class base_PAM for the region of interest
@@ -32,20 +41,22 @@ associated with a SpatialPolygonsDataFrame, as in a grid of \code{cell_size}
 resolution. Each grid cell is related to a specific ID and longitude and
 latitude coordinates. Presence (1) and absence (0) values for each species
 in every cell of the PAM are included as apart of the data frame of the
-SpatialPolygonsDataFrame. PAM statistics is returned as NULL, but other
-functions can be used to calculate such statistics.
+SpatialPolygonsDataFrame. PAM indices is returned with the basic indices of
+biodiversity as default, but can be changed using the argument \code{indices}.
 }
 \description{
-Prepare a presence-absence matrix (PAM) in which all initial points
-of interest (rows) will have a representation of the species present in such
-areas (columns). Initial points of interest will be represented by an ID, and
-longitude and latitude coordinates.
+Prepares a presence-absence matrix (PAM) in which all sites
+of interest (rows) will have a value for presence or absence of a species
+of interest (columns). Initial points of interest will be represented by an ID,
+and longitude and latitude coordinates. The PAM will be linked to a spatial
+grid.
 }
 \details{
 Objects of class "master_matrix" or "master_selection" could be obtained from
 functions \code{\link{master_matrix}}, \code{\link{random_selection}},
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
-\code{uniformEG_selection}.
+\code{uniformEG_selection}. The element region or mask if this last is not
+NULL is used to prepare the spatial grid.
 
 Description of objects to be used as \code{data}:
 \itemize{
@@ -68,6 +79,27 @@ columns (in that order): Longitude, Latitude, Species.
 files representing species geographic ranges. Each file must be named as the
 species that it represents. All files must be in an only format. If files are
 raster, values in each layer must be 1 (presence) and 0 (absence).
+}
+
+A list of codes and indices that can be calculated is described below. For
+further details on the way calculations are performed and the meaning of the
+indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.4801}.\tabular{lrr}{
+   Code \tab Index \tab Calculation \cr
+    \tab Richness \tab Basic \cr
+    \tab Range \tab Basic \cr
+    \tab Richness standarized \tab Basic \cr
+    \tab Range standarized \tab Basic \cr
+   AB \tab Additive Beta \tab Needs to be defined \cr
+   BW \tab Beta Whittaker \tab Needs to be defined \cr
+   BL \tab Beta Legendre \tab Needs to be defined \cr
+   SCSC \tab Schluter covariance sites-composition \tab Needs to be defined \cr
+   SCSR \tab Schluter covariance species-ranges \tab Needs to be defined \cr
+   DF \tab Dispersal field \tab Needs to be defined \cr
+   SCC \tab Shared community composition \tab Needs to be defined \cr
+   WRN \tab Wright-Reeves nestedness \tab Needs to be defined \cr
+   SRC \tab Stone-Roberts Cscore \tab Needs to be defined \cr
+   CMSC \tab Covariance matrix sites-composition \tab Needs to be defined \cr
+   CMSR \tab Covariance matrix species-ranges \tab Needs to be defined \cr
 }
 }
 \examples{
