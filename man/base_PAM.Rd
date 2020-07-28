@@ -5,7 +5,7 @@
 \title{Presence-absence matrix (PAM) linked to a spatial grid}
 \usage{
 base_PAM(data, format = NULL, master_matrix, cell_size,
-         complete_cover = TRUE, indices = "basic")
+         complete_cover = TRUE, clip_grid = FALSE, indices = "basic")
 }
 \arguments{
 \item{data}{species geographic ranges to be used to create a presence-absence
