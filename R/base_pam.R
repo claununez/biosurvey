@@ -59,23 +59,25 @@
 #' further details on the way calculations are performed and the meaning of the
 #' indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.4801}.
 #'
-#' |Code  |Index                                    |Calculation            |
-#' |:-----|----------------------------------------:|----------------------:|
-#' |      |Richness                                 |Basic                  |
-#' |      |Range                                    |Basic                  |
-#' |      |Richness standarized                     |Basic                  |
-#' |      |Range standarized                        |Basic                  |
-#' |AB    |Additive Beta                            |Needs to be defined    |
-#' |BW    |Beta Whittaker                           |Needs to be defined    |
-#' |BL    |Beta Legendre                            |Needs to be defined    |
-#' |SCSC  |Schluter covariance sites-composition    |Needs to be defined    |
-#' |SCSR  |Schluter covariance species-ranges       |Needs to be defined    |
-#' |DF    |Dispersal field                          |Needs to be defined    |
-#' |SCC   |Shared community composition             |Needs to be defined    |
-#' |WRN   |Wright-Reeves nestedness                 |Needs to be defined    |
-#' |SRC   |Stone-Roberts Cscore                     |Needs to be defined    |
-#' |CMSC  |Covariance matrix sites-composition      |Needs to be defined    |
-#' |CMSR  |Covariance matrix species-ranges         |Needs to be defined    |
+#' |Code  |Index                                    |Calculation                    |
+#' |:-----|----------------------------------------:|------------------------------:|
+#' |      |Richness                                 |Basic                          |
+#' |      |Range                                    |Basic                          |
+#' |      |Richness standarized                     |Basic                          |
+#' |      |Range standarized                        |Basic                          |
+#' |AB    |Additive Beta                            |Needs to be defined            |
+#' |BW    |Beta Whittaker                           |Needs to be defined            |
+#' |BL    |Beta Legendre                            |Needs to be defined and DF     |
+#' |SCSC  |Schluter covariance sites-composition    |Needs to be defined and CMSC   |
+#' |SCSR  |Schluter covariance species-ranges       |Needs to be defined and CMSR   |
+#' |DF    |Dispersal field                          |Needs to be defined            |
+#' |SCC   |Shared community composition             |Needs to be defined            |
+#' |WRN   |Wright-Reeves nestedness                 |Needs to be defined, BW, and DF|
+#' |SRC   |Stone-Roberts Cscore                     |Needs to be defined and DF     |
+#' |CMSC  |Covariance matrix sites-composition      |Needs to be defined            |
+#' |CMSR  |Covariance matrix species-ranges         |Needs to be defined            |
+#'
+#' @seealso \code{\link{PAM_indices}}
 #'
 #' @return
 #' A presence-absence matrix (PAM) of class base_PAM for the region of interest

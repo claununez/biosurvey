@@ -91,13 +91,13 @@ indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.480
     \tab Range standarized \tab Basic \cr
    AB \tab Additive Beta \tab Needs to be defined \cr
    BW \tab Beta Whittaker \tab Needs to be defined \cr
-   BL \tab Beta Legendre \tab Needs to be defined \cr
-   SCSC \tab Schluter covariance sites-composition \tab Needs to be defined \cr
-   SCSR \tab Schluter covariance species-ranges \tab Needs to be defined \cr
+   BL \tab Beta Legendre \tab Needs to be defined and DF \cr
+   SCSC \tab Schluter covariance sites-composition \tab Needs to be defined and CMSC \cr
+   SCSR \tab Schluter covariance species-ranges \tab Needs to be defined and CMSR \cr
    DF \tab Dispersal field \tab Needs to be defined \cr
    SCC \tab Shared community composition \tab Needs to be defined \cr
-   WRN \tab Wright-Reeves nestedness \tab Needs to be defined \cr
-   SRC \tab Stone-Roberts Cscore \tab Needs to be defined \cr
+   WRN \tab Wright-Reeves nestedness \tab Needs to be defined, BW, and DF \cr
+   SRC \tab Stone-Roberts Cscore \tab Needs to be defined and DF \cr
    CMSC \tab Covariance matrix sites-composition \tab Needs to be defined \cr
    CMSR \tab Covariance matrix species-ranges \tab Needs to be defined \cr
 }
@@ -111,4 +111,7 @@ data("species_data", package = "biosurvey")
 b_pam <- base_PAM(data = species_data, master_matrix = m_matrix, cell_size = 100)
 sp::plot(b_pam$PAM)
 summary(b_pam$PAM@data[, 1:6])
+}
+\seealso{
+\code{\link{PAM_indices}}
 }
