@@ -4,7 +4,7 @@
 \alias{random_selection}
 \title{Random selection of survey sites}
 \usage{
-random_selection(master, n_sites, n_samplings = 1,
+random_selection(master, n_sites, n_samplings = 1, use_preselected_sites = TRUE,
                  median_distance_filter = NULL, set_seed = 1)
 }
 \arguments{
@@ -18,6 +18,11 @@ or \code{\link{EG_selection}}.}
 
 \item{n_samplings}{(numeric) number of processes of selection, which will
 turn into multiple options for a process of survey planning. Default = 1.}
+
+\item{use_preselected_sites}{(logical) whether to use sites that have been
+defined as part of the selected sites previous any selection. Object in
+\code{master} must contain the site(s) preselected in and element of name
+"preselected_sites" for this argument to be effective. Default = TRUE.}
 
 \item{median_distance_filter}{(character) optional argument to define a median
 distance-based filter based on which sets of sampling sites will be selected.
