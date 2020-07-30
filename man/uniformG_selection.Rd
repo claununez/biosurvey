@@ -6,6 +6,7 @@
 \usage{
 uniformG_selection(master, expected_points, max_n_samplings = 1,
                    initial_distance, increase, replicates = 10,
+                   use_preselected_sites = TRUE, n_optimization = 1000,
                    median_distance_filter = NULL, set_seed = 1)
 }
 \arguments{
@@ -26,6 +27,16 @@ process of thinning and detection of remaining points.}
 reaching the number of \code{expected_points}.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
+
+\item{use_preselected_sites}{(logical) whether to use sites that have been
+defined as part of the selected sites previous any selection. Object in
+\code{master} must contain the site(s) preselected in and element of name
+"preselected_sites" for this argument to be effective. Default = TRUE.
+See details for more information on the approach used.}
+
+\item{n_optimization}{(numeric) number of times the algorithm of optimization
+for site selection when using \code{use_preselected_sites} will run. Default
+= 1000.}
 
 \item{median_distance_filter}{(character) optional argument to define a median
 distance-based filter based on which sets of sampling sites will be selected.
@@ -54,13 +65,21 @@ Exploring the geographic and environmental spaces of the region of interest
 would be a crucial first step before selecting survey sites. Such explorations
 can be done using the function \code{\link{explore_data_EG}}.
 
-As multiple sets could result from selection, the argument of the function
-\code{median_distance_filter} could be used to select the set of sites with
-the maximum ("max") or minimum ("min") median distance among selected sites.
-Option "max" will increase the geographic distance among sampling sites, which
-could be desirable if the goal is to cover the region of interest more broadly.
-The other option "min", could be used in cases when the goal is to reduce
-resources and time needed to sample such sites.
+If \code{use_preselected_sites} is TRUE and such sites are included as an
+element in the object in \code{master}, the approach for selecting uniform
+sites in geography is different than what was described above. User preselected
+sites will always be part of the sites selected and other points are selected
+based on an process of optimization that searches for the random set of points
+that has the largest median distance among \code{n_optimization} distinct sets.
+
+As multiple sets could result from selection when the \code{use_preselected_sites}
+is set as FALSE, the argument of the function \code{median_distance_filter}
+could be used to select the set of sites with the maximum ("max") or minimum
+("min") median distance among selected sites. The option "max" will increase
+the geographic distance among sampling sites, which could be desirable if the
+goal is to cover the region of interest more broadly. The other option "min",
+could be used in cases when the goal is to reduce resources and time needed
+to sample such sites.
 }
 \examples{
 # Data
