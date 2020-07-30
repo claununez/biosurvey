@@ -16,7 +16,7 @@
 #' reaching the number of \code{expected_points}.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
 #' @param use_preselected_sites (logical) whether to use sites that have been
-#' defined as part of the selected sites previous any selection. Object in 
+#' defined as part of the selected sites previous any selection. Object in
 #' \code{master} must contain the site(s) preselected in and element of name
 #' "preselected_sites" for this argument to be effective. Default = TRUE.
 #' See details for more information on the approach used.
@@ -44,21 +44,21 @@
 #' Exploring the geographic and environmental spaces of the region of interest
 #' would be a crucial first step before selecting survey sites. Such explorations
 #' can be done using the function \code{\link{explore_data_EG}}.
-#' 
-#' If \code{use_preselected_sites} is TRUE and such sites are included as an 
-#' element in the object in \code{master}, the approach for selecting uniform 
+#'
+#' If \code{use_preselected_sites} is TRUE and such sites are included as an
+#' element in the object in \code{master}, the approach for selecting uniform
 #' sites in geography is different than what was described above. User preselected
-#' sites will always be part of the sites selected and other points are selected 
+#' sites will always be part of the sites selected and other points are selected
 #' based on an process of optimization that searches for the random set of points
 #' that has the largest median distance among \code{n_optimization} distinct sets.
 #'
-#' As multiple sets could result from selection when the \code{use_preselected_sites} 
-#' is set as FALSE, the argument of the function \code{median_distance_filter} 
-#' could be used to select the set of sites with the maximum ("max") or minimum 
-#' ("min") median distance among selected sites. The option "max" will increase 
-#' the geographic distance among sampling sites, which could be desirable if the 
-#' goal is to cover the region of interest more broadly. The other option "min", 
-#' could be used in cases when the goal is to reduce resources and time needed 
+#' As multiple sets could result from selection when the \code{use_preselected_sites}
+#' is set as FALSE, the argument of the function \code{median_distance_filter}
+#' could be used to select the set of sites with the maximum ("max") or minimum
+#' ("min") median distance among selected sites. The option "max" will increase
+#' the geographic distance among sampling sites, which could be desirable if the
+#' goal is to cover the region of interest more broadly. The other option "min",
+#' could be used in cases when the goal is to reduce resources and time needed
 #' to sample such sites.
 #'
 #' @seealso
@@ -107,14 +107,14 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
     message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
     use_preselected_sites <- FALSE
-  } 
-  
+  }
+
   # preparing data
   data <- master$master_matrix
   x_column <- "Longitude"
   y_column <- "Latitude"
   data <- data[!is.na(data[, x_column]) & !is.na(data[, y_column]), ]
-  
+
   # selection depending on option of user points
   if (use_preselected_sites == TRUE) {
     # using preselected sites, optimization based on random selection
@@ -123,20 +123,20 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
 
     selected_sites <- lapply(1:n_optimization, function(x) {
       set.seed(set_seed + x - 1)
-      sam <- sample(n, n_sites)
+      sam <- sample(n, expected_points)
       dat <- unique(rbind(pre[, -1], data[sam, ]))
-      dat[, 1:n_sites]
+      dat[, 1:expected_points]
     })
-    
+
     # Post filtering to get higher uniformity in G
     selected_sites <- distance_filter(selected_sites, "max")
-    
+
     # Returning results
     names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
     master$selected_sites_G <- selected_sites
-    
+
     return(structure(master, class = "master_selection"))
-    
+
   } else {
     # preparing selection variables
     np <- nrow(data)
@@ -144,7 +144,7 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
     dist <- initial_distance
     inin <- 1
     count <- 1
-    
+
     # condition
     if (np < expected_points) {
       stop("Number of points in 'master_matrix' is smaller than 'expected_points'.")
@@ -154,7 +154,7 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
       master$selected_sites_G <- list(selection_1 = data)
       return(structure(master, class = "master_selection"))
     }
-    
+
     # selection process
     while (np > expected_points) {
       # thinning
@@ -162,13 +162,13 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
                              max_n_samplings, replicates, set_seed)
       np <- nrow(thin[[1]])
       message("    Distance  ", dist, "  resulted in  ", np, "  points")
-      
+
       if (np <= expected_points) {
         if (np == expected_points) {
           # success
           if (length(thin) > 1 & !is.null(median_distance_filter)) {
             thin <- distance_filter(thin, median_distance_filter)
-            
+
           }
           names(thin) <- paste0("selection_", 1:length(thin))
           master$selected_sites_G <- thin
@@ -181,26 +181,26 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
             message("\nNo distance resulted in  ", expected_points, "  points.",
                     "\nTrying distances between  ", pdist, "  and  ", dist, ".\n")
             dist <- pdist
-            
+
             increase <- increase / 10
             inin <- inin + 1
-            
+
             if (inin == 3) {
               stop("\nNo distance resulted in  ", expected_points,
                    "  points after trying smaller intervals.",
                    "\nTry a distance of  ", pdist,
                    "  with values for 'increase' below  ", increase, ".")
             }
-            
+
             np <- ininp
           }
         }
       }
-      
+
       # starting again
       count <- count + 1
       pdist <- dist
       dist <- dist + increase
-    }  
+    }
   }
 }
