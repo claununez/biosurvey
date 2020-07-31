@@ -6,7 +6,8 @@
 considering geographic structure}
 \usage{
 EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
-             increase, replicates = 10, max_n_samplings = 1,
+             increase, replicates = 10, use_preselected_sites = TRUE,
+             n_optimization = 1000, max_n_samplings = 1,
              select_point = "E_centroid", cluster_method = "hierarchical",
              median_distance_filter = NULL, sample_for_distance = 250,
              set_seed = 1)
@@ -35,6 +36,16 @@ reaching the number in \code{n_blocks}.}
 
 \item{replicates}{(numeric) number of thinning replicates performed to select
 blocks uniformly. Default = 10.}
+
+\item{use_preselected_sites}{(logical) whether to use sites that have been
+defined as part of the selected sites previous any selection. Object in
+\code{master} must contain the site(s) preselected in and element of name
+"preselected_sites" for this argument to be effective. Default = TRUE.
+See details for more information on the approach used.}
+
+\item{n_optimization}{(numeric) number of times the algorithm of optimization
+for site selection when using \code{use_preselected_sites} will run. Default
+= 1000.}
 
 \item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}

@@ -24,6 +24,14 @@
 #' reaching the number in \code{n_blocks}.
 #' @param replicates (numeric) number of thinning replicates performed to select
 #' blocks uniformly. Default = 10.
+#' @param use_preselected_sites (logical) whether to use sites that have been
+#' defined as part of the selected sites previous any selection. Object in
+#' \code{master} must contain the site(s) preselected in and element of name
+#' "preselected_sites" for this argument to be effective. Default = TRUE.
+#' See details for more information on the approach used.
+#' @param n_optimization (numeric) number of times the algorithm of optimization
+#' for site selection when using \code{use_preselected_sites} will run. Default
+#' = 1000.
 #' @param max_n_samplings (numeric) maximum number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.
 #' @param select_point (character) how or which point will be selected. Three
@@ -93,7 +101,8 @@
 #'
 #' @usage
 #' EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
-#'              increase, replicates = 10, max_n_samplings = 1,
+#'              increase, replicates = 10, use_preselected_sites = TRUE,
+#'              n_optimization = 1000, max_n_samplings = 1,
 #'              select_point = "E_centroid", cluster_method = "hierarchical",
 #'              median_distance_filter = NULL, sample_for_distance = 250,
 #'              set_seed = 1)
@@ -127,6 +136,7 @@
 
 EG_selection <- function(master, variable_1, variable_2, n_blocks,
                          initial_distance, increase, replicates = 10,
+                         use_preselected_sites = TRUE, n_optimization = 1000,
                          max_n_samplings = 1, select_point = "E_centroid",
                          cluster_method = "hierarchical",
                          median_distance_filter = NULL,
@@ -155,7 +165,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     stop("Argument 'replicates' must be larger than 'max_n_samplings'.")
   }
   if (is.null(master$master_matrix$Block)) {
-    stop("Blocks are not defined in 'master', see function 'make_blocks'.")
+    stop("Blocks are not defined in 'master_matrix', see function 'make_blocks'.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
     stop("Argument 'select_point' is not valid, see function's help.")
@@ -168,24 +178,52 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
       stop("Argument 'median_distance_filter' is not valid, see function's help.")
     }
   }
+  if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
+    message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
+    use_preselected_sites <- FALSE
+  }
+  if (is.null(master$preselected_sites$Block)) {
+    stop("Blocks are not defined in 'preselected_sites', see function 'make_blocks'.")
+  }
 
   # running
-  ## creating rule for block selection
-  rules <- lapply(1:replicates, function(x) {
-    ss <- set_seed + x - 1
-    rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
-                                          selection_type = "uniform",
-                                          initial_distance, increase, replicates = 1,
-                                          set_seed = ss)$master_matrix$Selected_blocks)
-    which(rule == 1)
-  })
+  if (use_preselected_sites == TRUE){
+    # using preselected sites, optimization based on random selection
+    n <- nrow(data)
+    pre <- master$preselected_sites
 
-  ## keeping only unique sets
-  cd <- sapply(rules, function(x) {paste0(sort(x), collapse = "_")})
+    rules <- lapply(1:n_optimization, function(x) {
+      ss <- set_seed + x - 1
+      rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
+                                            selection_type = "random",
+                                            initial_distance, increase, replicates = 1,
+                                            set_seed = ss)$master_matrix$Selected_blocks)
+      dat <- unique(rbind(pre[, -1], data[sam, ]))
+      dat[, 1:expected_points]
+    })
 
-  rules <- rules[which(!duplicated(cd))]
+    # Post filtering to get higher uniformity in G
+    selected_sites <- distance_filter(selected_sites, "max")[1]
+  } else {
+    ## no user sites
+    ## creating rule for block selection
+    rules <- lapply(1:replicates, function(x) {
+      ss <- set_seed + x - 1
+      rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
+                                            selection_type = "uniform",
+                                            initial_distance, increase, replicates = 1,
+                                            set_seed = ss)$master_matrix$Selected_blocks)
+      which(rule == 1)
+    })
 
-  g_cols <- c("Longitude", "Latitude") # defining columns with coordinates
+    ## keeping only unique sets
+    cd <- sapply(rules, function(x) {paste0(sort(x), collapse = "_")})
+
+    rules <- rules[which(!duplicated(cd))]
+  }
+
+  ## defining columns with coordinates
+  g_cols <- c("Longitude", "Latitude")
 
   all_sites <- lapply(rules, function(x) {
     ## subsetting based on rule
