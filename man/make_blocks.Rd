@@ -31,11 +31,13 @@ the bi-dimensional space. Two options are available: "equal_area" and
 \value{
 An S3 object of class master_matrix, containing the same elements found in a
 master_matrix object, with an additional column on the master_matrix data.frame
-containing block identifiers.
+containing block identifiers. If the element preselected_sites is not NULL in
+master_matrix blocks are also assigned to this sites.
 }
 \description{
 Divides a two-dimensional cloud of points in blocks according to
-a user-defined number of rows and columns.
+a user-defined number of rows and columns. This applied to the element
+master_matrix and, if not NULL, to preselected_sites.
 }
 \details{
 For block_type, option "equal_area" generates blocks of the same size. The other

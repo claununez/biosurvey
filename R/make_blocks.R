@@ -1,7 +1,8 @@
 #' Creates a block-like regionalization of environmental space
 #'
 #' @description Divides a two-dimensional cloud of points in blocks according to
-#' a user-defined number of rows and columns.
+#' a user-defined number of rows and columns. This applied to the element
+#' master_matrix and, if not NULL, to preselected_sites.
 #'
 #' @param master_matrix object derived from function \code{\link{master_matrix}}.
 #' @param variable_1 (character or numeric) name or position of the first
@@ -26,7 +27,8 @@
 #' @return
 #' An S3 object of class master_matrix, containing the same elements found in a
 #' master_matrix object, with an additional column on the master_matrix data.frame
-#' containing block identifiers.
+#' containing block identifiers. If the element preselected_sites is not NULL in
+#' master_matrix blocks are also assigned to this sites.
 #'
 #' @usage
 #' make_blocks(master_matrix, variable_1, variable_2, n_cols, n_rows = NULL,
@@ -69,6 +71,11 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
   data <- master_matrix$master_matrix
   id <- paste(data[, 1], data[, 2])
 
+  if (!is.null(master_matrix$preselected_sites)) {
+    predata <- master_matrix$preselected_sites
+    idpre <- paste(predata[, 1], predata[, 2])
+  }
+
   # Block partition
   if (block_type[1] == "equal_area") {
     # Detecting ranges and intervals
@@ -83,6 +90,105 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     ylb[length(ylb)] <- yrange[2]
 
     # Assigning block numbers
+    all_cls <- assign_blocks(data, variable_1, variable_2, xlb, ylb,
+                                block_type = "equal_area")
+
+    # Assigning blocks to user predefined sites
+    if (!is.null(master_matrix$preselected_sites)) {
+      prese <- assign_blocks(predata, variable_1, variable_2, xlb, ylb,
+                             block_type = "equal_area")
+    }
+  } else {
+    # Detecting ranges and intervals
+    xlb <- seq(0, 1, (1 / n_cols))
+    xlb[length(xlb)] <- 1
+
+    # Assigning block numbers
+    all_cls <- assign_blocks(data, variable_1, variable_2, xlb,
+                             block_type = "equal_points")
+
+    # Assigning blocks to user predefined sites
+    if (!is.null(master_matrix$preselected_sites)) {
+      prese <- assign_blocks(predata, variable_1, variable_2, xlb,
+                             block_type = "equal_points")
+    }
+  }
+
+  # Returning results
+  all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ] # matches data back in order
+  master_matrix$master_matrix <- all_cls
+
+  if (!is.null(master_matrix$preselected_sites)) {
+    prese <- prese[match(idpre, paste(prese[, 1], prese[, 2])), ] # matches preselected data back in order
+    master_matrix$preselected_sites <- prese
+  }
+
+  return(structure(master_matrix, class = "master_matrix"))
+}
+
+
+
+#' Helper to assign block numbers to data according to variables and limits
+#'
+#' @param data a matrix or a data frame that contains at least four columns:
+#' "Longitude" and "Latitude" to represent geographic position, and two other
+#' columns to represent the variables of the 2D environmental space.
+#' @param variable_1 (character or numeric) name or position of the first
+#' variable (X axis) to be used to create blocks.
+#' @param variable_2 (character or numeric) name or position of the second
+#' variable (Y axis) to be used to create blocks (must be different from the
+#' first one).
+#' @param xlb (numeric) Vector of values of extremes for all blocks considering
+#' \code{variable_1}.
+#' @param ylb (numeric) Vector of values of extremes for all blocks considering
+#' \code{variable_2}. Needed when \code{block_type} = "equal area". Default = NULL.
+#' @param block_type (character) type of blocks to be use for dividing
+#' the bi-dimensional space. Two options are available: "equal_area" and
+#' "equal_points". Default = "equal_area".
+#'
+#' @return
+#' Original element defined in \code{data} plus a new column named "Block"
+#' defining the block that correspond to each of the points represented in rows.
+#'
+#' @usage
+#' assign_blocks(data, variable_1, variable_2, xlb, ylb = NULL,
+#'               block_type = "equal_area")
+#' @examples
+#' # data
+#' dat <- matrix(runif(800), ncol = 4)
+#' xlims <- quantile(dat[, 3])
+#' ylims <- quantile(dat[, 4])
+#'
+#' # assigning blocks
+#' datb <- assign_blocks(dat, variable_1 = 3, variable_2 = 4, xlb = xlims,
+#'                       ylb = ylims, block_type = "equal_area")
+
+assign_blocks <- function(data, variable_1, variable_2, xlb, ylb = NULL,
+                          block_type = "equal_area") {
+  # Initial tests
+  if (missing(data)) {
+    stop("Argument 'data' needs to be defined.")
+  }
+  if (missing(variable_1)) {
+    stop("Argument 'variable_1' needs to be defined.")
+  }
+  if (missing(variable_2)) {
+    stop("Argument 'variable_2' needs to be defined.")
+  }
+  if (missing(xlb)) {
+    stop("Argument 'xlb' needs to be defined.")
+  }
+  if (is.null(ylb) & block_type == "equal_area") {
+    stop("Argument 'ylb' needs to be defined.")
+  }
+  if (!block_type[1] %in% c("equal_area", "equal_points")) {
+    stop("Argument 'block_type' is not valid.")
+  }
+
+
+  # assigning blocks
+  if (block_type == "equal_area") {
+    ## blocks of equal area
     all_cls <- lapply(1:(length(xlb) - 1), function(x) {
       ## x axis
       if(x == 1){
@@ -120,11 +226,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     all_cls[, "Block"] <- unlist(blks)
 
   } else {
-    # Detecting ranges and intervals
-    xlb <- seq(0, 1, (1 / n_cols))
-    xlb[length(xlb)] <- 1
-
-    # Assigning block numbers
+    ## blocks with equal number of points
     all_cls <- lapply(1:(length(xlb) - 1), function(x) {
       ## x axis
       q1 <- quantile(data[, variable_1], xlb[x])
@@ -156,9 +258,5 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     all_cls <- do.call(rbind, all_cls)
     colnames(all_cls)[ncol(all_cls)] <- "Block"
   }
-
-  # Returning results
-  all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ]
-  master_matrix$master_matrix <- all_cls
-  return(structure(master_matrix, class = "master_matrix"))
+  return(all_cls)
 }
