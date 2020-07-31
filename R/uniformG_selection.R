@@ -129,7 +129,7 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
     })
 
     # Post filtering to get higher uniformity in G
-    selected_sites <- distance_filter(selected_sites, "max")
+    selected_sites <- distance_filter(selected_sites, "max")[1]
 
     # Returning results
     names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
