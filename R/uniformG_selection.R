@@ -125,7 +125,7 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
       set.seed(set_seed + x - 1)
       sam <- sample(n, expected_points)
       dat <- unique(rbind(pre[, -1], data[sam, ]))
-      dat[, 1:expected_points]
+      dat[1:expected_points, ]
     })
 
     # Post filtering to get higher uniformity in G

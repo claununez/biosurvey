@@ -12,9 +12,9 @@
 #' @param n_samplings (numeric) number of processes of selection, which will
 #' turn into multiple options for a process of survey planning. Default = 1.
 #' @param use_preselected_sites (logical) whether to use sites that have been
-#' defined as part of the selected sites previous any selection. Object in 
+#' defined as part of the selected sites previous any selection. Object in
 #' \code{master} must contain the site(s) preselected in and element of name
-#' "preselected_sites" for this argument to be effective. Default = TRUE. 
+#' "preselected_sites" for this argument to be effective. Default = TRUE.
 #' @param median_distance_filter (character) optional argument to define a median
 #' distance-based filter based on which sets of sampling sites will be selected.
 #' The default, NULL, does not apply such a filter. Options are: "max" and "min".
@@ -63,7 +63,7 @@
 random_selection <- function(master, n_sites, n_samplings = 1,
                              use_preselected_sites = TRUE,
                              median_distance_filter = NULL, set_seed = 1) {
-  
+
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' must be defined.")
@@ -79,36 +79,36 @@ random_selection <- function(master, n_sites, n_samplings = 1,
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
     warning("Element 'preselected_sites' in 'master' is NULL, such sites were not used.")
     use_preselected_sites <- FALSE
-  } 
-  
+  }
+
   # Selection of sites
   data <- master$master_matrix
   n <- nrow(data)
-  
+
   if (use_preselected_sites == TRUE) {
     pre <- master$preselected_sites
   }
-  
+
   selected_sites <- lapply(1:n_samplings, function(x) {
     set.seed(set_seed + x - 1)
     sam <- sample(n, n_sites)
     if (use_preselected_sites == TRUE) {
       dat <- unique(rbind(pre[, -1], data[sam, ]))
-      dat <- dat[, 1:n_sites]
+      dat <- dat[1:n_sites, ]
     } else {
-      dat <- data[sam, ] 
+      dat <- data[sam, ]
     }
   })
-  
+
   # Post filtering of sites according to distance argument
   if (length(selected_sites) > 1 & !is.null(median_distance_filter)) {
     selected_sites <- distance_filter(selected_sites, median_distance_filter)
-    
+
   }
-  
+
   # Returning results
   names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
   master$selected_sites_random <- selected_sites
-  
+
   return(structure(master, class = "master_selection"))
 }
