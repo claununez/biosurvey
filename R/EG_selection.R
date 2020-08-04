@@ -189,23 +189,40 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   # running
   if (use_preselected_sites == TRUE){
     # using preselected sites, optimization based on random selection
-    n <- nrow(data)
     pre <- master$preselected_sites
 
-    rules <- lapply(1:n_optimization, function(x) {
+    ## blocks preselected sites belong to
+    preblock <- unique(pre$Block)
+
+    ## finding most uniform randomly selected blocks
+    sblocks <- lapply(1:n_optimization, function(x) {
       ss <- set_seed + x - 1
-      rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
+      selb <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
                                             selection_type = "random",
                                             initial_distance, increase, replicates = 1,
-                                            set_seed = ss)$master_matrix$Selected_blocks)
-      dat <- unique(rbind(pre[, -1], data[sam, ]))
-      dat[, 1:expected_points]
+                                            set_seed = ss)$master_matrix)
+      selb <- selb[selb$Selected_blocks == 1, "Block"]
+      unique(c(preblock, selb))
     })
 
-    # Post filtering to get higher uniformity in G
-    selected_sites <- distance_filter(selected_sites, "max")[1]
+    ## keeping only unique sets
+    cd <- sapply(sblocks, function(x) {paste0(sort(x), collapse = "_")})
+
+    sblocks <- sblocks[which(!duplicated(cd))]
+
+    ## obtaining block centroids (closest to centroid) info
+    rules <- lapply(sblocks, function(x) {
+      closest_to_centroid(master$master_matrix[master$master_matrix$Block ==
+                                                 x, ], variable_1, variable_2,
+                          space = "E", n = 1, id_column = "Block")
+    })
+
+    # Post filtering to get higher uniformity of blocks in E
+    rules <- distance_filter(rules, "max")[[1]]
+    rules <- unique(rules$Block)
+    rules <- rules[!rules %in% preblock]
   } else {
-    ## no user sites
+    # no user sites
     ## creating rule for block selection
     rules <- lapply(1:replicates, function(x) {
       ss <- set_seed + x - 1
@@ -222,12 +239,17 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     rules <- rules[which(!duplicated(cd))]
   }
 
-  ## defining columns with coordinates
+  # defining columns with coordinates
   g_cols <- c("Longitude", "Latitude")
 
+  # finding sites
   all_sites <- lapply(rules, function(x) {
-    ## subsetting based on rule
-    blocksp <- unique(master$master_matrix[x, "Block"])
+    ## subsetting based on rules
+    if (use_preselected_sites == TRUE) {
+      blocksp <- x
+    } else {
+      blocksp <- unique(master$master_matrix[x, "Block"])
+    }
 
     ## measuring distances
     distsp <- lapply(blocksp, function(y) {
@@ -290,7 +312,11 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     }
 
     ## combining all results
-    rbind(unselp, ueselp, meselp)
+    if (use_preselected_sites == TRUE) {
+      rbind(pre[, -1], unselp, ueselp, meselp)
+    } else {
+      rbind(unselp, ueselp, meselp)
+    }
   })
 
   # Getting needed samples form the most numerous ones
