@@ -10,7 +10,7 @@
 #' @param mask (optional) SpatialPolygons* object to mask \code{variables} and
 #' reduce \code{region} to an area that is more relevant for analysis (e.g., only
 #' areas with natural vegetation cover). Default = NULL.
-#' @param preselected_sites data.frame containing sites that must be included 
+#' @param preselected_sites data.frame containing sites that must be included
 #' in posterior selections of sites for the survey system. Columns must be:
 #' "Sites", "Longitude", "Latitude", in that order.
 #' @param do_pca (logical) whether or not to perform a Principal Component Analysis.
@@ -46,14 +46,14 @@
 #' \code{mask} is not fully contained by \code{region}, the mask used for reducing
 #' \code{variables}, and returned as part of the S3 object (master_matrix) is the
 #' intersection between them.
-#' 
-#' If \code{preselected_sites} is defined, environmental values and, if 
-#' \code{do_pca} = TRUE, principal components are added to such records. These 
-#' records and their characteristics will be considered in further analyses. 
+#'
+#' If \code{preselected_sites} is defined, environmental values and, if
+#' \code{do_pca} = TRUE, principal components are added to such records. These
+#' records and their characteristics will be considered in further analyses.
 #'
 #' @usage
-#' master_matrix(region, variables, mask = NULL, preselected_sites = NULL, 
-#'               do_pca = FALSE, center = TRUE, scale = FALSE, 
+#' master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
+#'               do_pca = FALSE, center = TRUE, scale = FALSE,
 #'               variables_in_matrix = NULL)
 #'
 #' @export
@@ -71,8 +71,8 @@
 #'                           center = TRUE, scale = TRUE)
 
 
-master_matrix <- function(region, variables, mask = NULL, preselected_sites = NULL, 
-                          do_pca = FALSE, center = TRUE, scale = FALSE, 
+master_matrix <- function(region, variables, mask = NULL, preselected_sites = NULL,
+                          do_pca = FALSE, center = TRUE, scale = FALSE,
                           variables_in_matrix = NULL) {
   # Initial tests
   if (missing(region)) {
@@ -91,38 +91,38 @@ master_matrix <- function(region, variables, mask = NULL, preselected_sites = NU
     if (!class(mask)[1] %in% c("SpatialPolygons", "SpatialPolygonsDataFrame")) {
       stop("'mask' must be of class SpatialPolygons*")
     }
-    
+
     # Intersection of region and mask to avoid complications
     mask <- raster::intersect(region, mask)
   }
-  
+
   # Mask variables to polygons (region of interest)
   if (!is.null(mask)) {
     variables <- raster::mask(raster::crop(variables, mask), mask)
   } else {
     variables <- raster::mask(raster::crop(variables, region), region)
   }
-  
+
   # Adding user defined points
   if (!is.null(preselected_sites)) {
     if (class(preselected_sites)[1] != "data.frame") {
       stop("Argument 'preselected_sites' must be of class data.frame.")
     }
-    
+
     preselected_sites <- data.frame(preselected_sites,
-                                   raster::extract(variables, preselected_sites[, 2:3]))
+                                    raster::extract(variables, preselected_sites[, 2:3]))
     colnames(preselected_sites)[2:3] <- c("Longitude", "Latitude")
   }
-  
+
   # Base raster
   b_raster <- variables[[1]]
   names(b_raster) <- "base"
   b_raster[!is.na(b_raster[])] <- 1
-  
+
   # Raster to matrix
   variables <- raster::rasterToPoints(variables)
   colnames(variables)[1:2] <- c("Longitude", "Latitude")
-  
+
   # Selecting variables for the matrix
   if (!is.null(variables_in_matrix)) {
     variables <- variables[, c("Longitude", "Latitude", variables_in_matrix)]
@@ -131,33 +131,33 @@ master_matrix <- function(region, variables, mask = NULL, preselected_sites = NU
       preselected_sites <- preselected_sites[, c(prna[1:3], variables_in_matrix)]
     }
   }
-  
+
   # If do_pca is TRUE, do PCA
   if (do_pca == TRUE) {
     pca <- stats::prcomp(variables[, -(1:2)], center = center, scale. = scale)
-    
+
     # Create matrix
     master_m <- data.frame(variables, pca$x[, 1:2])
-    
+
     # predict in predefined sites
     if (!is.null(preselected_sites)) {
       sspca <- stats::predict(pca, preselected_sites[, -(1:3)])
-      preselected_sites <- data.frame(preselected_sites, sspca$x[, 1:2])
+      preselected_sites <- data.frame(preselected_sites, sspca[, 1:2])
     }
-    
+
     # Return results
     return(structure(list(master_matrix = master_m, region = region, mask = mask,
-                          raster_base = b_raster, 
+                          raster_base = b_raster,
                           preselected_sites = preselected_sites, PCA_results = pca),
                      class = "master_matrix"))
-    
+
   } else {
     # Create matrix
     master_m <- data.frame(variables)
-    
+
     # Return results
     return(structure(list(master_matrix = master_m, region = region, mask = mask,
-                          raster_base = b_raster, 
+                          raster_base = b_raster,
                           preselected_sites = preselected_sites, PCA_results = NULL),
                      class = "master_matrix"))
   }
