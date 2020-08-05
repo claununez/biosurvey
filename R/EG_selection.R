@@ -155,14 +155,23 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   if (missing(n_blocks)) {
     stop("Argument 'n_blocks' must be defined.")
   }
-  if (missing(initial_distance)) {
+  if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
+    message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
+    use_preselected_sites <- FALSE
+  }
+  if (use_preselected_sites == FALSE) {
+    if (missing(initial_distance)) {
     stop("Argument 'initial_distance' must be defined.")
+    }
+    if (missing(increase)) {
+      stop("Argument 'increase' must be defined.")
+    }
+    if (max_n_samplings > replicates) {
+      stop("Argument 'replicates' must be larger than 'max_n_samplings'.")
+    }
   }
-  if (missing(increase)) {
-    stop("Argument 'increase' must be defined.")
-  }
-  if (max_n_samplings > replicates) {
-    stop("Argument 'replicates' must be larger than 'max_n_samplings'.")
+  if (use_preselected_sites == TRUE & is.null(master$preselected_sites$Block)) {
+    stop("Blocks are not defined in 'preselected_sites', see function 'make_blocks'.")
   }
   if (is.null(master$master_matrix$Block)) {
     stop("Blocks are not defined in 'master_matrix', see function 'make_blocks'.")
@@ -178,13 +187,6 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
       stop("Argument 'median_distance_filter' is not valid, see function's help.")
     }
   }
-  if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
-    message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
-    use_preselected_sites <- FALSE
-  }
-  if (is.null(master$preselected_sites$Block)) {
-    stop("Blocks are not defined in 'preselected_sites', see function 'make_blocks'.")
-  }
 
   # running
   if (use_preselected_sites == TRUE){
@@ -193,16 +195,15 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
     ## blocks preselected sites belong to
     preblock <- unique(pre$Block)
+    blocks <- unique(master$master_matrix$Block)
+    lim <- (length(preblock) + 1):n_blocks
+    nlim <- length((length(preblock) + 1):n_blocks)
 
     ## finding most uniform randomly selected blocks
     sblocks <- lapply(1:n_optimization, function(x) {
       ss <- set_seed + x - 1
-      selb <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
-                                            selection_type = "random",
-                                            initial_distance, increase, replicates = 1,
-                                            set_seed = ss)$master_matrix)
-      selb <- selb[selb$Selected_blocks == 1, "Block"]
-      unique(c(preblock, selb))
+      selb <- sample(blocks, n_blocks)
+      ub <- unique(c(preblock, selb))[lim]
     })
 
     ## keeping only unique sets
@@ -211,16 +212,21 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     sblocks <- sblocks[which(!duplicated(cd))]
 
     ## obtaining block centroids (closest to centroid) info
-    rules <- lapply(sblocks, function(x) {
+    sblocks <- lapply(sblocks, function(x) {
       closest_to_centroid(master$master_matrix[master$master_matrix$Block ==
                                                  x, ], variable_1, variable_2,
                           space = "E", n = 1, id_column = "Block")
     })
 
+    ## keeping only sblocks with correct number of blocks
+    sblocks[sapply(sblocks, is.null)] <- NULL
+    cd <- unlist(sapply(sblocks, nrow))
+    sblocks <- sblocks[which(cd == nlim)]
+
     # Post filtering to get higher uniformity of blocks in E
-    rules <- distance_filter(rules, "max")[[1]]
-    rules <- unique(rules$Block)
-    rules <- rules[!rules %in% preblock]
+    sblocks <- distance_filter(sblocks, "max")[[1]]
+    sblocks <- unique(sblocks$Block)
+    rules <- 1
   } else {
     # no user sites
     ## creating rule for block selection
@@ -246,7 +252,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   all_sites <- lapply(rules, function(x) {
     ## subsetting based on rules
     if (use_preselected_sites == TRUE) {
-      blocksp <- x
+      blocksp <- sblocks
     } else {
       blocksp <- unique(master$master_matrix[x, "Block"])
     }
