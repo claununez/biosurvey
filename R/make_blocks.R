@@ -73,7 +73,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
   if (!is.null(master_matrix$preselected_sites)) {
     predata <- master_matrix$preselected_sites
-    idpre <- paste(predata[, 1], predata[, 2])
+    idpre <- paste(predata[, 2], predata[, 3])
   }
 
   # Block partition
@@ -119,7 +119,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
   master_matrix$master_matrix <- all_cls
 
   if (!is.null(master_matrix$preselected_sites)) {
-    prese <- prese[match(idpre, paste(prese[, 1], prese[, 2])), ] # matches preselected data back in order
+    prese <- prese[match(idpre, paste(prese[, 2], prese[, 3])), ] # matches preselected data back in order
     master_matrix$preselected_sites <- prese
   }
 
@@ -197,33 +197,37 @@ assign_blocks <- function(data, variable_1, variable_2, xlb, ylb = NULL,
         x1 <- data[, variable_1] > xlb[x]
       }
       xid <- which(x1 & data[, variable_1] <= xlb[(x + 1)])
-      pd <- data[xid, ]
-      pd <- cbind(pd, NA)
-      if (nrow(pd) > 0) {
-        ## y axis
-        for (y in 1:(length(ylb) - 1)) {
-          if(y == 1) {
-            y1 <- pd[, variable_2] >= ylb[y]
-          } else {
-            y1 <- pd[, variable_2] > ylb[y]
+      if (length(xid) > 0) {
+        pd <- data[xid, ]
+        pd <- cbind(pd, NA)
+        if (nrow(pd) > 0) {
+          ## y axis
+          for (y in 1:(length(ylb) - 1)) {
+            if(y == 1) {
+              y1 <- pd[, variable_2] >= ylb[y]
+            } else {
+              y1 <- pd[, variable_2] > ylb[y]
+            }
+            yid <- which(y1 & pd[, variable_2] <= ylb[(y + 1)])
+            nb <- ifelse(x == 1, y, (x * length(ylb)) + y)
+            pd[yid, ncol(pd)] <- rep(nb, length(yid))
           }
-          yid <- which(y1 & pd[, variable_2] <= ylb[(y + 1)])
-          nb <- ifelse(x == 1, y, (x * length(ylb)) + y)
-          pd[yid, ncol(pd)] <- rep(nb, length(yid))
         }
+        return(pd)
+      } else {
+        return(data[0, ])
       }
-      return(pd)
     })
 
     # Finishing assigning
     all_cls <- do.call(rbind, all_cls)
     colnames(all_cls)[ncol(all_cls)] <- "Block"
     all_cls <- all_cls[order(all_cls[, "Block"]), ]
-    ub <- unique(all_cls[, "Block"])
-    blks <- lapply(1:length(ub), function(x) {
-      rep(x, sum(all_cls[, "Block"] == ub[x]))
-    })
-    all_cls[, "Block"] <- unlist(blks)
+    #ub <- unique(all_cls[, "Block"])
+    #blks <- lapply(1:length(ub), function(x) {
+    #  rep(x, sum(all_cls[, "Block"] == ub[x]))
+    #})
+    #all_cls[, "Block"] <- unlist(blks)
 
   } else {
     ## blocks with equal number of points
@@ -233,25 +237,30 @@ assign_blocks <- function(data, variable_1, variable_2, xlb, ylb = NULL,
       x1 <- ifelse(x == 1, q1, (q1 + 0.000000000000001))
       x2 <- quantile(data[, variable_1], xlb[(x + 1)])
       xid <- which(data[, variable_1] >= x1 & data[, variable_1] <= x2)
-      pd <- data[xid, ]
-      pd <- cbind(pd, NA)
+      if (length(xid) > 0) {
+        pd <- data[xid, ]
+        pd <- cbind(pd, NA)
 
-      if (n_cols != n_rows) {
-        ylb <-  seq(0, 1, round(1 / n_rows, 5))
-        ylb[length(ylb)] <- 1
+        if (n_cols != n_rows) {
+          ylb <-  seq(0, 1, round(1 / n_rows, 5))
+          ylb[length(ylb)] <- 1
+        } else {
+          ylb <- xlb
+        }
+        ## y axis
+        for (y in 1:(length(ylb) - 1)) {
+          qy1 <- quantile(pd[, variable_2], ylb[y])
+          y1 <- ifelse(y == 1, qy1, (qy1 + 0.000000000000001))
+          y2 <- quantile(pd[, variable_2], ylb[(y + 1)])
+          yid <- which(pd[, variable_2] >= y1 & pd[, variable_2] <= y2)
+          nb <- ifelse(x == 1, y, ((x - 1) * (length(ylb) - 1)) + y)
+          pd[yid, ncol(pd)] <- rep(nb, length(yid))
+        }
+        return(pd)
       } else {
-        ylb <- xlb
+        return(data[0, ])
       }
-      ## y axis
-      for (y in 1:(length(ylb) - 1)) {
-        qy1 <- quantile(pd[, variable_2], ylb[y])
-        y1 <- ifelse(y == 1, qy1, (qy1 + 0.000000000000001))
-        y2 <- quantile(pd[, variable_2], ylb[(y + 1)])
-        yid <- which(pd[, variable_2] >= y1 & pd[, variable_2] <= y2)
-        nb <- ifelse(x == 1, y, ((x - 1) * (length(ylb) - 1)) + y)
-        pd[yid, ncol(pd)] <- rep(nb, length(yid))
-      }
-      return(pd)
+
     })
 
     # Finishing assigning
