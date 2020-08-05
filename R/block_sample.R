@@ -4,7 +4,10 @@
 #' to be used in further analysis in order to define sampling sites for a survey
 #' system.
 #'
-#' @param master_matrix object derived from function \code{\link{master_matrix}}.
+#' @param master a master_matrix object derived from the function
+#' \code{\link{master_matrix}} or a master_selection object derived from functions
+#' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
+#' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X axis).
 #' @param variable_2 (character or numeric) name or position of the second
@@ -24,17 +27,17 @@
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
 #'
 #' @details
-#' When blocks in \code{master_matrix} were defined using the option "equal_points"
+#' When blocks in \code{master} were defined using the option "equal_points"
 #' (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could result
 #' in blocks with high density per area being overlooked.
 #'
 #' @return
-#' An S3 object of class master_matrix, containing the same elements found in the
-#' input master_matrix object, with an additional column in the master_matrix
+#' An S3 object of class master_matrix or master_selection, containing the same
+#' elements found in the input object, with an additional column in the master_matrix
 #' data.frame containing a binary code for selected (1) and non-selected (0) blocks.
 #'
 #' @usage
-#' block_sample(master_matrix, variable_1, variable_2, expected_blocks,
+#' block_sample(master, variable_1, variable_2, expected_blocks,
 #'              selection_type = "uniform", initial_distance = NULL,
 #'              increase = NULL, replicates = 10, set_seed = 1)
 #'
@@ -61,17 +64,17 @@
 #' head(block_sel$master_matrix)
 
 
-block_sample <- function(master_matrix, variable_1, variable_2, expected_blocks,
+block_sample <- function(master, variable_1, variable_2, expected_blocks,
                          selection_type = "uniform", initial_distance = NULL,
                          increase = NULL, replicates = 10, set_seed = 1) {
   # initial tests
-  if (missing(master_matrix)) {
-    stop("Argument 'master_matrix' needs to be defined.")
+  if (missing(master)) {
+    stop("Argument 'master' needs to be defined.")
   }
-  if (class(master_matrix)[1] != "master_matrix") {
+  if (!class(master)[1] %in% c("master_matrix", "master_selection")) {
     stop("Object defined in 'master' is not valid, see function's help.")
   }
-  if (is.null(master_matrix$master_matrix$Block)) {
+  if (is.null(master$master_matrix$Block)) {
     stop("Blocks are not defined in master_matrix, see function 'make_blocks'.")
   }
   if (missing(variable_1)) {
@@ -93,7 +96,7 @@ block_sample <- function(master_matrix, variable_1, variable_2, expected_blocks,
     if (any(is.null(initial_distance), is.null(increase))) {
       stop("If 'selection_type' = uniform, the following arguments must be defined:\n'initial_distance', 'increase'")
     }
-    pairs_sel <- uniformE_selection(master_matrix, variable_1, variable_2,
+    pairs_sel <- uniformE_selection(master, variable_1, variable_2,
                                     selection_from = "block_centroids",
                                     expected_blocks, max_n_samplings = 1,
                                     initial_distance, increase, replicates,
@@ -101,13 +104,13 @@ block_sample <- function(master_matrix, variable_1, variable_2, expected_blocks,
     pairs_sel <- pairs_sel$selected_sites_E$selection_1$Block
   } else {
     ## randomly
-    pairs_sel <- sample(unique(master_matrix$master_matrix$Block),
+    pairs_sel <- sample(unique(master$master_matrix$Block),
                         expected_blocks)
   }
 
   # preparing results
-  pairs_sel <- ifelse(master_matrix$master_matrix$Block %in% pairs_sel, 1, 0)
-  master_matrix$master_matrix$Selected_blocks <- pairs_sel
+  pairs_sel <- ifelse(master$master_matrix$Block %in% pairs_sel, 1, 0)
+  master$master_matrix$Selected_blocks <- pairs_sel
 
-  return(master_matrix)
+  return(master)
 }
