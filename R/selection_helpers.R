@@ -258,3 +258,36 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
   })
   return(do.call(rbind, ucent))
 }
+
+
+
+
+#' Helper to filter sets of sites by median distance among all points
+#'
+#' @param site_list list of selected sites provided as data.frames. Columns
+#' "Longitude" and "Latitude" are needed for distance calculation.
+#' @param median_distance_filter (character) optional argument to define a median
+#' distance-based filter based on which sets of sampling sites will be selected.
+#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
+#'
+#' @export
+#' @importFrom stats median
+
+distance_filter <- function(site_list, median_distance_filter = "max") {
+  # initial tests
+  if (!median_distance_filter %in% c("max", "min")) {
+    stop("Argument 'median_distance_filter' is not valid, see function's help.")
+  }
+  dists <- sapply(site_list, function(x) {
+    dis <- raster::pointDistance(x[, c("Longitude", "Latitude")], lonlat = TRUE)
+    diag(dis) <- NA
+    median(c(dis), na.rm = T)
+  })
+
+  if (median_distance_filter == "max") {
+    site_list <- site_list[dists == max(dists)]
+  } else {
+    site_list <- site_list[dists == min(dists)]
+  }
+  return(site_list)
+}
