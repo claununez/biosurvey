@@ -4,12 +4,15 @@
 \alias{block_sample}
 \title{Selection of blocks in environmental space}
 \usage{
-block_sample(master_matrix, variable_1, variable_2, expected_blocks,
+block_sample(master, variable_1, variable_2, expected_blocks,
              selection_type = "uniform", initial_distance = NULL,
              increase = NULL, replicates = 10, set_seed = 1)
 }
 \arguments{
-\item{master_matrix}{object derived from function \code{\link{master_matrix}}.}
+\item{master}{a master_matrix object derived from the function
+\code{\link{master_matrix}} or a master_selection object derived from functions
+\code{\link{random_selection}}, \code{\link{uniformG_selection}},
+or \code{\link{uniformE_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis).}
@@ -37,8 +40,8 @@ blocks uniformly. Default = 10.}
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
 }
 \value{
-An S3 object of class master_matrix, containing the same elements found in the
-input master_matrix object, with an additional column in the master_matrix
+An S3 object of class master_matrix or master_selection, containing the same
+elements found in the input object, with an additional column in the master_matrix
 data.frame containing a binary code for selected (1) and non-selected (0) blocks.
 }
 \description{
@@ -47,7 +50,7 @@ to be used in further analysis in order to define sampling sites for a survey
 system.
 }
 \details{
-When blocks in \code{master_matrix} were defined using the option "equal_points"
+When blocks in \code{master} were defined using the option "equal_points"
 (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could result
 in blocks with high density per area being overlooked.
 }
