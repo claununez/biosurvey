@@ -29,23 +29,25 @@
 #' the indices see Soberon and Cavner (2015)
 #' \doi{https://doi.org/10.17161/bi.v10i0.4801}.
 #'
-#' |Code  |Index                                    |Calculation                    |
-#' |:-----|----------------------------------------:|------------------------------:|
-#' |      |Richness                                 |Basic                          |
-#' |      |Range                                    |Basic                          |
-#' |      |Richness standarized                     |Basic                          |
-#' |      |Range standarized                        |Basic                          |
-#' |AB    |Additive Beta                            |Needs to be defined            |
-#' |BW    |Beta Whittaker                           |Needs to be defined            |
-#' |BL    |Beta Legendre                            |Needs to be defined and DF     |
-#' |SCSC  |Schluter covariance sites-composition    |Needs to be defined and CMSC   |
-#' |SCSR  |Schluter covariance species-ranges       |Needs to be defined and CMSR   |
-#' |DF    |Dispersal field                          |Needs to be defined            |
-#' |SCC   |Shared community composition             |Needs to be defined            |
-#' |WRN   |Wright-Reeves nestedness                 |Needs to be defined, BW, and DF|
-#' |SRC   |Stone-Roberts Cscore                     |Needs to be defined and DF     |
-#' |CMSC  |Covariance matrix sites-composition      |Needs to be defined            |
-#' |CMSR  |Covariance matrix species-ranges         |Needs to be defined            |
+#' |Code  |Index                                    |Calculation                     |
+#' |:-----|----------------------------------------:|-------------------------------:|
+#' |      |Richness                                 |Basic                           |
+#' |      |Range                                    |Basic                           |
+#' |      |Richness normalized                      |Basic                           |
+#' |      |Range normalized                         |Basic                           |
+#' |AB    |Additive Beta                            |Needs to be defined             |
+#' |BW    |Beta Whittaker                           |Needs to be defined             |
+#' |BL    |Beta Legendre                            |Needs to be defined and DF      |
+#' |SCSC  |Schluter covariance sites-composition    |Needs to be defined and CMSC    |
+#' |SCSR  |Schluter covariance species-ranges       |Needs to be defined and CMSR    |
+#' |DF    |Dispersion field                         |Needs to be defined             |
+#' |SCC   |Shared community composition             |Needs to be defined             |
+#' |WRN   |Wright-Reeves nestedness                 |Needs to be defined, BW, and DF |
+#' |SRC   |Stone-Roberts Cscore                     |Needs to be defined and DF      |
+#' |CMSC  |Covariance matrix sites-composition      |Needs to be defined, DF, and BW |
+#' |CMSR  |Covariance matrix species-ranges         |Needs to be defined, SCC, and BW|
+#' |MCC   |Mean composition covariance              |Calculated with CMSC            |
+#' |MRC   |Mean range covariance                    |Calculated with CMSR            |
 #'
 #' @usage
 #' PAM_indices(PAM, indices = "all", exclude_column = NULL)
@@ -129,9 +131,9 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   trA <- sum(rich)
   trO <- sum(rang)
 
-  # dispersal field and shared community composition
-  ## values of dispersal field
-  if (any(indices %in% c("all", "DF", "BL", "WRN", "SRC"))) {
+  # Dispersion field and shared community composition
+  ## values of Dispersion field
+  if (any(indices %in% c("all", "DF", "BL", "WRN", "SRC", "CMSC"))) {
     d_field <- c(PAM %*% rang)
     names(d_field) <- rownames(PAM)
     ## average
@@ -141,7 +143,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   ## values shared community composition
-  if (any(indices %in% c("all", "SCC"))) {
+  if (any(indices %in% c("all", "SCC", "CMSR"))) {
     sc_comp <- c(tm1 %*% rich)
     names(sc_comp) <- colnames(PAM)
     ## average
@@ -152,7 +154,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
 
   # other indices
   ## Whittaker's multiplicative beta
-  if (any(indices %in% c("all", "BW", "WRN"))) {
+  if (any(indices %in% c("all", "BW", "WRN", "CMSR", "CMSC"))) {
     BW <- (S * N) / trO
   } else {
     BW <- NA
@@ -221,7 +223,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   # returning results
   tab_in <- data.frame(Value = c(N, S, av_dfield, av_sccomp, BA, BW, BL, VCS_cov,
                                  VRS_cov, Nc, Cs),
-                       row.names = c("Sites_Cells", "Species", "Av_dispersal_field",
+                       row.names = c("Sites_Cells", "Species", "Av_dispersion_field",
                                      "Av_shared_community_composition",
                                      "Additive_Beta", "Beta_Whittaker",
                                      "Beta_Legendre", "Schluter_cov_sites_composition",
@@ -231,8 +233,10 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
 
   # if base_PAM
   nil <- list(One_value_indices = tab_in, Richness = rich, Range = rang,
-              Richness_standardized = richS, Range_standardized = rangN,
-              Dispersal_field = d_field, Shared_community_composition = sc_comp,
+              Richness_normalized = richS, Range_normalized = rangN,
+              Dispersion_field = d_field, Shared_community_composition = sc_comp,
+              Mean_composition_covariance = Ccov_mean,
+              Mean_range_covariance = Rcov_mean,
               Cov_mat_sites_composition = CS_cov, Cov_mat_species_ranges = RS_cov)
 
   if (cpam == "base_PAM") {

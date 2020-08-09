@@ -87,19 +87,21 @@ indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.480
    Code \tab Index \tab Calculation \cr
     \tab Richness \tab Basic \cr
     \tab Range \tab Basic \cr
-    \tab Richness standarized \tab Basic \cr
-    \tab Range standarized \tab Basic \cr
+    \tab Richness normalized \tab Basic \cr
+    \tab Range normalized \tab Basic \cr
    AB \tab Additive Beta \tab Needs to be defined \cr
    BW \tab Beta Whittaker \tab Needs to be defined \cr
    BL \tab Beta Legendre \tab Needs to be defined and DF \cr
    SCSC \tab Schluter covariance sites-composition \tab Needs to be defined and CMSC \cr
    SCSR \tab Schluter covariance species-ranges \tab Needs to be defined and CMSR \cr
-   DF \tab Dispersal field \tab Needs to be defined \cr
+   DF \tab Dispersion field \tab Needs to be defined \cr
    SCC \tab Shared community composition \tab Needs to be defined \cr
    WRN \tab Wright-Reeves nestedness \tab Needs to be defined, BW, and DF \cr
    SRC \tab Stone-Roberts Cscore \tab Needs to be defined and DF \cr
-   CMSC \tab Covariance matrix sites-composition \tab Needs to be defined \cr
-   CMSR \tab Covariance matrix species-ranges \tab Needs to be defined \cr
+   CMSC \tab Covariance matrix sites-composition \tab Needs to be defined, DF, and BW \cr
+   CMSR \tab Covariance matrix species-ranges \tab Needs to be defined, SCC, and BW \cr
+   MCC \tab Mean composition covariance \tab Calculated with CMSC \cr
+   MRC \tab Mean range covariance \tab Calculated with CMSR \cr
 }
 }
 \examples{
