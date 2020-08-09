@@ -223,12 +223,6 @@ assign_blocks <- function(data, variable_1, variable_2, xlb, ylb = NULL,
     all_cls <- do.call(rbind, all_cls)
     colnames(all_cls)[ncol(all_cls)] <- "Block"
     all_cls <- all_cls[order(all_cls[, "Block"]), ]
-    #ub <- unique(all_cls[, "Block"])
-    #blks <- lapply(1:length(ub), function(x) {
-    #  rep(x, sum(all_cls[, "Block"] == ub[x]))
-    #})
-    #all_cls[, "Block"] <- unlist(blks)
-
   } else {
     ## blocks with equal number of points
     all_cls <- lapply(1:(length(xlb) - 1), function(x) {
