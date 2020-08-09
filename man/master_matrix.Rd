@@ -4,8 +4,8 @@
 \alias{master_matrix}
 \title{Prepare a base object to perform further analyses}
 \usage{
-master_matrix(region, variables, mask = NULL, preselected_sites = NULL, 
-              do_pca = FALSE, center = TRUE, scale = FALSE, 
+master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
+              do_pca = FALSE, center = TRUE, scale = FALSE,
               variables_in_matrix = NULL)
 }
 \arguments{
