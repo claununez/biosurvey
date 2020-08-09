@@ -1,4 +1,4 @@
-#' Test whether a number is pair
+#' Tests whether a number is pair
 #'
 #' @param x (numeric) value to be tested.
 #' @return Logical value
