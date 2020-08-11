@@ -41,7 +41,7 @@ environmental space.
 \examples{
 # Data
 data("m_matrix", package = "biosurvey")
-data1 <- m_matrix$master_matrix
+data1 <- m_matrix$data_matrix
 
 # Thinnig the points
 thin <- point_thinning(data1, x_column = "Longitude", y_column = "Latitude",

@@ -60,7 +60,7 @@ data("dist_list", package = "biosurvey")
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
                         n_cols = 10, n_rows = 10, block_type = "equal_area")
 
-datam <- m_blocks$master_matrix
+datam <- m_blocks$data_matrix
 datam <- datam[datam$Block \%in\% names(dist_list), ]
 
 # Sampling points

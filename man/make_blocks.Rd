@@ -52,5 +52,5 @@ data("m_matrix", package = "biosurvey")
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
                         block_type = "equal_area")
-unique(m_blocks$master_matrix$Block)
+unique(m_blocks$data_matrix$Block)
 }

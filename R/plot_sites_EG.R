@@ -67,7 +67,7 @@
 #'                         block_type = "equal_area")
 #'
 #' # Checking column names
-#' colnames(m_blocks$master_matrix)
+#' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E space
 #' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
@@ -158,7 +158,7 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   }
 
   ## environmental space
-  plot(master_selection$master_matrix[, evars], col = col_all, pch = pch_all,
+  plot(master_selection$data_matrix[, evars], col = col_all, pch = pch_all,
        cex = cex_all, bty = "l", xlab = "", ylab = "")
   title(xlab = variable_1, line = 2.3, cex.lab = 1.1)
   title(ylab = variable_2, line = 2.3, cex.lab = 1.1)
@@ -181,7 +181,7 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   box(which = "plot")
 
   ## selected sites
-  points(master_selection$master_matrix[, gvars], pch = pch_all, cex = cex_all,
+  points(master_selection$data_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
 
   ## region

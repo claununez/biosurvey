@@ -36,7 +36,7 @@
 #' data("m_matrix", package = "biosurvey")
 #'
 #' # Sampling points
-#' points_s <- point_sample(m_matrix$master_matrix, variable_1 = "Max_temperature",
+#' points_s <- point_sample(m_matrix$data_matrix, variable_1 = "Max_temperature",
 #'                          variable_2 = "Min_temperature", n = 1,
 #'                          select_point = "E_centroid", id_column = NULL)
 #'
@@ -255,7 +255,7 @@ find_modes <- function(density) {
 #' data("m_matrix", package = "biosurvey")
 #'
 #' # Cluster detection
-#' clusters <-  find_clusters(m_matrix$master_matrix, x_column = "PC1",
+#' clusters <-  find_clusters(m_matrix$data_matrix, x_column = "PC1",
 #'                            y_column = "PC2", space = "E",
 #'                            cluster_method = "hierarchical", n_k_means = NULL,
 #'                            split_distance = 4)
@@ -378,7 +378,7 @@ find_clusters <- function(data, x_column, y_column, space,
 #' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
 #'                         n_cols = 10, n_rows = 10, block_type = "equal_area")
 #'
-#' datam <- m_blocks$master_matrix
+#' datam <- m_blocks$data_matrix
 #' datam <- datam[datam$Block %in% names(dist_list), ]
 #'
 #' # Sampling points

@@ -52,7 +52,7 @@
 #' # Data
 #' data("m_matrix", package = "biosurvey")
 #'
-#' colnames(m_matrix$master_matrix)
+#' colnames(m_matrix$data_matrix)
 #'
 #' # Plot
 #' explore_data_EG(m_matrix, variable_1 = "Mean_temperature",
@@ -85,7 +85,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   on.exit(par(opar))
 
   # kernel
-  mx2kd <- ks::kde(master$master_matrix[, c(variable_1, variable_2)])
+  mx2kd <- ks::kde(master$data_matrix[, c(variable_1, variable_2)])
 
   # colors
   if (is.null(col_variable1) & is.null(col_variable2) & is.null(col_points) &
@@ -117,8 +117,8 @@ explore_data_EG <- function(master, variable_1, variable_2,
   }
 
   # limits
-  xlim <- range(master$master_matrix[, variable_1])
-  ylim  <- range(master$master_matrix[, variable_2])
+  xlim <- range(master$data_matrix[, variable_1])
+  ylim  <- range(master$data_matrix[, variable_2])
 
   # plot
   layout(matrix(1:20, 4, byrow = T), widths = c(1, 10, 2, 10, 2),
@@ -141,7 +141,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   ### variable 1
   sp::plot(master[[where]], border = NA)
   var <- master$raster_base
-  var[!is.na(var[])] <- master$master_matrix[, variable_1]
+  var[!is.na(var[])] <- master$data_matrix[, variable_1]
   value_range <- c(var@data@min, var@data@max)
   raster::image(var, col = col_variable1, add = TRUE)
   if (is.null(master$mask)) {
@@ -154,7 +154,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
 
   ### variable 2
   sp::plot(master[[where]], border = NA)
-  var[!is.na(var[])] <- master$master_matrix[, variable_2]
+  var[!is.na(var[])] <- master$data_matrix[, variable_2]
   value_range <- c(var@data@min, var@data@max)
   raster::image(var, col = col_variable2, add = TRUE)
   if (is.null(master$mask)) {
@@ -179,7 +179,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   text(0.5, 0.6, "Environmental space", cex = 1.2, srt = 90)
 
   par(mar = c(3.5, 3.5, 0.5, 0.5))
-  plot(master$master_matrix[, c(variable_1, variable_2)], col = col_points,
+  plot(master$data_matrix[, c(variable_1, variable_2)], col = col_points,
        bty = "l", xlab = "", ylab = "")
   title(xlab = variable_1, line = 2.4, cex.lab = 1.1)
   title(ylab = variable_2, line = 2.4, cex.lab = 1.1)

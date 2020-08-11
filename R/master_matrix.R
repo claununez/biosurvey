@@ -146,7 +146,7 @@ master_matrix <- function(region, variables, mask = NULL, preselected_sites = NU
     }
 
     # Return results
-    return(structure(list(master_matrix = master_m, region = region, mask = mask,
+    return(structure(list(data_matrix = master_m, region = region, mask = mask,
                           raster_base = b_raster,
                           preselected_sites = preselected_sites, PCA_results = pca),
                      class = "master_matrix"))
@@ -156,7 +156,7 @@ master_matrix <- function(region, variables, mask = NULL, preselected_sites = NU
     master_m <- data.frame(variables)
 
     # Return results
-    return(structure(list(master_matrix = master_m, region = region, mask = mask,
+    return(structure(list(data_matrix = master_m, region = region, mask = mask,
                           raster_base = b_raster,
                           preselected_sites = preselected_sites, PCA_results = NULL),
                      class = "master_matrix"))

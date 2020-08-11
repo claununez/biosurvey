@@ -40,7 +40,7 @@ selected from a set of points provided in \code{master}.
 }
 \details{
 Survey sites are selected randomly from the entire set of points provided in
-\code{master$master_matrix}. Considering the environmental space, as points
+\code{master$data_matrix}. Considering the environmental space, as points
 are selected randomly, sites that have environmental conditions that are common
 in the region of interest will be sampled more that other sites that present
 condition that are not as common.

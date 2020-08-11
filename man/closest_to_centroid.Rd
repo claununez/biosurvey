@@ -34,7 +34,7 @@ Detection of the closest points to the centroid of a cloud of points
 \examples{
 # Data
 data("m_matrix", package = "biosurvey")
-data1 <- m_matrix$master_matrix
+data1 <- m_matrix$data_matrix
 
 # Finding the closest point to the centroid
 centroid <- closest_to_centroid(data1, x_column = "Longitude",

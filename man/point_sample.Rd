@@ -44,7 +44,7 @@ sets of points to be sampled independently.
 data("m_matrix", package = "biosurvey")
 
 # Sampling points
-points_s <- point_sample(m_matrix$master_matrix, variable_1 = "Max_temperature",
+points_s <- point_sample(m_matrix$data_matrix, variable_1 = "Max_temperature",
                          variable_2 = "Min_temperature", n = 1,
                          select_point = "E_centroid", id_column = NULL)
 

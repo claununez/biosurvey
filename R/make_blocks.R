@@ -45,7 +45,7 @@
 #' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 #'                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
 #'                         block_type = "equal_area")
-#' unique(m_blocks$master_matrix$Block)
+#' unique(m_blocks$data_matrix$Block)
 
 
 make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
@@ -68,7 +68,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
   }
 
   # Preparing data
-  data <- master_matrix$master_matrix
+  data <- master_matrix$data_matrix
   id <- paste(data[, 1], data[, 2])
 
   if (!is.null(master_matrix$preselected_sites)) {
@@ -116,7 +116,7 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
   # Returning results
   all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ] # matches data back in order
-  master_matrix$master_matrix <- all_cls
+  master_matrix$data_matrix <- all_cls
 
   if (!is.null(master_matrix$preselected_sites)) {
     prese <- prese[match(idpre, paste(prese[, 2], prese[, 3])), ] # matches preselected data back in order

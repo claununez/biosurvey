@@ -7,7 +7,7 @@
 \format{
 A list of 4 elements:
 \describe{
-\item{m_matrix}{data frame wiht 6276 rows and 10 columns}
+\item{data_matrix}{data frame wiht 6276 rows and 10 columns}
 \item{region}{object of class SpatialPolygons*}
 \item{mask}{object of class SpatialPolygons*}
 \item{raster_base}{object of class RasterLayer}

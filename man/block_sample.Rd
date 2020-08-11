@@ -64,13 +64,13 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                         block_type = "equal_area")
 
 # Checking column names and values in variables to define initial distance
-colnames(m_blocks$master_matrix)
-summary(m_blocks$master_matrix[, c("PC1", "PC2")])
+colnames(m_blocks$data_matrix)
+summary(m_blocks$data_matrix[, c("PC1", "PC2")])
 
 # Selecting Blocks uniformly in E space
 block_sel <- block_sample(m_blocks, variable_1 = "PC1", variable_2  = "PC2",
                           expected_blocks = 10, selection_type = "uniform",
                           initial_distance = 1.5, increase = 0.1)
 
-head(block_sel$master_matrix)
+head(block_sel$data_matrix)
 }

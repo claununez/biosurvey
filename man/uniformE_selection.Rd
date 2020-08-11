@@ -85,7 +85,7 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                         block_type = "equal_area")
 
 # Checking column names
-colnames(m_blocks$master_matrix)
+colnames(m_blocks$data_matrix)
 
 # Selecting sites uniformly in E space
 selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",

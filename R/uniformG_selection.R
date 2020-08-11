@@ -110,7 +110,7 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
   }
 
   # preparing data
-  data <- master$master_matrix
+  data <- master$data_matrix
   x_column <- "Longitude"
   y_column <- "Latitude"
   data <- data[!is.na(data[, x_column]) & !is.na(data[, y_column]), ]

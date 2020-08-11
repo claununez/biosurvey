@@ -33,7 +33,7 @@
 #' @examples
 #' # Data
 #' data("m_matrix", package = "biosurvey")
-#' data1 <- m_matrix$master_matrix
+#' data1 <- m_matrix$data_matrix
 #'
 #' # Thinnig the points
 #' thin <- point_thinning(data1, x_column = "Longitude", y_column = "Latitude",
@@ -155,7 +155,7 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 #' @examples
 #' # Data
 #' data("m_matrix", package = "biosurvey")
-#' data1 <- m_matrix$master_matrix
+#' data1 <- m_matrix$data_matrix
 #'
 #' # Finding the closest point to the centroid
 #' centroid <- closest_to_centroid(data1, x_column = "Longitude",

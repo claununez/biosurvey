@@ -77,7 +77,7 @@
 #'                         block_type = "equal_area")
 #'
 #' # Checking column names
-#' colnames(m_blocks$master_matrix)
+#' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E space
 #' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
@@ -115,10 +115,10 @@ uniformE_selection <- function(master, variable_1, variable_2,
   } else {
     # preparing data
     if (selection_from[1] == "all_points") {
-      data <- master$master_matrix
+      data <- master$data_matrix
       data <- data[!is.na(data[, variable_1]) & !is.na(data[, variable_2]), ]
     } else {
-      data <- master$master_matrix
+      data <- master$data_matrix
 
       # preparing centroids
       data <- closest_to_centroid(data, variable_1, variable_2, space = "E",

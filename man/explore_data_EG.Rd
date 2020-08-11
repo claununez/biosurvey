@@ -54,7 +54,7 @@ predictor per panel). The two panels at the bottom contain information in a
 # Data
 data("m_matrix", package = "biosurvey")
 
-colnames(m_matrix$master_matrix)
+colnames(m_matrix$data_matrix)
 
 # Plot
 explore_data_EG(m_matrix, variable_1 = "Mean_temperature",

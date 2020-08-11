@@ -48,7 +48,7 @@ assumptions and they may work well on some data sets, and fail on others.
 data("m_matrix", package = "biosurvey")
 
 # Cluster detection
-clusters <-  find_clusters(m_matrix$master_matrix, x_column = "PC1",
+clusters <-  find_clusters(m_matrix$data_matrix, x_column = "PC1",
                            y_column = "PC2", space = "E",
                            cluster_method = "hierarchical", n_k_means = NULL,
                            split_distance = 4)

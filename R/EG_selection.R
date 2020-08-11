@@ -195,7 +195,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
     ## blocks preselected sites belong to
     preblock <- unique(pre$Block)
-    blocks <- unique(master$master_matrix$Block)
+    blocks <- unique(master$data_matrix$Block)
     lim <- (length(preblock) + 1):n_blocks
     nlim <- length((length(preblock) + 1):n_blocks)
 
@@ -213,7 +213,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
     ## obtaining block centroids (closest to centroid) info
     sblocks <- lapply(sblocks, function(x) {
-      closest_to_centroid(master$master_matrix[master$master_matrix$Block ==
+      closest_to_centroid(master$data_matrix[master$data_matrix$Block ==
                                                  x, ], variable_1, variable_2,
                           space = "E", n = 1, id_column = "Block")
     })
@@ -235,7 +235,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
       rule <- suppressMessages(block_sample(master, variable_1, variable_2, n_blocks,
                                             selection_type = "uniform",
                                             initial_distance, increase, replicates = 1,
-                                            set_seed = ss)$master_matrix$Selected_blocks)
+                                            set_seed = ss)$data_matrix$Selected_blocks)
       which(rule == 1)
     })
 
@@ -254,12 +254,12 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     if (use_preselected_sites == TRUE) {
       blocksp <- sblocks
     } else {
-      blocksp <- unique(master$master_matrix[x, "Block"])
+      blocksp <- unique(master$data_matrix[x, "Block"])
     }
 
     ## measuring distances
     distsp <- lapply(blocksp, function(y) {
-      block_data <- master$master_matrix[master$master_matrix[, "Block"] == y,
+      block_data <- master$data_matrix[master$data_matrix[, "Block"] == y,
                                          g_cols]
       tpoints <- nrow(block_data)
 
@@ -281,39 +281,39 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
     ## analysis with no mode (very few points)
     if (nrow(nmodp) > 0) {
-      unselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
+      unselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"] %in%
                                                     nmodp[, "Block"], ], variable_1,
                              variable_2, n = 1, select_point = "random",
                              id_column = "Block")
     } else {
-      unselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
-      colnames(unselp) <- colnames(master$master_matrix)
+      unselp <- matrix(nrow = 0, ncol = ncol(master$data_matrix))
+      colnames(unselp) <- colnames(master$data_matrix)
       unselp <- as.data.frame(unselp)
     }
 
     ## analysis with unimodal
     if (nrow(unimp) > 0) {
-      ueselp <- point_sample(master$master_matrix[master$master_matrix[, "Block"] %in%
+      ueselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"] %in%
                                                     unimp[, "Block"], ], variable_1,
                              variable_2, n = 1, select_point = select_point,
                              id_column = "Block")
     } else {
-      ueselp <- matrix(nrow = 1, ncol = ncol(master$master_matrix))
-      colnames(ueselp) <- colnames(master$master_matrix)
+      ueselp <- matrix(nrow = 1, ncol = ncol(master$data_matrix))
+      colnames(ueselp) <- colnames(master$data_matrix)
       ueselp <- as.data.frame(na.omit(ueselp))
     }
 
     ## analysis with multimodal
     if (nrow(mmodp) > 0) {
       distsp <- distsp[as.character(mmodp$Block)]
-      meselp <- point_sample_cluster(master$master_matrix[master$master_matrix[, "Block"] %in%
+      meselp <- point_sample_cluster(master$data_matrix[master$data_matrix[, "Block"] %in%
                                                             mmodp[, "Block"], ],
                                      variable_1, variable_2, distance_list = distsp,
                                      n = 1, cluster_method = cluster_method,
                                      select_point = select_point, id_column = "Block")
     } else {
-      meselp <- matrix(nrow = 0, ncol = ncol(master$master_matrix))
-      colnames(meselp) <- colnames(master$master_matrix)
+      meselp <- matrix(nrow = 0, ncol = ncol(master$data_matrix))
+      colnames(meselp) <- colnames(master$data_matrix)
       meselp <- as.data.frame(meselp)
     }
 

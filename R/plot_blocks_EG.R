@@ -77,9 +77,9 @@
 #'                block_ID = TRUE)
 #'
 #' # defining your own colors
-#' n_blocks <- length(m_blocks$master_matrix$Block)
+#' n_blocks <- length(m_blocks$data_matrix$Block)
 #' your_palette <- sample(viridis::viridis(n_blocks), n_blocks)
-#' block_factor <- as.factor(m_blocks$master_matrix$Block)
+#' block_factor <- as.factor(m_blocks$data_matrix$Block)
 #' your_colors <- your_palette[block_factor]
 #'
 #' plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
@@ -107,11 +107,11 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   if (!which %in% c("all", "selected")) {
     stop("Argument 'which' is not valid, options are 'all' or 'selected'.")
   } else {
-    if (is.null(master$master_matrix$Block)) {
-      stop("Blocks are not defined in master_matrix of 'master', see function 'make_blocks'.")
+    if (is.null(master$data_matrix$Block)) {
+      stop("Blocks are not defined in data_matrix of 'master', see function 'make_blocks'.")
     }
     if (which == "selected") {
-      if (is.null(master$master_matrix$Selected_blocks)) {
+      if (is.null(master$data_matrix$Selected_blocks)) {
         stop("Object in 'master' does not contain selected blocks, see function 'block_sample'.")
       }
     }
@@ -124,7 +124,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   xlim <- master[[where]]@bbox[1, ]
   ylim <- master[[where]]@bbox[2, ]
 
-  ublocks <- unique(master$master_matrix$Block)
+  ublocks <- unique(master$data_matrix$Block)
   nblocks <- length(ublocks)
 
   gvars <- c("Longitude", "Latitude")
@@ -133,7 +133,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   # colors
   if (is.null(col_all) & is.null(col_selected) & is.null(col_ID)) {
     if (which == "all") {
-      col_all <- sample(viridis::cividis(nblocks), nblocks)[as.factor(master$master_matrix$Block)]
+      col_all <- sample(viridis::cividis(nblocks), nblocks)[as.factor(master$data_matrix$Block)]
     } else {
       col_all <- "#E1E1E1"
       col_selected <- "#3B22CB"
@@ -179,15 +179,15 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   }
 
   ## environmental space
-  plot(master$master_matrix[, evars], col = col_all, pch = pch_all, cex = cex_all,
+  plot(master$data_matrix[, evars], col = col_all, pch = pch_all, cex = cex_all,
        bty = "l", xlab = "", ylab = "")
   title(xlab = variable_1, line = 2.3, cex.lab = 1.1)
   title(ylab = variable_2, line = 2.3, cex.lab = 1.1)
 
   ## selected blocks
   if (which == "selected") {
-    sel <- which(master$master_matrix$Selected_blocks == 1)
-    selected_data <- master$master_matrix[sel, ]
+    sel <- which(master$data_matrix$Selected_blocks == 1)
+    selected_data <- master$data_matrix[sel, ]
     points(selected_data[sel, evars], pch = pch_selected, cex = cex_selected,
            col = col_selected)
   }
@@ -195,7 +195,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   ## add block ID
   if (block_ID == TRUE) {
     cents <- lapply(ublocks, function(x) {
-      cen <- apply(master$master_matrix[master$master_matrix$Block == x, evars],
+      cen <- apply(master$data_matrix[master$data_matrix$Block == x, evars],
                    2, mean)
       text(cen[1], cen[2], labels = x, cex = cex_ID, col = col_ID)
     })
@@ -207,7 +207,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
-  points(master$master_matrix[, gvars], pch = pch_all, cex = cex_all,
+  points(master$data_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
   if (is.null(master$mask)) {
     sp::plot(master$region, border = "gray70", add = TRUE)
