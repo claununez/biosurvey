@@ -25,7 +25,7 @@
 #'
 #' @return
 #' An S3 object of class master_matrix containing the following elements:
-#' - master_matrix: a date.frame with information about geographic location of
+#' - data_matrix: a date.frame with information about geographic location of
 #' raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 #' the first two principal components derived from original data.
 #' - region: a SpatialPolygons* representing the region of interest.
@@ -52,9 +52,9 @@
 #' records and their characteristics will be considered in further analyses.
 #'
 #' @usage
-#' master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
-#'               do_pca = FALSE, center = TRUE, scale = FALSE,
-#'               variables_in_matrix = NULL)
+#' prepare_master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
+#'                       do_pca = FALSE, center = TRUE, scale = FALSE,
+#'                       variables_in_matrix = NULL)
 #'
 #' @export
 #' @importFrom raster mask crop rasterToPoints intersect
@@ -67,13 +67,14 @@
 #'                                        package = "biosurvey"))
 #'
 #' # Create master matrix object
-#' m_matrix <- master_matrix(region = mx, variables = variables, do_pca = TRUE,
-#'                           center = TRUE, scale = TRUE)
+#' m_matrix <- prepare_master_matrix(region = mx, variables = variables,
+#'                                   do_pca = TRUE, center = TRUE, scale = TRUE)
 
 
-master_matrix <- function(region, variables, mask = NULL, preselected_sites = NULL,
-                          do_pca = FALSE, center = TRUE, scale = FALSE,
-                          variables_in_matrix = NULL) {
+prepare_master_matrix <- function(region, variables, mask = NULL,
+                                  preselected_sites = NULL, do_pca = FALSE,
+                                  center = TRUE, scale = FALSE,
+                                  variables_in_matrix = NULL) {
   # Initial tests
   if (missing(region)) {
     stop("Argument 'region' must be defined")
