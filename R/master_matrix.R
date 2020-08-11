@@ -147,19 +147,19 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     }
 
     # Return results
-    return(structure(list(data_matrix = master_m, region = region, mask = mask,
-                          raster_base = b_raster,
-                          preselected_sites = preselected_sites, PCA_results = pca),
-                     class = "master_matrix"))
+    return(new_master_matrix(data_matrix = master_m, region = region, mask = mask,
+                             raster_base = b_raster,
+                             preselected_sites = preselected_sites,
+                             PCA_results = pca))
 
   } else {
     # Create matrix
     master_m <- data.frame(variables)
 
     # Return results
-    return(structure(list(data_matrix = master_m, region = region, mask = mask,
-                          raster_base = b_raster,
-                          preselected_sites = preselected_sites, PCA_results = NULL),
-                     class = "master_matrix"))
+    return(new_master_matrix(data_matrix = master_m, region = region, mask = mask,
+                             raster_base = b_raster,
+                             preselected_sites = preselected_sites,
+                             PCA_results = NULL))
   }
 }
