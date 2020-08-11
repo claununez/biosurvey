@@ -36,17 +36,29 @@ The default, NULL, uses a light gray color.}
 \item{col_sites}{color for selected sites. The default, NULL, uses
 a blue color to represent selected sites.}
 
+\item{col_pre}{color for preselected sites. The default, NULL, uses
+a red color to represent preselected sites. Ignored if preselected sites are
+not present in \code{master_selection}.}
+
 \item{cex_all}{(numeric) value defining magnification of all points
 relative to the default. Default = 0.7.}
 
 \item{cex_sites}{(numeric) value defining magnification of selected sites
 relative to the default. Default = 1.}
 
+\item{cex_pre}{(numeric) value defining magnification of preselected sites
+relative to the default. Default = 1. Ignored if preselected sites are
+not present in \code{master_selection}.}
+
 \item{pch_all}{(numeric) integer specifying a symbol when plotting all points.
 Default = 16.}
 
 \item{pch_sites}{(numeric) integer specifying a symbol when plotting points
 of selected sites. Default = 16.}
+
+\item{pch_pre}{(numeric) integer specifying a symbol when plotting points
+of preselected sites. Default = 16. Ignored if preselected sites are
+not present in \code{master_selection}.}
 
 \item{add_main}{(logical) whether or not to add fixed titles to the plot.
 Default = TRUE. Titles added are "Environmental space" and "Geographic space".}

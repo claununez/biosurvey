@@ -22,14 +22,23 @@
 #' The default, NULL, uses a light gray color.
 #' @param col_sites color for selected sites. The default, NULL, uses
 #' a blue color to represent selected sites.
+#' @param col_pre color for preselected sites. The default, NULL, uses
+#' a red color to represent preselected sites. Ignored if preselected sites are
+#' not present in \code{master_selection}.
 #' @param cex_all (numeric) value defining magnification of all points
 #' relative to the default. Default = 0.7.
 #' @param cex_sites (numeric) value defining magnification of selected sites
 #' relative to the default. Default = 1.
+#' @param cex_pre (numeric) value defining magnification of preselected sites
+#' relative to the default. Default = 1. Ignored if preselected sites are
+#' not present in \code{master_selection}.
 #' @param pch_all (numeric) integer specifying a symbol when plotting all points.
 #' Default = 16.
 #' @param pch_sites (numeric) integer specifying a symbol when plotting points
 #' of selected sites. Default = 16.
+#' @param pch_pre (numeric) integer specifying a symbol when plotting points
+#' of preselected sites. Default = 16. Ignored if preselected sites are
+#' not present in \code{master_selection}.
 #' @param add_main (logical) whether or not to add fixed titles to the plot.
 #' Default = TRUE. Titles added are "Environmental space" and "Geographic space".
 #'
@@ -74,8 +83,9 @@
 
 plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_type,
                           selection_number = 1, col_all = NULL, col_sites = NULL,
-                          cex_all = 0.7, cex_sites = 1, pch_all = 16,
-                          pch_sites = 16, add_main = TRUE) {
+                          col_pre = NULL, cex_all = 0.7, cex_sites = 1,
+                          cex_pre = 1, pch_all = 16, pch_sites = 16,
+                          pch_pre = 16, add_main = TRUE) {
   # initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
@@ -108,15 +118,19 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   evars <- c(variable_1, variable_2)
 
   # colors
-  if (is.null(col_all) & is.null(col_sites)) {
+  if (is.null(col_all) & is.null(col_sites) & is.null(col_pre)) {
     col_all <- "#E1E1E1"
     col_sites <- "#3B22CB"
+    col_pre <- "#EC2F06"
   } else {
     if (is.null(col_all)) {
       col_all <- "#E1E1E1"
     }
     if (is.null(col_sites)) {
       col_sites <- "#3B22CB"
+    }
+    if (is.null(col_pre)) {
+      col_pre <- "#EC2F06"
     }
   }
 
@@ -153,14 +167,24 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   selected_data <- master_selection[[selection_type]][[selection_number]]
   points(selected_data[, evars], pch = pch_sites, cex = cex_sites, col = col_sites)
 
+  ## preselected sites
+  if (!is.null(master_selection$preselected_sites)) {
+    points(master_selection$preselected_sites[, evars], pch = pch_pre,
+           cex = cex_pre, col = col_pre)
+  }
+
   ## geographic space
   par(mar = rep(0.5, 4))
   sp::plot(master_selection[[where]], border = "transparent")
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
+
+  ## selected sites
   points(master_selection$master_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
+
+  ## region
   if (is.null(master_selection$mask)) {
     sp::plot(master_selection$region, border = "gray70", add = TRUE)
   }
@@ -168,4 +192,10 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
 
   ## selected sites
   points(selected_data[, gvars], pch = pch_sites, cex = cex_sites, col = col_sites)
+
+  ## preselected sites
+  if (!is.null(master_selection$preselected_sites)) {
+    points(master_selection$preselected_sites[, gvars], pch = pch_pre,
+           cex = cex_pre, col = col_pre)
+  }
 }
