@@ -8,7 +8,7 @@ subset_PAM(base_PAM, master_selection, selection_type = "all")
 }
 \arguments{
 \item{base_PAM}{object of class base_PAM obtained using the function
-\code{\link{base_PAM}}.}
+\code{\link{prepare_base_PAM}}.}
 
 \item{master_selection}{object of class master_selection. This object can be
 obtained using the functions: \code{\link{random_selection}},

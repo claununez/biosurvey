@@ -24,12 +24,12 @@ efficiency of efforts dedicated to monitoring biodiversity.
 }
 \section{Main functions in biosurvey}{
 
-\code{\link{prepare_base_PAM}}, \code{\link{block_sample}},
-\code{\link{compare_SAC}}, \code{\link{EG_selection}},
-\code{\link{explore_data_EG}}, \code{\link{make_blocks}},
-\code{\link{prepare_master_matrix}}, \code{\link{PAM_indices}},
+\code{\link{block_sample}}, \code{\link{compare_SAC}},
+\code{\link{EG_selection}}, \code{\link{explore_data_EG}},
+\code{\link{make_blocks}}, \code{\link{PAM_indices}},
 \code{\link{plot_blocks_EG}}, \code{\link{plot_SAC}},
-\code{\link{plot_sites_EG}}, \code{\link{random_selection}},
+\code{\link{plot_sites_EG}}, \code{\link{prepare_base_PAM}},
+\code{\link{prepare_master_matrix}}, \code{\link{random_selection}},
 \code{\link{selected_sites_SAC}}, \code{\link{subset_PAM}},
 \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}}
 

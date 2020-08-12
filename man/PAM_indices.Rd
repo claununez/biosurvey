@@ -68,3 +68,6 @@ pam <- PAM_from_table(data = sp_data, ID_column = "ID", species_column = "Specie
 pam_ind <- PAM_indices(pam, exclude_column = 1)
 pam_ind[1:3]
 }
+\seealso{
+\code{\link{prepare_base_PAM}}
+}

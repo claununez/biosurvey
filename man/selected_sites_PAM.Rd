@@ -13,7 +13,7 @@ to perform such a selection: \code{\link{random_selection}},
 \code{\link{EG_selection}}.}
 
 \item{base_PAM}{object of class base_PAM obtained using the function
-\code{\link{base_PAM}}.}
+\code{\link{prepare_base_PAM}}.}
 }
 \value{
 A list of selected site data.frames with information of PAM added as

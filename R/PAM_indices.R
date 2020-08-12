@@ -54,6 +54,8 @@
 #'
 #' @export
 #'
+#' @seealso \code{\link{prepare_base_PAM}}
+#'
 #' @examples
 #' # Data
 #' data("sp_data", package = "biosurvey")
