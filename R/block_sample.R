@@ -74,7 +74,7 @@ block_sample <- function(master, variable_1, variable_2, expected_blocks,
   if (!class(master)[1] %in% c("master_matrix", "master_selection")) {
     stop("Object defined in 'master' is not valid, see function's help.")
   }
-  if (is.null(master$master_matrix$Block)) {
+  if (is.null(master$data_matrix$Block)) {
     stop("Blocks are not defined in master_matrix, see function 'make_blocks'.")
   }
   if (missing(variable_1)) {
@@ -104,13 +104,13 @@ block_sample <- function(master, variable_1, variable_2, expected_blocks,
     pairs_sel <- pairs_sel$selected_sites_E$selection_1$Block
   } else {
     ## randomly
-    pairs_sel <- sample(unique(master$master_matrix$Block),
+    pairs_sel <- sample(unique(master$data_matrix$Block),
                         expected_blocks)
   }
 
   # preparing results
-  pairs_sel <- ifelse(master$master_matrix$Block %in% pairs_sel, 1, 0)
-  master$master_matrix$Selected_blocks <- pairs_sel
+  pairs_sel <- ifelse(master$data_matrix$Block %in% pairs_sel, 1, 0)
+  master$data_matrix$Selected_blocks <- pairs_sel
 
   return(master)
 }
