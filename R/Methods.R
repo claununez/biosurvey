@@ -94,65 +94,65 @@ print.base_PAM <- function(object) {
   cat("PAM:\n")
   print(object$PAM)
 
-  cat("\nPAM_indices:\n")
+  cat("\n\nPAM_indices:\n")
   if (!is.null(object$PAM_indices)) {
     cat("  One_value_indices:\n")
-    print(object$PAM_indices[[1]][!is.na(object$PAM_indices[[1]][, 1]), ])
+    print(na.omit(object$PAM_indices$One_value_indices))
 
     cat("\n  Richness:\n")
-    cat(head(object$Richness), "...\n")
+    cat(" ", head(object$PAM_indices$Richness), "...\n")
 
     cat("\n  Range:\n")
-    cat(head(object$Range), "...\n")
+    cat(" ", head(object$PAM_indices$Range), "...\n")
 
     cat("\n  Richness_normalized:\n")
-    cat(head(object$Richness_normalized), "...\n")
+    cat(" ", head(object$PAM_indices$Richness_normalized), "...\n")
 
     cat("\n  Range_normalized:\n")
-    cat(head(object$Range_normalized), "...\n")
+    cat(" ", head(object$PAM_indices$Range_normalized), "...\n")
 
     cat("\n  Dispersion_field:\n")
-    if (!is.null(object$Dispersion_field)) {
-      cat(head(object$Dispersion_field), "...\n")
+    if (!is.null(object$PAM_indices$Dispersion_field)) {
+      cat(" ", head(object$PAM_indices$Dispersion_field), "...\n")
     } else {
-      cat("Empty\n")
+      cat("  Empty\n")
     }
 
     cat("\n  Shared_community_composition:\n")
-    if (!is.null(object$Shared_community_composition)) {
-      cat(head(object$Shared_community_composition), "...\n")
+    if (!is.null(object$PAM_indices$Shared_community_composition)) {
+      cat(" ", head(object$PAM_indices$Shared_community_composition), "...\n")
     } else {
-      cat("Empty\n")
+      cat("  Empty\n")
     }
 
     cat("\n  Mean_composition_covariance:\n")
-    if (!is.null(object$Mean_composition_covariance)) {
-      cat(head(object$Mean_composition_covariance), "...\n")
+    if (!is.null(object$PAM_indices$Mean_composition_covariance)) {
+      cat(" ", head(object$PAM_indices$Mean_composition_covariance), "...\n")
     } else {
-      cat("Empty\n")
+      cat("  Empty\n")
     }
 
     cat("\n  Mean_range_covariance:\n")
-    if (!is.null(object$Mean_range_covariance)) {
-      cat(head(object$Mean_range_covariance), "...\n")
+    if (!is.null(object$PAM_indices$Mean_range_covariance)) {
+      cat(" ", head(object$PAM_indices$Mean_range_covariance), "...\n")
     } else {
-      cat("Empty\n")
+      cat("  Empty\n")
     }
 
     cat("\n  Cov_mat_sites_composition:\n")
-    if (!is.null(object$Cov_mat_sites_composition)) {
-      print(head(object$Cov_mat_sites_composition))
+    if (!is.null(object$PAM_indices$Cov_mat_sites_composition)) {
+      print(head(object$PAM_indices$Cov_mat_sites_composition))
       cat("...\n")
     } else {
-      cat("Empty\n")
+      cat("  Empty\n")
     }
 
     cat("\n  Cov_mat_species_ranges\n")
-    if (!is.null(object$Cov_mat_species_ranges)) {
-      print(head(object$Cov_mat_species_ranges))
+    if (!is.null(object$PAM_indices$Cov_mat_species_ranges)) {
+      print(head(object$PAM_indices$Cov_mat_species_ranges))
       cat("...\n")
     } else {
-      cat("Empty\n")
+      cat("  Empty\n")
     }
 
   } else {
@@ -168,7 +168,7 @@ print.PAM_subset <- function(object) {
 
   print(structure(object[1:2], class = "base_PAM"))
 
-  cat("\nPAM_selected_sites_random:\n")
+  cat("\n\nPAM_selected_sites_random:\n")
   if (!is.null(object$PAM_selected_sites_random)) {
     cat("First of", length(object$PAM_selected_sites_random), "element(s).\n")
     print(head(object$PAM_selected_sites_random[[1]][, 1:6]))
@@ -292,11 +292,11 @@ summary.base_PAM <- function(object) {
   cat("\n                      Summary of a base_PAM object\n")
   cat("---------------------------------------------------------------------------\n\n")
   cat("Presence-absence matrix:\n")
-  cat("  Number of cells:   ", object$One_value_indices$Sites_Cells)
-  cat("  Number of species: ", object$One_value_indices$Species)
+  cat("  Number of cells:   ", object$PAM_indices$One_value_indices["Sites_Cells", 1])
+  cat("\n  Number of species: ", object$PAM_indices$One_value_indices["Species", 1])
 
   cat("\n\nSpatial object representing the PAM:\n")
-  print(object$region)
+  print(object$PAM)
 }
 
 
@@ -308,13 +308,20 @@ summary.PAM_subset <- function(object) {
   cat("\n                      Summary of a PAM_subset object\n")
   cat("---------------------------------------------------------------------------\n\n")
   cat("Complete presence-absence matrix:\n")
-  cat("  Number of cells:   ", object$One_value_indices$Sites_Cells)
-  cat("  Number of species: ", object$One_value_indices$Species)
+  cat("  Number of cells:   ", object$PAM_indices$One_value_indices["Sites_Cells", 1])
+  cat("\n  Number of species: ", object$PAM_indices$One_value_indices["Species", 1])
 
   cat("\n\nSubsets of PAM:\n")
   sele <- object[3:6]
   snames <- names(sele)
   nnull <- which(!sapply(sele, is.null))
-  ncells <- sapply(sele[nnull], nrow)
-  print(data.frame(Subset = snames[nnull], Cells = ncells))
+  ncells <- sapply(sele[nnull], function(x) {nrow(x[[1]])})
+
+  sps <- sapply(sele[nnull], function(x) {
+    cnam <- colnames(x[[1]])
+    icol <- which(cnam == "Latitude_PAM") + 1
+    cnam <- cnam[icol:length(cnam)]
+    sum(apply(x[[1]][, icol:ncol(x[[1]])], 2, max) == 1)
+  })
+  print(data.frame(Cells = ncells, Species = sps))
 }
