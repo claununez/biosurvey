@@ -4,12 +4,16 @@
 \alias{summary}
 \alias{summary.master_matrix}
 \alias{summary,master_matrix-method}
+\alias{summary,master_selection-method}
+\alias{summary.master_selection}
 \title{Summary of attributes and results}
 \usage{
 \method{summary}{master_matrix}(object)
+
+\method{summary}{master_selection}(object, nrow = 6, ncol = 2)
 }
 \arguments{
-\item{object}{object of class master_matrix.}
+\item{object}{object of class master_matrix or master_selection.}
 }
 \value{
 A printed summary.
