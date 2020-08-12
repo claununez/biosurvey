@@ -91,8 +91,8 @@
 #' biodiversity as default, but can be changed using the argument \code{indices}.
 #'
 #' @usage
-#' base_PAM(data, format = NULL, master_matrix, cell_size,
-#'          complete_cover = TRUE, clip_grid = FALSE, indices = "basic")
+#' prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
+#'                  complete_cover = TRUE, clip_grid = FALSE, indices = "basic")
 #'
 #' @export
 #' @importFrom sp SpatialPointsDataFrame over
@@ -104,13 +104,15 @@
 #' data("species_data", package = "biosurvey")
 #'
 #' # Create base_PAM
-#' b_pam <- base_PAM(data = species_data, master_matrix = m_matrix, cell_size = 100)
+#' b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix,
+#'                           cell_size = 100)
 #' sp::plot(b_pam$PAM)
 #' summary(b_pam$PAM@data[, 1:6])
 
 
-base_PAM <- function(data, format = NULL, master_matrix, cell_size,
-                     complete_cover = TRUE, clip_grid = FALSE, indices = "basic") {
+prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
+                             complete_cover = TRUE, clip_grid = FALSE,
+                             indices = "basic") {
   # Initial tests
   clsdata <- class(data)[1]
 
@@ -200,8 +202,8 @@ base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   }
 
   # Preparing and returning results
-  message("Calculating basic PAM indices.")
-  bPAM <- structure(list(PAM = grid_r_pol, PAM_indices = NULL), class = "base_PAM")
+  message("Calculating PAM indices.")
+  bPAM <- new_base_PAM(PAM = grid_r_pol, PAM_indices = NULL)
 
   bPAM <- PAM_indices(bPAM, indices = "basic")
 

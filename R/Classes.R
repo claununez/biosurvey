@@ -66,3 +66,56 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
   class(val) <- c("master_selection", "master_matrix")
   return(val)
 }
+
+
+
+new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
+                         PAM_indices = NULL) {
+  pclass <- class(PAM)[1]
+  piclass <- class(PAM_indices)[1]
+
+  if (!pclass %in% c("SpatialPolygonsDataFrame")) {
+    stop("'PAM' must be of class 'list', or NULL.")
+  }
+  if (!piclass %in% c("list", "NULL")) {
+    stop("'PAM_indices' must be of class 'list', or NULL.")
+  }
+
+  val <- list(PAM = PAM, PAM_indices = PAM_indices)
+  class(val) <- "base_PAM"
+  return(val)
+}
+
+
+
+new_PAM_subset <- function(PAM = new("SpatialPolygonsDataFrame"),
+                           PAM_indices = NULL, PAM_selected_sites_random = NULL,
+                           PAM_selected_sites_G = NULL, PAM_selected_sites_E = NULL,
+                           PAM_selected_sites_EG = NULL) {
+  prclass <- class(PAM_selected_sites_random)[1]
+  pgclass <- class(PAM_selected_sites_G)[1]
+  peclass <- class(PAM_selected_sites_E)[1]
+  pegclass <- class(PAM_selected_sites_EG)[1]
+
+
+  if (!prclass %in% c("list", "NULL")) {
+    stop("'PAM_selected_sites_random' must be of class 'list', or NULL.")
+  }
+  if (!pgclass %in% c("list", "NULL")) {
+    stop("'PAM_selected_sites_G' must be of class 'list', or NULL.")
+  }
+  if (!peclass %in% c("list", "NULL")) {
+    stop("'PAM_selected_sites_E' must be of class 'list', or NULL.")
+  }
+  if (!pegclass %in% c("list", "NULL")) {
+    stop("'PAM_selected_sites_EG' must be of class 'list', or NULL.")
+  }
+
+  val <- new_base_PAM(PAM, PAM_indices)
+  val <- c(val, list(PAM_selected_sites_random = PAM_selected_sites_random,
+                     PAM_selected_sites_G = PAM_selected_sites_G,
+                     PAM_selected_sites_E = PAM_selected_sites_E,
+                     PAM_selected_sites_EG = PAM_selected_sites_EG))
+  class(val) <- c("PAM_subset", "base_PAM")
+  return(val)
+}

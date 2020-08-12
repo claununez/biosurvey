@@ -139,7 +139,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     ## average
     av_dfield <- mean(d_field)
   } else {
-    d_field <- av_dfield <- NA
+    d_field <- NULL
+    av_dfield <- NA
   }
 
   ## values shared community composition
@@ -149,7 +150,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     ## average
     av_sccomp <- mean(sc_comp)
   } else {
-    sc_comp <- av_sccomp <- NA
+    sc_comp <- NULL
+    av_sccomp <- NA
   }
 
   # other indices
@@ -180,7 +182,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     ## Mean
     Ccov_mean <- (d_field / (N * S)) - (BW^-1 * richS)
   } else {
-    CS_cov <- Ccov_mean <- NA
+    CS_cov <- Ccov_mean <- NULL
   }
 
   ## Matrix of covariance of ranges of species
@@ -189,7 +191,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     ## Mean
     Rcov_mean <- (sc_comp / (N * S)) - (BW^-1 * rangN)
   } else {
-    RS_cov <- Rcov_mean <- NA
+    RS_cov <- Rcov_mean <- NULL
   }
 
   ## Schluter sites-composition covariance

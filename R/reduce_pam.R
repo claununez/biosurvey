@@ -61,28 +61,37 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
   # Joining PAM with selected sites
   ## random
   if ("selected_sites_random" %in% selection_type) {
-    rsel <- master_selection$selected_sites_random
-    base_PAM$PAM_selected_sites_random <- selected_sites_PAM(rsel, base_PAM)
+    rpsel <- master_selection$selected_sites_random
+    rpsel <- selected_sites_PAM(rpsel, base_PAM)
+  } else {
+    rpsel <- NULL
   }
 
   ## E
-  if ("selected_sites_E" %in% selection_type) {
-    rsel <- master_selection$selected_sites_E
-    base_PAM$PAM_selected_sites_E <- selected_sites_PAM(rsel, base_PAM)
+  if ("selected_sites_G" %in% selection_type) {
+    gpsel <- master_selection$selected_sites_E
+    gpsel <- selected_sites_PAM(gpsel, base_PAM)
+  } else {
+    gpsel <- NULL
   }
 
   ## G
-  if ("selected_sites_G" %in% selection_type) {
-    rsel <- master_selection$selected_sites_G
-    base_PAM$PAM_selected_sites_G <- selected_sites_PAM(rsel, base_PAM)
+  if ("selected_sites_E" %in% selection_type) {
+    epsel <- master_selection$selected_sites_G
+    epsel <- selected_sites_PAM(epsel, base_PAM)
+  } else {
+    epsel <- NULL
   }
 
   ## EG
   if ("selected_sites_EG" %in% selection_type) {
-    rsel <- master_selection$selected_sites_EG
-    base_PAM$PAM_selected_sites_EG <- selected_sites_PAM(rsel, base_PAM)
+    egpsel <- master_selection$selected_sites_EG
+    egpsel <- selected_sites_PAM(egpsel, base_PAM)
+  } else {
+    egpsel <- NULL
   }
 
   # Returning results
-  return(structure(base_PAM, class = "PAM_subset"))
+  return(new_PAM_subset(base_PAM$PAM, base_PAM$PAM_indices, rpsel, gpsel,
+                        epsel, egpsel))
 }
