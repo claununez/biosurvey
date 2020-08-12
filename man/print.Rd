@@ -5,15 +5,24 @@
 \alias{print.master_matrix}
 \alias{print,master_matrix-method}
 \alias{print,master_selection-method}
+\alias{print,base_PAM-method}
+\alias{print,PAM_subset-method}
 \alias{print.master_selection}
+\alias{print.base_PAM}
+\alias{print.PAM_subset}
 \title{Print a short version of elements in master objects}
 \usage{
 \method{print}{master_matrix}(object)
 
 \method{print}{master_selection}(object)
+
+\method{print}{base_PAM}(object)
+
+\method{print}{PAM_subset}(object)
 }
 \arguments{
-\item{object}{object of class master_matrix or master_selection.}
+\item{object}{object of class master_matrix, master_selection, base_PAM, or
+PAM_subset.}
 }
 \description{
 Print a short version of elements in master objects
