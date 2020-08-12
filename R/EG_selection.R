@@ -173,7 +173,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites$Block)) {
     stop("Blocks are not defined in 'preselected_sites', see function 'make_blocks'.")
   }
-  if (is.null(master$master_matrix$Block)) {
+  if (is.null(master$data_matrix$Block)) {
     stop("Blocks are not defined in 'master_matrix', see function 'make_blocks'.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
@@ -354,7 +354,9 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   # Preparing and returning results
   names(all_sites) <- paste0("selection_", 1:length(all_sites))
 
-  master$selected_sites_EG <- all_sites
-
-  return(structure(master, class = "master_selection"))
+  return(new_master_selection(master$data_matrix, master$preselected_sites,
+                              master$region, master$mask, master$raster_base,
+                              master$PCA_results, master$selected_sites_random,
+                              master$selected_sites_G, master$selected_sites_E,
+                              all_sites))
 }

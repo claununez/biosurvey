@@ -108,7 +108,10 @@ random_selection <- function(master, n_sites, n_samplings = 1,
 
   # Returning results
   names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
-  master$selected_sites_random <- selected_sites
 
-  return(structure(master, class = "master_selection"))
+  return(new_master_selection(master$data_matrix, master$preselected_sites,
+                              master$region, master$mask, master$raster_base,
+                              master$PCA_results, selected_sites,
+                              master$selected_sites_G, master$selected_sites_E,
+                              master$selected_sites_EG))
 }

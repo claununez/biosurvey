@@ -133,9 +133,21 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
 
     # Returning results
     names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
-    master$selected_sites_G <- selected_sites
 
-    return(structure(master, class = "master_selection"))
+    if (class(master)[1] == "master_matrix") {
+      return(new_master_selection(master$data_matrix, master$preselected_sites,
+                                  master$region, master$mask, master$raster_base,
+                                  master$PCA_results, selected_sites_random = NULL,
+                                  selected_sites, selected_sites_E = NULL,
+                                  selected_sites_EG = NULL))
+
+    } else {
+      return(new_master_selection(master$data_matrix, master$preselected_sites,
+                                  master$region, master$mask, master$raster_base,
+                                  master$PCA_results, master$selected_sites_random,
+                                  selected_sites, master$selected_sites_E,
+                                  master$selected_sites_EG))
+    }
 
   } else {
     # preparing selection variables
@@ -151,8 +163,12 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
     }
     if (np == expected_points) {
       message("Number of points in 'master_matrix' equals 'expected_points'.")
-      master$selected_sites_G <- list(selection_1 = data)
-      return(structure(master, class = "master_selection"))
+
+      return(new_master_selection(master$data_matrix, master$preselected_sites,
+                                  master$region, master$mask, master$raster_base,
+                                  master$PCA_results, master$selected_sites_random,
+                                  list(selection_1 = data), master$selected_sites_E,
+                                  master$selected_sites_EG))
     }
 
     # selection process
@@ -171,8 +187,13 @@ uniformG_selection <- function(master, expected_points, max_n_samplings = 1,
 
           }
           names(thin) <- paste0("selection_", 1:length(thin))
-          master$selected_sites_G <- thin
-          return(structure(master, class = "master_selection"))
+
+          return(new_master_selection(master$data_matrix, master$preselected_sites,
+                                      master$region, master$mask, master$raster_base,
+                                      master$PCA_results, master$selected_sites_random,
+                                      thin, master$selected_sites_E,
+                                      master$selected_sites_EG))
+
         } else {
           if (count == 1) {
             stop("'initial_distance' resulted in  ", np, "  points. Try smaller values.")

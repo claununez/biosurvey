@@ -147,8 +147,12 @@ uniformE_selection <- function(master, variable_1, variable_2,
   }
   if (np == expected_points) {
     message(mess, " equals 'expected_points'.")
-    master$selected_sites_E <- list(selection_1 = data)
-    return(structure(master, class = "master_selection"))
+
+    return(new_master_selection(master$data_matrix, master$preselected_sites,
+                                master$region, master$mask, master$raster_base,
+                                master$PCA_results, master$selected_sites_random,
+                                master$selected_sites_G, list(selection_1 = data),
+                                master$selected_sites_EG))
   }
 
   # selection process
@@ -167,8 +171,13 @@ uniformE_selection <- function(master, variable_1, variable_2,
 
         }
         names(thin) <- paste0("selection_", 1:length(thin))
-        master$selected_sites_E <- thin
-        return(structure(master, class = "master_selection"))
+
+        return(new_master_selection(master$data_matrix, master$preselected_sites,
+                                    master$region, master$mask, master$raster_base,
+                                    master$PCA_results, master$selected_sites_random,
+                                    master$selected_sites_G, thin,
+                                    master$selected_sites_EG))
+
       } else {
         if (count == 1) {
           stop("'initial_distance' resulted in  ", np, "  points. Try smaller values.")
