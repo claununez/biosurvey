@@ -54,7 +54,9 @@ selected_sites_SAC <- function(PAM_subset, selection_type = "all",
 
   # Initial pre-processing
   sac <- list()
-  rsel <- PAM_subset[[3]]
+  nnull <- which(!sapply(PAM_subset[3:6], is.null))[1] + 2
+
+  rsel <- PAM_subset[[nnull]]
   fcol <- ncol(rsel[[1]])
   icol <- which(colnames(rsel[[1]]) == "Latitude_PAM") + 1
 
