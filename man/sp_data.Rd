@@ -3,7 +3,7 @@
 \docType{data}
 \name{sp_data}
 \alias{sp_data}
-\title{Example of a data frame of species' found in distint positions}
+\title{Example of a data frame of species' found in distinct positions}
 \format{
 data frame:
 \describe{
@@ -15,7 +15,7 @@ data frame:
 sp_data
 }
 \description{
-A data frame with two columns: "ID" and "Species" and 590 rows.
+A data frame with 590 rows and two columns: "ID" and "Species".
 It is the output of the function \code{\link{spdf_2data}}.
 }
 \examples{

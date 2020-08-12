@@ -3,13 +3,14 @@
 \docType{data}
 \name{m_matrix}
 \alias{m_matrix}
-\title{Example of object obtained from using the master_matrix function}
+\title{Example of a master_matrix object with no preselected sites}
 \format{
-A list of 4 elements:
+A list of 6 elements:
 \describe{
 \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+\item{preselected_sites}{NULL}
 \item{region}{object of class SpatialPolygons*}
-\item{mask}{object of class SpatialPolygons*}
+\item{mask}{NULL}
 \item{raster_base}{object of class RasterLayer}
 \item{PCA_results}{list of length 5}
 }
@@ -18,12 +19,12 @@ A list of 4 elements:
 m_matrix
 }
 \description{
-A list of 5 elements (m_matrix, region, mask, raster_base, and PCA_results).
-See function \code{\link{master_matrix}}.
+An S3 object of class master_matrix.
+See function \code{\link{prepare_master_matrix}}.
 }
 \examples{
 data("m_matrix", package = "biosurvey")
 
-summary(m_matrix)
+print(m_matrix)
 }
 \keyword{datasets}

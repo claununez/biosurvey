@@ -3,31 +3,33 @@
 \docType{data}
 \name{m_selection}
 \alias{m_selection}
-\title{Example of object obtained from using functions for selecting sampling sites}
+\title{Example of a master_selection object from using functions for selecting sites}
 \format{
-A list of 7 elements:
+A list of 8 elements:
 \describe{
-\item{m_matrix}{data frame wiht 6276 rows and 10 columns}
+\item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+\item{preselected_sites}{NULL}
 \item{region}{object of class SpatialPolygons*}
-\item{mask}{object of class SpatialPolygons*}
+\item{mask}{NULL}
 \item{raster_base}{object of class RasterLayer}
 \item{PCA_results}{list of length 5}
 \item{selected_sites_random}{list with one data.frame}
 \item{selected_sites_G}{list with one data.frame}
 \item{selected_sites_E}{list with one data.frame}
+\item{selected_sites_EG}{NULL}
 }
 }
 \usage{
 m_selection
 }
 \description{
-A list of 8 elements (m_matrix, region, mask, raster_base, and PCA_results).
-See functions \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
+An S3 object of class master_selection. See functions
+\code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
 \code{\link{random_selection}}, or \code{\link{EG_selection}}.
 }
 \examples{
 data("m_selection", package = "biosurvey")
 
-summary(m_selection)
+print(m_selection)
 }
 \keyword{datasets}

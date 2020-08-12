@@ -1,13 +1,14 @@
-#' Example of object obtained from using the master_matrix function
+#' Example of a master_matrix object with no preselected sites
 #'
-#' A list of 5 elements (m_matrix, region, mask, raster_base, and PCA_results).
-#' See function \code{\link{master_matrix}}.
+#' An S3 object of class master_matrix.
+#' See function \code{\link{prepare_master_matrix}}.
 #'
-#' @format A list of 4 elements:
+#' @format A list of 6 elements:
 #' \describe{
 #'   \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+#'   \item{preselected_sites}{NULL}
 #'   \item{region}{object of class SpatialPolygons*}
-#'   \item{mask}{object of class SpatialPolygons*}
+#'   \item{mask}{NULL}
 #'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #' }
@@ -15,8 +16,49 @@
 #' @examples
 #' data("m_matrix", package = "biosurvey")
 #'
-#' summary(m_matrix)
+#' print(m_matrix)
 "m_matrix"
+
+
+#' Example of a master_matrix object containing preselected sites
+#'
+#' A S3 object of class master_matrix.
+#' See function \code{\link{prepare_master_matrix}}.
+#'
+#' @format A list of 6 elements:
+#' \describe{
+#'   \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+#'   \item{preselected_sites}{data frame with 5 rows and 11 columns}
+#'   \item{region}{object of class SpatialPolygons*}
+#'   \item{mask}{NULL}
+#'   \item{raster_base}{object of class RasterLayer}
+#'   \item{PCA_results}{list of length 5}
+#' }
+#'
+#' @examples
+#' data("m_matrix_pre", package = "biosurvey")
+#'
+#' print(m_matrix_pre)
+"m_matrix_pre"
+
+
+#' Example of a data frame of preselected sites
+#'
+#' @description A data frame with 5 rows and three columns: "Site", "Longitude",
+#' and "Latitude".
+#'
+#' @format data frame:
+#' \describe{
+#'   \item{Site}{name of preselected sites}
+#'   \item{Longitude}{x coordinates}
+#'   \item{Latitude}{y coordinates}
+#' }
+#'
+#' @examples
+#' data("preselected", package = "preselected")
+#'
+#' print(preselected)
+"preselected"
 
 
 #' Example of spatial polygon for a region of interest
@@ -37,9 +79,9 @@
 "mx"
 
 
-#' Example of a data frame of species' found in distint positions
+#' Example of a data frame of species' found in distinct positions
 #'
-#' @description A data frame with two columns: "ID" and "Species" and 590 rows.
+#' @description A data frame with 590 rows and two columns: "ID" and "Species".
 #' It is the output of the function \code{\link{spdf_2data}}.
 #'
 #' @format data frame:
@@ -146,45 +188,47 @@ NULL
 "dist_list"
 
 
-#' Example of object obtained from using functions for selecting sampling sites
+#' Example of a master_selection object from using functions for selecting sites
 #'
-#' A list of 8 elements (m_matrix, region, mask, raster_base, and PCA_results).
-#' See functions \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
+#' An S3 object of class master_selection. See functions
+#' \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
 #' \code{\link{random_selection}}, or \code{\link{EG_selection}}.
 #'
-#' @format A list of 7 elements:
+#' @format A list of 8 elements:
 #' \describe{
-#'   \item{m_matrix}{data frame wiht 6276 rows and 10 columns}
+#'   \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+#'   \item{preselected_sites}{NULL}
 #'   \item{region}{object of class SpatialPolygons*}
-#'   \item{mask}{object of class SpatialPolygons*}
+#'   \item{mask}{NULL}
 #'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #'   \item{selected_sites_random}{list with one data.frame}
 #'   \item{selected_sites_G}{list with one data.frame}
 #'   \item{selected_sites_E}{list with one data.frame}
+#'   \item{selected_sites_EG}{NULL}
 #' }
 #'
 #' @examples
 #' data("m_selection", package = "biosurvey")
 #'
-#' summary(m_selection)
+#' print(m_selection)
 "m_selection"
 
 
 
 #' Example of object obtained from using the function base_PAM
 #'
-#' A list of 2 elements (PAM, PAM_statistics). See functions \code{\link{base_PAM}}.
+#' An S3 object of class base_PAM. See functions \code{\link{prepare_base_PAM}}.
 #'
 #' @format A list of 2 elements:
 #' \describe{
 #'   \item{PAM}{SpatialPolygonsDataFrame wiht 306 features}
-#'   \item{PAM_indices}{empty element (NULL)}
+#'   \item{PAM_indices}{a list of 11 elements}
 #' }
 #'
 #' @examples
 #' data("b_pam", package = "biosurvey")
 #'
-#' summary(b_pam)
+#' print(b_pam)
 "b_pam"
 
