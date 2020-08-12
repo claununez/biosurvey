@@ -14,7 +14,7 @@ EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
 }
 \arguments{
 \item{master}{a master_matrix object derived from the function
-\code{\link{master_matrix}} or a master_selection object derived from functions
+\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 or \code{\link{uniformE_selection}}.}
 
@@ -131,7 +131,7 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
                         n_cols = 10, n_rows = 10, block_type = "equal_area")
 
 # Checking column names
-colnames(m_blocks$master_matrix)
+colnames(m_blocks$data_matrix)
 
 # Selecting sites uniformly in E and G spaces
 EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",

@@ -5,7 +5,7 @@
 #' system.
 #'
 #' @param master a master_matrix object derived from the function
-#' \code{\link{master_matrix}} or a master_selection object derived from functions
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
@@ -75,7 +75,7 @@ block_sample <- function(master, variable_1, variable_2, expected_blocks,
     stop("Object defined in 'master' is not valid, see function's help.")
   }
   if (is.null(master$data_matrix$Block)) {
-    stop("Blocks are not defined in master_matrix, see function 'make_blocks'.")
+    stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
   }
   if (missing(variable_1)) {
     stop("Argument 'variable_1' needs to be defined.")

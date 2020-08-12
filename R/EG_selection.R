@@ -8,7 +8,7 @@
 #' so they consider the biggest geographic).
 #'
 #' @param master a master_matrix object derived from the function
-#' \code{\link{master_matrix}} or a master_selection object derived from functions
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
@@ -119,7 +119,7 @@
 #'                         n_cols = 10, n_rows = 10, block_type = "equal_area")
 #'
 #' # Checking column names
-#' colnames(m_blocks$master_matrix)
+#' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E and G spaces
 #' EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
@@ -174,7 +174,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     stop("Blocks are not defined in 'preselected_sites', see function 'make_blocks'.")
   }
   if (is.null(master$data_matrix$Block)) {
-    stop("Blocks are not defined in 'master_matrix', see function 'make_blocks'.")
+    stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
     stop("Argument 'select_point' is not valid, see function's help.")

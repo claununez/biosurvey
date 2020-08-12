@@ -11,7 +11,7 @@ uniformE_selection(master, variable_1, variable_2, selection_from = "all_points"
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{master_matrix}} or a master_selection object derived from functions
+\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 or \code{\link{EG_selection}}.}
 

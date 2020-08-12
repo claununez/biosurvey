@@ -8,7 +8,7 @@ make_blocks(master_matrix, variable_1, variable_2, n_cols, n_rows = NULL,
             block_type = "equal_area")
 }
 \arguments{
-\item{master_matrix}{object derived from function \code{\link{master_matrix}}.}
+\item{master_matrix}{object derived from function \code{\link{prepare_master_matrix}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis) to be used to create blocks.}
@@ -36,7 +36,7 @@ master_matrix blocks are also assigned to this sites.
 }
 \description{
 Divides a two-dimensional cloud of points in blocks according to
-a user-defined number of rows and columns. This applied to the element
+a user-defined number of rows and columns. This is applied to the element
 master_matrix and, if not NULL, to preselected_sites.
 }
 \details{

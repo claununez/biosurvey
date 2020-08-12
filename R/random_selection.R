@@ -4,7 +4,7 @@
 #' selected from a set of points provided in \code{master}.
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{master_matrix}} or a master_selection object derived from functions
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
 #' or \code{\link{EG_selection}}.
 #' @param n_sites (numeric) number of sites to be selected from

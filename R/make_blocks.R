@@ -1,10 +1,10 @@
 #' Creates a block-like regionalization of environmental space
 #'
 #' @description Divides a two-dimensional cloud of points in blocks according to
-#' a user-defined number of rows and columns. This applied to the element
+#' a user-defined number of rows and columns. This is applied to the element
 #' master_matrix and, if not NULL, to preselected_sites.
 #'
-#' @param master_matrix object derived from function \code{\link{master_matrix}}.
+#' @param master_matrix object derived from function \code{\link{prepare_master_matrix}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X axis) to be used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second

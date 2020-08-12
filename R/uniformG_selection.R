@@ -4,7 +4,7 @@
 #' maximizing uniformity of points in geographic space.
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{master_matrix}} or a master_selection object derived from functions
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
 #' or \code{\link{EG_selection}}.
 #' @param expected_points (numeric) number of survey points (sites) to be selected.

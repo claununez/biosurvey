@@ -12,7 +12,7 @@ plot_blocks_EG(master, variable_1, variable_2, which = "all",
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{master_matrix}} or a master_selection object derived from functions
+\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
 or \code{\link{EG_selection}}.}
 

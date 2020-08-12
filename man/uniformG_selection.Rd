@@ -11,7 +11,7 @@ uniformG_selection(master, expected_points, max_n_samplings = 1,
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{master_matrix}} or a master_selection object derived from functions
+\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 \code{\link{random_selection}}, \code{\link{uniformE_selection}},
 or \code{\link{EG_selection}}.}
 

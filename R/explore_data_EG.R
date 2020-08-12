@@ -7,7 +7,7 @@
 #' 2D environmental space for the two variables.
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{master_matrix}} or a master_selection object derived from functions
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
 #' or \code{EG_selection}.
 #' @param variable_1 (character or numeric) name or position of the first
