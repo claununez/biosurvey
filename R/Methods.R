@@ -209,6 +209,7 @@ print.PAM_subset <- function(object) {
 #' Summary of attributes and results
 #' @name summary
 #' @aliases summary,master_matrix-method summary,master_selection-method
+#' @aliases summary,base_PAM-method summary,PAM_subset-method
 #' @param object object of class master_matrix or master_selection.
 #' @export
 #' @return
@@ -216,16 +217,6 @@ print.PAM_subset <- function(object) {
 #' @rdname summary
 
 summary.master_matrix <- function(object) {
-  # -----------
-  # detecting potential errors
-  if (!missing(object)) {
-    clo <- class(object)[1]
-    if (clo != "master_matrix") {
-      stop("Argument 'object' must be of class 'master_matrix'")
-    }
-  }else {
-    stop("Argument 'object' is necessary.")
-  }
 
   cat("\n                     Summary of a master_matrix object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -249,16 +240,6 @@ summary.master_matrix <- function(object) {
 #' @rdname summary
 
 summary.master_selection <- function(object, nrow = 6, ncol = 2) {
-  # -----------
-  # detecting potential errors
-  if (!missing(object)) {
-    clo <- class(object)[1]
-    if (clo != "master_selection") {
-      stop("Argument 'object' must be of class 'master_selection'")
-    }
-  }else {
-    stop("Argument 'object' is necessary.")
-  }
 
   cat("\n                  Summary of a master_selection object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -270,7 +251,7 @@ summary.master_selection <- function(object, nrow = 6, ncol = 2) {
   }
 
   cat("\n\n")
-  cat(ncol, "columns and ", nrow, "rows of first elements are shown")
+  cat(ncol, "columns and", nrow, "rows of first elements are shown")
 
   cat("\n\nSites selected randomly:\n")
   if (!is.null(object$selected_sites_random)) {
@@ -299,4 +280,41 @@ summary.master_selection <- function(object, nrow = 6, ncol = 2) {
   } else {
     cat("Empty\n")
   }
+}
+
+
+
+#' @export
+#' @rdname summary
+
+summary.base_PAM <- function(object) {
+
+  cat("\n                      Summary of a base_PAM object\n")
+  cat("---------------------------------------------------------------------------\n\n")
+  cat("Presence-absence matrix:\n")
+  cat("  Number of cells:   ", object$One_value_indices$Sites_Cells)
+  cat("  Number of species: ", object$One_value_indices$Species)
+
+  cat("\n\nSpatial object representing the PAM:\n")
+  print(object$region)
+}
+
+
+#' @export
+#' @rdname summary
+
+summary.PAM_subset <- function(object) {
+
+  cat("\n                      Summary of a PAM_subset object\n")
+  cat("---------------------------------------------------------------------------\n\n")
+  cat("Complete presence-absence matrix:\n")
+  cat("  Number of cells:   ", object$One_value_indices$Sites_Cells)
+  cat("  Number of species: ", object$One_value_indices$Species)
+
+  cat("\n\nSubsets of PAM:\n")
+  sele <- object[3:6]
+  snames <- names(sele)
+  nnull <- which(!sapply(sele, is.null))
+  ncells <- sapply(sele[nnull], nrow)
+  print(data.frame(Subset = snames[nnull], Cells = ncells))
 }
