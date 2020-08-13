@@ -53,7 +53,7 @@ grid.
 }
 \details{
 Objects of class "master_matrix" or "master_selection" could be obtained from
-functions \code{\link{master_matrix}}, \code{\link{random_selection}},
+functions \code{\link{prepare_master_matrix}}, \code{\link{random_selection}},
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
 \code{uniformEG_selection}. The element region or mask if this last is not
 NULL is used to prepare the spatial grid.

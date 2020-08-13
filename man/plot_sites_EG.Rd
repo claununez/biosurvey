@@ -6,8 +6,9 @@
 \usage{
 plot_sites_EG(master_selection, variable_1, variable_2, selection_type,
               selection_number = 1, col_all = NULL, col_sites = NULL,
-              cex_all = 0.7, cex_sites = 1, pch_all = 16,
-              pch_sites = 16, add_main = TRUE)
+              col_pre = NULL, cex_all = 0.7, cex_sites = 1,
+              cex_pre = 1, pch_all = 16, pch_sites = 16,
+              pch_pre = 16, add_main = TRUE)
 }
 \arguments{
 \item{master_selection}{a master_selection object derived from functions

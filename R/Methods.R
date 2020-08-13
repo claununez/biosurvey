@@ -2,39 +2,43 @@
 #' @name print
 #' @aliases print,master_matrix-method print,master_selection-method
 #' @aliases print,base_PAM-method print,PAM_subset-method
-#' @param object object of class master_matrix, master_selection, base_PAM, or
+#' @param x object of class master_matrix, master_selection, base_PAM, or
 #' PAM_subset.
+#' @param ... further arguments to be passed to or from other methods. Ignored
+#' in these functions.
 #' @export
+#' @importFrom methods new
+#' @importFrom utils head
 #' @rdname print
 
-print.master_matrix <- function(object) {
+print.master_matrix <- function(x, ...) {
   cat("data_matrix:\n")
-  print(head(object$data_matrix))
+  print(head(x$data_matrix))
   cat("...\n")
 
   cat("\npreselected_sites:\n")
-  if (!is.null(object$preselected_sites)) {
-    print(object$preselected_sites)
+  if (!is.null(x$preselected_sites)) {
+    print(x$preselected_sites)
   } else {
     cat("Empty\n")
   }
 
   cat("\nregion:\n")
-  print(object$region)
+  print(x$region)
 
   cat("\nmask:\n")
-  if (!is.null(object$mask)) {
-    print(object$mask)
+  if (!is.null(x$mask)) {
+    print(x$mask)
   } else {
     cat("Empty\n")
   }
 
   cat("\nraster_base:\n")
-  print(object$raster_base)
+  print(x$raster_base)
 
   cat("\nPCA_results:\n")
-  if (!is.null(object$PCA_results)) {
-    print(object$PCA_results)
+  if (!is.null(x$PCA_results)) {
+    print(x$PCA_results)
   } else {
     cat("Empty\n")
   }
@@ -44,41 +48,41 @@ print.master_matrix <- function(object) {
 #' @export
 #' @rdname print
 
-print.master_selection <- function(object) {
+print.master_selection <- function(x, ...) {
 
-  print(structure(object[1:6], class = "master_matrix"))
+  print(structure(x[1:6], class = "master_matrix"))
 
   cat("\nselected_sites_random:\n")
-  if (!is.null(object$selected_sites_random)) {
-    cat("First of", length(object$selected_sites_random), "element(s).\n")
-    print(head(object$selected_sites_random[[1]]))
+  if (!is.null(x$selected_sites_random)) {
+    cat("First of", length(x$selected_sites_random), "element(s).\n")
+    print(head(x$selected_sites_random[[1]]))
     cat("...\n")
   } else {
     cat("Empty\n")
   }
 
   cat("\nselected_sites_G:\n")
-  if (!is.null(object$selected_sites_G)) {
-    cat("First of", length(object$selected_sites_G), "element(s).\n")
-    print(head(object$selected_sites_G[[1]]))
+  if (!is.null(x$selected_sites_G)) {
+    cat("First of", length(x$selected_sites_G), "element(s).\n")
+    print(head(x$selected_sites_G[[1]]))
     cat("...\n")
   } else {
     cat("Empty\n")
   }
 
   cat("\nselected_sites_E:\n")
-  if (!is.null(object$selected_sites_E)) {
-    cat("First of", length(object$selected_sites_E), "element(s).\n")
-    print(head(object$selected_sites_E[[1]]))
+  if (!is.null(x$selected_sites_E)) {
+    cat("First of", length(x$selected_sites_E), "element(s).\n")
+    print(head(x$selected_sites_E[[1]]))
     cat("...\n")
   } else {
     cat("Empty\n")
   }
 
   cat("\nselected_sites_EG:\n")
-  if (!is.null(object$selected_sites_EG)) {
-    cat("First of", length(object$selected_sites_EG), "element(s).\n")
-    print(head(object$selected_sites_EG[[1]]))
+  if (!is.null(x$selected_sites_EG)) {
+    cat("First of", length(x$selected_sites_EG), "element(s).\n")
+    print(head(x$selected_sites_EG[[1]]))
     cat("...\n")
   } else {
     cat("Empty\n")
@@ -90,66 +94,66 @@ print.master_selection <- function(object) {
 #' @export
 #' @rdname print
 
-print.base_PAM <- function(object) {
+print.base_PAM <- function(x, ...) {
   cat("PAM:\n")
-  print(object$PAM)
+  print(x$PAM)
 
   cat("\n\nPAM_indices:\n")
-  if (!is.null(object$PAM_indices)) {
+  if (!is.null(x$PAM_indices)) {
     cat("  One_value_indices:\n")
-    print(na.omit(object$PAM_indices$One_value_indices))
+    print(na.omit(x$PAM_indices$One_value_indices))
 
     cat("\n  Richness:\n")
-    cat(" ", head(object$PAM_indices$Richness), "...\n")
+    cat(" ", head(x$PAM_indices$Richness), "...\n")
 
     cat("\n  Range:\n")
-    cat(" ", head(object$PAM_indices$Range), "...\n")
+    cat(" ", head(x$PAM_indices$Range), "...\n")
 
     cat("\n  Richness_normalized:\n")
-    cat(" ", head(object$PAM_indices$Richness_normalized), "...\n")
+    cat(" ", head(x$PAM_indices$Richness_normalized), "...\n")
 
     cat("\n  Range_normalized:\n")
-    cat(" ", head(object$PAM_indices$Range_normalized), "...\n")
+    cat(" ", head(x$PAM_indices$Range_normalized), "...\n")
 
     cat("\n  Dispersion_field:\n")
-    if (!is.null(object$PAM_indices$Dispersion_field)) {
-      cat(" ", head(object$PAM_indices$Dispersion_field), "...\n")
+    if (!is.null(x$PAM_indices$Dispersion_field)) {
+      cat(" ", head(x$PAM_indices$Dispersion_field), "...\n")
     } else {
       cat("  Empty\n")
     }
 
     cat("\n  Shared_community_composition:\n")
-    if (!is.null(object$PAM_indices$Shared_community_composition)) {
-      cat(" ", head(object$PAM_indices$Shared_community_composition), "...\n")
+    if (!is.null(x$PAM_indices$Shared_community_composition)) {
+      cat(" ", head(x$PAM_indices$Shared_community_composition), "...\n")
     } else {
       cat("  Empty\n")
     }
 
     cat("\n  Mean_composition_covariance:\n")
-    if (!is.null(object$PAM_indices$Mean_composition_covariance)) {
-      cat(" ", head(object$PAM_indices$Mean_composition_covariance), "...\n")
+    if (!is.null(x$PAM_indices$Mean_composition_covariance)) {
+      cat(" ", head(x$PAM_indices$Mean_composition_covariance), "...\n")
     } else {
       cat("  Empty\n")
     }
 
     cat("\n  Mean_range_covariance:\n")
-    if (!is.null(object$PAM_indices$Mean_range_covariance)) {
-      cat(" ", head(object$PAM_indices$Mean_range_covariance), "...\n")
+    if (!is.null(x$PAM_indices$Mean_range_covariance)) {
+      cat(" ", head(x$PAM_indices$Mean_range_covariance), "...\n")
     } else {
       cat("  Empty\n")
     }
 
     cat("\n  Cov_mat_sites_composition:\n")
-    if (!is.null(object$PAM_indices$Cov_mat_sites_composition)) {
-      print(head(object$PAM_indices$Cov_mat_sites_composition))
+    if (!is.null(x$PAM_indices$Cov_mat_sites_composition)) {
+      print(head(x$PAM_indices$Cov_mat_sites_composition))
       cat("...\n")
     } else {
       cat("  Empty\n")
     }
 
     cat("\n  Cov_mat_species_ranges\n")
-    if (!is.null(object$PAM_indices$Cov_mat_species_ranges)) {
-      print(head(object$PAM_indices$Cov_mat_species_ranges))
+    if (!is.null(x$PAM_indices$Cov_mat_species_ranges)) {
+      print(head(x$PAM_indices$Cov_mat_species_ranges))
       cat("...\n")
     } else {
       cat("  Empty\n")
@@ -164,41 +168,41 @@ print.base_PAM <- function(object) {
 #' @export
 #' @rdname print
 
-print.PAM_subset <- function(object) {
+print.PAM_subset <- function(x, ...) {
 
-  print(structure(object[1:2], class = "base_PAM"))
+  print(structure(x[1:2], class = "base_PAM"))
 
   cat("\n\nPAM_selected_sites_random:\n")
-  if (!is.null(object$PAM_selected_sites_random)) {
-    cat("First of", length(object$PAM_selected_sites_random), "element(s).\n")
-    print(head(object$PAM_selected_sites_random[[1]][, 1:6]))
+  if (!is.null(x$PAM_selected_sites_random)) {
+    cat("First of", length(x$PAM_selected_sites_random), "element(s).\n")
+    print(head(x$PAM_selected_sites_random[[1]][, 1:6]))
     cat("...\n")
   } else {
     cat("Empty\n")
   }
 
   cat("\nPAM_selected_sites_G:\n")
-  if (!is.null(object$PAM_selected_sites_G)) {
-    cat("First of", length(object$PAM_selected_sites_G), "element(s).\n")
-    print(head(object$PAM_selected_sites_G[[1]][, 1:6]))
+  if (!is.null(x$PAM_selected_sites_G)) {
+    cat("First of", length(x$PAM_selected_sites_G), "element(s).\n")
+    print(head(x$PAM_selected_sites_G[[1]][, 1:6]))
     cat("...\n")
   } else {
     cat("Empty\n")
   }
 
   cat("\nPAM_selected_sites_E:\n")
-  if (!is.null(object$PAM_selected_sites_E)) {
-    cat("First of", length(object$PAM_selected_sites_E), "element(s).\n")
-    print(head(object$PAM_selected_sites_E[[1]][, 1:6]))
+  if (!is.null(x$PAM_selected_sites_E)) {
+    cat("First of", length(x$PAM_selected_sites_E), "element(s).\n")
+    print(head(x$PAM_selected_sites_E[[1]][, 1:6]))
     cat("...\n")
   } else {
     cat("Empty\n")
   }
 
   cat("\nPAM_selected_sites_EG:\n")
-  if (!is.null(object$PAM_selected_sites_EG)) {
-    cat("First of", length(object$PAM_selected_sites_EG), "element(s).\n")
-    print(head(object$PAM_selected_sites_EG[[1]][, 1:6]))
+  if (!is.null(x$PAM_selected_sites_EG)) {
+    cat("First of", length(x$PAM_selected_sites_EG), "element(s).\n")
+    print(head(x$PAM_selected_sites_EG[[1]][, 1:6]))
     cat("...\n")
   } else {
     cat("Empty\n")
@@ -211,12 +215,18 @@ print.PAM_subset <- function(object) {
 #' @aliases summary,master_matrix-method summary,master_selection-method
 #' @aliases summary,base_PAM-method summary,PAM_subset-method
 #' @param object object of class master_matrix or master_selection.
+#' @param nrow number of rows to be printed for selected_sites in a
+#' master_selection object.
+#' @param ncol number of columns to be printed for selected_sites in a
+#' master_selection object.
+#' @param ... additional arguments affecting the summary produced. Ignored in
+#' these functions.
 #' @export
 #' @return
 #' A printed summary.
 #' @rdname summary
 
-summary.master_matrix <- function(object) {
+summary.master_matrix <- function(object, ...) {
 
   cat("\n                     Summary of a master_matrix object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -239,7 +249,7 @@ summary.master_matrix <- function(object) {
 #' @export
 #' @rdname summary
 
-summary.master_selection <- function(object, nrow = 6, ncol = 2) {
+summary.master_selection <- function(object, nrow = 6, ncol = 2, ...) {
 
   cat("\n                  Summary of a master_selection object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -287,7 +297,7 @@ summary.master_selection <- function(object, nrow = 6, ncol = 2) {
 #' @export
 #' @rdname summary
 
-summary.base_PAM <- function(object) {
+summary.base_PAM <- function(object, ...) {
 
   cat("\n                      Summary of a base_PAM object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -303,7 +313,7 @@ summary.base_PAM <- function(object) {
 #' @export
 #' @rdname summary
 
-summary.PAM_subset <- function(object) {
+summary.PAM_subset <- function(object, ...) {
 
   cat("\n                      Summary of a PAM_subset object\n")
   cat("---------------------------------------------------------------------------\n\n")

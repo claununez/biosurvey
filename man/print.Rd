@@ -12,17 +12,20 @@
 \alias{print.PAM_subset}
 \title{Print a short version of elements in master objects}
 \usage{
-\method{print}{master_matrix}(object)
+\method{print}{master_matrix}(x, ...)
 
-\method{print}{master_selection}(object)
+\method{print}{master_selection}(x, ...)
 
-\method{print}{base_PAM}(object)
+\method{print}{base_PAM}(x, ...)
 
-\method{print}{PAM_subset}(object)
+\method{print}{PAM_subset}(x, ...)
 }
 \arguments{
-\item{object}{object of class master_matrix, master_selection, base_PAM, or
+\item{x}{object of class master_matrix, master_selection, base_PAM, or
 PAM_subset.}
+
+\item{...}{further arguments to be passed to or from other methods. Ignored
+in these functions.}
 }
 \description{
 Print a short version of elements in master objects

@@ -20,7 +20,7 @@ A data frame with 5 rows and three columns: "Site", "Longitude",
 and "Latitude".
 }
 \examples{
-data("preselected", package = "preselected")
+data("preselected", package = "biosurvey")
 
 print(preselected)
 }

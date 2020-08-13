@@ -21,8 +21,7 @@ first one).}
 split the bi-dimensional space.}
 
 \item{n_rows}{(numeric) number of rows of a grid used to creates blocks and
-split the bi-dimensional space. If not defined, \code{n_cols = n_rows}.
-Default = NULL.}
+split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.}
 
 \item{block_type}{(character) type of blocks to be use for dividing
 the bi-dimensional space. Two options are available: "equal_area" and

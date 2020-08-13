@@ -4,8 +4,8 @@
 \alias{assign_blocks}
 \title{Helper to assign block numbers to data according to variables and limits}
 \usage{
-assign_blocks(data, variable_1, variable_2, xlb, ylb = NULL,
-              block_type = "equal_area")
+assign_blocks(data, variable_1, variable_2, n_cols, n_rows = NULL,
+              xlb, ylb = NULL, block_type = "equal_area")
 }
 \arguments{
 \item{data}{a matrix or a data frame that contains at least four columns:
@@ -18,6 +18,12 @@ variable (X axis) to be used to create blocks.}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y axis) to be used to create blocks (must be different from the
 first one).}
+
+\item{n_cols}{(numeric) number of columns of a grid used to creates blocks and
+split the bi-dimensional space.}
+
+\item{n_rows}{(numeric) number of rows of a grid used to creates blocks and
+split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.}
 
 \item{xlb}{(numeric) Vector of values of extremes for all blocks considering
 \code{variable_1}.}
@@ -43,6 +49,6 @@ xlims <- quantile(dat[, 3])
 ylims <- quantile(dat[, 4])
 
 # assigning blocks
-datb <- assign_blocks(dat, variable_1 = 3, variable_2 = 4, xlb = xlims,
-                      ylb = ylims, block_type = "equal_area")
+datb <- assign_blocks(dat, variable_1 = 3, variable_2 = 4, n_cols = 10,
+                      xlb = xlims, ylb = ylims, block_type = "equal_area")
 }

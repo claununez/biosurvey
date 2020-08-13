@@ -110,21 +110,22 @@ compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "b
   if (length(sac1) > 1) {
     ### Plot
     if (line_for_multiple == TRUE) {
-      pple <- lapply(sac1, function(x) {
+      pple <- lapply(1:length(sac1), function(x) {
         if (x == 1) {
-          plot(x, ci.type = "line", ci = 0, col = cm1, lty = lty1,
+          plot(sac1[[x]], ci.type = "line", ci = 0, col = cm1, lty = lty1,
                ylim = y_lim, xlab = xlab, ylab = ylab, ...)
         } else {
-          plot(x, ci.type = "line", ci = 0, col = cm1, lty = lty1, add = TRUE, ...)
+          plot(sac1[[x]], ci.type = "line", ci = 0, col = cm1, lty = lty1,
+               add = TRUE, ...)
         }
       })
     } else {
-      pple <- lapply(sac1, function(x) {
+      pple <- lapply(1:length(sac1), function(x) {
         if (x == 1) {
-          plot(x, ci.type = "poly", col =  cm1, ci.lty = 0, ci.col = ci1,
+          plot(sac1[[x]], ci.type = "poly", col =  cm1, ci.lty = 0, ci.col = ci1,
                lty = lty1, ylim = y_lim, xlab = xlab, ylab = ylab, ...)
         } else {
-          plot(x, ci.type = "poly", col =  cm1, ci.lty = 0, ci.col = ci1,
+          plot(sac1[[x]], ci.type = "poly", col =  cm1, ci.lty = 0, ci.col = ci1,
                lty = lty1, add = TRUE, ...)
         }
       })

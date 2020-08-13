@@ -13,8 +13,7 @@
 #' @param n_cols (numeric) number of columns of a grid used to creates blocks and
 #' split the bi-dimensional space.
 #' @param n_rows (numeric) number of rows of a grid used to creates blocks and
-#' split the bi-dimensional space. If not defined, \code{n_cols = n_rows}.
-#' Default = NULL.
+#' split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.
 #' @param block_type (character) type of blocks to be use for dividing
 #' the bi-dimensional space. Two options are available: "equal_area" and
 #' "equal_points". Default = "equal_area".
@@ -90,13 +89,13 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     ylb[length(ylb)] <- yrange[2]
 
     # Assigning block numbers
-    all_cls <- assign_blocks(data, variable_1, variable_2, xlb, ylb,
-                                block_type = "equal_area")
+    all_cls <- assign_blocks(data, variable_1, variable_2, n_cols, n_rows, xlb,
+                             ylb, block_type = "equal_area")
 
     # Assigning blocks to user predefined sites
     if (!is.null(master_matrix$preselected_sites)) {
-      prese <- assign_blocks(predata, variable_1, variable_2, xlb, ylb,
-                             block_type = "equal_area")
+      prese <- assign_blocks(predata, variable_1, variable_2, n_cols, n_rows, xlb,
+                             ylb, block_type = "equal_area")
     }
   } else {
     # Detecting ranges and intervals
@@ -104,12 +103,12 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     xlb[length(xlb)] <- 1
 
     # Assigning block numbers
-    all_cls <- assign_blocks(data, variable_1, variable_2, xlb,
+    all_cls <- assign_blocks(data, variable_1, variable_2, n_cols, n_rows, xlb,
                              block_type = "equal_points")
 
     # Assigning blocks to user predefined sites
     if (!is.null(master_matrix$preselected_sites)) {
-      prese <- assign_blocks(predata, variable_1, variable_2, xlb,
+      prese <- assign_blocks(predata, variable_1, variable_2, n_cols, n_rows, xlb,
                              block_type = "equal_points")
     }
   }
@@ -138,6 +137,10 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis) to be used to create blocks (must be different from the
 #' first one).
+#' @param n_cols (numeric) number of columns of a grid used to creates blocks and
+#' split the bi-dimensional space.
+#' @param n_rows (numeric) number of rows of a grid used to creates blocks and
+#' split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.
 #' @param xlb (numeric) Vector of values of extremes for all blocks considering
 #' \code{variable_1}.
 #' @param ylb (numeric) Vector of values of extremes for all blocks considering
@@ -150,9 +153,11 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 #' Original element defined in \code{data} plus a new column named "Block"
 #' defining the block that correspond to each of the points represented in rows.
 #'
+#' @export
+#'
 #' @usage
-#' assign_blocks(data, variable_1, variable_2, xlb, ylb = NULL,
-#'               block_type = "equal_area")
+#' assign_blocks(data, variable_1, variable_2, n_cols, n_rows = NULL,
+#'               xlb, ylb = NULL, block_type = "equal_area")
 #' @examples
 #' # data
 #' dat <- matrix(runif(800), ncol = 4)
@@ -160,10 +165,11 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 #' ylims <- quantile(dat[, 4])
 #'
 #' # assigning blocks
-#' datb <- assign_blocks(dat, variable_1 = 3, variable_2 = 4, xlb = xlims,
-#'                       ylb = ylims, block_type = "equal_area")
+#' datb <- assign_blocks(dat, variable_1 = 3, variable_2 = 4, n_cols = 10,
+#'                       xlb = xlims, ylb = ylims, block_type = "equal_area")
 
-assign_blocks <- function(data, variable_1, variable_2, xlb, ylb = NULL,
+assign_blocks <- function(data, variable_1, variable_2, n_cols,
+                          n_rows = NULL, xlb, ylb = NULL,
                           block_type = "equal_area") {
   # Initial tests
   if (missing(data)) {
@@ -174,6 +180,12 @@ assign_blocks <- function(data, variable_1, variable_2, xlb, ylb = NULL,
   }
   if (missing(variable_2)) {
     stop("Argument 'variable_2' needs to be defined.")
+  }
+  if (missing(n_cols)) {
+    stop("Argument 'n_cols' needs to be defined.")
+  }
+  if (is.null(n_rows)) {
+    n_rows <- n_cols
   }
   if (missing(xlb)) {
     stop("Argument 'xlb' needs to be defined.")

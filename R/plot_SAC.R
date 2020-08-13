@@ -103,19 +103,20 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
     if (length(SAC_selected_sites[[1]]) > 1) {
       ## Plot
       if (line_for_multiple == TRUE) {
-        pple <- lapply(SAC_selected_sites[[1]], function(x) {
+        pple <- lapply(1:length(SAC_selected_sites[[1]]), function(x) {
           if (x == 1) {
-            plot(x, ci.type = "line", ci = 0, col = cm,
+            plot(SAC_selected_sites[[1]][[x]], ci.type = "line", ci = 0, col = cm,
                  ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[1], ...)
           } else {
             plot(x, ci.type = "line", ci = 0, col = cm, add = TRUE, ...)
           }
         })
       } else {
-        pple <- lapply(SAC_selected_sites[[1]], function(x) {
+        pple <- lapply(1:length(SAC_selected_sites[[1]]), function(x) {
           if (x == 1) {
-            plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
-                 ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[1], ...)
+            plot(SAC_selected_sites[[1]][[x]], ci.type = "poly", col =  cm,
+                 ci.lty = 0, ci.col = cci, ylim = y_lim, xlab = xlab,
+                 ylab = ylab, main = mains[1], ...)
           } else {
             plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
                  add = TRUE, ...)
@@ -130,10 +131,6 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
     }
 
   } else {
-    ## par settings
-    opar <- par(no.readonly = TRUE)
-    on.exit(par(opar))
-
     ## Defining new par settings
     nl <- length(SAC_selected_sites)
     nc <- ceiling(sqrt(nl))
@@ -146,22 +143,24 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
       if (length(SAC_selected_sites[[i]]) > 1) {
         ## Plot
         if (line_for_multiple == TRUE) {
-          pple <- lapply(SAC_selected_sites[[i]], function(x) {
+          pple <- lapply(1:length(SAC_selected_sites[[i]]), function(x) {
             if (x == 1) {
-              plot(x, ci.type = "line", ci = 0, col = cm,
-                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i], ...)
+              plot(SAC_selected_sites[[i]][[x]], ci.type = "line", ci = 0, col = cm,
+                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i])
             } else {
-              plot(x, ci.type = "line", ci = 0, col = cm, add = TRUE, ...)
+              plot(SAC_selected_sites[[i]][[x]], ci.type = "line", ci = 0,
+                   col = cm, add = TRUE)
             }
           })
         } else {
-          pple <- lapply(SAC_selected_sites[[i]], function(x) {
+          pple <- lapply(1:length(SAC_selected_sites[[i]]), function(x) {
             if (x == 1) {
-              plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
-                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i], ...)
+              plot(SAC_selected_sites[[i]][[x]], ci.type = "poly", col =  cm,
+                   ci.lty = 0, ci.col = cci, ylim = y_lim, xlab = xlab,
+                   ylab = ylab, main = mains[i], ...)
             } else {
-              plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
-                   add = TRUE, ...)
+              plot(SAC_selected_sites[[i]][[x]], ci.type = "poly", col =  cm,
+                   ci.lty = 0, ci.col = cci, add = TRUE, ...)
             }
           })
         }

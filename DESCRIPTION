@@ -37,7 +37,7 @@ Description: A collection of tools that allow users to plan systems of sampling
     efficiency of efforts dedicated to monitoring biodiversity. The methods 
     proposed here are new in the sense that they combine various criteria and 
     points previously made in related literature; some of the theoretical and 
-    methodological bases considered are described in:  
+    methodological bases considered are described in.  
 URL: https://github.com/claununez/biosurvey
 BugReports: https://github.com/claununez/biosurvey/issues
 Imports:

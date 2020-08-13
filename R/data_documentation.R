@@ -55,7 +55,7 @@
 #' }
 #'
 #' @examples
-#' data("preselected", package = "preselected")
+#' data("preselected", package = "biosurvey")
 #'
 #' print(preselected)
 "preselected"

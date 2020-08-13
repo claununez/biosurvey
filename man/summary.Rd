@@ -12,16 +12,25 @@
 \alias{summary.PAM_subset}
 \title{Summary of attributes and results}
 \usage{
-\method{summary}{master_matrix}(object)
+\method{summary}{master_matrix}(object, ...)
 
-\method{summary}{master_selection}(object, nrow = 6, ncol = 2)
+\method{summary}{master_selection}(object, nrow = 6, ncol = 2, ...)
 
-\method{summary}{base_PAM}(object)
+\method{summary}{base_PAM}(object, ...)
 
-\method{summary}{PAM_subset}(object)
+\method{summary}{PAM_subset}(object, ...)
 }
 \arguments{
 \item{object}{object of class master_matrix or master_selection.}
+
+\item{...}{additional arguments affecting the summary produced. Ignored in
+these functions.}
+
+\item{nrow}{number of rows to be printed for selected_sites in a
+master_selection object.}
+
+\item{ncol}{number of columns to be printed for selected_sites in a
+master_selection object.}
 }
 \value{
 A printed summary.
