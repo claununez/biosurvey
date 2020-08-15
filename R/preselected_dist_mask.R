@@ -20,6 +20,7 @@ preselected_dist_mask <- function(master, expected_points, space, variable_1 = N
 
   # Preparing data
   data <- master$data_matrix
+  pre <- master$preselected_sites
 
   if (use_blocks == TRUE) {
     # preparing centroids
@@ -56,15 +57,15 @@ preselected_dist_mask <- function(master, expected_points, space, variable_1 = N
   } else {
     x_column <- variable_1
     y_column <- variable_2
-    ev <- c(x_column, y_column)
+    gv <- c(x_column, y_column)
 
-    ep <- t(data[, ev])
-    pres <- t(pre[, ev])
+    ep <- t(data[, gv])
+    pres <- t(pre[, gv])
 
     alld <- apply(apply(pres, 2, function(pres) {sqrt(colSums((ep - pres)^2))}),
                   1, min)
 
-    ext <- apply(data[, ev], 2, range)
+    ext <- apply(data[, gv], 2, range)
     dist <- c(stats::dist(ext)) / expected_points
     increase <- dist / 10
   }
@@ -74,39 +75,43 @@ preselected_dist_mask <- function(master, expected_points, space, variable_1 = N
   inin <- 1
   count <- 1
 
+  # testing distance
+  message("Running distance optimization, please wait...")
 
-}
+  while (np > expected_points) {
+    # thinning
+    thin <- point_thinning(data, x_column, y_column, dist, space, 1, 1)
+    np <- nrow(thin[[1]])
 
+    if (np <= expected_points) {
+      if (np == expected_points) {
+        # distance found
+        break()
+      } else {
+        # reducing initial distance
+        dist <- dist - increase
 
-
-
-
-# testing distance
-message("Running distance optimization, please wait...")
-
-while (np > expected_points) {
-  # thinning
-  thin <- point_thinning(data, x_column, y_column, dist, space, 1, 1)
-  np <- nrow(thin[[1]])
-
-  if (np <= expected_points) {
-    if (np == expected_points) {
-      # distance found
-
-    } else {
-      # reducing initial distance
-      dist <- dist - increase
-
-      # reducing increase distance
-      if (count > 1) {
-        increase <- increase / 10
+        # reducing increase distance
+        if (count > 1 & pnp > expected_points) {
+          increase <- increase / 10
+        }
       }
+    } else {
+      dist <- dist + increase
     }
+
+    # starting again
+    pnp <- np
+    np <- ininp
+    count <- count + 1
   }
 
-  # starting again
-  np <- ininp
-  count <- count + 1
-  pdist <- dist
-  dist <- dist + increase
+  # distance determined, creating mask
+  sppre <- wgs84_2aed_laea(pre, x_column, y_column)
+
+  maskp <- rgeos::gBuffer(sppre, width = dist * 1000, quadsegs = 100)
+  maskp <- sp::spTransform(maskp, sp::CRS("+init=epsg:4326"))
+
+  # returning results
+  return(list(distance = dist, mask = maskp))
 }
