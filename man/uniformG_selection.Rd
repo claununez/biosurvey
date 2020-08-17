@@ -4,10 +4,12 @@
 \alias{uniformG_selection}
 \title{Selection of survey sites maximizing uniformity in geography}
 \usage{
-uniformG_selection(master, expected_points, max_n_samplings = 1,
-                   initial_distance, increase, replicates = 10,
+uniformG_selection(master, expected_points, guess_distances = TRUE,
+                   initial_distance = NULL, increase = NULL,
+                   max_n_samplings = 1, replicates = 10,
                    use_preselected_sites = TRUE, n_optimization = 1000,
-                   median_distance_filter = NULL, set_seed = 1)
+                   median_distance_filter = NULL, set_seed = 1,
+                   verbose = TRUE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -17,14 +19,18 @@ or \code{\link{EG_selection}}.}
 
 \item{expected_points}{(numeric) number of survey points (sites) to be selected.}
 
-\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
-performing all thinning \code{replicates}. Default = 1.}
+\item{guess_distances}{(logical) whether or not to use internal algorithm
+to automatically select \code{initial_distance} and \code{increase}. Default
+= TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.}
 
 \item{initial_distance}{(numeric) distance in km to be used for a first
-process of thinning and detection of remaining points.}
+process of thinning and detection of remaining points. Default = NULL.}
 
 \item{increase}{(numeric) value to be added to \code{initial_distance} until
-reaching the number of \code{expected_points}.}
+reaching the number of \code{expected_points}. Default = NULL.}
+
+\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
+performing all thinning \code{replicates}. Default = 1.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
 
@@ -34,15 +40,14 @@ defined as part of the selected sites previous any selection. Object in
 "preselected_sites" for this argument to be effective. Default = TRUE.
 See details for more information on the approach used.}
 
-\item{n_optimization}{(numeric) number of times the algorithm of optimization
-for site selection when using \code{use_preselected_sites} will run. Default
-= 1000.}
-
 \item{median_distance_filter}{(character) optional argument to define a median
 distance-based filter based on which sets of sampling sites will be selected.
 The default, NULL, does not apply such a filter. Options are: "max" and "min".}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
+
+\item{verbose}{(logical) whether or not to print messages about the process.
+Default = TRUE.}
 }
 \value{
 A master_selection object (S3) with an additional element called
@@ -68,9 +73,10 @@ can be done using the function \code{\link{explore_data_EG}}.
 If \code{use_preselected_sites} is TRUE and such sites are included as an
 element in the object in \code{master}, the approach for selecting uniform
 sites in geography is different than what was described above. User preselected
-sites will always be part of the sites selected and other points are selected
-based on an process of optimization that searches for the random set of points
-that has the largest median distance among \code{n_optimization} distinct sets.
+sites will always be part of the sites selected. Other points are selected
+based on an process that searches for sites that are uniformly distributed
+in geographic space but at a distance from preselected sites that helps in
+maintaining such uniformity.
 
 As multiple sets could result from selection when the \code{use_preselected_sites}
 is set as FALSE, the argument of the function \code{median_distance_filter}
@@ -86,9 +92,9 @@ to sample such sites.
 data("m_matrix", package = "biosurvey")
 
 # Selecting sites uniformly in G space
-selectionG <- uniformG_selection(m_matrix, expected_points = 40, max_n_samplings = 1,
-                                 initial_distance = 145, increase = 1,
-                                 replicates = 5, set_seed = 1)
+selectionG <- uniformG_selection(m_matrix, expected_points = 40,
+                                 max_n_samplings = 1, initial_distance = 145,
+                                 increase = 1, replicates = 5, set_seed = 1)
 }
 \seealso{
 \code{\link{random_selection}}, \code{\link{uniformE_selection}},
