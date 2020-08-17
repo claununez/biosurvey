@@ -13,8 +13,9 @@
 #' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.
 #' @param initial_distance (numeric) distance in km to be used for a first
 #' process of thinning and detection of remaining points. Default = NULL.
-#' @param increase (numeric) value to be added to \code{initial_distance} until
-#' reaching the number of \code{expected_points}. Default = NULL.
+#' @param increase (numeric) initial value to be added to or subtracted from
+#' \code{initial_distance} until reaching the number of \code{expected_points}.
+#' Default = NULL.
 #' @param max_n_samplings (numeric) maximum number of samples to be chosen after
 #' performing all thinning \code{replicates}. Default = 1.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
@@ -51,9 +52,10 @@
 #' element in the object in \code{master}, the approach for selecting uniform
 #' sites in geography is different than what was described above. User preselected
 #' sites will always be part of the sites selected. Other points are selected
-#' based on an process that searches for sites that are uniformly distributed
+#' based on an algorithm that searches for sites that are uniformly distributed
 #' in geographic space but at a distance from preselected sites that helps in
-#' maintaining such uniformity.
+#' maintaining uniformity. Note that preselected sites will not be processed,
+#' therefore, uniformity of such points cannot be warrantied.
 #'
 #' As multiple sets could result from selection when the \code{use_preselected_sites}
 #' is set as FALSE, the argument of the function \code{median_distance_filter}
@@ -146,6 +148,7 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
   }
 
   # preparing selection variables
+  ## guessing distances
   if (guess_distances == TRUE) {
     if (use_preselected_sites == TRUE) {
       dist <- round(tst$distance, 2)
@@ -159,6 +162,7 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
     dist <- initial_distance
   }
 
+  ## other variables
   np <- nrow(data)
   ininp <- np
   pnp <- np

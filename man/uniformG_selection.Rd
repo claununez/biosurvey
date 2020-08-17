@@ -26,8 +26,9 @@ to automatically select \code{initial_distance} and \code{increase}. Default
 \item{initial_distance}{(numeric) distance in km to be used for a first
 process of thinning and detection of remaining points. Default = NULL.}
 
-\item{increase}{(numeric) value to be added to \code{initial_distance} until
-reaching the number of \code{expected_points}. Default = NULL.}
+\item{increase}{(numeric) initial value to be added to or subtracted from
+\code{initial_distance} until reaching the number of \code{expected_points}.
+Default = NULL.}
 
 \item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}
@@ -74,9 +75,10 @@ If \code{use_preselected_sites} is TRUE and such sites are included as an
 element in the object in \code{master}, the approach for selecting uniform
 sites in geography is different than what was described above. User preselected
 sites will always be part of the sites selected. Other points are selected
-based on an process that searches for sites that are uniformly distributed
+based on an algorithm that searches for sites that are uniformly distributed
 in geographic space but at a distance from preselected sites that helps in
-maintaining such uniformity.
+maintaining uniformity. Note that preselected sites will not be processed,
+therefore, uniformity of such points cannot be warrantied.
 
 As multiple sets could result from selection when the \code{use_preselected_sites}
 is set as FALSE, the argument of the function \code{median_distance_filter}
