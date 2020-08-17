@@ -7,7 +7,7 @@
 uniformG_selection(master, expected_points, guess_distances = TRUE,
                    initial_distance = NULL, increase = NULL,
                    max_n_samplings = 1, replicates = 10,
-                   use_preselected_sites = TRUE, n_optimization = 1000,
+                   use_preselected_sites = TRUE,
                    median_distance_filter = NULL, set_seed = 1,
                    verbose = TRUE)
 }

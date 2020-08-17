@@ -72,12 +72,13 @@
 #' uniformG_selection(master, expected_points, guess_distances = TRUE,
 #'                    initial_distance = NULL, increase = NULL,
 #'                    max_n_samplings = 1, replicates = 10,
-#'                    use_preselected_sites = TRUE, n_optimization = 1000,
+#'                    use_preselected_sites = TRUE,
 #'                    median_distance_filter = NULL, set_seed = 1,
 #'                    verbose = TRUE)
 #'
 #' @export
 #' @importFrom sp over SpatialPointsDataFrame CRS
+#' @importFrom raster pointDistance
 #'
 #' @examples
 #' # Data
@@ -91,7 +92,7 @@
 uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                                initial_distance = NULL, increase = NULL,
                                max_n_samplings = 1, replicates = 10,
-                               use_preselected_sites = TRUE, n_optimization = 1000,
+                               use_preselected_sites = TRUE,
                                median_distance_filter = NULL, set_seed = 1,
                                verbose = TRUE) {
   # initial tests
@@ -133,7 +134,7 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                                  space = "G", verbose = verbose)
 
     # excluding close points from analysis
-    data <- sp::SpatialPointsDataFrame(data[, c("Longitude", "Latitude")], data,
+    data <- sp::SpatialPointsDataFrame(data[, c(x_column, y_column)], data,
                                         proj4string = sp::CRS("+init=epsg:4326"))
     data <- data[is.na(sp::over(data, tst$mask)$ID), ]@data
 
@@ -146,7 +147,13 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
 
   # preparing selection variables
   if (guess_distances == TRUE) {
-    dist <- round(tst$distance, 2)
+    if (use_preselected_sites == TRUE) {
+      dist <- round(tst$distance, 2)
+    } else {
+      ext <- apply(data[, c(x_column, y_column)], 2, range)
+      mxdis <- raster::pointDistance(ext[1, ], ext[2, ], lonlat = TRUE)
+      dist <- (mxdis / 1000) / expected_points
+    }
     increase <- dist / 10
   } else {
     dist <- initial_distance
