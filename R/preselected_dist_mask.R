@@ -108,6 +108,7 @@ preselected_dist_mask <- function(master, expected_points, space, variable_1 = N
 
   # preparing selection variables
   ininp <- np
+  pnp <- np
   inin <- 1
   count <- 1
 
