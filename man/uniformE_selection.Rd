@@ -4,10 +4,13 @@
 \alias{uniformE_selection}
 \title{Selection of survey sites maximizing uniformity in environmental space}
 \usage{
-uniformE_selection(master, variable_1, variable_2, selection_from = "all_points",
-                   expected_points, max_n_samplings = 1,
-                   initial_distance, increase, replicates = 10,
-                   median_distance_filter = NULL, set_seed = 1)
+uniformE_selection(master, variable_1, variable_2,
+                   selection_from = "all_points", expected_points,
+                   guess_distances = TRUE, initial_distance = NULL,
+                   increase = NULL, max_n_samplings = 1,
+                   replicates = 10, use_preselected_sites = TRUE,
+                   median_distance_filter = NULL, set_seed = 1,
+                   verbose = TRUE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -29,22 +32,36 @@ one selects points only from centroids of environmental blocks. See
 
 \item{expected_points}{(numeric) number of survey points (sites) to be selected.}
 
+\item{guess_distances}{(logical) whether or not to use internal algorithm
+to automatically select \code{initial_distance} and \code{increase}. Default
+= TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.}
+
+\item{initial_distance}{(numeric) distance in km to be used for a first
+process of thinning and detection of remaining points. Default = NULL.}
+
+\item{increase}{(numeric) initial value to be added to or subtracted from
+\code{initial_distance} until reaching the number of \code{expected_points}.
+Default = NULL.}
+
 \item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
 performing all thinning \code{replicates}. Default = 1.}
 
-\item{initial_distance}{(numeric) euclidean distance to be used for a first
-process of thinning and detection of remaining points.}
-
-\item{increase}{(numeric) value to be added to \code{initial_distance} until
-reaching the number of \code{expected_points}.}
-
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
+
+\item{use_preselected_sites}{(logical) whether to use sites that have been
+defined as part of the selected sites previous any selection. Object in
+\code{master} must contain the site(s) preselected in and element of name
+"preselected_sites" for this argument to be effective. Default = TRUE.
+See details for more information on the approach used.}
 
 \item{median_distance_filter}{(character) optional argument to define a median
 distance-based filter based on which sets of sampling sites will be selected.
 The default, NULL, does not apply such a filter. Options are: "max" and "min".}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
+
+\item{verbose}{(logical) whether or not to print messages about the process.
+Default = TRUE.}
 }
 \value{
 A master_selection object (S3) with an additional element called
@@ -66,6 +83,15 @@ sites selected with this function could appear clustered when looked in a map.
 Exploring the geographic and environmental spaces of the region of interest
 would be a crucial first step before selecting survey sites. Such explorations
 can be done using the function \code{\link{explore_data_EG}}.
+
+If \code{use_preselected_sites} is TRUE and such sites are included as an
+element in the object in \code{master}, the approach for selecting uniform
+sites in environmental space is different than what was described above.
+User preselected sites will always be part of the sites selected. Other points
+are selected based on an algorithm that searches for sites that are uniformly
+distributed in environmental space but at a distance from preselected sites
+that helps in maintaining uniformity. Note that preselected sites will not be
+processed, therefore, uniformity of such points cannot be warrantied.
 
 As multiple sets could result from selection, the argument of the function
 \code{median_distance_filter} could be used to select the set of sites with
