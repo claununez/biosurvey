@@ -16,12 +16,6 @@
 #' @param expected_blocks (numeric) number of blocks to be selected.
 #' @param selection_type (character) Type of selection. Two options are available:
 #' "uniform" and "random". Default = "uniform".
-#' @param initial_distance (numeric) euclidean distance to be used for a first
-#' process of thinning and detection of remaining points. If \code{selection_type}
-#' = "uniform", this argument must be defined. Default = NULL.
-#' @param increase (numeric) value to be added to \code{initial_distance} until
-#' reaching the number of \code{expected_points}. If \code{selection_type}
-#' = "uniform", this argument must be defined. Default = NULL.
 #' @param replicates (numeric) number of thinning replicates performed to select
 #' blocks uniformly. Default = 10.
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
@@ -38,8 +32,7 @@
 #'
 #' @usage
 #' block_sample(master, variable_1, variable_2, expected_blocks,
-#'              selection_type = "uniform", initial_distance = NULL,
-#'              increase = NULL, replicates = 10, set_seed = 1)
+#'              selection_type = "uniform", replicates = 10, set_seed = 1)
 #'
 #' @export
 #'
@@ -58,15 +51,14 @@
 #'
 #' # Selecting Blocks uniformly in E space
 #' block_sel <- block_sample(m_blocks, variable_1 = "PC1", variable_2  = "PC2",
-#'                           expected_blocks = 10, selection_type = "uniform",
-#'                           initial_distance = 1.5, increase = 0.1)
+#'                           expected_blocks = 10, selection_type = "uniform")
 #'
 #' head(block_sel$data_matrix)
 
 
 block_sample <- function(master, variable_1, variable_2, expected_blocks,
-                         selection_type = "uniform", initial_distance = NULL,
-                         increase = NULL, replicates = 10, set_seed = 1) {
+                         selection_type = "uniform", replicates = 10,
+                         set_seed = 1) {
   # initial tests
   if (missing(master)) {
     stop("Argument 'master' needs to be defined.")
@@ -93,14 +85,12 @@ block_sample <- function(master, variable_1, variable_2, expected_blocks,
   # block selection
   if (selection_type[1] == "uniform") {
     ## searching for uniformity in E space
-    if (any(is.null(initial_distance), is.null(increase))) {
-      stop("If 'selection_type' = uniform, the following arguments must be defined:\n'initial_distance', 'increase'")
-    }
     pairs_sel <- uniformE_selection(master, variable_1, variable_2,
                                     selection_from = "block_centroids",
                                     expected_blocks, max_n_samplings = 1,
-                                    initial_distance, increase, replicates,
-                                    set_seed = set_seed)
+                                    replicates = replicates,
+                                    use_preselected_sites = FALSE,
+                                    set_seed = set_seed, verbose = FALSE)
     pairs_sel <- pairs_sel$selected_sites_E$selection_1$Block
   } else {
     ## randomly
