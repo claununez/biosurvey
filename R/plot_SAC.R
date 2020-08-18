@@ -108,7 +108,8 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
             plot(SAC_selected_sites[[1]][[x]], ci.type = "line", ci = 0, col = cm,
                  ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[1], ...)
           } else {
-            plot(x, ci.type = "line", ci = 0, col = cm, add = TRUE, ...)
+            plot(SAC_selected_sites[[1]][[x]], ci.type = "line", ci = 0, col = cm,
+                 add = TRUE, ...)
           }
         })
       } else {
@@ -118,7 +119,8 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
                  ci.lty = 0, ci.col = cci, ylim = y_lim, xlab = xlab,
                  ylab = ylab, main = mains[1], ...)
           } else {
-            plot(x, ci.type = "poly", col =  cm, ci.lty = 0, ci.col = cci,
+            plot(SAC_selected_sites[[1]][[x]], ci.type = "poly", col =  cm,
+                 ci.lty = 0, ci.col = cci,
                  add = TRUE, ...)
           }
         })
