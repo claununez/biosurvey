@@ -5,12 +5,12 @@
 \title{Selection of survey sites maximizing uniformity in environmental space
 considering geographic structure}
 \usage{
-EG_selection(master, variable_1, variable_2, n_blocks, initial_distance,
-             increase, replicates = 10, use_preselected_sites = TRUE,
-             n_optimization = 1000, max_n_samplings = 1,
-             select_point = "E_centroid", cluster_method = "hierarchical",
-             median_distance_filter = NULL, sample_for_distance = 250,
-             set_seed = 1)
+EG_selection(master, variable_1, variable_2, n_blocks,
+             guess_distances = TRUE, initial_distance = NULL,
+             increase = NULL, max_n_samplings = 1, replicates = 10,
+             use_preselected_sites = TRUE, select_point = "E_centroid",
+             cluster_method = "hierarchical", median_distance_filter = NULL,
+             sample_for_distance = 250, set_seed = 1, verbose = TRUE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from the function
@@ -27,12 +27,20 @@ variable (Y-axis).}
 \item{n_blocks}{(numeric) number of blocks to be selected to be used as the
 base for further explorations. Default = NULL.}
 
+\item{guess_distances}{(logical) whether or not to use internal algorithm
+to automatically select \code{initial_distance} and \code{increase}. Default
+= TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.}
+
 \item{initial_distance}{(numeric) euclidean distance to be used for a first
 process of thinning and detection of remaining blocks. See details in
-\code{\link{point_thinning}}.}
+\code{\link{point_thinning}}. Default = NULL.}
 
-\item{increase}{(numeric) value to be added to \code{initial_distance} until
-reaching the number in \code{n_blocks}.}
+\item{increase}{(numeric) initial value to be added to or subtracted from
+\code{initial_distance} until reaching the number of \code{expected_points}.
+Default = NULL.}
+
+\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
+performing all thinning \code{replicates}. Default = 1.}
 
 \item{replicates}{(numeric) number of thinning replicates performed to select
 blocks uniformly. Default = 10.}
@@ -43,20 +51,13 @@ defined as part of the selected sites previous any selection. Object in
 "preselected_sites" for this argument to be effective. Default = TRUE.
 See details for more information on the approach used.}
 
-\item{n_optimization}{(numeric) number of times the algorithm of optimization
-for site selection when using \code{use_preselected_sites} will run. Default
-= 1000.}
-
-\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
-performing all thinning \code{replicates}. Default = 1.}
-
-\item{select_point}{(character) how or which point will be selected. Three
-options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-indicate that the point(s) closets to the respective centroid will be selected.
-Default = "E_centroid".}
+\item{select_point}{(character) how or which point will be selected for each
+block or cluster. Three options are available: "random", "E_centroid",
+"G_centroid". E_ or G_ centroid indicate that the point(s) closets to the
+respective centroid will be selected. Default = "E_centroid".}
 
 \item{cluster_method}{(character) name of the method to be used for detecting
-clusters of block points in geographic space. Options are "hierarchical" and
+geographic clusters of points inside each block. Options are "hierarchical" and
 "k-means"; default = "hierarchical". See details in \code{\link{find_clusters}}.}
 
 \item{median_distance_filter}{(character) optional argument to define a median
@@ -65,11 +66,14 @@ The default, NULL, does not apply such a filter. Options are: "max" and "min".
 See details.}
 
 \item{sample_for_distance}{(numeric) sample to be considered when measuring
-the geographic distances among points in the blocks of environmental points.
+the geographic distances among points in blocks created in environmental space.
 The distances measured are then used to test whether points are distributed
 uniformly or not in the geography. Default = 250.}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
+
+\item{verbose}{(logical) whether or not to print messages about the process.
+Default = TRUE.}
 }
 \value{
 A master_selection object (S3) with a special element called
@@ -81,7 +85,7 @@ Selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in environment, but considering geographic
 patterns of data. Sets of points that are environmentally similar and have a
 disjoint pattern in geography, are selected twice (two survey sites are placed
-so they consider the biggest geographic).
+so they consider the biggest geographic clusters).
 }
 \details{
 Two important steps are needed before using this function: 1) exploring data in
@@ -112,6 +116,16 @@ interest). For blocks with points that present one cluster in geography,
 only one survey site is selected, and for those with multiple clusters in
 geographic space, two survey sites are selected considering the two largest
 clusters.
+
+If \code{use_preselected_sites} is TRUE and such sites are included as an
+element in the object in \code{master}, the approach for selecting sites in
+environmental space considering geographic patterns is a little  different.
+User preselected sites will always be part of the sites selected. Other points
+are selected based on an algorithm that searches for sites that are uniformly
+distributed in environmental space but at a distance from preselected sites
+that helps in maintaining uniformity among environmental blocks selected.
+Note that preselected sites will not be processed, therefore, uniformity of
+blocks representing such points cannot be warrantied.
 
 As multiple sets could result from selection, the argument of the function
 \code{median_distance_filter} could be used to select the set of sites with
