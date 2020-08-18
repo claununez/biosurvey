@@ -205,7 +205,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   message("Calculating PAM indices.")
   bPAM <- new_base_PAM(PAM = grid_r_pol, PAM_indices = NULL)
 
-  bPAM <- PAM_indices(bPAM, indices = "basic")
+  bPAM <- PAM_indices(bPAM, indices = indices)
 
   return(bPAM)
 }

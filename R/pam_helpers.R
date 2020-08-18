@@ -527,18 +527,7 @@ refill_PAM_indices <- function(initial_index_list, new_index_list) {
   }
 
   # starting filling list
-  index_list <- list()
-
-  ov <- data.frame(Value = rep(NA, 11),
-                   row.names = c("Sites_Cells", "Species", "Av_dispersion_field",
-                                 "Av_shared_community_composition",
-                                 "Additive_Beta", "Beta_Whittaker",
-                                 "Beta_Legendre", "Schluter_cov_sites_composition",
-                                 "Schluter_cov_species_ranges",
-                                 "Wright_Reeves_nestedness",
-                                 "Stone_Roberts_Cscore"))
-
-  index_list$One_value_indices <- ov
+  index_list <- initial_index_list
 
   # non basic
   ## one value
