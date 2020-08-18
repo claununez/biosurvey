@@ -5,8 +5,7 @@
 \title{Selection of blocks in environmental space}
 \usage{
 block_sample(master, variable_1, variable_2, expected_blocks,
-             selection_type = "uniform", initial_distance = NULL,
-             increase = NULL, replicates = 10, set_seed = 1)
+             selection_type = "uniform", replicates = 10, set_seed = 1)
 }
 \arguments{
 \item{master}{a master_matrix object derived from the function
@@ -25,14 +24,6 @@ first one).}
 
 \item{selection_type}{(character) Type of selection. Two options are available:
 "uniform" and "random". Default = "uniform".}
-
-\item{initial_distance}{(numeric) euclidean distance to be used for a first
-process of thinning and detection of remaining points. If \code{selection_type}
-= "uniform", this argument must be defined. Default = NULL.}
-
-\item{increase}{(numeric) value to be added to \code{initial_distance} until
-reaching the number of \code{expected_points}. If \code{selection_type}
-= "uniform", this argument must be defined. Default = NULL.}
 
 \item{replicates}{(numeric) number of thinning replicates performed to select
 blocks uniformly. Default = 10.}
@@ -69,8 +60,7 @@ summary(m_blocks$data_matrix[, c("PC1", "PC2")])
 
 # Selecting Blocks uniformly in E space
 block_sel <- block_sample(m_blocks, variable_1 = "PC1", variable_2  = "PC2",
-                          expected_blocks = 10, selection_type = "uniform",
-                          initial_distance = 1.5, increase = 0.1)
+                          expected_blocks = 10, selection_type = "uniform")
 
 head(block_sel$data_matrix)
 }

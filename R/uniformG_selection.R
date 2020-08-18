@@ -112,6 +112,9 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
       stop("Argument 'increase' is not defined.")
     }
   }
+  if (max_n_samplings > replicates) {
+    stop("Argument 'replicates' must be larger than 'max_n_samplings'.")
+  }
   if (!is.null(median_distance_filter)) {
     if (!median_distance_filter %in% c("max", "min")) {
       stop("Argument 'median_distance_filter' is not valid, see function's help.")
@@ -143,8 +146,6 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
     # npre
     npre <- nrow(master$preselected_sites)
     expected_points <- expected_points - npre
-  } else {
-    npre <- 0
   }
 
   # preparing selection variables

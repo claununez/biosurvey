@@ -66,6 +66,10 @@ preselected_dist_mask <- function(master, expected_points, space, variable_1 = N
   pre <- master$preselected_sites
 
   if (use_blocks == TRUE) {
+    if (is.null(master$data_matrix$Block)) {
+      stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
+    }
+
     # preparing centroids
     data <- closest_to_centroid(data, variable_1, variable_2, space = "E",
                                 n = 1, id_column = "Block")
@@ -154,6 +158,9 @@ preselected_dist_mask <- function(master, expected_points, space, variable_1 = N
                                           match.ID = FALSE)
     maskp <- sp::spTransform(maskp, sp::CRS("+init=epsg:4326"))
   } else {
+    if (use_blocks == TRUE) {
+      pre <- data.frame(data[data$Block %in% pre$Block, ])
+    }
     sppre <- sp::SpatialPointsDataFrame(pre[, c(x_column, y_column)], pre,
                                         proj4string = sp::CRS("+init=epsg:4326"))
     maskp <- suppressWarnings(rgeos::gBuffer(sppre, width = dist, quadsegs = 100))

@@ -20,7 +20,7 @@
 #' @param guess_distances (logical) whether or not to use internal algorithm
 #' to automatically select \code{initial_distance} and \code{increase}. Default
 #' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.
-#' @param initial_distance (numeric) distance in km to be used for a first
+#' @param initial_distance (numeric) euclidean distance to be used for a first
 #' process of thinning and detection of remaining points. Default = NULL.
 #' @param increase (numeric) initial value to be added to or subtracted from
 #' \code{initial_distance} until reaching the number of \code{expected_points}.
@@ -137,6 +137,9 @@ uniformE_selection <- function(master, variable_1, variable_2,
       stop("Argument 'increase' is not defined.")
     }
   }
+  if (max_n_samplings > replicates) {
+    stop("Argument 'replicates' must be larger than 'max_n_samplings'.")
+  }
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
     if (verbose == TRUE) {
       message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
@@ -186,8 +189,6 @@ uniformE_selection <- function(master, variable_1, variable_2,
     # npre
     npre <- nrow(master$preselected_sites)
     expected_points <- expected_points - npre
-  } else {
-    npre <- 0
   }
 
   # preparing selection variables

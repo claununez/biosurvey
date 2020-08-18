@@ -36,7 +36,7 @@ one selects points only from centroids of environmental blocks. See
 to automatically select \code{initial_distance} and \code{increase}. Default
 = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.}
 
-\item{initial_distance}{(numeric) distance in km to be used for a first
+\item{initial_distance}{(numeric) euclidean distance to be used for a first
 process of thinning and detection of remaining points. Default = NULL.}
 
 \item{increase}{(numeric) initial value to be added to or subtracted from
