@@ -325,7 +325,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     }
 
     if (verbose == TRUE) {
-      message("    Process ", x, " of ", length(rules[[x]]))
+      message("    Process ", x, " of ", length(rules))
     }
 
     ## combining all results
