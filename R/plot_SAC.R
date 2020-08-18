@@ -146,10 +146,10 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
           pple <- lapply(1:length(SAC_selected_sites[[i]]), function(x) {
             if (x == 1) {
               plot(SAC_selected_sites[[i]][[x]], ci.type = "line", ci = 0, col = cm,
-                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i])
+                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i], ...)
             } else {
               plot(SAC_selected_sites[[i]][[x]], ci.type = "line", ci = 0,
-                   col = cm, add = TRUE)
+                   col = cm, add = TRUE, ...)
             }
           })
         } else {
