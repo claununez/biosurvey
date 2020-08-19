@@ -6,7 +6,7 @@
 \usage{
 prepare_master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
                       do_pca = FALSE, center = TRUE, scale = FALSE,
-                      variables_in_matrix = NULL)
+                      variables_in_matrix = NULL, verbose = TRUE)
 }
 \arguments{
 \item{region}{SpatialPolygons* of the region of interest; for instance,
@@ -34,6 +34,9 @@ variables are in different units. Argument to be passed to the function
 
 \item{variables_in_matrix}{(character) name of variables to include in matrix.
 If NULL (the default) all variables will be included.}
+
+\item{verbose}{(logical) whether or not to print messages about the process.
+Default = TRUE.}
 }
 \value{
 An S3 object of class master_matrix containing the following elements:

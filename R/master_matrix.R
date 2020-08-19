@@ -22,6 +22,8 @@
 #' \code{\link[stats]{prcomp}}. Default = FALSE.
 #' @param variables_in_matrix (character) name of variables to include in matrix.
 #' If NULL (the default) all variables will be included.
+#' @param verbose (logical) whether or not to print messages about the process.
+#' Default = TRUE.
 #'
 #' @return
 #' An S3 object of class master_matrix containing the following elements:
@@ -54,7 +56,7 @@
 #' @usage
 #' prepare_master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
 #'                       do_pca = FALSE, center = TRUE, scale = FALSE,
-#'                       variables_in_matrix = NULL)
+#'                       variables_in_matrix = NULL, verbose = TRUE)
 #'
 #' @export
 #' @importFrom raster mask crop rasterToPoints intersect
@@ -74,7 +76,7 @@
 prepare_master_matrix <- function(region, variables, mask = NULL,
                                   preselected_sites = NULL, do_pca = FALSE,
                                   center = TRUE, scale = FALSE,
-                                  variables_in_matrix = NULL) {
+                                  variables_in_matrix = NULL, verbose = TRUE) {
   # Initial tests
   if (missing(region)) {
     stop("Argument 'region' must be defined")
@@ -98,6 +100,9 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
   }
 
   # Mask variables to polygons (region of interest)
+  if (verbose == TRUE) {
+    message("Processing raster layers, please wait...")
+  }
   if (!is.null(mask)) {
     variables <- raster::mask(raster::crop(variables, mask), mask)
   } else {
@@ -135,6 +140,9 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
 
   # If do_pca is TRUE, do PCA
   if (do_pca == TRUE) {
+    if (verbose == TRUE) {
+      message("Performing PCA analysis")
+    }
     pca <- stats::prcomp(variables[, -(1:2)], center = center, scale. = scale)
 
     # Create matrix
