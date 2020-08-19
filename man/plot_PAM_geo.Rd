@@ -9,8 +9,9 @@ plot_PAM_geo(PAM, index = "RI", col_pal = NULL, border = NULL, cex = 0.9)
 \arguments{
 \item{PAM}{an object of class base_PAM.}
 
-\item{index}{(character) code for the index to be plotted. Options are: "RI",
-"RIN", "DF", or "MCC". Default = "RI"}
+\item{index}{(character) code for the index to be plotted. Options are: "RI"
+(Richness), "RIN" (Richness normalized), "DF" (Dispersion field), or "MCC"
+(Mean composition covariance). Default = "RI".}
 
 \item{col_pal}{color palette function to be used in defining colors for the
 \code{index} to be plotted. The default, NULL, uses \code{viridis::viridis}.}
@@ -28,7 +29,9 @@ A plot of \code{index} represented in geography.
 Plot of PAM indices in geography
 }
 \examples{
+# data
 data("b_pam", package = "biosurvey")
 
+# plotting
 plot_PAM_geo(b_pam, index = "RI")
 }
