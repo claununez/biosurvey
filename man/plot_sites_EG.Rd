@@ -22,11 +22,9 @@ variable (X axis).}
 variable (Y axis). It must be different from the first one.}
 
 \item{selection_type}{(character) Type of selection depending on the function
-used to select sites. The options available are "selected_sites_random"
-(\code{\link{random_selection}}), "selected_sites_G"
-(\code{\link{uniformG_selection}}), "selected_sites_E"
-(\code{\link{uniformE_selection}}), and "selected_sites_EG"
-(\code{\link{EG_selection}}).}
+used to select sites. The options available are "random"
+(\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
+"E" (\code{\link{uniformE_selection}}), and "EG" (\code{\link{EG_selection}}).}
 
 \item{selection_number}{(numeric) number of selection to be plotted.
 Default = 1.}
@@ -93,5 +91,5 @@ selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2
 
 # Plotting
 plot_sites_EG(selectionE, variable_1 = "PC1", variable_2 = "PC2",
-              selection_type = "selected_sites_E")
+              selection_type = "E")
 }

@@ -11,11 +11,9 @@
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis). It must be different from the first one.
 #' @param selection_type (character) Type of selection depending on the function
-#' used to select sites. The options available are "selected_sites_random"
-#' (\code{\link{random_selection}}), "selected_sites_G"
-#' (\code{\link{uniformG_selection}}), "selected_sites_E"
-#' (\code{\link{uniformE_selection}}), and "selected_sites_EG"
-#' (\code{\link{EG_selection}}).
+#' used to select sites. The options available are "random"
+#' (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
+#' "E" (\code{\link{uniformE_selection}}), and "EG" (\code{\link{EG_selection}}).
 #' @param selection_number (numeric) number of selection to be plotted.
 #' Default = 1.
 #' @param col_all colors for points in all points in the region of interest.
@@ -79,7 +77,7 @@
 #'
 #' # Plotting
 #' plot_sites_EG(selectionE, variable_1 = "PC1", variable_2 = "PC2",
-#'               selection_type = "selected_sites_E")
+#'               selection_type = "E")
 
 
 plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_type,
@@ -103,9 +101,10 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   if (missing(selection_type)) {
     stop("Argument 'selection_type' is required to produce the plot.")
   }
-  if (!selection_type %in% c("selected_sites_random", "selected_sites_E",
-                             "selected_sites_G", "selected_sites_EG")) {
-    stop("Argument 'selection_type' is not valid, options are:\n'selected_sites_random', 'selected_sites_E', 'selected_sites_G', or 'selected_sites_EG'.")
+  if (!selection_type %in% c("random", "E", "G", "EG")) {
+    stop("Argument 'selection_type' is not valid, options are: 'random', 'E', 'G', or 'EG'.")
+  } else {
+    selection_type <- paste0("selected_sites_", selection_type)
   }
 
   # Where to visualize data
@@ -181,15 +180,11 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
             border = "gray80", add = TRUE)
   box(which = "plot")
 
-  ## selected sites
-  points(master_selection$data_matrix[, gvars], pch = pch_all, cex = cex_all,
-         col = col_all)
-
   ## region
   if (is.null(master_selection$mask)) {
     sp::plot(master_selection$region, border = "gray70", add = TRUE)
   }
-  sp::plot(master_selection[[where]], add = TRUE)
+  sp::plot(master_selection[[where]], col = col_all, add = TRUE)
 
   ## selected sites
   points(selected_data[, gvars], pch = pch_sites, cex = cex_sites, col = col_sites)
