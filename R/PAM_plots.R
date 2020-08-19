@@ -1,8 +1,9 @@
 #' Plot of PAM indices in geography
 #'
 #' @param PAM an object of class base_PAM.
-#' @param index (character) code for the index to be plotted. Options are: "RI",
-#' "RIN", "DF", or "MCC". Default = "RI"
+#' @param index (character) code for the index to be plotted. Options are: "RI"
+#' (Richness), "RIN" (Richness normalized), "DF" (Dispersion field), or "MCC"
+#' (Mean composition covariance). Default = "RI".
 #' @param col_pal color palette function to be used in defining colors for the
 #' \code{index} to be plotted. The default, NULL, uses \code{viridis::viridis}.
 #' @param border color for cell borders of the PAM grid. The default, NULL, does
@@ -22,8 +23,10 @@
 #' @importFrom maps map
 #'
 #' @examples
+#' # data
 #' data("b_pam", package = "biosurvey")
 #'
+#' # plotting
 #' plot_PAM_geo(b_pam, index = "RI")
 
 plot_PAM_geo <- function(PAM, index = "RI", col_pal = NULL, border = NULL,
@@ -74,23 +77,3 @@ plot_PAM_geo <- function(PAM, index = "RI", col_pal = NULL, border = NULL,
 
 
 
-
-
-plot_PAM_KS <- function(PAM, exclude_column = NULL) {
-  if (!class(PAM)[1] %in% c("base_PAM", "matrix", "data.frame")) {
-    stop("Class of 'PAM' is not supported, see function's help.")
-  }
-
-  # preparing data
-  if (class(PAM)[1] == "base_PAM") {
-    PAM <- PAM_indices(PAM, indices = "all")
-    x <- PAM$PAM_indices$Richness_normalized
-    y <- PAM$PAM_indices$Dispersion_field
-  } else {
-    PAM <- PAM_indices(PAM, indices = "all", exclude_column = exclude_column)
-    x <- PAM$Richness_normalized
-    y <- PAM$Dispersion_field
-
-  }
-
-}
