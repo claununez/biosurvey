@@ -142,7 +142,7 @@ uniformE_selection <- function(master, variable_1, variable_2,
   }
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
     if (verbose == TRUE) {
-      message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
+      message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE")
     }
     use_preselected_sites <- FALSE
   }
@@ -222,7 +222,7 @@ uniformE_selection <- function(master, variable_1, variable_2,
   }
   if (np == expected_points) {
     if (verbose == TRUE) {
-      message(mess, " equals 'expected_points'.")
+      message(mess, " equals 'expected_points'")
     }
 
     if (use_preselected_sites == TRUE) {
@@ -289,6 +289,10 @@ uniformE_selection <- function(master, variable_1, variable_2,
 
   ## naming and returning
   names(thin) <- paste0("selection_", 1:length(thin))
+
+  if (verbose == TRUE) {
+    message("Total number of sites selected: ", nrow(thin[[1]]))
+  }
 
   if (class(master)[1] == "master_matrix") {
     return(new_master_selection(master$data_matrix, master$preselected_sites,

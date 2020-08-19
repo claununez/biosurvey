@@ -173,7 +173,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   }
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
     if (verbose == TRUE) {
-      message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
+      message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE")
     }
     use_preselected_sites <- FALSE
   }
@@ -205,7 +205,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
   # running
   if (verbose == TRUE) {
-    message("Preparing data for analysis.")
+    message("Preparing data for analysis")
   }
 
   if (use_preselected_sites == TRUE) {
@@ -366,6 +366,11 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   if (length(all_sites) > 1 & !is.null(median_distance_filter)) {
     all_sites <- distance_filter(all_sites, median_distance_filter)
   }
+
+  if (verbose == TRUE) {
+    message("Total number of sites selected: ", nrow(all_sites[[1]]))
+  }
+
 
   # Preparing and returning results
   ## naming and returning

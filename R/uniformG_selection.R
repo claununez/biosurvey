@@ -122,7 +122,7 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
   }
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
     if (verbose == TRUE) {
-      message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE.")
+      message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE")
     }
     use_preselected_sites <- FALSE
   }
@@ -176,8 +176,8 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
   }
   if (np == expected_points) {
     if (verbose == TRUE) {
-      message("Number of available points equals 'expected_points'.",
-              "\nReturning all availale points as selected sites.")
+      message("Number of available points equals 'expected_points'",
+              "\nReturning all availale points as selected sites")
     }
 
     if (use_preselected_sites == TRUE) {
@@ -244,6 +244,10 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
 
   ## naming and returning
   names(thin) <- paste0("selection_", 1:length(thin))
+
+  if (verbose == TRUE) {
+    message("Total number of sites selected: ", nrow(thin[[1]]))
+  }
 
   if (class(master)[1] == "master_matrix") {
     return(new_master_selection(master$data_matrix, master$preselected_sites,

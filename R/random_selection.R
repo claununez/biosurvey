@@ -19,6 +19,8 @@
 #' distance-based filter based on which sets of sampling sites will be selected.
 #' The default, NULL, does not apply such a filter. Options are: "max" and "min".
 #' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
+#' @param verbose (logical) whether or not to print messages about the process.
+#' Default = TRUE.
 #'
 #' @return
 #' A master_selection object (S3) with an additional element called
@@ -50,7 +52,7 @@
 #'
 #' @usage
 #' random_selection(master, n_sites, n_samplings = 1, use_preselected_sites = TRUE,
-#'                  median_distance_filter = NULL, set_seed = 1)
+#'                  median_distance_filter = NULL, set_seed = 1, verbose = TRUE)
 #'
 #' @export
 #'
@@ -62,7 +64,8 @@
 
 random_selection <- function(master, n_sites, n_samplings = 1,
                              use_preselected_sites = TRUE,
-                             median_distance_filter = NULL, set_seed = 1) {
+                             median_distance_filter = NULL,
+                             set_seed = 1, verbose = TRUE) {
 
   # Initial tests
   if (missing(master)) {
@@ -82,6 +85,10 @@ random_selection <- function(master, n_sites, n_samplings = 1,
   }
 
   # Selection of sites
+  if (verbose == TRUE) {
+    message("Selecting sampling sites randomly")
+  }
+
   data <- master$data_matrix
   n <- nrow(data)
 
@@ -108,6 +115,10 @@ random_selection <- function(master, n_sites, n_samplings = 1,
 
   # Returning results
   names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
+
+  if (verbose == TRUE) {
+    message("Total number of sites selected: ", nrow(selected_sites[[1]]))
+  }
 
   return(new_master_selection(master$data_matrix, master$preselected_sites,
                               master$region, master$mask, master$raster_base,

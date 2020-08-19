@@ -5,7 +5,7 @@
 \title{Random selection of survey sites}
 \usage{
 random_selection(master, n_sites, n_samplings = 1, use_preselected_sites = TRUE,
-                 median_distance_filter = NULL, set_seed = 1)
+                 median_distance_filter = NULL, set_seed = 1, verbose = TRUE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -29,6 +29,9 @@ distance-based filter based on which sets of sampling sites will be selected.
 The default, NULL, does not apply such a filter. Options are: "max" and "min".}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
+
+\item{verbose}{(logical) whether or not to print messages about the process.
+Default = TRUE.}
 }
 \value{
 A master_selection object (S3) with an additional element called
