@@ -39,10 +39,10 @@ For further details on the way calculations are performed and the meaning of
 the indices see Soberon and Cavner (2015)
 \doi{https://doi.org/10.17161/bi.v10i0.4801}.\tabular{lrr}{
    Code \tab Index \tab Calculation \cr
-    \tab Richness \tab Basic \cr
-    \tab Range \tab Basic \cr
-    \tab Richness normalized \tab Basic \cr
-    \tab Range normalized \tab Basic \cr
+   RI \tab Richness \tab Basic \cr
+   RA \tab Range \tab Basic \cr
+   RIN \tab Richness normalized \tab Basic \cr
+   RAN \tab Range normalized \tab Basic \cr
    AB \tab Additive Beta \tab Needs to be defined \cr
    BW \tab Beta Whittaker \tab Needs to be defined \cr
    BL \tab Beta Legendre \tab Needs to be defined and DF \cr

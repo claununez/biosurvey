@@ -31,10 +31,10 @@
 #'
 #' |Code  |Index                                    |Calculation                     |
 #' |:-----|----------------------------------------:|-------------------------------:|
-#' |      |Richness                                 |Basic                           |
-#' |      |Range                                    |Basic                           |
-#' |      |Richness normalized                      |Basic                           |
-#' |      |Range normalized                         |Basic                           |
+#' |RI    |Richness                                 |Basic                           |
+#' |RA    |Range                                    |Basic                           |
+#' |RIN   |Richness normalized                      |Basic                           |
+#' |RAN   |Range normalized                         |Basic                           |
 #' |AB    |Additive Beta                            |Needs to be defined             |
 #' |BW    |Beta Whittaker                           |Needs to be defined             |
 #' |BL    |Beta Legendre                            |Needs to be defined and DF      |
