@@ -5,7 +5,8 @@
 \title{Presence-absence matrix (PAM) linked to a spatial grid}
 \usage{
 prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
-                 complete_cover = TRUE, clip_grid = FALSE, indices = "basic")
+                 complete_cover = TRUE, clip_grid = FALSE,
+                 indices = "basic", verbose = TRUE)
 }
 \arguments{
 \item{data}{species geographic ranges to be used to create a presence-absence
@@ -34,6 +35,9 @@ region of interest is it could take time to perform this task.}
 are calculated all the time, other indices need to be specified. Options are:
 "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
 "CMSC", and "CMSR". See details. Default = "basic". See details.}
+
+\item{verbose}{(logical) whether or not to print messages about the process.
+Default = TRUE.}
 }
 \value{
 A presence-absence matrix (PAM) of class base_PAM for the region of interest

@@ -26,6 +26,8 @@
 #' are calculated all the time, other indices need to be specified. Options are:
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
 #' "CMSC", and "CMSR". See details. Default = "basic". See details.
+#' @param verbose (logical) whether or not to print messages about the process.
+#' Default = TRUE.
 #'
 #' @details
 #' Objects of class "master_matrix" or "master_selection" could be obtained from
@@ -92,7 +94,8 @@
 #'
 #' @usage
 #' prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
-#'                  complete_cover = TRUE, clip_grid = FALSE, indices = "basic")
+#'                  complete_cover = TRUE, clip_grid = FALSE,
+#'                  indices = "basic", verbose = TRUE)
 #'
 #' @export
 #' @importFrom sp SpatialPointsDataFrame over
@@ -112,7 +115,7 @@
 
 prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
                              complete_cover = TRUE, clip_grid = FALSE,
-                             indices = "basic") {
+                             indices = "basic", verbose = TRUE) {
   # Initial tests
   clsdata <- class(data)[1]
 
@@ -138,11 +141,15 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
 
   # Create geographic grid
-  message("Preparing spatial grid.")
+  if (verbose == TRUE) {
+    message("Preparing spatial grid")
+  }
   grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size, complete_cover)
 
   # Prepare SpaptialPoints from different objects
-  message("Preparing PAM from 'data'.")
+  if (verbose == TRUE) {
+    message("Preparing PAM from 'data'")
+  }
   if (!is.data.frame(data)) {
     ## from raster objects
     if (clsdata %in% c("RasterStack", "RasterBrick")) {
@@ -195,17 +202,24 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   # Complete PAM
   grid_r_pol@data <- merge(grid_r_pol@data, sp_points, by = "ID", all.x = TRUE)
   grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
+  coltk <- colnames(grid_r_pol@data)
 
   # Clipping if needed
   if (clip_grid == TRUE) {
+    if (verbose == TRUE) {
+      message("Clipping PAM to region of interest")
+    }
     grid_r_pol <- raster::intersect(grid_r_pol, master_matrix[[where]])
+    grid_r_pol@data <- grid_r_pol@data[, coltk]
   }
 
   # Preparing and returning results
-  message("Calculating PAM indices.")
+  if (verbose == TRUE) {
+    message("Calculating PAM indices")
+  }
   bPAM <- new_base_PAM(PAM = grid_r_pol, PAM_indices = NULL)
 
-  bPAM <- PAM_indices(bPAM, indices = indices)
+  bPAM <- PAM_indices(PAM = bPAM, indices = indices, exclude_column = NULL)
 
   return(bPAM)
 }
