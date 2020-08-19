@@ -107,7 +107,8 @@ wgs84_2aed_laea <- function (data, longitude, latitude, which = "ED") {
 
 # Create a bar legend to be used in plotting functions
 
-bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0) {
+bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0,
+                        label_x = 0.7, labels_y = c(0.2, 0.85)) {
   # Initial tests
   if (missing(value_range)) {
     stop("Argument 'value_range' is required to produce the legend.")
@@ -124,6 +125,6 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0) {
   } else {
     vals <- value_range
   }
-  text(x = 0.7, y = seq(0.2, 0.85, l = 2), labels = vals, cex = 0.8)
+  text(x = label_x, y = labels_y, labels = vals, cex = 0.8)
   rasterImage(legend_image, 0.1, 0.2, 0.3, 0.85)
 }
