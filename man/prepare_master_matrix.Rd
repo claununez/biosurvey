@@ -48,8 +48,8 @@ the first two principal components derived from original data.
 \item mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
 \item preselected_sites: sites defined by used. NULL if \code{preselected_sites}
 was not defined.
-\item raster_base: a raster layer for the region of interest with a single value,
-to be used for plotting purposes.
+\item raster_base: a SpatialPolygonsDataFrame representing the grid of the rasters
+used, which will be used for plotting purposes.
 \item PCA_results: if \code{do_pca} is TRUE, other results from principal
 component analysis. If FALSE, PCA_results element of the object is NULL.
 }

@@ -37,7 +37,7 @@ alpha of 0.6.}
 in environmental space. This palette can be defined using functions like
 \code{\link{heat.colors}}, or one generated using functions like
 \code{\link{colorRampPalette}}. The default, NULL, uses a color blind friendly
-palette similar to heat.colors, and changes the first color in the palette by NA.}
+palette similar to magma, and changes the first color in the palette by NA.}
 }
 \value{
 A multi-panel plot showing two of the environmental predictors in the region of

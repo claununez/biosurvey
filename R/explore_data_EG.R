@@ -29,7 +29,7 @@
 #' in environmental space. This palette can be defined using functions like
 #' \code{\link{heat.colors}}, or one generated using functions like
 #' \code{\link{colorRampPalette}}. The default, NULL, uses a color blind friendly
-#' palette similar to heat.colors, and changes the first color in the palette by NA.
+#' palette similar to magma, and changes the first color in the palette by NA.
 #'
 #' @return
 #' A multi-panel plot showing two of the environmental predictors in the region of
@@ -100,19 +100,20 @@ explore_data_EG <- function(master, variable_1, variable_2,
     ## if all null
     col_density <- col_pal2(255)
     col_points <- make_alpha(col_density[25], 0.6)
-    col_variable1 <- col_pal1(255)
-    col_variable2 <- col_variable1
+    uv1 <- length(unique(master$data_matrix[, variable_1]))
+    col_variable1 <- col_pal1(uv1)
+    uv2 <- length(unique(master$data_matrix[, variable_2]))
+    col_variable2 <- col_pal1(uv2)
     col_density[1] <- NA
   } else {
     ## if some of them are null
     if (is.null(col_variable1)) {
-      col_variable1 <- col_pal1(255)
+      uv1 <- length(unique(master$data_matrix[, variable_1]))
+      col_variable1 <- col_pal1(uv1)
     }
     if (is.null(col_variable2)) {
-      col_variable2 <- col_pal1(255)
-    }
-    if (is.null(col_variable2)) {
-      col_variable2 <- col_pal1(255)
+      uv2 <- length(unique(master$data_matrix[, variable_2]))
+      col_variable2 <- col_pal1(uv2)
     }
     if (is.null(col_density)) {
       col_density <- col_pal2(255)
@@ -146,31 +147,26 @@ explore_data_EG <- function(master, variable_1, variable_2,
   text(0.5, 0.5, "Geographic space", cex = 1.2, srt = 90)
 
   ### variable 1
-  sp::plot(master[[where]], border = NA)
-  var <- master$raster_base
-  var[!is.na(var[])] <- master$data_matrix[, variable_1]
-  value_range <- c(var@data@min, var@data@max)
-  raster::image(var, col = col_variable1, add = TRUE)
+  vf <- as.factor(master$data_matrix[, variable_1])
+  sp::plot(master$raster_base, col = col_variable1[vf], border = NA)
   if (is.null(master$mask)) {
     sp::plot(master$region, border = "gray70", add = TRUE)
   }
   sp::plot(master[[where]], add = TRUE)
 
   plot.new()
-  bar_legend(value_range, col = col_variable1, title = variable_1)
+  bar_legend(xlim, col = col_variable1, title = variable_1)
 
   ### variable 2
-  sp::plot(master[[where]], border = NA)
-  var[!is.na(var[])] <- master$data_matrix[, variable_2]
-  value_range <- c(var@data@min, var@data@max)
-  raster::image(var, col = col_variable2, add = TRUE)
+  vf <- as.factor(master$data_matrix[, variable_2])
+  sp::plot(master$raster_base, col = col_variable2[vf], border = NA)
   if (is.null(master$mask)) {
     sp::plot(master$region, border = "gray70", add = TRUE)
   }
   sp::plot(master[[where]], add = TRUE)
 
   plot.new()
-  bar_legend(value_range, col = col_variable2, title = variable_2)
+  bar_legend(ylim, col = col_variable2, title = variable_2)
 
   ## titles
   plot.new()

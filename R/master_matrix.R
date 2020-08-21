@@ -34,8 +34,8 @@
 #' - mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
 #' - preselected_sites: sites defined by used. NULL if \code{preselected_sites}
 #' was not defined.
-#' - raster_base: a raster layer for the region of interest with a single value,
-#' to be used for plotting purposes.
+#' - raster_base: a SpatialPolygonsDataFrame representing the grid of the rasters
+#' used, which will be used for plotting purposes.
 #' - PCA_results: if \code{do_pca} is TRUE, other results from principal
 #' component analysis. If FALSE, PCA_results element of the object is NULL.
 #'
@@ -124,6 +124,7 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
   b_raster <- variables[[1]]
   names(b_raster) <- "base"
   b_raster[!is.na(b_raster[])] <- 1
+  b_raster <- as(b_raster,"SpatialPolygonsDataFrame")
 
   # Raster to matrix
   variables <- raster::rasterToPoints(variables)
