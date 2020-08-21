@@ -33,7 +33,6 @@
 #'          ylab = "Species", line_for_multiple = TRUE, main = NULL, ...)
 #'
 #' @export
-#' @importFrom scales alpha
 #' @import vegan
 #'
 #' @examples
@@ -65,8 +64,8 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
   on.exit(par(opar))
 
   # Final colors
-  cm <- scales::alpha(col_mean, alpha_mean)
-  cci <- scales::alpha(col_CI, alpha_CI)
+  cm <- make_alpha(col_mean, alpha_mean)
+  cci <- make_alpha(col_CI, alpha_CI)
 
   # Y limits
   maxy <- max(unlist(lapply(SAC_selected_sites, function(w) {

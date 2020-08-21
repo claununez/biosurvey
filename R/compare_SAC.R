@@ -47,7 +47,6 @@
 #'             line_for_multiple = TRUE, add_legend = TRUE, ...)
 #'
 #' @export
-#' @importFrom scales alpha
 #' @importFrom graphics legend
 #' @import vegan
 #'
@@ -100,10 +99,10 @@ compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "b
   y_lim <- c(c(0, max(rany1, rany2)))
 
   # Final colors
-  cm1 <- scales::alpha(col_mean1, alpha_mean)
-  cm2 <- scales::alpha(col_mean2, alpha_mean)
-  ci1 <- scales::alpha(col_CI1, alpha_CI)
-  ci2 <- scales::alpha(col_CI2, alpha_CI)
+  cm1 <- make_alpha(col_mean1, alpha_mean)
+  cm2 <- make_alpha(col_mean2, alpha_mean)
+  ci1 <- make_alpha(col_CI1, alpha_CI)
+  ci2 <- make_alpha(col_CI2, alpha_CI)
 
   # Plot
   ## Plot 1

@@ -41,11 +41,11 @@
 #'
 #' @export
 #' @importFrom ks kde
-#' @importFrom scales alpha
 #' @importFrom sp plot
 #' @importFrom raster image
 #' @importFrom graphics image layout par plot.new rasterImage text title box points
 #' @importFrom grDevices as.raster
+#' @importFrom farver encode_colour decode_colour
 #'
 #' @examples
 #' # Data
@@ -99,7 +99,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
       is.null(col_density)) {
     ## if all null
     col_density <- col_pal2(255)
-    col_points <- scales::alpha(col_density[25], 0.6)
+    col_points <- make_alpha(col_density[25], 0.6)
     col_variable1 <- col_pal1(255)
     col_variable2 <- col_variable1
     col_density[1] <- NA
@@ -119,7 +119,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
       col_density[1] <- NA
     }
     if (is.null(col_points)) {
-      col_points <- scales::alpha(col_pal2(255)[25], 0.6)
+      col_points <- make_alpha(col_pal2(255)[25], 0.6)
     }
   }
 

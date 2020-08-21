@@ -118,7 +118,7 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0,
   }
 
   # bar plot
-  legend_image <- as.raster(matrix(scales::alpha(rev(col), alpha), ncol = 1))
+  legend_image <- as.raster(matrix(make_alpha(rev(col), alpha), ncol = 1))
   text(x = 0.6, y = 0.525, labels = title, srt = 90)
   if (is.numeric(value_range)) {
     vals <- round(value_range, round)
@@ -127,4 +127,14 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0,
   }
   text(x = label_x, y = labels_y, labels = vals, cex = 0.8)
   rasterImage(legend_image, 0.1, 0.2, 0.3, 0.85)
+}
+
+
+
+# make colors transparent at distinct levels
+
+make_alpha <- function(col, alpha = 1) {
+  rgb <- farver::decode_colour(col, alpha = TRUE)
+  rgb[, 4] <- alpha
+  farver::encode_colour(rgb, alpha)
 }
