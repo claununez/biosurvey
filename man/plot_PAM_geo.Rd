@@ -14,7 +14,8 @@ plot_PAM_geo(PAM, index = "RI", col_pal = NULL, border = NULL, cex = 0.9)
 (Mean composition covariance). Default = "RI".}
 
 \item{col_pal}{color palette function to be used in defining colors for the
-\code{index} to be plotted. The default, NULL, uses \code{viridis::viridis}.}
+\code{index} to be plotted. The default, NULL, uses a color blind friendly
+palette similar to viridis.}
 
 \item{border}{color for cell borders of the PAM grid. The default, NULL, does
 not plot any border.}

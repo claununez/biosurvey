@@ -54,8 +54,7 @@ Imports:
     sp (>= 1.3),
     spatstat (>= 1.64),
     stats,
-    vegan (>= 2.5),
-    viridis (>= 0.5)
+    vegan (>= 2.5)
 Depends:
     R (>= 3.5.0)
 License: GPL-3

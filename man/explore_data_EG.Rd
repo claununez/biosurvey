@@ -22,12 +22,12 @@ variable (Y axis) to be explored (must be different from the first one).}
 \item{col_variable1}{a color palette for \code{variable_1} defined
 using functions like \code{\link{heat.colors}}, or one generated
 using functions like \code{\link{colorRampPalette}}. The default,
-NULL, uses \code{viridis::cividis(255)}.}
+NULL, uses a color blind friendly palette similar to viridis.}
 
 \item{col_variable2}{a color palette for \code{variable_2} defined
 using functions like \code{\link{heat.colors}}, or one generated
 using functions like \code{\link{colorRampPalette}}. The default,
-NULL, uses \code{viridis::cividis(255)}.}
+NULL, uses a color blind friendly palette similar to viridis.}
 
 \item{col_points}{color for points in environmental space. The default, NULL,
 uses the 25th color of the default palette for \code{col_variable1} with an
@@ -36,8 +36,8 @@ alpha of 0.6.}
 \item{col_density}{a color palette to represent representation density of points
 in environmental space. This palette can be defined using functions like
 \code{\link{heat.colors}}, or one generated using functions like
-\code{\link{colorRampPalette}}. The default, NULL, uses
-\code{viridis::viridis(255)}, and changes the first color in the palette by NA.}
+\code{\link{colorRampPalette}}. The default, NULL, uses a color blind friendly
+palette similar to heat.colors, and changes the first color in the palette by NA.}
 }
 \value{
 A multi-panel plot showing two of the environmental predictors in the region of

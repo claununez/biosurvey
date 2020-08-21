@@ -90,7 +90,7 @@ plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
 
 # defining your own colors
 n_blocks <- length(m_blocks$data_matrix$Block)
-your_palette <- sample(viridis::viridis(n_blocks), n_blocks)
+your_palette <- sample(heat.colors(n_blocks), n_blocks)
 block_factor <- as.factor(m_blocks$data_matrix$Block)
 your_colors <- your_palette[block_factor]
 

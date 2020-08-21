@@ -5,7 +5,8 @@
 #' (Richness), "RIN" (Richness normalized), "DF" (Dispersion field), or "MCC"
 #' (Mean composition covariance). Default = "RI".
 #' @param col_pal color palette function to be used in defining colors for the
-#' \code{index} to be plotted. The default, NULL, uses \code{viridis::viridis}.
+#' \code{index} to be plotted. The default, NULL, uses a color blind friendly
+#' palette similar to viridis.
 #' @param border color for cell borders of the PAM grid. The default, NULL, does
 #' not plot any border.
 #' @param cex (numeric) value by which plotting elements should be magnified
@@ -21,6 +22,7 @@
 #' @importFrom sp plot
 #' @importFrom graphics layout par plot.new
 #' @importFrom maps map
+#' @importFrom grDevices colorRampPalette
 #'
 #' @examples
 #' # data
@@ -46,7 +48,9 @@ plot_PAM_geo <- function(PAM, index = "RI", col_pal = NULL, border = NULL,
 
   # color definition
   if (is.null(col_pal)) {
-    col_pal <- viridis::viridis
+    col_pal <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
+                                      "#41b6c4", "#1d91c0", "#225ea8", "#253494",
+                                      "#081d58")))
   }
   if (is.null(border)) {
     border <- NA

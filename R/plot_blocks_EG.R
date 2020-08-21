@@ -60,7 +60,6 @@
 #'
 #' @export
 #' @importFrom maps map
-#' @importFrom viridis cividis
 #' @importFrom sp plot
 #' @importFrom graphics layout par plot.new text title
 #'
@@ -78,7 +77,7 @@
 #'
 #' # defining your own colors
 #' n_blocks <- length(m_blocks$data_matrix$Block)
-#' your_palette <- sample(viridis::viridis(n_blocks), n_blocks)
+#' your_palette <- sample(heat.colors(n_blocks), n_blocks)
 #' block_factor <- as.factor(m_blocks$data_matrix$Block)
 #' your_colors <- your_palette[block_factor]
 #'
@@ -131,9 +130,13 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   evars <- c(variable_1, variable_2)
 
   # colors
+  col_pal <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
+                                    "#41b6c4", "#1d91c0", "#225ea8", "#253494",
+                                    "#081d58")))
+
   if (is.null(col_all) & is.null(col_selected) & is.null(col_ID)) {
     if (which == "all") {
-      col_all <- sample(viridis::cividis(nblocks), nblocks)[as.factor(master$data_matrix$Block)]
+      col_all <- sample(col_pal(nblocks), nblocks)[as.factor(master$data_matrix$Block)]
     } else {
       col_all <- "#E1E1E1"
       col_selected <- "#3B22CB"
@@ -142,7 +145,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   } else {
     if (is.null(col_all)) {
       if (which == "all") {
-        col_all <- sample(viridis::cividis(nblocks), nblocks)
+        col_all <- sample(col_pal(nblocks), nblocks)
       } else {
         col_all <- "#E1E1E1"
       }

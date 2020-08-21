@@ -17,19 +17,19 @@
 #' @param col_variable1 a color palette for \code{variable_1} defined
 #' using functions like \code{\link{heat.colors}}, or one generated
 #' using functions like \code{\link{colorRampPalette}}. The default,
-#' NULL, uses \code{viridis::cividis(255)}.
+#' NULL, uses a color blind friendly palette similar to viridis.
 #' @param col_variable2 a color palette for \code{variable_2} defined
 #' using functions like \code{\link{heat.colors}}, or one generated
 #' using functions like \code{\link{colorRampPalette}}. The default,
-#' NULL, uses \code{viridis::cividis(255)}.
+#' NULL, uses a color blind friendly palette similar to viridis.
 #' @param col_points color for points in environmental space. The default, NULL,
 #' uses the 25th color of the default palette for \code{col_variable1} with an
 #' alpha of 0.6.
 #' @param col_density a color palette to represent representation density of points
 #' in environmental space. This palette can be defined using functions like
 #' \code{\link{heat.colors}}, or one generated using functions like
-#' \code{\link{colorRampPalette}}. The default, NULL, uses
-#' \code{viridis::viridis(255)}, and changes the first color in the palette by NA.
+#' \code{\link{colorRampPalette}}. The default, NULL, uses a color blind friendly
+#' palette similar to heat.colors, and changes the first color in the palette by NA.
 #'
 #' @return
 #' A multi-panel plot showing two of the environmental predictors in the region of
@@ -41,7 +41,6 @@
 #'
 #' @export
 #' @importFrom ks kde
-#' @importFrom viridis viridis cividis
 #' @importFrom scales alpha
 #' @importFrom sp plot
 #' @importFrom raster image
@@ -88,31 +87,39 @@ explore_data_EG <- function(master, variable_1, variable_2,
   mx2kd <- ks::kde(master$data_matrix[, c(variable_1, variable_2)])
 
   # colors
+  ## palettes
+  col_pal1 <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
+                                     "#41b6c4", "#1d91c0", "#225ea8", "#253494",
+                                     "#081d58")))
+  col_pal2 <- colorRampPalette(rev(c("#fff7f3", "#fde0dd", "#fcc5c0", "#fa9fb5",
+                                     "#f768a1", "#dd3497", "#ae017e", "#7a0177",
+                                     "#49006a")))
+
   if (is.null(col_variable1) & is.null(col_variable2) & is.null(col_points) &
       is.null(col_density)) {
     ## if all null
-    col_density <- viridis::viridis(255)
+    col_density <- col_pal2(255)
     col_points <- scales::alpha(col_density[25], 0.6)
-    col_variable1 <- viridis::cividis(255)
+    col_variable1 <- col_pal1(255)
     col_variable2 <- col_variable1
     col_density[1] <- NA
   } else {
     ## if some of them are null
     if (is.null(col_variable1)) {
-      col_variable1 <- viridis::cividis(255)
+      col_variable1 <- col_pal1(255)
     }
     if (is.null(col_variable2)) {
-      col_variable2 <- viridis::cividis(255)
+      col_variable2 <- col_pal1(255)
     }
     if (is.null(col_variable2)) {
-      col_variable2 <- viridis::cividis(255)
+      col_variable2 <- col_pal1(255)
     }
     if (is.null(col_density)) {
-      col_density <- viridis::viridis(255)
+      col_density <- col_pal2(255)
       col_density[1] <- NA
     }
     if (is.null(col_points)) {
-      col_points <- scales::alpha(viridis::viridis(255)[25], 0.6)
+      col_points <- scales::alpha(col_pal2(255)[25], 0.6)
     }
   }
 
