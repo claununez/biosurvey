@@ -1,11 +1,12 @@
 biosurvey: Tools for Biological Survey Planning
 ================
-Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Narayani
-Barve, Vijay Barve, Tomer Gueta
 
   - [Project description](#project-description)
+      - [Status of the project](#status-of-the-project)
   - [Package description](#package-description)
   - [Installing the package](#installing-the-package)
+  - [biosurvey functions](#biosurvey-functions)
+  - [Workflow description](#workflow-description)
 
 <br>
 
@@ -20,6 +21,10 @@ Considering Hutchinson’s Duality” developed during the program GSoC
 Student: *Claudia Nuñez-Penichet*
 
 GSoC Mentors: *Narayani Barve, Vijay Barve, Tomer Gueta*
+
+Complete list of authors: *Claudia Nunez-Penichet, Marlon E. Cobos, A.
+Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer
+Gueta*
 
 Motivation:
 
@@ -41,6 +46,20 @@ sampled and unsampled areas. Given the need for more solutions, the
 environmental and geographic conditions in a region when designing
 survey systems that allow sampling of most of its biodiversity.
 
+### Status of the project
+
+At the moment we have completed the three main modules of the package.
+We have made modifications to the original list of products, which have
+helped us to improve the package functionality. The package is fully
+functional and almost ready for submission to CRAN.
+
+All commits made can be seen at the
+<a href="https://github.com/claununez/biosurvey/commits/master" target="_blank">complete
+list of commits</a>.
+
+Following you can find a brief description of this R package, as well as
+general descriptions of how to use it.
+
 <br>
 
 ## Package description
@@ -48,7 +67,21 @@ survey systems that allow sampling of most of its biodiversity.
 The biosurvey R package implements multiple tools to allow users to
 select sampling sites increasing efficiency of biodiversity survey
 systems by considering the relationship of environmental and geographic
-conditions in a region.
+conditions in a region. Three main modules are included: 1) Data
+preparation; 2) Selection of sets of sites for biodiversity sampling;
+and, 3) Tools for testing efficiency of distinct sets of sampling sites.
+Data are prepared ways that avoid the need for more data in posterior
+analyses, and allow concentrating in critical methodological decisions
+to select sampling sites. Various algorithms for selecting sampling
+sites are available, and options for considering pre-selected sites
+(known to be important for biodiversity monitoring) are included.
+Visualization is a critical component in this set of tools and most of
+the results obtained can be plotted to help to understand their
+implications. The options for selecting sampling sites included here
+differ from other implementations in that they consider the
+environmental and geographic structure of a region to suggest sampling
+sites that could increase the efficiency of efforts dedicated to
+monitoring biodiversity.
 
 <br>
 
@@ -57,7 +90,7 @@ conditions in a region.
 biosurvey is in a GitHub repository and can be installed and/or loaded
 using the code below (make sure to have Internet connection). If you
 have any problem during installation, restart R session, close other
-RStudio essions you may have open, and try again. If during the
+RStudio sessions you may have open, and try again. If during the
 installation you are asked to update packages, do so if you don’t need a
 specific version of one or more of the packages to be installed. If any
 of the packages gives an error when updating, please install it alone
@@ -73,3 +106,65 @@ if(!require(biosurvey)){
   library(biosurvey)
 }
 ```
+
+<br>
+
+## biosurvey functions
+
+To check all functions in the package use:
+
+``` r
+help(biosurvey)
+```
+
+<br>
+
+## Workflow description
+
+To use biosurvey efficiently the first thing to do is to prepare an
+object containing all information to be used in following analyses. This
+can be done using the function `preapare_master_matrix`. After that
+recommend intermediate steps are: exploring the data using the function
+`explore_data_EG` and creating blocks of points in environmental space
+using `make_blocks`. Then, distinct functions can be used to select
+sampling sites:
+
+  - `random_selection`.- Random selection of sites to be sampled in a
+    survey.
+  - `uniformG_selection`.- Selection of sites to be sampled in a survey,
+    with the goal of maximizing uniformity of points in geographic
+    space.
+  - `uniformE_selection`.- Selection of sites to be sampled in a survey,
+    with the goal of maximizing uniformity of points in environmental
+    space.
+  - `EG_seletion`.- Selection of sites to be sampled in a survey, with
+    the goal of maximizing uniformity of points in environment, but
+    considering geographic patterns of data.
+
+All functions mentioned above have the option to include user
+preselected sites which will be inserted as part of the selection,
+trying to maintaining the properties of each algorithm. See also how
+your selected sites look like with the function `plot_sites_EG`.
+
+After selection of sampling sites and if enough data are available,
+functions from the testing module can be used to explore which of the
+sets of sites selected could be better to monitor biodiversity more
+efficiently. Explore the following functions to explore your data and
+how well your selected sites perform in representing the exiting
+boidiverisity:
+
+  - `prepare_base_PAM`.- Prepares a presence-absence matrix (PAM) in
+    which all sites of interest (rows) will have a value for presence or
+    absence of a species of interest (columns).
+  - `PAM_indices`.- Calculates a set of biodiversity indices using
+    values contained in a presence-absence matrix.
+  - `plot_PAM_geo`.- Plot of PAM indices in geography.
+  - `subset_PAM`.- Subsets of a base\_PAM object according to survey
+    sites contained in a master\_selection object.
+  - `selected_sites_SAC`.- Creates species accumulation curves for each
+    set of selected sites contained in elements of PAM\_subset.
+  - `plot_SAC`.- Creates species accumulation curve plots for selected
+    sites.
+  - `compare_SAC`.- Creates comparative plots of two species
+    accumulation curves from information contained in lists obtained
+    with the function `selected_sites_SAC`.
