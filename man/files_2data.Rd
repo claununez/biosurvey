@@ -34,7 +34,7 @@ latitude, and species name, from a character.
 \examples{
 # example of how to define arguments, check argument descriptions above
 
-\donttest{
+\dontrun{
 # Using folder with rasters in GeoTiff format
 sp_data <- files_2data(path = "Folder_with_rasters", format = "GTiff")
 summary(sp_data)

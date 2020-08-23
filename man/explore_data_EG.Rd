@@ -57,6 +57,8 @@ data("m_matrix", package = "biosurvey")
 colnames(m_matrix$data_matrix)
 
 # Plot
+\donttest{
 explore_data_EG(m_matrix, variable_1 = "Mean_temperature",
                 variable_2 = "Annual_precipitation")
+}
 }

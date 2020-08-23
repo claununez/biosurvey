@@ -54,8 +54,10 @@
 #' colnames(m_matrix$data_matrix)
 #'
 #' # Plot
+#' \donttest{
 #' explore_data_EG(m_matrix, variable_1 = "Mean_temperature",
 #'                 variable_2 = "Annual_precipitation")
+#' }
 
 
 explore_data_EG <- function(master, variable_1, variable_2,
