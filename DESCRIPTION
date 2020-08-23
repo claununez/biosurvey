@@ -1,7 +1,7 @@
 Package: biosurvey
 Type: Package
 Title: Tools for Biological Survey Planning
-Version: 0.0.33
+Version: 0.0.34
 Authors@R: c(
     person("Claudia", "Nunez-Penichet", email = "claununez199o@gmail.com", 
     role = c("aut","cre"), comment = c(ORCID = "0000-0001-7442-8593")),
@@ -11,11 +11,11 @@ Authors@R: c(
     comment = c(ORCID = "0000-0003-0243-2379")),
     person("Jorge", "Soberon", email = "jsoberon@ku.edu", role = "aut",
     comment = c(ORCID = "0000-0003-2160-4148")),
-    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "ctb",
+    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut",
     comment = c(ORCID = "0000-0002-7893-8774")),
-    person("Vijay", "Barve", email = "vijay.barve@gmail.com", role = "ctb",
+    person("Vijay", "Barve", email = "vijay.barve@gmail.com", role = "aut",
     comment = c(ORCID = "0000-0002-4852-2567")),
-    person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "ctb", 
+    person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "aut", 
     comment = c(ORCID = "0000-0003-1557-8596")))
 Maintainer: Claudia Nunez-Penichet <claununez199o@gmail.com>
 Date: 2020-08-08
@@ -31,7 +31,7 @@ Description: A collection of tools that allow users to plan systems of sampling
     pre-selected sites (known to be important for biodiversity monitoring) are 
     included. Visualization is a critical component in this set of tools and most
     of the results obtained can be plotted to help to understand their implications. 
-    The options for selecting sampling sites include here differ from other 
+    The options for selecting sampling sites included here differ from other 
     implementations in that they consider the environmental and geographic 
     structure of a region to suggest sampling sites that could increase the 
     efficiency of efforts dedicated to monitoring biodiversity. The methods 
