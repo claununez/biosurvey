@@ -1,0 +1,124 @@
+---
+title: "biosurvey: Selecting sampling sites"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer Gueta"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{biosurvey: Selecting sampling sites}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}{inputenc}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(biosurvey)
+```
+
+#### Data for analysis
+
+Let's first prepare the data to continue with further processes.
+
+```{r data}
+# Data
+data("m_matrix", package = "biosurvey")
+# Creating blocks
+m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
+                       variable_2 = "PC2", n_cols = 20, n_rows = 20,
+                       block_type = "equal_area")
+```
+
+<br>
+
+#### Selection of sites considering environmental uniformity and geographic patterns
+
+The goal of this type of selection is maximizing uniformity of points in environmental space, but considering geographic patterns of data. Similar environments (form the same block) that have a disjoint geographic pattern (are represented in geographic in various clusters) are selected twice (so they consider the biggest geographic clusters).
+
+
+```{r EG_selection}
+# Selecting sites uniformly in E and G spaces
+EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+                       n_blocks = 10)
+```
+
+<br>
+
+Now let's check the results of this selection on environmental and geographic spaces. 
+
+```{r plot_sites_EG EG, fig.height=4, fig.width=6}
+# Plotting sites selected considering EG
+plot_sites_EG(EG_sel, variable_1 = "PC1", variable_2 = "PC2",
+              selection_type = "EG")
+```
+
+<br>
+
+As you may have noticed, there are more points than what you defined in the argument *n_blocks* in the function `EG_selection`. This is because the function explores those environmental blocks in geographic space and defines two points when the geographic pattern of such points is clustered.
+
+<br>
+
+#### Selecting sites randomly
+
+Selecting survey sites randomly is one of the multiple ways to select places to sample. Although it can be useful for avoiding some biases in the selection, it is not recommended  when trying to sample most of the biodiversity in a region. The following lines of code will allow users to select survey sites based on a random selection of available points. This selection approach does not consider geographic or environmental configurations.
+
+**Note**: We are going to use the object that resulted from the previous process of selection (a **master_selection** object) as it allows to add other sets of selected sites to maintain your results organized. 
+
+```{r random_selection}
+# Selecting sites randomly
+EG_r_selection <- random_selection(EG_sel, n_sites = 15, n_samplings = 5)
+```
+
+<br>
+
+Checking the sites selected randomly.
+
+```{r plot_sites_EG random, fig.height=4, fig.width=6}
+# Plotting selected sites
+plot_sites_EG(EG_r_selection, variable_1 = "PC1", variable_2 = "PC2",
+              selection_type = "random")
+```
+
+<br>
+
+#### Selection of sites aiming for uniformity in geographic space
+
+With the following lines of code, survey sites can be selected so they are located uniformly in geographic space, without considering environmental conditions. This allows sampling most of the areas in the region of interest.
+
+```{r uniformG_selection}
+# Selecting sites uniformly in G space
+EG_r_G_selection <- uniformG_selection(EG_r_selection, expected_points = 15, 
+                                       max_n_samplings = 1, replicates = 5)
+```
+
+<br>
+
+Let's check the selected sites based only on geographic considerations.
+
+```{r plot_sites_EG G_selection, fig.height=4, fig.width=6}
+# Plotting sites selected uniformly in the geographic space
+plot_sites_EG(EG_r_G_selection, variable_1 = "PC1", variable_2 = "PC2",
+              selection_type = "G")
+```
+
+<br>
+
+#### Selecting sites aiming for uniformity in environmental space
+
+With the following lines of code you can select sampling sites that are uniformly distributed in environmental space. This will allow sampling most of the environmental conditions that are present in the region of interest.
+
+```{r uniformE_selection_blocks}
+# Selecting sites uniformly in E space
+EG_r_G_E_selection <- uniformE_selection(EG_r_G_selection, variable_1 = "PC1", 
+                                         variable_2 = "PC2", expected_points = 15, 
+                                         max_n_samplings = 1, replicates = 5)
+```
+
+<br>
+
+Let's check the selected sites based only on environmental considerations.
+
+```{r plot_sites_EG E_all, fig.height=4, fig.width=6}
+# Plotting sites selected uniformly in the environmental space
+plot_sites_EG(EG_r_G_E_selection, variable_1 = "PC1", variable_2 = "PC2",
+              selection_type = "E")
+```
+
