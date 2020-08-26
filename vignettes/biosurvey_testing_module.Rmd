@@ -1,0 +1,112 @@
+---
+title: "biosurvey: Testing efficiency of selected sites"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer Gueta"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{biosurvey: Testing efficiency of selected sites}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}{inputenc}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(biosurvey)
+```
+
+### Description
+
+Before we start, we would like to clarify that the examples used here are for demonstration purposes only. The functions in the testing module of this package are intended to use when appropriate data is available. This is, a considerable amount of data, of good quality, is needed to produce a presence-absence matrix to have a good representation of biodiversity in a region. For these reasons, we recommend to use these functions with caution and only when appropriate.
+
+### Preparing data to test efficiency of selected sites
+
+#### Preparing presence-absence matrix
+
+With the following lines of code we are going to prepare a presence-absence matrix (PAM) in which all initial points of interest (rows) will have a representation of presence or absence of the species in such areas (as columns). The initial points of interest will be represented by an ID, and longitude and latitude coordinates. The result of this process is a **base_PAM** object that will be used in further processes.
+
+```{r preare_base_PAM, fig.height=6, fig.width=6}
+# Data
+data("species_data", package = "biosurvey")
+
+# Create base_pam
+b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix, 
+                          cell_size = 100)
+
+summary(b_pam)
+```
+
+<br>
+
+#### Indices of biodiversity derived from base_PAM
+
+Various biodiversity indices can be calculated from a PAM. The function used below calculates all indices described in [Soberon and Cavner (2015)](https://journals.ku.edu/jbi/article/view/4801).
+
+```{r PAM_indices}
+# Calculating indices
+b_pam <- PAM_indices(PAM = b_pam)
+
+# for a brief view of all indices use
+#print(b_pam)
+```
+
+<br>
+
+### Using base_PAM to check efficiency of sampling site approaches
+
+#### Subsetting the PAM according to selected dites
+
+Example of a **master_selection** object obtained using three types of selection (random, uniform in G, and uniform in E).
+
+```{r m_selection}
+# Data
+data("m_selection", package = "biosurvey")
+```
+
+Now let's subset the **base_PAM** object according to the sites that were selected for sampling.
+
+```{r subset_PAM}
+# Subset of base PAM according to selections
+## using all selections the time
+sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
+```
+
+<br>
+
+#### Species accumulation curves for sampling sites using subsets of base_PAM
+
+The following line helps to perform analyses to represent diversity in selected sites based on species accumulation curves (SACs) created using subsets of **base_PAM**. SACs are performed using a process that randomizes the effect of sites.
+
+```{r selected_sites_SAC}
+# species accumulation curves for all selected sites based on PAM
+SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")
+```
+
+<br>
+
+#### Checking how much biosiversity is sampled using distinct sampling sites
+
+Plots of species accumulation curves, for sites selected based on distinct methods, are used to detect which ones perform better or worse in representing the biodiversity in the region of interest.
+
+```{r plot_SAC, fig.height=6, fig.width=6}
+## all sets at the time
+plot_SAC(SAC_selected_sites = SACs)
+
+```
+
+<br>
+
+#### Paired comparison of SACs
+
+These plots will help us to compare the species richness that can be recovered using distinct methods for selecting sampling sites. 
+
+```{r compare_SAC, fig.height=6, fig.width=6}
+# random vs uniform in E
+compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 2)
+
+# random vs uniform in G
+compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 3)
+
+# uniform in E vs uniform in G
+compare_SAC(SAC_selected_sites = SACs, element_1 = 2, element_2 = 3)
+
+```
