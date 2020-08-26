@@ -1,0 +1,102 @@
+---
+title: "biosurvey: Preparing data"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer Gueta"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{biosurvey: Preparing data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}{inputenc}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(biosurvey)
+```
+
+### Example of how to prepare the data
+
+#### Preparing an object that contains all information needed
+
+The following lines of code help to prepare an S3 object (**master_matrix**) that will serve as the base to perform all further analyses. This object will contain: 1) *data_matrix*, with information about geographic location of raster cells, initial environmental data, and principal components derived from original data (PCs are optional); 2) an optional set of *preselected_sites*; 3) a spatial polygon representing the *region* of interest; 4) an optional *mask* to reduce the region of interest (to restrict it to natural areas, for instance); 5) a spatial object that serves as a *raster_base* to be used for plotting purposes; and 6) the *PCA_results*, if such analysis was used when constructing the **master_matrix**.
+
+```{r prepare_master_matrix}
+# Data
+data("mx", package = "biosurvey")
+variables <- raster::stack(system.file("extdata/variables.tif",
+                                      package = "biosurvey"))
+names(variables) <- c("Mean_temperature", "Max_temperature", "Min_temperature",
+                      "Annual_precipitation", "Prec_wettest_month", 
+                      "Prec_driest_month" )
+
+# Create master matrix object
+m_matrix <- prepare_master_matrix(region = mx, variables = variables, 
+                                  do_pca = TRUE, center = TRUE, scale = TRUE)
+
+summary(m_matrix)
+
+```
+
+<br>
+
+If you want to define points that need to be included in the final selection of sites to be sampled, you can do it by adding them as a `data.frame` in one of the arguments of the function `prepare_master_matrix`. See below:
+
+```{r prepare_master_matrix1}
+# preselected site example
+data("preselected", package = "biosurvey")
+
+# Create master matrix object
+m_matrix_pre <- prepare_master_matrix(region = mx, variables = variables, 
+                                      preselected_sites = preselected,  
+                                      do_pca = TRUE, center = TRUE, scale = TRUE)
+
+summary(m_matrix_pre)
+
+```
+
+<br>
+
+#### Exploring your data in environmental and geographic spaces
+
+The data can be explored by creating four-panel plots using two environmental variables (at a time). The two top panels contain the information in geographic space (one predictor per panel). The two panels at the bottom contain information in a 2D environmental space for the two variables.
+
+```{r explore_data_EG, fig.height=4, fig.width=6}
+# Plot using environmental variables
+explore_data_EG(m_matrix, variable_1 = "Mean_temperature", 
+                variable_2 = "Annual_precipitation")
+```
+
+<br>
+
+Now let's use the principal components that summarize most of the variance in your variables.
+
+```{r explore_data_EG1, fig.height=4, fig.width=6}
+# Plot using Principal Components resulted
+explore_data_EG(m_matrix, variable_1 = "PC1", variable_2 = "PC2")
+```
+
+<br>
+
+#### Partitioning environmental space to achieve uniformity in selections
+
+Block-like partitioning of environmental space. Here, a two-dimensional cloud of points will be blocked according to a user-defined number of rows and columns. These will allow us to see the environmental space more uniformly.
+
+```{r make_blocks}
+# Creating blocks
+m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
+                       variable_2 = "PC2", n_cols = 10, n_rows = 10,
+                       block_type = "equal_area")
+unique(m_blocks$data_matrix$Block)
+
+```
+
+<br>
+
+Let's check how the blocked environment looks like in environmental and geographic spaces.
+
+```{r plot_blocks_EG, fig.height=4, fig.width=6}
+# plotting all blocks
+plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+               block_ID = TRUE)
+
+```
