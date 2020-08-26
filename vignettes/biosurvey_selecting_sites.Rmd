@@ -42,7 +42,7 @@ EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2"
 
 <br>
 
-Now let's check the results of this selection on environmental and geographic spaces. 
+Now let's check the results of this selection in environmental and geographic spaces. 
 
 ```{r plot_sites_EG EG, fig.height=4, fig.width=6}
 # Plotting sites selected considering EG
