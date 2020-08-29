@@ -7,9 +7,9 @@
 #' @param PAM_subset object of class PAM_subset obtained using the function
 #' \code{\link{subset_PAM}}.
 #' @param selection_type type of selection to be considered when creating SAC for
-#' elements in \code{PAM_subset}. Options are: "all", "selected_sites_random",
-#' "selected_sites_E", "selected_sites_G", "selected_sites_EG". The default,
-#' "all", uses all selection types present in \code{PAM_subset}.
+#' elements in \code{PAM_subset}. Options are: "all", "random", "E", "G", "EG".
+#' The default, "all", uses all selection types present in
+#' \code{PAM_subset}.
 #' @param method (character) species accumulation method to be passed to function
 #' \code{\link[vegan]{specaccum}}. Default = "exact".
 #' @param ... other arguments to be passed to function \code{\link[vegan]{specaccum}}.
@@ -47,9 +47,12 @@ selected_sites_SAC <- function(PAM_subset, selection_type = "all",
   if (class(PAM_subset)[1] != "PAM_subset") {
     stop("Object 'PAM_subset' must be of class 'PAM_subset'.")
   }
-  if (!selection_type %in% c("all", "selected_sites_random", "selected_sites_E",
-                             "selected_sites_G", "selected_sites_EG")) {
-    stop("Argument 'selection_type' is not valid, options are:\n'selected_sites_random', 'selected_sites_E', 'selected_sites_G', or 'selected_sites_EG'.")
+  if (!selection_type %in% c("all", "random", "E", "G", "EG")) {
+    stop("Argument 'selection_type' is not valid, options are: 'all'', 'random', 'E', 'G', or 'EG'.")
+  } else {
+    if (!selection_type == "all") {
+      selection_type <- paste0("selected_sites_", selection_type)
+    }
   }
 
   # Initial pre-processing

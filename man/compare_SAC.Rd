@@ -15,11 +15,13 @@ compare_SAC(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
 \item{SAC_selected_sites}{nested list of "\code{specaccum}" objects obtained
 with function \code{\link{selected_sites_SAC}}.}
 
-\item{element_1}{(numeric or character) index of position or name of the first
-element (type of selection) present in \code{SAC_selected_sites} to be plotted.}
+\item{element_1}{(numeric or character) index of position or character indicator
+of the first element (type of selection) in \code{SAC_selected_sites} to be
+plotted. Character options are: "random", "E", "G", "EG".}
 
-\item{element_2}{(numeric or character) index of position or name of the second
-element (type of selection) present in \code{SAC_selected_sites} to be plotted.}
+\item{element_2}{(numeric or character) index of position or character indicator
+of the second element (type of selection) in \code{SAC_selected_sites} to be
+plotted. Character options are: "random", "E", "G", "EG".}
 
 \item{col_mean1}{(character) color for mean value of curve in \code{element_1};
 default = "blue".}

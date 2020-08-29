@@ -10,9 +10,8 @@
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, and
 #' \code{\link{EG_selection}}.
 #' @param selection_type type of selection to be considered to subset
-#' \code{base_PAM}. Options are: "all", "selected_sites_random", "selected_sites_E",
-#' "selected_sites_G", "selected_sites_EG". The default, "all", uses all selection
-#' types present in \code{master_selection}.
+#' \code{base_PAM}. Options are: "all", "random", "E", "G", "EG". The default,
+#' "all", uses all selection types present in \code{master_selection}.
 #'
 #' @return
 #' An object of class PAM_subset containing the original \code{base_PAM} and
@@ -30,7 +29,7 @@
 #'
 #' # Subsetting base PAM according to selections
 #' ## only uniform in G
-#' sub_pam_G <- subset_PAM(b_pam, m_selection, selection_type = "selected_sites_G")
+#' sub_pam_G <- subset_PAM(b_pam, m_selection, selection_type = "G")
 #'
 #' ## all at the time
 #' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
@@ -47,10 +46,14 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
   if (class(master_selection)[1] != "master_selection") {
     stop("Object 'master_selection' must be of class 'master_selection'.")
   }
-  if (!selection_type %in% c("all", "selected_sites_random", "selected_sites_E",
-                             "selected_sites_G", "selected_sites_EG")) {
-    stop("Argument 'selection_type' is not valid, options are:\n'selected_sites_random', 'selected_sites_E', 'selected_sites_G', or 'selected_sites_EG'.")
+  if (!selection_type %in% c("all", "random", "E", "G", "EG")) {
+    stop("Argument 'selection_type' is not valid, options are: 'all'', 'random', 'E', 'G', or 'EG'.")
+  } else {
+    if (!selection_type == "all") {
+      selection_type <- paste0("selected_sites_", selection_type)
+    }
   }
+
 
   # Identifying selection types if all
   if (selection_type == "all") {

@@ -6,10 +6,12 @@
 #'
 #' @param SAC_selected_sites nested list of "\code{specaccum}" objects obtained
 #' with function \code{\link{selected_sites_SAC}}.
-#' @param element_1 (numeric or character) index of position or name of the first
-#' element (type of selection) present in \code{SAC_selected_sites} to be plotted.
-#' @param element_2 (numeric or character) index of position or name of the second
-#' element (type of selection) present in \code{SAC_selected_sites} to be plotted.
+#' @param element_1 (numeric or character) index of position or character indicator
+#' of the first element (type of selection) in \code{SAC_selected_sites} to be
+#' plotted. Character options are: "random", "E", "G", "EG".
+#' @param element_2 (numeric or character) index of position or character indicator
+#' of the second element (type of selection) in \code{SAC_selected_sites} to be
+#' plotted. Character options are: "random", "E", "G", "EG".
 #' @param col_mean1 (character) color for mean value of curve in \code{element_1};
 #' default = "blue".
 #' @param col_mean2 (character) color for mean value of curve in \code{element_2};
@@ -72,11 +74,34 @@ compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "b
   if (missing(SAC_selected_sites)) {
     stop("Argument 'SAC_selected_sites' must be defined.")
   }
+  lss <- length(SAC_selected_sites)
   if (missing(element_1)) {
     stop("Argument 'element_1' must be defined.")
+  } else {
+    if (is.numeric(element_1)) {
+      if (element_1 > lss) {
+        stop("'element_1' is not in 'SAC_selected_sites'.")
+      }
+    } else {
+      element_1 <- paste0("SAC_selected_sites_", element_1)
+      if (is.null(SAC_selected_sites[[element_1]])) {
+        stop("'element_1' is not in 'SAC_selected_sites'.")
+      }
+    }
   }
   if (missing(element_2)) {
     stop("Argument 'element_2' must be defined.")
+  } else {
+    if (is.numeric(element_2)) {
+      if (element_2 > lss) {
+        stop("'element_2' is not in 'SAC_selected_sites'.")
+      }
+    } else {
+      element_2 <- paste0("SAC_selected_sites_", element_2)
+      if (is.null(SAC_selected_sites[[element_2]])) {
+        stop("'element_2' is not in 'SAC_selected_sites'.")
+      }
+    }
   }
 
   # SACs

@@ -16,9 +16,8 @@ obtained using the functions: \code{\link{random_selection}},
 \code{\link{EG_selection}}.}
 
 \item{selection_type}{type of selection to be considered to subset
-\code{base_PAM}. Options are: "all", "selected_sites_random", "selected_sites_E",
-"selected_sites_G", "selected_sites_EG". The default, "all", uses all selection
-types present in \code{master_selection}.}
+\code{base_PAM}. Options are: "all", "random", "E", "G", "EG". The default,
+"all", uses all selection types present in \code{master_selection}.}
 }
 \value{
 An object of class PAM_subset containing the original \code{base_PAM} and
@@ -35,7 +34,7 @@ data("m_selection", package = "biosurvey")
 
 # Subsetting base PAM according to selections
 ## only uniform in G
-sub_pam_G <- subset_PAM(b_pam, m_selection, selection_type = "selected_sites_G")
+sub_pam_G <- subset_PAM(b_pam, m_selection, selection_type = "G")
 
 ## all at the time
 sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
