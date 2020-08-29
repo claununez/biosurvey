@@ -56,20 +56,51 @@ biosurvey is in a GitHub repository and can be installed and/or loaded using the
 if(!require(remotes)){
   install.packages("remotes")
 }
-if(!require(biosurvey)){
-  remotes::install_github("claununez/biosurvey")
-  library(biosurvey)
-}
+
+# To install the package use
+remotes::install_github("claununez/biosurvey")
+
+# To install the package and its vignettes use   
+remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
+
+# Load biosurvey
+library(biosurvey)
 ```
 
 <br>
 
-## biosurvey functions
+## biosurvey functions and vignettes
 
 To check all functions in the package use:
 
 ```{r help, eval=FALSE}
 help(biosurvey)
+```
+
+<br>
+
+I the package was installed with its vignettes you can see all options with:
+
+```{r vignettes1, eval=FALSE}
+vignette(package = "biosurvey")
+```
+
+<br>
+
+To check each vignette you can use:
+
+```{r vignettes2, eval=FALSE}
+# For a guide on how to prepare data for analysis
+vignette("biosurvey_preparing_data")
+
+# For a guide on how to select sampling sites
+vignette("biosurvey_selecting_sites")
+
+# For a guide on how to select sampling sites when some sites have been preselected
+vignette("biosurvey_selection_with_preselected_sites")
+
+# For a guide on how to use the testing module
+vignette("biosurvey_testing_module")
 ```
 
 <br>
@@ -85,7 +116,7 @@ To use biosurvey efficiently the first thing to do is to prepare an object conta
 
 All functions mentioned above have the option to include user preselected sites which will be inserted as part of the selection, trying to maintaining the properties of each algorithm. See also how your selected sites look like with the function `plot_sites_EG`.
 
-After selection of sampling sites and if enough data are available, functions from the testing module can be used to explore which of the sets of sites selected could be better to monitor biodiversity more efficiently. Explore the following functions to explore your data and how well your selected sites perform in representing the exiting boidiverisity:
+After selection of sampling sites and if enough data are available, functions from the testing module can be used to explore which of the sets of sites selected could be better to monitor biodiversity more efficiently. Explore the following functions to explore your data and how well your selected sites perform in representing the exiting biodiversity:
 
 - `prepare_base_PAM`.- Prepares a presence-absence matrix (PAM) in which all sites of interest (rows) will have a value for presence or absence of a species of interest (columns). 
 - `PAM_indices`.- Calculates a set of biodiversity indices using values contained in a presence-absence matrix.

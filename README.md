@@ -1,12 +1,13 @@
 biosurvey: Tools for Biological Survey Planning
 ================
 
-  - [Project description](#project-description)
-      - [Status of the project](#status-of-the-project)
-  - [Package description](#package-description)
-  - [Installing the package](#installing-the-package)
-  - [biosurvey functions](#biosurvey-functions)
-  - [Workflow description](#workflow-description)
+-   [Project description](#project-description)
+    -   [Status of the project](#status-of-the-project)
+-   [Package description](#package-description)
+-   [Installing the package](#installing-the-package)
+-   [biosurvey functions and
+    vignettes](#biosurvey-functions-and-vignettes)
+-   [Workflow description](#workflow-description)
 
 <br>
 
@@ -16,7 +17,8 @@ Considering Hutchinson’s Duality” developed during the program GSoC
 
 <br>
 
-## Project description
+Project description
+-------------------
 
 Student: *Claudia Nuñez-Penichet*
 
@@ -62,7 +64,8 @@ general descriptions of how to use it.
 
 <br>
 
-## Package description
+Package description
+-------------------
 
 The biosurvey R package implements multiple tools to allow users to
 select sampling sites increasing efficiency of biodiversity survey
@@ -85,7 +88,8 @@ monitoring biodiversity.
 
 <br>
 
-## Installing the package
+Installing the package
+----------------------
 
 biosurvey is in a GitHub repository and can be installed and/or loaded
 using the code below (make sure to have Internet connection). If you
@@ -96,30 +100,56 @@ specific version of one or more of the packages to be installed. If any
 of the packages gives an error when updating, please install it alone
 using install.packages(), then try re-installing biosurvey again.
 
-``` r
-# Installing and loading packages
-if(!require(remotes)){
-  install.packages("remotes")
-}
-if(!require(biosurvey)){
-  remotes::install_github("claununez/biosurvey")
-  library(biosurvey)
-}
-```
+    # Installing and loading packages
+    if(!require(remotes)){
+      install.packages("remotes")
+    }
+
+    # To install the package use
+    remotes::install_github("claununez/biosurvey")
+
+    # To install the package and its vignettes use   
+    remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
+
+    # Load biosurvey
+    library(biosurvey)
 
 <br>
 
-## biosurvey functions
+biosurvey functions and vignettes
+---------------------------------
 
 To check all functions in the package use:
 
-``` r
-help(biosurvey)
-```
+    help(biosurvey)
 
 <br>
 
-## Workflow description
+I the package was installed with its vignettes you can see all options
+with:
+
+    vignette(package = "biosurvey")
+
+<br>
+
+To check each vignette you can use:
+
+    # For a guide on how to prepare data for analysis
+    vignette("biosurvey_preparing_data")
+
+    # For a guide on how to select sampling sites
+    vignette("biosurvey_selecting_sites")
+
+    # For a guide on how to select sampling sites when some sites have been preselected
+    vignette("biosurvey_selection_with_preselected_sites")
+
+    # For a guide on how to use the testing module
+    vignette("biosurvey_testing_module")
+
+<br>
+
+Workflow description
+--------------------
 
 To use biosurvey efficiently the first thing to do is to prepare an
 object containing all information to be used in following analyses. This
@@ -129,15 +159,15 @@ recommend intermediate steps are: exploring the data using the function
 using `make_blocks`. Then, distinct functions can be used to select
 sampling sites:
 
-  - `random_selection`.- Random selection of sites to be sampled in a
+-   `random_selection`.- Random selection of sites to be sampled in a
     survey.
-  - `uniformG_selection`.- Selection of sites to be sampled in a survey,
+-   `uniformG_selection`.- Selection of sites to be sampled in a survey,
     with the goal of maximizing uniformity of points in geographic
     space.
-  - `uniformE_selection`.- Selection of sites to be sampled in a survey,
+-   `uniformE_selection`.- Selection of sites to be sampled in a survey,
     with the goal of maximizing uniformity of points in environmental
     space.
-  - `EG_seletion`.- Selection of sites to be sampled in a survey, with
+-   `EG_seletion`.- Selection of sites to be sampled in a survey, with
     the goal of maximizing uniformity of points in environment, but
     considering geographic patterns of data.
 
@@ -151,20 +181,20 @@ functions from the testing module can be used to explore which of the
 sets of sites selected could be better to monitor biodiversity more
 efficiently. Explore the following functions to explore your data and
 how well your selected sites perform in representing the exiting
-boidiverisity:
+biodiversity:
 
-  - `prepare_base_PAM`.- Prepares a presence-absence matrix (PAM) in
+-   `prepare_base_PAM`.- Prepares a presence-absence matrix (PAM) in
     which all sites of interest (rows) will have a value for presence or
     absence of a species of interest (columns).
-  - `PAM_indices`.- Calculates a set of biodiversity indices using
+-   `PAM_indices`.- Calculates a set of biodiversity indices using
     values contained in a presence-absence matrix.
-  - `plot_PAM_geo`.- Plot of PAM indices in geography.
-  - `subset_PAM`.- Subsets of a base\_PAM object according to survey
+-   `plot_PAM_geo`.- Plot of PAM indices in geography.
+-   `subset_PAM`.- Subsets of a base\_PAM object according to survey
     sites contained in a master\_selection object.
-  - `selected_sites_SAC`.- Creates species accumulation curves for each
+-   `selected_sites_SAC`.- Creates species accumulation curves for each
     set of selected sites contained in elements of PAM\_subset.
-  - `plot_SAC`.- Creates species accumulation curve plots for selected
+-   `plot_SAC`.- Creates species accumulation curve plots for selected
     sites.
-  - `compare_SAC`.- Creates comparative plots of two species
+-   `compare_SAC`.- Creates comparative plots of two species
     accumulation curves from information contained in lists obtained
     with the function `selected_sites_SAC`.

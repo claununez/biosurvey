@@ -1,7 +1,6 @@
 ---
 title: "biosurvey: Selecting sampling sites using preselected points"
 author: "Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer Gueta"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{biosurvey: Selecting sampling sites using preselected points}

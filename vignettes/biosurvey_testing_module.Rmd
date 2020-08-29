@@ -1,7 +1,6 @@
 ---
 title: "biosurvey: Testing efficiency of selected sites"
 author: "Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer Gueta"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{biosurvey: Testing efficiency of selected sites}
