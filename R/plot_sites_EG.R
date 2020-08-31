@@ -6,14 +6,17 @@
 #' @param master_selection a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
-#' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis).
-#' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis). It must be different from the first one.
 #' @param selection_type (character) Type of selection depending on the function
 #' used to select sites. The options available are "random"
 #' (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
 #' "E" (\code{\link{uniformE_selection}}), and "EG" (\code{\link{EG_selection}}).
+#' @param variable_1 (character or numeric) name or position of the first
+#' variable (X axis) to be plotted in environmental space. Default = NULL,
+#' required when \code{selection_type} = "random" or "G".
+#' @param variable_2 (character or numeric) name or position of the second
+#' variable (Y axis) to be plotted in environmental space. It must be different
+#' from the first one. Default = NULL, required when \code{selection_type} =
+#' "random" or "G".
 #' @param selection_number (numeric) number of selection to be plotted.
 #' Default = 1.
 #' @param col_all colors for points in all points in the region of interest.
@@ -45,10 +48,10 @@
 #' geographic and environmental.
 #'
 #' @usage
-#' plot_sites_EG(master_selection, variable_1, variable_2, selection_type,
-#'               selection_number = 1, col_all = NULL, col_sites = NULL,
-#'               col_pre = NULL, cex_all = 0.7, cex_sites = 1,
-#'               cex_pre = 1, pch_all = 16, pch_sites = 16,
+#' plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
+#'               variable_2 = NULL, selection_number = 1, col_all = NULL,
+#'               col_sites = NULL, col_pre = NULL, cex_all = 0.7,
+#'               cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
 #'               pch_pre = 16, add_main = TRUE)
 #'
 #' @export
@@ -76,24 +79,17 @@
 #'                                  replicates = 5, set_seed = 1)
 #'
 #' # Plotting
-#' plot_sites_EG(selectionE, variable_1 = "PC1", variable_2 = "PC2",
-#'               selection_type = "E")
+#' plot_sites_EG(selectionE, selection_type = "E")
 
 
-plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_type,
-                          selection_number = 1, col_all = NULL, col_sites = NULL,
-                          col_pre = NULL, cex_all = 0.7, cex_sites = 1,
-                          cex_pre = 1, pch_all = 16, pch_sites = 16,
+plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
+                          variable_2 = NULL, selection_number = 1, col_all = NULL,
+                          col_sites = NULL, col_pre = NULL, cex_all = 0.7,
+                          cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
                           pch_pre = 16, add_main = TRUE) {
   # initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
-  }
-  if (missing(variable_1)) {
-    stop("Argument 'variable_1' is required to produce the plot.")
-  }
-  if (missing(variable_2)) {
-    stop("Argument 'variable_2' is required to produce the plot.")
   }
   if (class(master_selection)[1] != "master_selection") {
     stop("Object defined in 'master_selection' is not valid, see function's help.")
@@ -101,10 +97,24 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   if (missing(selection_type)) {
     stop("Argument 'selection_type' is required to produce the plot.")
   }
+
   if (!selection_type %in% c("random", "E", "G", "EG")) {
     stop("Argument 'selection_type' is not valid, options are: 'random', 'E', 'G', or 'EG'.")
   } else {
     selection_type <- paste0("selected_sites_", selection_type)
+    sel_args <- attributes(master_selection[[selection_type]])
+
+    if (selection_type %in% c("selected_sites_random", "selected_sites_G")) {
+      if (missing(variable_1)) {
+        stop("Argument 'variable_1' is required to produce the plot.")
+      }
+      if (missing(variable_2)) {
+        stop("Argument 'variable_2' is required to produce the plot.")
+      }
+    } else {
+      variable_1 <- sel_args$arguments$variable_1
+      variable_2 <- sel_args$arguments$variable_2
+    }
   }
 
   # Where to visualize data
@@ -168,7 +178,8 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   points(selected_data[, evars], pch = pch_sites, cex = cex_sites, col = col_sites)
 
   ## preselected sites
-  if (!is.null(master_selection$preselected_sites)) {
+  precon <- sel_args$arguments$use_preselected_sites
+  if (!is.null(master_selection$preselected_sites) & precon == TRUE) {
     points(master_selection$preselected_sites[, evars], pch = pch_pre,
            cex = cex_pre, col = col_pre)
   }
@@ -190,7 +201,7 @@ plot_sites_EG <- function(master_selection, variable_1, variable_2, selection_ty
   points(selected_data[, gvars], pch = pch_sites, cex = cex_sites, col = col_sites)
 
   ## preselected sites
-  if (!is.null(master_selection$preselected_sites)) {
+  if (!is.null(master_selection$preselected_sites) & precon == TRUE) {
     points(master_selection$preselected_sites[, gvars], pch = pch_pre,
            cex = cex_pre, col = col_pre)
   }

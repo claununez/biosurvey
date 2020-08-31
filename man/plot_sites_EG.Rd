@@ -4,10 +4,10 @@
 \alias{plot_sites_EG}
 \title{Representation of sites selected to be surveyed}
 \usage{
-plot_sites_EG(master_selection, variable_1, variable_2, selection_type,
-              selection_number = 1, col_all = NULL, col_sites = NULL,
-              col_pre = NULL, cex_all = 0.7, cex_sites = 1,
-              cex_pre = 1, pch_all = 16, pch_sites = 16,
+plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
+              variable_2 = NULL, selection_number = 1, col_all = NULL,
+              col_sites = NULL, col_pre = NULL, cex_all = 0.7,
+              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
               pch_pre = 16, add_main = TRUE)
 }
 \arguments{
@@ -15,16 +15,19 @@ plot_sites_EG(master_selection, variable_1, variable_2, selection_type,
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
-\item{variable_1}{(character or numeric) name or position of the first
-variable (X axis).}
-
-\item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis). It must be different from the first one.}
-
 \item{selection_type}{(character) Type of selection depending on the function
 used to select sites. The options available are "random"
 (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
 "E" (\code{\link{uniformE_selection}}), and "EG" (\code{\link{EG_selection}}).}
+
+\item{variable_1}{(character or numeric) name or position of the first
+variable (X axis) to be plotted in environmental space. Default = NULL,
+required when \code{selection_type} = "random" or "G".}
+
+\item{variable_2}{(character or numeric) name or position of the second
+variable (Y axis) to be plotted in environmental space. It must be different
+from the first one. Default = NULL, required when \code{selection_type} =
+"random" or "G".}
 
 \item{selection_number}{(numeric) number of selection to be plotted.
 Default = 1.}
@@ -90,6 +93,5 @@ selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2
                                  replicates = 5, set_seed = 1)
 
 # Plotting
-plot_sites_EG(selectionE, variable_1 = "PC1", variable_2 = "PC2",
-              selection_type = "E")
+plot_sites_EG(selectionE, selection_type = "E")
 }

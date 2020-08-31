@@ -45,8 +45,7 @@ Now let's check the results of this selection in environmental and geographic sp
 
 ```{r plot_sites_EG EG, fig.height=4, fig.width=6}
 # Plotting sites selected considering EG
-plot_sites_EG(EG_sel, variable_1 = "PC1", variable_2 = "PC2",
-              selection_type = "EG")
+plot_sites_EG(EG_sel, selection_type = "EG")
 ```
 
 <br>
@@ -68,12 +67,12 @@ EG_r_selection <- random_selection(EG_sel, n_sites = 15, n_samplings = 5)
 
 <br>
 
-Checking the sites selected randomly.
+Checking the sites selected randomly. Note that for selections of type "random" or "G" the arguments "variable_1" and "variable_2" need to be defined in the plotting function.
 
 ```{r plot_sites_EG random, fig.height=4, fig.width=6}
 # Plotting selected sites
-plot_sites_EG(EG_r_selection, variable_1 = "PC1", variable_2 = "PC2",
-              selection_type = "random")
+plot_sites_EG(EG_r_selection, selection_type = "random", variable_1 = "PC1", 
+              variable_2 = "PC2")
 ```
 
 <br>
@@ -94,8 +93,8 @@ Let's check the selected sites based only on geographic considerations.
 
 ```{r plot_sites_EG G_selection, fig.height=4, fig.width=6}
 # Plotting sites selected uniformly in the geographic space
-plot_sites_EG(EG_r_G_selection, variable_1 = "PC1", variable_2 = "PC2",
-              selection_type = "G")
+plot_sites_EG(EG_r_G_selection, selection_type = "G", variable_1 = "PC1", 
+              variable_2 = "PC2")
 ```
 
 <br>
@@ -117,7 +116,6 @@ Let's check the selected sites based only on environmental considerations.
 
 ```{r plot_sites_EG E_all, fig.height=4, fig.width=6}
 # Plotting sites selected uniformly in the environmental space
-plot_sites_EG(EG_r_G_E_selection, variable_1 = "PC1", variable_2 = "PC2",
-              selection_type = "E")
+plot_sites_EG(EG_r_G_E_selection, selection_type = "E")
 ```
 
