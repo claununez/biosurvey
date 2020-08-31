@@ -147,6 +147,17 @@ uniformE_selection <- function(master, variable_1, variable_2,
     use_preselected_sites <- FALSE
   }
 
+  # arguments for attributes
+  other_args <- list(arguments = list(variable_1 = variable_1, variable_2 = variable_2,
+                                      selection_from = selection_from,
+                                      expected_points = expected_points,
+                                      guess_distances = guess_distances,
+                                      max_n_samplings = max_n_samplings,
+                                      replicates = replicates,
+                                      use_preselected_sites = use_preselected_sites,
+                                      median_distance_filter = median_distance_filter,
+                                      set_seed = set_seed))
+
   # preparing data
   if (!selection_from[1] %in% c("all_points", "block_centroids")) {
     stop("Argument 'selection_from' is not valid, check function's help.")
@@ -230,10 +241,14 @@ uniformE_selection <- function(master, variable_1, variable_2,
                     data[, colnames(data) != "Selected_blocks"])
     }
 
+    thin <- list(selection_1 = data)
+
+    attributes(thin) <- c(attributes(thin), other_args)
+
     return(new_master_selection(master$data_matrix, master$preselected_sites,
                                 master$region, master$mask, master$raster_base,
                                 master$PCA_results, master$selected_sites_random,
-                                master$selected_sites_G, list(selection_1 = data),
+                                master$selected_sites_G, thin,
                                 master$selected_sites_EG))
   }
 
@@ -293,6 +308,8 @@ uniformE_selection <- function(master, variable_1, variable_2,
   if (verbose == TRUE) {
     message("Total number of sites selected: ", nrow(thin[[1]]))
   }
+
+  attributes(thin) <- c(attributes(thin), other_args)
 
   if (class(master)[1] == "master_matrix") {
     return(new_master_selection(master$data_matrix, master$preselected_sites,

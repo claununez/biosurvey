@@ -127,6 +127,15 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
     use_preselected_sites <- FALSE
   }
 
+  # arguments for attributes
+  other_args <- list(arguments = list(expected_points = expected_points,
+                                      guess_distances = guess_distances,
+                                      max_n_samplings = max_n_samplings,
+                                      replicates = replicates,
+                                      use_preselected_sites = use_preselected_sites,
+                                      median_distance_filter = median_distance_filter,
+                                      set_seed = set_seed))
+
   # preparing data
   data <- master$data_matrix
   x_column <- "Longitude"
@@ -185,10 +194,14 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                     data[, colnames(data) != "Selected_blocks"])
     }
 
+    thin <- list(selection_1 = data)
+
+    attributes(thin) <- c(attributes(thin), other_args)
+
     return(new_master_selection(master$data_matrix, master$preselected_sites,
                                 master$region, master$mask, master$raster_base,
                                 master$PCA_results, master$selected_sites_random,
-                                list(selection_1 = data), master$selected_sites_E,
+                                thin, master$selected_sites_E,
                                 master$selected_sites_EG))
   }
 
@@ -248,6 +261,8 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
   if (verbose == TRUE) {
     message("Total number of sites selected: ", nrow(thin[[1]]))
   }
+
+  attributes(thin) <- c(attributes(thin), other_args)
 
   if (class(master)[1] == "master_matrix") {
     return(new_master_selection(master$data_matrix, master$preselected_sites,

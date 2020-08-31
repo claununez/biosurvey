@@ -116,6 +116,13 @@ random_selection <- function(master, n_sites, n_samplings = 1,
   # Returning results
   names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
 
+  ## arguments as attributes
+  other_args <- list(arguments = list(n_sites = n_sites, n_samplings = n_samplings,
+                                      use_preselected_sites = use_preselected_sites,
+                                      median_distance_filter = median_distance_filter,
+                                      set_seed = set_seed))
+  attributes(selected_sites) <- c(attributes(selected_sites), other_args)
+
   if (verbose == TRUE) {
     message("Total number of sites selected: ", nrow(selected_sites[[1]]))
   }

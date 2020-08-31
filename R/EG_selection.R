@@ -376,6 +376,21 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   ## naming and returning
   names(all_sites) <- paste0("selection_", 1:length(all_sites))
 
+  ## arguments as attributes
+  other_args <- list(arguments = list(variable_1 = variable_1, variable_2 = variable_2,
+                                      n_blocks = n_blocks,
+                                      guess_distances = guess_distances,
+                                      max_n_samplings = max_n_samplings,
+                                      replicates = replicates,
+                                      use_preselected_sites = use_preselected_sites,
+                                      select_point = select_point,
+                                      cluster_method = cluster_method,
+                                      median_distance_filter = median_distance_filter,
+                                      sample_for_distance = sample_for_distance,
+                                      set_seed = set_seed))
+  attributes(all_sites) <- c(attributes(all_sites), other_args)
+
+
   if (class(master)[1] == "master_matrix") {
     return(new_master_selection(master$data_matrix, master$preselected_sites,
                                 master$region, master$mask, master$raster_base,
