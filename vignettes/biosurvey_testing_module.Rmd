@@ -17,6 +17,8 @@ library(biosurvey)
 
 Before we start, we would like to clarify that the examples used here are for demonstration purposes only. The functions in the testing module of this package are intended to use when appropriate data is available. This is, a considerable amount of data, of good quality, is needed to produce a presence-absence matrix to have a good representation of biodiversity in a region. For these reasons, we recommend to use these functions with caution and only when appropriate.
 
+<br>
+
 ### Preparing data to test efficiency of selected sites
 
 #### Preparing presence-absence matrix
@@ -29,7 +31,7 @@ data("species_data", package = "biosurvey")
 
 # Create base_pam
 b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix, 
-                          cell_size = 100)
+                          cell_size = 50)
 
 summary(b_pam)
 ```
@@ -107,5 +109,41 @@ compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 3)
 
 # uniform in E vs uniform in G
 compare_SAC(SAC_selected_sites = SACs, element_1 = 2, element_2 = 3)
+
+```
+
+<br>
+
+#### Biodiversity indices and selected sites
+
+These plots will give us an idea of how rich or unique are the sites selected in terms of the species in the PAM.
+
+Let's start with species richness:
+
+```{r indices, fig.height=6, fig.width=6}
+# random selection
+plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "random")
+
+# G selection
+plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "G")
+
+# E selection
+plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "E")
+
+```
+
+<br>
+
+The next index represents how unique is the set of species in each cell in the PAM. Having the selected sites on top of this map helps to assess how well or sites will be sampling interesting areas in the region of interest.
+
+```{r indices1, fig.height=6, fig.width=6}
+# random selection
+plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "random")
+
+# G selection
+plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "G")
+
+# E selection
+plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "E")
 
 ```

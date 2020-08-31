@@ -4,7 +4,10 @@
 \alias{plot_PAM_geo}
 \title{Plot of PAM indices in geography}
 \usage{
-plot_PAM_geo(PAM, index = "RI", col_pal = NULL, border = NULL, cex = 0.9)
+plot_PAM_geo(PAM, index = "RI", master_selection = NULL,
+             selection_type = NULL, selection_number = 1,
+             col_pal = NULL, border = NULL, col_sites = NULL,
+             col_pre = NULL, pch_sites = 16, pch_pre = 16,cex = 0.9)
 }
 \arguments{
 \item{PAM}{an object of class base_PAM.}
@@ -13,6 +16,18 @@ plot_PAM_geo(PAM, index = "RI", col_pal = NULL, border = NULL, cex = 0.9)
 (Richness), "RIN" (Richness normalized), "DF" (Dispersion field), or "MCC"
 (Mean composition covariance). Default = "RI".}
 
+\item{master_selection}{a master_selection object derived from functions
+\code{\link{random_selection}}, \code{\link{uniformG_selection}},
+\code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
+
+\item{selection_type}{(character) Type of selection depending on the function
+used to select sites. The options available are "random"
+(\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
+"E" (\code{\link{uniformE_selection}}), and "EG" (\code{\link{EG_selection}}).}
+
+\item{selection_number}{(numeric) number of selection to be plotted.
+Default = 1.}
+
 \item{col_pal}{color palette function to be used in defining colors for the
 \code{index} to be plotted. The default, NULL, uses a color blind friendly
 palette similar to viridis.}
@@ -20,11 +35,26 @@ palette similar to viridis.}
 \item{border}{color for cell borders of the PAM grid. The default, NULL, does
 not plot any border.}
 
+\item{col_sites}{color for selected sites. The default, NULL, uses
+a red color to represent selected sites.}
+
+\item{col_pre}{color for preselected sites. The default, NULL, uses
+a purple color to represent preselected sites. Ignored if preselected sites are
+not present in \code{master_selection}.}
+
+\item{pch_sites}{(numeric) integer specifying a symbol when plotting points
+of selected sites. Default = 16.}
+
+\item{pch_pre}{(numeric) integer specifying a symbol when plotting points
+of preselected sites. Default = 16. Ignored if preselected sites are
+not present in \code{master_selection}.}
+
 \item{cex}{(numeric) value by which plotting elements should be magnified
 relative to the default. Default = 0.9}
 }
 \value{
-A plot of \code{index} represented in geography.
+A plot of \code{index} represented in geography. Selected sites are added if
+\code{master_selection} is defined.
 }
 \description{
 Plot of PAM indices in geography
