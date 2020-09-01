@@ -9,6 +9,12 @@ biosurvey: Tools for Biological Survey Planning
     vignettes](#biosurvey-functions-and-vignettes)
 -   [Workflow description](#workflow-description)
 
+<!-- badges: start -->
+
+[![R build
+status](https://github.com/claununez/biosurvey/workflows/R-CMD-check/badge.svg)](https://github.com/claununez/biosurvey/actions)
+<!-- badges: end -->
+
 <br>
 
 **This repository is for the project “Biological Survey Planning

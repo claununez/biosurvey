@@ -12,6 +12,10 @@ library(knitr)
 opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 ```
 
+<!-- badges: start -->
+  [![R build status](https://github.com/claununez/biosurvey/workflows/R-CMD-check/badge.svg)](https://github.com/claununez/biosurvey/actions)
+  <!-- badges: end -->
+
 <br>
 
 **This repository is for the project "Biological Survey Planning Considering Hutchinson’s Duality" developed during the program GSoC 2020.**
