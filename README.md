@@ -125,7 +125,7 @@ To check all functions in the package use:
 
 <br>
 
-I the package was installed with its vignettes you can see all options
+If the package was installed with its vignettes you can see all options
 with:
 
     vignette(package = "biosurvey")

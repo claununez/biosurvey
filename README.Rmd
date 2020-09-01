@@ -79,7 +79,7 @@ help(biosurvey)
 
 <br>
 
-I the package was installed with its vignettes you can see all options with:
+If the package was installed with its vignettes you can see all options with:
 
 ```{r vignettes1, eval=FALSE}
 vignette(package = "biosurvey")
