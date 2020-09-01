@@ -1,7 +1,7 @@
 Package: biosurvey
 Type: Package
 Title: Tools for Biological Survey Planning
-Version: 0.0.37
+Version: 0.0.38
 Authors@R: c(
     person("Claudia", "Nunez-Penichet", email = "claununez199o@gmail.com", 
     role = c("aut","cre"), comment = c(ORCID = "0000-0001-7442-8593")),
@@ -64,5 +64,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
