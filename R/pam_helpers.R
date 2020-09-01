@@ -42,6 +42,9 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   } else {
 
     # Projecting region toLambert equeal area projection
+    if (is.na(sp::proj4string(region))) {
+      stop("'region' must be projected to WGS84 (EPSG:4326)")
+    }
     WGS84 <- sp::CRS("+init=epsg:4326")
     region <- sp::spTransform(region, WGS84)
     cent <- rgeos::gCentroid(region, byid = FALSE)@coords
@@ -63,9 +66,6 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
         stop("'cell_size' must be smaller than at least one of the dimensions of 'region'")
       }
     }
-  }
-  if (is.na(sp::proj4string(region))) {
-    stop("'region' must be projected to WGS84 (EPSG:4326)")
   }
 
   # creating a grid
@@ -142,6 +142,9 @@ stack_2data <- function(species_layers) {
   if (missing(species_layers)) {
     stop("Argument 'species_layers' must be defined")
   }
+  if (class(species_layers)[1] != "RasterStack") {
+    stop("'species_layers' must be of class 'RasterStack'")
+  }
 
   # Stack to matrix
   sppm <- raster::rasterToPoints(species_layers)
@@ -202,6 +205,11 @@ spdf_2data <- function(spdf_object, spdf_grid) {
   if (missing(spdf_grid)) {
     stop("Argument 'spdf_grid' must be defined")
   }
+  cond <- c(class(spdf_object)[1] != "SpatialPolygonsDataFrame",
+            class(spdf_grid)[1] != "SpatialPolygonsDataFrame")
+  if (any(cond)) {
+    stop("'spdf_object' and 'spdf_grid' must be of class 'SpatialPolygonsDataFrame'")
+  }
 
   # Names to be matched
   ID <- spdf_grid@data$ID
@@ -256,6 +264,13 @@ rlist_2data <- function(raster_list) {
   # Initial tests
   if (missing(raster_list)) {
     stop("Argument 'raster_list' must be defined")
+  }
+  if (!is.list(raster_list)) {
+    stop("'raster_list' must be a list of raster layers")
+  }
+  inclas <- sapply(raster_list, function(x) {class(x)[1] != "RasterLayer"})
+  if (any(inclas)) {
+    stop("All elements in 'raster_list' must be of class 'RasterLayer'")
   }
 
   # Running in loop for all elements of list

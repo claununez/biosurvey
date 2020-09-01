@@ -1,6 +1,15 @@
 
 new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
                               mask = NULL, raster_base, PCA_results = NULL) {
+  if (missing(data_matrix)) {
+    stop("Argument 'data_matrix' must be defined")
+  }
+  if (missing(region)) {
+    stop("Argument 'region' must be defined")
+  }
+  if (missing(raster_base)) {
+    stop("Argument 'raster_base' must be defined")
+  }
   stopifnot(is.data.frame(data_matrix))
   preclass <- class(preselected_sites)[1]
   reclass <- class(region)[1]
@@ -92,6 +101,7 @@ new_PAM_subset <- function(PAM = new("SpatialPolygonsDataFrame"),
                            PAM_indices = NULL, PAM_selected_sites_random = NULL,
                            PAM_selected_sites_G = NULL, PAM_selected_sites_E = NULL,
                            PAM_selected_sites_EG = NULL) {
+
   prclass <- class(PAM_selected_sites_random)[1]
   pgclass <- class(PAM_selected_sites_G)[1]
   peclass <- class(PAM_selected_sites_E)[1]
