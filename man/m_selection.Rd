@@ -5,7 +5,7 @@
 \alias{m_selection}
 \title{Example of a master_selection object from using functions for selecting sites}
 \format{
-A list of 8 elements:
+A list of 10 elements:
 \describe{
 \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
 \item{preselected_sites}{NULL}

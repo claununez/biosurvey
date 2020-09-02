@@ -194,7 +194,7 @@ NULL
 #' \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}},
 #' \code{\link{random_selection}}, or \code{\link{EG_selection}}.
 #'
-#' @format A list of 8 elements:
+#' @format A list of 10 elements:
 #' \describe{
 #'   \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
 #'   \item{preselected_sites}{NULL}
