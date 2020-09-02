@@ -80,7 +80,7 @@ random_selection <- function(master, n_sites, n_samplings = 1,
     }
   }
   if (use_preselected_sites == TRUE & is.null(master$preselected_sites)) {
-    message("Element 'preselected_sites' in 'master' is NULL, such sites were not used.")
+    message("Element 'preselected_sites' in 'master' is NULL, setting\n'use_preselected_sites' = FALSE")
     use_preselected_sites <- FALSE
   }
 
