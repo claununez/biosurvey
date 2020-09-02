@@ -272,6 +272,15 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
 #'
 #' @export
 #' @importFrom stats median
+#'
+#' @examples
+#' # data
+#' data("m_selection", package = "biosurvey")
+#'
+#' slist <- m_selection$selected_sites_random
+#'
+#' # distance filter
+#' max_sites <- distance_filter(slist, median_distance_filter = "max")
 
 distance_filter <- function(site_list, median_distance_filter = "max") {
   # initial tests
@@ -289,5 +298,8 @@ distance_filter <- function(site_list, median_distance_filter = "max") {
   } else {
     site_list <- site_list[dists == min(dists)]
   }
+
+  names(site_list) <- paste0("selection_", 1:length(site_list))
+
   return(site_list)
 }
