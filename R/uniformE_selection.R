@@ -106,7 +106,6 @@
 #' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
 #'                                  selection_from = "block_centroids",
 #'                                  expected_points = 15, max_n_samplings = 1,
-#'                                  initial_distance = 1, increase = 0.1,
 #'                                  replicates = 5, set_seed = 1)
 
 uniformE_selection <- function(master, variable_1, variable_2,
