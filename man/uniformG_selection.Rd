@@ -95,8 +95,7 @@ data("m_matrix", package = "biosurvey")
 
 # Selecting sites uniformly in G space
 selectionG <- uniformG_selection(m_matrix, expected_points = 40,
-                                 max_n_samplings = 1, initial_distance = 145,
-                                 increase = 1, replicates = 5, set_seed = 1)
+                                 max_n_samplings = 1, replicates = 5)
 }
 \seealso{
 \code{\link{random_selection}}, \code{\link{uniformE_selection}},
