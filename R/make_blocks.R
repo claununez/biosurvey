@@ -65,6 +65,13 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
   if (!block_type[1] %in% c("equal_area", "equal_points")) {
     stop("Argument 'block_type' is not valid.")
   }
+  coln <- colnames(master_matrix$data_matrix)
+  if (!variable_1 %in% coln) {
+    stop(variable_1, " is not one o the columns in 'master_matrix$data_matrix'.")
+  }
+  if (!variable_2 %in% coln) {
+    stop(variable_2, " is not one o the columns in 'master_matrix$data_matrix'.")
+  }
 
   # Preparing data
   data <- master_matrix$data_matrix
