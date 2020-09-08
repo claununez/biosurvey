@@ -104,6 +104,10 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
     selection_type <- paste0("selected_sites_", selection_type)
     sel_args <- attributes(master_selection[[selection_type]])
 
+    if (is.null(master_selection[[selection_type]])) {
+      stop("'selection_type' defined is NULL in 'master_selection'.")
+    }
+
     if (selection_type %in% c("selected_sites_random", "selected_sites_G")) {
       if (missing(variable_1)) {
         stop("Argument 'variable_1' is required to produce the plot.")
