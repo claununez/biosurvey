@@ -52,6 +52,13 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
   if (missing(y_column)) {
     stop("Argument 'y_column' is not defined.")
   }
+  coln <- colnames(data)
+  if (!x_column %in% coln) {
+    stop(x_column, " is not one o the columns in 'data'.")
+  }
+  if (!y_column %in% coln) {
+    stop(y_column, " is not one o the columns in 'data'.")
+  }
   if (missing(thinning_distance)) {
     stop("Argument 'thinning_distance' is not defined.")
   }
@@ -173,6 +180,13 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
   }
   if (missing(y_column)) {
     stop("Argument 'y_column' is not defined.")
+  }
+  coln <- colnames(data)
+  if (!x_column %in% coln) {
+    stop(x_column, " is not one o the columns in 'data'.")
+  }
+  if (!y_column %in% coln) {
+    stop(y_column, " is not one o the columns in 'data'.")
   }
   if (missing(space)) {
     stop("Argument 'space' is not defined.")

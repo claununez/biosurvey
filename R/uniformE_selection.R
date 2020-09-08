@@ -125,6 +125,13 @@ uniformE_selection <- function(master, variable_1, variable_2,
   if (missing(variable_2)) {
     stop("Argument 'variable_2' is not defined.")
   }
+  coln <- colnames(master$data_matrix)
+  if (!variable_1 %in% coln) {
+    stop(variable_1, " is not one o the columns in 'master$data_matrix'.")
+  }
+  if (!variable_2 %in% coln) {
+    stop(variable_2, " is not one o the columns in 'master$data_matrix'.")
+  }
   if (missing(expected_points)) {
     stop("Argument 'expected_points' is not defined.")
   }

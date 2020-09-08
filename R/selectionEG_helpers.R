@@ -55,6 +55,13 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
   if (missing(variable_2)) {
     stop("Argument 'variable_2' must be defined.")
   }
+  coln <- colnames(data)
+  if (!variable_1 %in% coln) {
+    stop(variable_1, " is not one o the columns in 'data'.")
+  }
+  if (!variable_2 %in% coln) {
+    stop(variable_2, " is not one o the columns in 'data'.")
+  }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
     stop("Argument 'select_point' is not valid, options are:\n'random', 'E_centroid', 'G_centroid'")
   }
@@ -275,6 +282,13 @@ find_clusters <- function(data, x_column, y_column, space,
   if (missing(y_column)) {
     stop("Argument 'y_column' must be defined.")
   }
+  coln <- colnames(data)
+  if (!x_column %in% coln) {
+    stop(x_column, " is not one o the columns in 'data'.")
+  }
+  if (!y_column %in% coln) {
+    stop(y_column, " is not one o the columns in 'data'.")
+  }
   if (missing(space)) {
     stop("Argument 'space' is not defined.")
   }
@@ -400,6 +414,13 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
   }
   if (missing(variable_2)) {
     stop("Argument 'variable_2' must be defined.")
+  }
+  coln <- colnames(data)
+  if (!variable_1 %in% coln) {
+    stop(variable_1, " is not one o the columns in 'data'.")
+  }
+  if (!variable_2 %in% coln) {
+    stop(variable_2, " is not one o the columns in 'data'.")
   }
   if (!select_point[1] %in% c("random", "E_centroid", "G_centroid")) {
     stop("Argument 'select_point' is not valid, options are:\n'random', 'E_centroid', 'G_centroid'")
