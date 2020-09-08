@@ -85,13 +85,13 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 
   # E centroid option
   if (select_point[1] == "E_centroid") {
-    bsam <- closest_to_centroid(data, e_cols[1], e_cols[2], space = "E",
+    bsam <- closest_to_centroid(data, e_cols[1], e_cols[2], space = "E", n = n,
                                 id_column = id_column)
   }
 
   # G centroid option
   if (select_point[1] == "G_centroid") {
-    bsam <- closest_to_centroid(data, g_cols[1], g_cols[2], space = "G",
+    bsam <- closest_to_centroid(data, g_cols[1], g_cols[2], space = "G", n = n,
                                 id_column = id_column)
   }
 
