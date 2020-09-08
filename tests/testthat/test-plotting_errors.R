@@ -72,3 +72,13 @@ test_that("Errors compare_SAC", {
   testthat::expect_error(compare_SAC(SACs, element_1 = 1, element_2 = 4))
 })
 #----
+
+
+#----
+context("Plot PAM geography")
+
+test_that("Errors plot_PAM_geo", {
+  testthat::expect_error(plot_PAM_geo())
+  testthat::expect_error(plot_PAM_geo(b_pam, index = "ZXY"))
+})
+#----
