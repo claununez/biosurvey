@@ -11,7 +11,7 @@
 #' list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
 #' details for description of characteristics of each option.
 #' @param format (character) if \code{data} is of class character, available
-#' options are: "shp", "gpkg", "GTiff", and "ascii".
+#' options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
 #' @param master_matrix object of class "master_matrix" or "master_selection". See
 #' details.
 #' @param cell_size (numeric) resolution for grid (single number or vector of two
@@ -162,14 +162,14 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     }
 
     ## from files stored in a directory
-    if (clsdata == "character" & !clsdata %in% c("shp", "gpkg")) {
+    if (clsdata == "character" & !format %in% c("shp", "gpkg", "geojson")) {
       data <- files_2data(path = data, format)
     }
   }
 
   # SpatialPointsDataFrame from data if needed
   if (!clsdata %in% c("SpatialPointsDataFrame", "SpatialPolygonsDataFrame")) {
-    if (clsdata == "character" & !clsdata %in% c("shp", "gpkg")) {
+    if (clsdata == "character" & !format %in% c("shp", "gpkg", "geojson")) {
       sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data)
     }
   }
@@ -180,7 +180,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     if (clsdata == "SpatialPolygonsDataFrame") {
       sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol)
     }
-    if (clsdata == "character" & clsdata %in% c("shp", "gpkg")) {
+    if (clsdata == "character" & format %in% c("shp", "gpkg", "geojson")) {
       sp_points <- files_2data(path = data, format, spdf_grid = grid_r_pol)
     }
   }
@@ -210,6 +210,10 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
       message("Clipping PAM to region of interest")
     }
     grid_r_pol <- raster::intersect(grid_r_pol, master_matrix[[where]])
+    fc <- suppressWarnings(as.numeric(substring(coltk, 1, 1)))
+    coltk <- sapply(1:length(fc), function(x) {
+      ifelse(is.numeric(fc[x]) & !is.na(fc[x]), paste0("X", coltk[x]), coltk[x])
+    })
     grid_r_pol@data <- grid_r_pol@data[, coltk]
   }
 

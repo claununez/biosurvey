@@ -297,12 +297,12 @@ rlist_2data <- function(raster_list) {
 #' latitude, and species name, from a character.
 #'
 #' @param path (character) full path name of directory containing raster,
-#' shapefiles, or geopackage files representing species geographic ranges. Each
-#' file must be named as the species that it represents. All files must be in
+#' shapefiles, geopackage, or GeoJSON files representing species geographic ranges.
+#' Each file must be named as the species that it represents. All files must be in
 #' the same format. If files are raster, values in each layer must be 1 (presence)
 #' and 0 (absence).
 #' @param format (character) the format files found in \code{path}. Current
-#' available formats are: "shp", "gpkg", "GTiff", and "ascii".
+#' available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
 #' @param spdf_grid geographic grid for the region of interest (output of function
 #' \code{\link{grid_from_region}}). Used when format equals "shp", "gpkg".
 #' Default = NULL.
@@ -340,12 +340,12 @@ files_2data <- function(path, format, spdf_grid = NULL) {
   if (missing(format)) {
     stop("Argument 'format' must be defined")
   }
-  if (!format %in% c("shp", "gpkg", "GTiff", "ascii")) {
+  if (!format %in% c("shp", "gpkg", "geojson", "GTiff", "ascii")) {
     stop(paste("'format'", format, "is not supported, see function's help"))
   }
 
   # Finding files according to format
-  if (format %in% c("shp", "gpkg")) {
+  if (format %in% c("shp", "gpkg", "geojson")) {
     if (is.null(spdf_grid)) {
       stop("Argument 'spdf_grid' must be defined if 'format' is shp or gpkg")
     }
@@ -358,10 +358,17 @@ files_2data <- function(path, format, spdf_grid = NULL) {
       mlist <- gsub(subs, "", list.files(path = path, pattern = patt))
       spnames <- mlist
     } else {
-      patt <- ".gpkg$"
-      subs <- ".gpkg"
-      mlist <- list.files(path = path, pattern = patt)
-      spnames <- gsub(subs, "", mlist)
+      if (format == "gpkg") {
+        patt <- ".gpkg$"
+        subs <- ".gpkg"
+        mlist <- list.files(path = path, pattern = patt)
+        spnames <- gsub(subs, "", mlist)
+      } else {
+        patt <- ".geojson$"
+        subs <- ".geojson"
+        mlist <- list.files(path = path, pattern = patt)
+        spnames <- gsub(subs, "", mlist)
+      }
     }
   } else {
     subs <- match_rformat(format)
@@ -376,13 +383,18 @@ files_2data <- function(path, format, spdf_grid = NULL) {
 
   # Running in loop for all elements of list
   sps <- lapply(1:length(spnames), function(x) {
-    if (format %in% c("shp", "gpkg")) {
+    if (format %in% c("shp", "gpkg", "geojson")) {
       ## reading data
       if (format == "shp") {
         rs <- rgdal::readOGR(dsn = path, layer = mlist[x], verbose = FALSE)
       } else {
-        rs <- rgdal::readOGR(paste0(path, "/", mlist[x]), spnames[x],
-                             verbose = FALSE)
+        if (format == "gpkg") {
+          rs <- rgdal::readOGR(paste0(path, "/", mlist[x]), spnames[x],
+                               verbose = FALSE)
+        } else {
+          rs <- rgdal::readOGR(paste0(path, "/", mlist[x]),
+                               verbose = FALSE)
+        }
       }
 
       ## preparing data
@@ -404,7 +416,7 @@ files_2data <- function(path, format, spdf_grid = NULL) {
 
   sps <- do.call(rbind, sps)
 
-  if (format %in% c("shp", "gpkg")) {
+  if (format %in% c("shp", "gpkg", "geojson")) {
     colnames(sps) <- c("ID", "Species")
   } else {
     colnames(sps) <- c("Longitude", "Latitude", "Species")
