@@ -33,7 +33,7 @@ values. Default = 0.05.}
 
 \item{picante_iterations}{(numeric) number of iterations to be used for each
 matrix randomization process (to be done \code{randomization_iterations} times).
-This process is done using the function \code{\linl[picante]{randomizeMatrix}}
+This process is done using the function \code{\link[picante]{randomizeMatrix}}
 from the package \code{picante}. The default, NULL, uses \code{2 * sum(PAM)}.}
 
 \item{keep_randomizations}{(logical) whether to keep a matrix with all values
@@ -47,7 +47,7 @@ TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
 An S3 object of class PAM_CS if \code{PAM} is a matrix or data.frame,
-otherwise, the base_PAM that inludes the PAM_CS object as part of PAM_indices.
+otherwise, the base_PAM that includes the PAM_CS object as part of PAM_indices.
 }
 \description{
 Preparation of data and details to create Christen- Soberón
@@ -58,4 +58,13 @@ Christen-Soberón diagrams are plots that allow explorations of patterns of
 biodiversity in a region based on the data of presence-absence matrices. The
 plots to be produced using the information prepared here are a modification of
 those presented in ...
+}
+\examples{
+# data
+data("b_pam", package = "biosurvey")
+
+# preparing data for CS diagram
+pcs <- prepare_PAM_CS(PAM = b_pam)
+
+summary(pcs$PAM_indices$CS_diagram)
 }

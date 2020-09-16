@@ -19,7 +19,7 @@
 #' values. Default = 0.05.
 #' @param picante_iterations (numeric) number of iterations to be used for each
 #' matrix randomization process (to be done \code{randomization_iterations} times).
-#' This process is done using the function \code{\linl[picante]{randomizeMatrix}}
+#' This process is done using the function \code{\link[picante]{randomizeMatrix}}
 #' from the package \code{picante}. The default, NULL, uses \code{2 * sum(PAM)}.
 #' @param keep_randomizations (logical) whether to keep a matrix with all values
 #' from the randomization process. Default = FALSE.
@@ -30,7 +30,7 @@
 #'
 #' @return
 #' An S3 object of class PAM_CS if \code{PAM} is a matrix or data.frame,
-#' otherwise, the base_PAM that inludes the PAM_CS object as part of PAM_indices.
+#' otherwise, the base_PAM that includes the PAM_CS object as part of PAM_indices.
 #'
 #' @details
 #' Christen-Soberón diagrams are plots that allow explorations of patterns of
@@ -54,7 +54,16 @@
 #' @importFrom doSNOW registerDoSNOW
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom picante randomizeMatrix
-
+#' @importFrom stats cor
+#'
+#' @examples
+#' # data
+#' data("b_pam", package = "biosurvey")
+#'
+#' # preparing data for CS diagram
+#' pcs <- prepare_PAM_CS(PAM = b_pam)
+#'
+#' summary(pcs$PAM_indices$CS_diagram)
 
 prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
                            significance_test = FALSE,
@@ -165,7 +174,6 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
 
     qq <- unlist(lapply(1:n, function(x) {
       qqq <- quantile(alea[x, ], prob = c(0 + cl, 1 - cl))
-      cat(qqq[1], qqq[2], "\t", fists[x], "\n")
       ifelse(fists[x] > qqq[1] & fists[x] < qqq[2], 0, 1)
     }))
   }
