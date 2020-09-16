@@ -10,7 +10,7 @@ sites increasing the efficiency of biodiversity monitoring by considering the
 relationship between environmental and geographic conditions in a region.
 Three main modules are included: 1) Data preparation; 2) Selection of sets
 of sites for biodiversity sampling; and, 3) Tools for testing efficiency of
-distinct sets of sampling sites. Data are prepared ways that avoid the need
+distinct sets of sampling sites. Data are prepared in ways that avoid the need
 for more data in posterior analyses, and allow concentrating in critical
 methodological decisions to select sampling sites. Various algorithms for
 selecting sampling sites are available, and options for considering
@@ -27,11 +27,13 @@ efficiency of efforts dedicated to monitoring biodiversity.
 \code{\link{block_sample}}, \code{\link{compare_SAC}},
 \code{\link{EG_selection}}, \code{\link{explore_data_EG}},
 \code{\link{make_blocks}}, \code{\link{PAM_indices}},
-\code{\link{plot_blocks_EG}}, \code{\link{plot_SAC}},
+\code{\link{plot_blocks_EG}}, \code{\link{plot_PAM_geo}},
+\code{\link{plot_PAM_CS}}, \code{\link{plot_SAC}},
 \code{\link{plot_sites_EG}}, \code{\link{prepare_base_PAM}},
-\code{\link{prepare_master_matrix}}, \code{\link{random_selection}},
-\code{\link{selected_sites_SAC}}, \code{\link{subset_PAM}},
-\code{\link{uniformE_selection}}, \code{\link{uniformG_selection}}
+\code{\link{prepare_master_matrix}}, \code{\link{prepare_PAM_CS}}
+\code{\link{random_selection}}, \code{\link{selected_sites_SAC}},
+\code{\link{subset_PAM}}, \code{\link{uniformE_selection}},
+\code{\link{uniformG_selection}}
 
 Other functions (important helpers)
 

@@ -8,13 +8,13 @@ files_2data(path, format, spdf_grid = NULL)
 }
 \arguments{
 \item{path}{(character) full path name of directory containing raster,
-shapefiles, or geopackage files representing species geographic ranges. Each
-file must be named as the species that it represents. All files must be in
+shapefiles, geopackage, or GeoJSON files representing species geographic ranges.
+Each file must be named as the species that it represents. All files must be in
 the same format. If files are raster, values in each layer must be 1 (presence)
 and 0 (absence).}
 
 \item{format}{(character) the format files found in \code{path}. Current
-available formats are: "shp", "gpkg", "GTiff", and "ascii".}
+available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
 
 \item{spdf_grid}{geographic grid for the region of interest (output of function
 \code{\link{grid_from_region}}). Used when format equals "shp", "gpkg".

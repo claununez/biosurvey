@@ -14,7 +14,7 @@ rows and species in the columns. See details.}
 \item{indices}{(character) code for indices to be calculated. Basic indices
 are calculated all the time, other indices need to be specified. Options are:
 "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-"CMSC", and "CMSR". See details. Default = "all"}
+"CMSC", "CMSR", "MCC", and "MRC". See details. Default = "all"}
 
 \item{exclude_column}{(optional) name or numeric index of columns to be
 excluded. Default = NULL.}

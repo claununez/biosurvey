@@ -129,3 +129,36 @@ new_PAM_subset <- function(PAM = new("SpatialPolygonsDataFrame"),
   class(val) <- c("PAM_subset", "base_PAM")
   return(val)
 }
+
+
+
+
+new_PAM_CS <- function(Species = NA_integer_, Sites_cells = NA_integer_,
+                       Beta_W = NA_real_, Spearman_cor = NA_real_,
+                       Theoretical_boundaries = list(x = NA_real_, y = NA_real_),
+                       Richness_normalized = NA_real_,
+                       Dispersion_field_normalized = NA_real_,
+                       S_significance_id = NA_integer_,
+                       Randomized_DF = matrix()) {
+
+  stopifnot(is.numeric(Species))
+  stopifnot(is.numeric(Sites_cells))
+  stopifnot(is.numeric(Beta_W))
+  stopifnot(is.numeric(Spearman_cor))
+  stopifnot(is.list(Theoretical_boundaries))
+  stopifnot(is.numeric(Richness_normalized))
+  stopifnot(is.numeric(Dispersion_field_normalized))
+  stopifnot(is.numeric(S_significance_id))
+  stopifnot(is.matrix(Randomized_DF))
+
+  val <- list(Species = Species, Sites_cells = Sites_cells,
+              Beta_W = Beta_W, Spearman_cor = Spearman_cor,
+              Theoretical_boundaries = Theoretical_boundaries,
+              Richness_normalized = Richness_normalized,
+              Dispersion_field_normalized = Dispersion_field_normalized,
+              S_significance_id = S_significance_id,
+              Randomized_DF = Randomized_DF)
+
+  class(val) <- "PAM_CS"
+  return(val)
+}

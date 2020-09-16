@@ -16,6 +16,9 @@ status](https://github.com/claununez/biosurvey/workflows/R-CMD-check/badge.svg)]
 <!-- badges: end -->
 
 <br>
+<hr>
+
+<img src='README_files/biosurvey1.png' align="right" height="200" /></a>
 
 **This repository is for the project “Biological Survey Planning
 Considering Hutchinson’s Duality” developed during the program GSoC

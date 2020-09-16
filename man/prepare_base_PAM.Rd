@@ -15,7 +15,7 @@ list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
 details for description of characteristics of each option.}
 
 \item{format}{(character) if \code{data} is of class character, available
-options are: "shp", "gpkg", "GTiff", and "ascii".}
+options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
 
 \item{master_matrix}{object of class "master_matrix" or "master_selection". See
 details.}
