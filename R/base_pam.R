@@ -162,8 +162,10 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     }
 
     ## from files stored in a directory
-    if (clsdata == "character" & !format %in% c("shp", "gpkg", "geojson")) {
-      data <- files_2data(path = data, format)
+    if (clsdata == "character") {
+      if (!format %in% c("shp", "gpkg", "geojson")) {
+        data <- files_2data(path = data, format)
+      }
     }
   }
 
@@ -180,8 +182,10 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     if (clsdata == "SpatialPolygonsDataFrame") {
       sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol)
     }
-    if (clsdata == "character" & format %in% c("shp", "gpkg", "geojson")) {
-      sp_points <- files_2data(path = data, format, spdf_grid = grid_r_pol)
+    if (clsdata == "character") {
+      if (format %in% c("shp", "gpkg", "geojson")) {
+        sp_points <- files_2data(path = data, format, spdf_grid = grid_r_pol)
+      }
     }
   }
 
