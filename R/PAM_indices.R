@@ -9,7 +9,7 @@
 #' @param indices (character) code for indices to be calculated. Basic indices
 #' are calculated all the time, other indices need to be specified. Options are:
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-#' "CMSC", and "CMSR". See details. Default = "all"
+#' "CMSC", "CMSR", "MCC", and "MRC". See details. Default = "all"
 #' @param exclude_column (optional) name or numeric index of columns to be
 #' excluded. Default = NULL.
 #'
@@ -73,7 +73,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   all_in <- c("all", "basic", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "SCC",
-              "WRN", "SRC", "CMSC", "CMSR")
+              "WRN", "SRC", "CMSC", "CMSR", "MCC", "MRC")
   if (any(!indices %in% all_in)) {
     stop("One or more elements defined in 'indices' is not valid, check function's help.")
   }
@@ -179,7 +179,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   ## Matrix of covariance of composition of sites
-  if (any(indices %in% c("all", "CMSC", "SCSC"))) {
+  if (any(indices %in% c("all", "CMSC", "SCSC", "MCC"))) {
     CS_cov <- (A / S) - (richS %*% t(richS))
     ## Mean
     Ccov_mean <- (d_field / (N * S)) - (BW^-1 * richS)
@@ -188,7 +188,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   ## Matrix of covariance of ranges of species
-  if (any(indices %in% c("all", "CMSR", "SCSR"))) {
+  if (any(indices %in% c("all", "CMSR", "SCSR", "MRC"))) {
     RS_cov <- (O / S) - (rangN %*% t(rangN))
     ## Mean
     Rcov_mean <- (sc_comp / (N * S)) - (BW^-1 * rangN)
