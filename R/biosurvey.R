@@ -21,11 +21,13 @@
 #' \code{\link{block_sample}}, \code{\link{compare_SAC}},
 #' \code{\link{EG_selection}}, \code{\link{explore_data_EG}},
 #' \code{\link{make_blocks}}, \code{\link{PAM_indices}},
-#' \code{\link{plot_blocks_EG}}, \code{\link{plot_PAM_geo}}, \code{\link{plot_SAC}},
+#' \code{\link{plot_blocks_EG}}, \code{\link{plot_PAM_geo}},
+#' \code{\link{plot_PAM_CS}}, \code{\link{plot_SAC}},
 #' \code{\link{plot_sites_EG}}, \code{\link{prepare_base_PAM}},
-#' \code{\link{prepare_master_matrix}}, \code{\link{random_selection}},
-#' \code{\link{selected_sites_SAC}}, \code{\link{subset_PAM}},
-#' \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}}
+#' \code{\link{prepare_master_matrix}}, \code{\link{prepare_PAM_CS}}
+#' \code{\link{random_selection}}, \code{\link{selected_sites_SAC}},
+#' \code{\link{subset_PAM}}, \code{\link{uniformE_selection}},
+#' \code{\link{uniformG_selection}}
 #'
 #'
 #' Other functions (important helpers)
