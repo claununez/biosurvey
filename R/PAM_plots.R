@@ -154,3 +154,134 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 
 
 
+
+
+#' Plot Christen-Soberon diagrams
+#'
+#' @param PAM_CS an object of class PAM_CS or a base_PAM object containing
+#' a PAM_CS object as part of PAM_indices. These objects can be obtained using
+#' the function \code{\link{prepare_PAM_CS}}.
+#' @param add_significant (logical) whether to add statistically significant values
+#' using a different symbol. Default = FALSE. If TRUE and values indicating
+#' significance are not in \code{PAM_CS}, a message will be printed.
+#' @param add_random_values (logical) whether to add values resulted from
+#' the randomization process done when preparing \code{PAM_CS}. Default = FALSE.
+#' Valid only if \code{add_significant} = TRUE, and randomized values are present
+#' in \code{PAM_CS}.
+#' @param col_all color code or name for all values. Default = "#8C8C8C".
+#' @param col_signiicant color code or name for significant values.
+#' Default = "#000000".
+#' @param col_random_values color code or name for randomized values.
+#' Default = "D2D2D2".
+#' @param pch_all point symbol to be used for all values. Default = 1.
+#' @param pch_significant point symbol to be used for significant values.
+#' Default = 19.
+#' @param pch_random_values point symbol to be used for randomized values.
+#' Default = 1.
+#' @param main main title for the plot. Default = NULL.
+#' @param xlab label for the x axis. Default = NULL.
+#' @param ylab label for the y axis. Default = NULL.
+#' @param xlim x limits of the plot (x1, x2). The default, NULL, uses the range
+#' of normalized richness.
+#' @param ylim y limits of the plot. The default, NULL, uses the range of the
+#' normalized values of the dispersion field. The second limit is increased
+#' by adding the result of multiplying it by \code{ylim_expansion}.
+#' @param ylim_expansion value used or expanding the \code{ylim}. Default = 0.25.
+#' @param add_legend (logical) whether to add a legend describing information
+#' relevant for interpreting the diagram. Default = TRUE.
+#'
+#' @return
+#' A Christen-Soberon plot with values of normalized richness in the x axis, and
+#' normalized values of the dispersion field index in the y axis.
+#'
+#' @export
+#' @importFrom graphics legend polygon
+#'
+#' @examples
+#' # data
+#' data("b_pam", package = "biosurvey")
+#'
+#' # preparing data for CS diagram
+#' pcs <- prepare_PAM_CS(PAM = b_pam)
+#'
+#' # plot
+#' plot_PAM_CS(pcs)
+
+plot_PAM_CS <- function(PAM_CS, add_significant = FALSE, add_random_values = FALSE,
+                        col_all = "#8C8C8C", col_signiicant = "#000000",
+                        col_random_values = "#D2D2D2", pch_all = 1,
+                        pch_significant = 19, pch_random_values = 1, main = NULL,
+                        xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
+                        ylim_expansion = 0.25, add_legend = TRUE) {
+
+  if (!class(PAM_CS)[1] %in% c("base_PAM", "PAM_CS")) {
+    stop("Class of 'PAM_CS' is not supported, see function's help.")
+  }
+
+  # preparing data
+  if (class(PAM_CS)[1] == "base_PAM") {
+    bp <- PAM_CS$PAM
+    PAM <- PAM_CS$PAM_indices$CS_diagram
+  } else {
+    PAM <- PAM_CS
+  }
+
+  # Preparing values to be plotted or added
+  s <- PAM$Species
+  alfas <- PAM$Richness_normalized
+  n <- PAM$Sites_cells
+  fists <- PAM$Dispersion_field_normalized / s
+  betty <- PAM$Beta_W
+
+  # prepare vertex of plot limits
+  vx <- PAM$Theoretical_boundaries$x
+  vy <- PAM$Theoretical_boundaries$y
+  sper <- round(PAM$Spearman_cor, 3)
+
+  # plot elements
+  if (is.null(main)) {
+    main <- "Christen-Soberon diagram"
+  }
+  if (is.null(xlab)) {
+    xlab <- "Normalized richness"
+  }
+  if (is.null(ylab)) {
+    ylab <- "Normalized dispersion field"
+  }
+  if (is.null(xlim)) {
+    xlim <- range(vx)
+  }
+  if (is.null(ylim)) {
+    add <- ifelse(add_legend == TRUE, ylim_expansion, 0)
+    ylim <- range(vy) + c(0, range(vy)[2] * add)
+  }
+
+  # plot
+  plot(alfas, fists, col = col_all, pch = pch_all, xlim = xlim, ylim = ylim,
+       xlab = xlab, ylab = ylab, main = main)
+  polygon(vx, vy, border = "#474747")
+  if (add_legend == TRUE) {
+    legend("topleft", bty = "n", inset = -0.02,
+           legend = c(paste("N species =", s), paste("N sites-cells =", n),
+                      paste("Beta W =", round(betty, 3)),
+                      as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~ .(sper)))))
+  }
+
+  # significant values
+  if (add_significant == TRUE) {
+    if (!all(is.na(PAM$S_significance_id))) {
+      if (add_random_values == TRUE & !all(is.na(PAM$Randomized_DF))) {
+        for (i in 1:ncol(PAM$Randomized_DF)) {
+          points(alfas, PAM$Randomized_DF[, i], col = col_random_values,
+                 pch = pch_random_values, cex = 0.8)
+        }
+        points(alfas, fists, col = col_all, pch = pch_all)
+      }
+
+      sig_vals <- cbind(alfas, fists)[PAM$S_significance_id == 1, ]
+      points(sig_vals, pch = pch_significant, col = col_signiicant)
+    } else {
+      message("Values that indicate significance are missing in 'PAM_CS'")
+    }
+  }
+}
