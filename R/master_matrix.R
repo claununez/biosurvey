@@ -96,7 +96,7 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     }
 
     # Intersection of region and mask to avoid complications
-    mask <- raster::intersect(region, mask)
+    #mask <- raster::intersect(region, mask)
   }
 
   # Mask variables to polygons (region of interest)
