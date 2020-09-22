@@ -173,13 +173,17 @@ stack_2data <- function(species_layers) {
 #' named "Species" to distinguish among features.
 #' @param spdf_grid geographic grid for the region of interest (output of function
 #' \code{\link{grid_from_region}}).
+#' @param parallel (logical) whether to perform analyses in parallel.
+#' Default = FALSE.
+#' @param n_cores (numeric) number of cores to be used when \code{parallel} =
+#' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
 #' A data frame of species' found in distinct positions (defined with identifiers);
 #' includes two columns: "ID" and "Species".
 #'
 #' @usage
-#' spdf_2data(spdf_object, spdf_grid)
+#' spdf_2data(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL)
 #'
 #' @export
 #' @importFrom sp over
@@ -197,7 +201,7 @@ stack_2data <- function(species_layers) {
 #' sp_data <- spdf_2data(spdf_object = species_data, spdf_grid = grid_reg)
 #' summary(sp_data)
 
-spdf_2data <- function(spdf_object, spdf_grid) {
+spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL) {
   # Initial tests
   if (missing(spdf_object)) {
     stop("Argument 'spdf_object' must be defined")
@@ -215,13 +219,45 @@ spdf_2data <- function(spdf_object, spdf_grid) {
   ID <- spdf_grid@data$ID
   spnames <- as.character(spdf_object@data$Species)
 
-  # Preparing data
-  sps <- lapply(1:length(spnames), function(x) {
-    na.omit(data.frame(ID, sp::over(spdf_grid,
-                                    spdf_object[spnames == spnames[x], ])))
-  })
+  if (parallel == TRUE) {
+    ## preparing parallel running
+    n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
+    cl <- snow::makeSOCKcluster(n_cores)
+    doSNOW::registerDoSNOW(cl)
 
-  sps <- do.call(rbind, sps)
+    ## progress bar
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
+    progress <- function(n) {utils::setTxtProgressBar(pb, n)}
+    opts <- list(progress = progress)
+
+    ## processing
+    sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
+                            .options.snow = opts, .combine = "rbind") %dopar% {
+                              sp <- sp::over(spdf_grid,
+                                             spdf_object[spnames == spnames[i], ])
+                              return(na.omit(data.frame(ID, sp)))
+                            }
+
+    snow::stopCluster(cl)
+  } else {
+    ## progress bar
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
+
+    # Running in loop for all elements of list
+    sps <- list()
+
+    for (x in 1:length(spnames)) {
+      Sys.sleep(0.1)
+      utils::setTxtProgressBar(pb, x)
+
+      # Preparing data
+      sp <- sp::over(spdf_grid, spdf_object[spnames == spnames[x], ])
+      sps[[x]] <- na.omit(data.frame(ID, sp))
+    }
+
+    sps <- do.call(rbind, sps)
+  }
+
   colnames(sps) <- c("ID", "Species")
 
   return(sps)
@@ -238,13 +274,17 @@ spdf_2data <- function(spdf_object, spdf_grid) {
 #' @param raster_list list of RasterLayer objects. Each raster layer must be named
 #' as the species that it represents, and values in each layer must be
 #' 1 (presence) and 0 (absence).
+#' @param parallel (logical) whether to perform analyses in parallel.
+#' Default = FALSE.
+#' @param n_cores (numeric) number of cores to be used when \code{parallel} =
+#' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
 #' A data frame of species geographic records derived from values of presence
 #' in each layer from the list of raster layers.
 #'
 #' @usage
-#' rlist_2data(raster_list)
+#' rlist_2data(raster_list, parallel = FALSE, n_cores = NULL)
 #'
 #' @export
 #' @importFrom raster rasterToPoints
@@ -260,7 +300,7 @@ spdf_2data <- function(spdf_object, spdf_grid) {
 #' sp_data <- rlist_2data(raster_list = rlist)
 #' summary(sp_data)
 
-rlist_2data <- function(raster_list) {
+rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
   # Initial tests
   if (missing(raster_list)) {
     stop("Argument 'raster_list' must be defined")
@@ -283,7 +323,51 @@ rlist_2data <- function(raster_list) {
     data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
   })
 
-  sps <- do.call(rbind, sps)
+  if (parallel == TRUE) {
+    ## preparing parallel running
+    n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
+    cl <- snow::makeSOCKcluster(n_cores)
+    doSNOW::registerDoSNOW(cl)
+
+    ## progress bar
+    pb <- utils::txtProgressBar(min = 1, max = length(raster_list), style = 3)
+    progress <- function(n) {utils::setTxtProgressBar(pb, n)}
+    opts <- list(progress = progress)
+
+    ## processing
+    sps <- foreach::foreach(i = 1:length(raster_list), .inorder = TRUE,
+                            .options.snow = opts, .combine = "rbind") %dopar% {
+                              # raster to matrix
+                              sppm <- raster::rasterToPoints(raster_list[[i]])
+                              spname <- names(raster_list[[i]])
+
+                              # Preparing data
+                              data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
+                            }
+
+    snow::stopCluster(cl)
+  } else {
+    ## progress bar
+    pb <- utils::txtProgressBar(min = 1, max = length(raster_list), style = 3)
+
+    # Running in loop for all elements of list
+    sps <- list()
+
+    for (x in 1:length(raster_list)) {
+      Sys.sleep(0.1)
+      utils::setTxtProgressBar(pb, x)
+
+      # raster to matrix
+      sppm <- raster::rasterToPoints(raster_list[[x]])
+      spname <- names(raster_list[[x]])
+
+      # Preparing data
+      sps[[x]] <- data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
+    }
+
+    sps <- do.call(rbind, sps)
+  }
+
   colnames(sps) <- c("Longitude", "Latitude", "Species")
 
   return(sps)
@@ -306,6 +390,10 @@ rlist_2data <- function(raster_list) {
 #' @param spdf_grid geographic grid for the region of interest (output of function
 #' \code{\link{grid_from_region}}). Used when format equals "shp", "gpkg".
 #' Default = NULL.
+#' @param parallel (logical) whether to perform analyses in parallel.
+#' Default = FALSE.
+#' @param n_cores (numeric) number of cores to be used when \code{parallel} =
+#' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
 #' If files are in raster format, a data frame of species geographic records
@@ -315,7 +403,7 @@ rlist_2data <- function(raster_list) {
 #' positions (defined with identifiers); includes two columns: "ID" and "Species".
 #'
 #' @usage
-#' files_2data(path, format, spdf_grid = NULL)
+#' files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 #'
 #' @export
 #' @importFrom rgdal readOGR
@@ -332,7 +420,8 @@ rlist_2data <- function(raster_list) {
 #' summary(sp_data)
 #' }
 
-files_2data <- function(path, format, spdf_grid = NULL) {
+files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
+                        n_cores = NULL) {
   # Initial tests
   if (missing(path)) {
     stop("Argument 'path' must be defined")
@@ -347,7 +436,7 @@ files_2data <- function(path, format, spdf_grid = NULL) {
   # Finding files according to format
   if (format %in% c("shp", "gpkg", "geojson")) {
     if (is.null(spdf_grid)) {
-      stop("Argument 'spdf_grid' must be defined if 'format' is shp or gpkg")
+      stop("Argument 'spdf_grid' must be defined if 'format' is shp, gpkg, or geojson")
     }
     # Names to be matched
     ID <- spdf_grid@data$ID
@@ -381,40 +470,99 @@ files_2data <- function(path, format, spdf_grid = NULL) {
     stop(paste("No file was found in", path, "with the extension specified in 'format'"))
   }
 
-  # Running in loop for all elements of list
-  sps <- lapply(1:length(spnames), function(x) {
-    if (format %in% c("shp", "gpkg", "geojson")) {
-      ## reading data
-      if (format == "shp") {
-        rs <- rgdal::readOGR(dsn = path, layer = mlist[x], verbose = FALSE)
-      } else {
-        if (format == "gpkg") {
-          rs <- rgdal::readOGR(paste0(path, "/", mlist[x]), spnames[x],
-                               verbose = FALSE)
+  if (parallel == TRUE) {
+    ## preparing parallel running
+    n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
+    cl <- snow::makeSOCKcluster(n_cores)
+    doSNOW::registerDoSNOW(cl)
+
+    ## progress bar
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
+    progress <- function(n) {utils::setTxtProgressBar(pb, n)}
+    opts <- list(progress = progress)
+
+    ## processing
+    sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
+                            .options.snow = opts, .combine = "rbind") %dopar% {
+                              if (format %in% c("shp", "gpkg", "geojson")) {
+                                ## reading data
+                                if (format == "shp") {
+                                  rs <- rgdal::readOGR(dsn = path, layer = mlist[i],
+                                                       verbose = FALSE)
+                                } else {
+                                  if (format == "gpkg") {
+                                    rs <- rgdal::readOGR(paste0(path, "/", mlist[i]),
+                                                         spnames[x], verbose = FALSE)
+                                  } else {
+                                    rs <- rgdal::readOGR(paste0(path, "/", mlist[i]),
+                                                         verbose = FALSE)
+                                  }
+                                }
+
+                                ## preparing data
+                                sp <- sp::over(spdf_grid, rs)[, 1]
+                                sppm <- na.omit(data.frame(ID, Species = sp))
+                                sppm$Species <- spnames[x]
+                                return(sppm)
+
+                              } else {
+                                ## Raster from file
+                                rs <- raster::raster(mlist[x])
+
+                                ## Raster to matrix
+                                sppm <- raster::rasterToPoints(rs[[x]])
+
+                                ## Preparing data
+                                return(data.frame(sppm[sppm[, 3] == 1, 1:2],
+                                                  spnames[x]))
+                              }
+                            }
+
+    snow::stopCluster(cl)
+  } else {
+    ## progress bar
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
+
+    # Running in loop for all elements of list
+    sps <- list()
+
+    for (x in 1:length(spnames)) {
+      Sys.sleep(0.1)
+      utils::setTxtProgressBar(pb, x)
+
+      if (format %in% c("shp", "gpkg", "geojson")) {
+        ## reading data
+        if (format == "shp") {
+          rs <- rgdal::readOGR(dsn = path, layer = mlist[x], verbose = FALSE)
         } else {
-          rs <- rgdal::readOGR(paste0(path, "/", mlist[x]),
-                               verbose = FALSE)
+          if (format == "gpkg") {
+            rs <- rgdal::readOGR(paste0(path, "/", mlist[x]), spnames[x],
+                                 verbose = FALSE)
+          } else {
+            rs <- rgdal::readOGR(paste0(path, "/", mlist[x]),
+                                 verbose = FALSE)
+          }
         }
+
+        ## preparing data
+        sppm <- na.omit(data.frame(ID, Species = sp::over(spdf_grid, rs)[, 1]))
+        sppm$Species <- spnames[x]
+        sps[[x]] <- sppm
+
+      } else {
+        ## Raster from file
+        rs <- raster::raster(mlist[x])
+
+        ## Raster to matrix
+        sppm <- raster::rasterToPoints(rs[[x]])
+
+        ## Preparing data
+        sps[[x]] <- data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x])
       }
-
-      ## preparing data
-      sppm <- na.omit(data.frame(ID, Species = sp::over(spdf_grid, rs)[, 1]))
-      sppm$Species <- spnames[x]
-      return(sppm)
-
-    } else {
-      ## Raster from file
-      rs <- raster::raster(mlist[x])
-
-      ## Raster to matrix
-      sppm <- raster::rasterToPoints(rs[[x]])
-
-      ## Preparing data
-      return(data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x]))
     }
-  })
 
-  sps <- do.call(rbind, sps)
+    sps <- do.call(rbind, sps)
+  }
 
   if (format %in% c("shp", "gpkg", "geojson")) {
     colnames(sps) <- c("ID", "Species")
