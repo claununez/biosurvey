@@ -4,7 +4,7 @@
 \alias{spdf_2data}
 \title{Creates a data frame of species' references from SpatialPolygonsDataFrame}
 \usage{
-spdf_2data(spdf_object, spdf_grid)
+spdf_2data(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL)
 }
 \arguments{
 \item{spdf_object}{SpatialPolygonsDataFrame representing species' geographic
@@ -13,6 +13,12 @@ named "Species" to distinguish among features.}
 
 \item{spdf_grid}{geographic grid for the region of interest (output of function
 \code{\link{grid_from_region}}).}
+
+\item{parallel}{(logical) whether to perform analyses in parallel.
+Default = FALSE.}
+
+\item{n_cores}{(numeric) number of cores to be used when \code{parallel} =
+TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
 A data frame of species' found in distinct positions (defined with identifiers);
