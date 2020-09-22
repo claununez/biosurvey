@@ -4,7 +4,7 @@
 \alias{files_2data}
 \title{Creates a data frame of species' references from files in a directory}
 \usage{
-files_2data(path, format, spdf_grid = NULL)
+files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 }
 \arguments{
 \item{path}{(character) full path name of directory containing raster,
@@ -19,6 +19,12 @@ available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
 \item{spdf_grid}{geographic grid for the region of interest (output of function
 \code{\link{grid_from_region}}). Used when format equals "shp", "gpkg".
 Default = NULL.}
+
+\item{parallel}{(logical) whether to perform analyses in parallel.
+Default = FALSE.}
+
+\item{n_cores}{(numeric) number of cores to be used when \code{parallel} =
+TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
 If files are in raster format, a data frame of species geographic records
