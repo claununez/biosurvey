@@ -1,8 +1,8 @@
 #' Sample points from a 2D environmental space
 #'
 #' @description Sample one or more points from a two dimensional environmental
-#' space according to a selection rule and with the possibility of having distinct
-#' sets of points to be sampled independently.
+#' space according to a selection rule and with the possibility of having
+#' distinct sets of points to be sampled independently.
 #'
 #' @param data a matrix or a data frame that contains at least four columns:
 #' "Longitude" and "Latitude" to represent geographic position, and two other
@@ -14,20 +14,20 @@
 #' @param n (numeric) number of points to be selected. If \code{id_column}is
 #' defined this argument indicates the number of points per set. Default = 1.
 #' @param select_point (character) How or which point will be selected. Three
-#' options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-#' indicate that the point(s) closest to the respective centroid will be selected.
-#' Default = "E_centroid".
+#' options are available: "random", "E_centroid", "G_centroid". E_ or G_
+#' centroid indicate that the point(s) closest to the respective centroid will
+#' be selected. Default = "E_centroid".
 #' @param id_column (character or numeric) name or numeric index of the column
 #' in \code{data} containing identifiers of one or distinct sets of points.
 #' If, NULL, the default, only one set is assumed.
 #'
 #' @return
-#' A data.frame containing \code{n} rows corresponding to the point or points that
-#' were sampled.
+#' A data.frame containing \code{n} rows corresponding to the point or points
+#' that were sampled.
 #'
 #' @usage
-#' point_sample(data, variable_1, variable_2, n = 1, select_point = "E_centroid",
-#'              id_column = NULL)
+#' point_sample(data, variable_1, variable_2, n = 1,
+#'              select_point = "E_centroid", id_column = NULL)
 #'
 #' @export
 #'
@@ -36,7 +36,8 @@
 #' data("m_matrix", package = "biosurvey")
 #'
 #' # Sampling points
-#' points_s <- point_sample(m_matrix$data_matrix, variable_1 = "Max_temperature",
+#' points_s <- point_sample(m_matrix$data_matrix,
+#'                          variable_1 = "Max_temperature",
 #'                          variable_2 = "Min_temperature", n = 1,
 #'                          select_point = "E_centroid", id_column = NULL)
 #'
@@ -169,8 +170,8 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 #' \code{\link{density}}.
 #'
 #' @return
-#' A data.frame containing the values corresponding to the modes and the density
-#' for those particular values.
+#' A data.frame containing the values corresponding to the modes and the
+#' density for those particular values.
 #'
 #' @usage
 #' find_modes(density)
@@ -221,7 +222,8 @@ find_modes <- function(density) {
 
 #' Detection of clusters in 2D spaces
 #'
-#' @description Finds clusters of data in two dimensions based on distinct methods.
+#' @description Finds clusters of data in two dimensions based on distinct
+#' methods.
 #'
 #' @param data a matrix or a data frame that contains at least two columns.
 #' @param x_column (character) the name of the X-axis.
@@ -238,11 +240,12 @@ find_modes <- function(density) {
 #' "k-means" \code{cluster_method}.
 #'
 #' @return
-#' A data.frame containing \code{data} and an additional column defining clusters.
+#' A data.frame containing \code{data} and an additional column defining
+#' clusters.
 #'
 #' @details
-#' Clustering methods make distinct assumptions and one of them may perform better
-#' than the other depending on the pattern of the data.
+#' Clustering methods make distinct assumptions and one of them may perform
+#' better than the other depending on the pattern of the data.
 #'
 #' The k-means method tends to performs better when data are spatially grouped
 #' (spherically) and clusters are of a similar size. The hierarchical clustering
@@ -250,8 +253,9 @@ find_modes <- function(density) {
 #' assumptions and they may work well on some data sets, and fail on others.
 #'
 #' @usage
-#' find_clusters(data, x_column, y_column, space, cluster_method = "hierarchical",
-#'               n_k_means = NULL, split_distance = NULL)
+#' find_clusters(data, x_column, y_column, space,
+#'               cluster_method = "hierarchical", n_k_means = NULL,
+#'               split_distance = NULL)
 #'
 #' @export
 #' @importFrom stats hclust cutree kmeans dist as.dist
@@ -337,13 +341,14 @@ find_clusters <- function(data, x_column, y_column, space,
 
 
 
-#' Sample points from a 2D environmental space potentially disjoint in geography
+#' Sample points from a 2D environmental space potentially disjoint in
+#' geography
 #'
 #' @description Sample one or more points from a two dimensional environmental
-#' space according to a selection rule and with the possibility of having distinct
-#' sets of points to be sampled independently. Points to be sampled can be
-#' disjoint in geographic space and when that happens two points are selected
-#' considering the most numerous clusters.
+#' space according to a selection rule and with the possibility of having
+#' distinct sets of points to be sampled independently. Points to be sampled
+#' can be disjoint in geographic space and when that happens two points are
+#' selected considering the most numerous clusters.
 #'
 #' @param data a matrix or a data frame that contains at least four columns:
 #' "Longitude" and "Latitude" to represent geographic position, and two other
@@ -354,26 +359,26 @@ find_clusters <- function(data, x_column, y_column, space,
 #' variable (Y axis). Must be different from the first one.
 #' @param n (numeric) number of points to be selected. If \code{id_column}is
 #' defined this argument indicates the number of points per set. Default = 1.
-#' @param distance_list list of vectors of geographic distances among all points.
-#' If \code{id_column} is not defined, only one element in the list is needed,
-#' otherwise, \code{distance_list} must contain as many elements as unique IDs in
-#' \code{id_column}. In the later case, the names in \code{distance_list} must
-#' match the IDs in \code{id_column}.
+#' @param distance_list list of vectors of geographic distances among all
+#' points. If \code{id_column} is not defined, only one element in the list is
+#' needed, otherwise, \code{distance_list} must contain as many elements as
+#' unique IDs in \code{id_column}. In the later case, the names in
+#' \code{distance_list} must match the IDs in \code{id_column}.
 #' @param n (numeric) number of points that are close to the centroid to be
 #' detected. Default = 1.
 #' @param cluster_method (character) There are two options available:
 #' "hierarchical" and "k-means". Default = "hierarchical".
 #' @param select_point (character) How or which point will be selected. Three
-#' options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-#' indicate that the point(s) closest to the respective centroid will be selected.
-#' Default = "E_centroid".
+#' options are available: "random", "E_centroid", "G_centroid". E_ or G_
+#' centroid indicate that the point(s) closest to the respective centroid will
+#' be selected. Default = "E_centroid".
 #' @param id_column (character or numeric) name or numeric index of the column
 #' in \code{data} containing identifiers of one or distinct sets of points.
 #' If, NULL, the default, only one set is assumed.
 #'
 #' @return
-#' A data.frame containing \code{n} rows corresponding to the point or points that
-#' were sampled.
+#' A data.frame containing \code{n} rows corresponding to the point or points
+#' that were sampled.
 #'
 #' @usage
 #' point_sample_cluster(data, variable_1, variable_2, distance_list,
@@ -396,15 +401,18 @@ find_clusters <- function(data, x_column, y_column, space,
 #' datam <- datam[datam$Block %in% names(dist_list), ]
 #'
 #' # Sampling points
-#' point_clus <- point_sample_cluster(datam, variable_1 = "PC1", variable_2 = "PC2",
+#' point_clus <- point_sample_cluster(datam, variable_1 = "PC1",
+#'                                    variable_2 = "PC2",
 #'                                    distance_list = dist_list, n = 1,
 #'                                    cluster_method = "hierarchical",
-#'                                    select_point = "E_centroid", id_column = "Block")
+#'                                    select_point = "E_centroid",
+#'                                    id_column = "Block")
 
 
 point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                                  n = 1, cluster_method = "hierarchical",
-                                 select_point = "E_centroid", id_column = NULL) {
+                                 select_point = "E_centroid",
+                                 id_column = NULL) {
   # initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined.")
@@ -459,8 +467,9 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
       bse$clusters <- NULL
     } else {
       # sampling if unimodal
-      bse <- point_sample(data = data[bda == x, ], variable_1, variable_2, n = n,
-                          select_point = select_point, id_column = id_column)
+      bse <- point_sample(data = data[bda == x, ], variable_1, variable_2,
+                          n = n, select_point = select_point,
+                          id_column = id_column)
     }
     return(bse)
   })

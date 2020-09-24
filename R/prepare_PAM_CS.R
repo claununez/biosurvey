@@ -18,8 +18,8 @@
 #' @param CL (numeric) confidence limit to detect statistically significant
 #' values. Default = 0.05.
 #' @param picante_iterations (numeric) number of iterations to be used for each
-#' matrix randomization process (to be done \code{randomization_iterations} times).
-#' This process is done using the function \code{\link[picante]{randomizeMatrix}}
+#' matrix randomization process (to be done \code{randomization_iterations}
+#' times). This process is done using the function \code{randomizeMatrix}
 #' from the package \code{picante}. The default, NULL, uses \code{2 * sum(PAM)}.
 #' @param keep_randomizations (logical) whether to keep a matrix with all values
 #' from the randomization process. Default = FALSE.
@@ -30,13 +30,14 @@
 #'
 #' @return
 #' An S3 object of class PAM_CS if \code{PAM} is a matrix or data.frame,
-#' otherwise, the base_PAM that includes the PAM_CS object as part of PAM_indices.
+#' otherwise, the base_PAM that includes the PAM_CS object as part of
+#' PAM_indices.
 #'
 #' @details
 #' Christen-Soberón diagrams are plots that allow explorations of patterns of
 #' biodiversity in a region based on the data of presence-absence matrices. The
-#' plots to be produced using the information prepared here are a modification of
-#' those presented in Arita et al. (2011)
+#' plots to be produced using the information prepared here are a modification
+#' of those presented in Arita et al. (2011)
 #' \doi{https://doi.org/10.1111/j.1466-8238.2011.00662.x}.
 #'
 #'
@@ -69,8 +70,9 @@
 prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
                            significance_test = FALSE,
                            randomization_iterations = 100, CL = 0.05,
-                           picante_iterations = NULL, keep_randomizations = FALSE,
-                           parallel = FALSE, n_cores = NULL) {
+                           picante_iterations = NULL,
+                           keep_randomizations = FALSE, parallel = FALSE,
+                           n_cores = NULL) {
 
   if (missing(PAM)) {
     stop("Argument 'PAM' is missing.")

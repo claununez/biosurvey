@@ -4,30 +4,34 @@
 #' maximizing uniformity of points in geographic space.
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-#' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
-#' or \code{\link{EG_selection}}.
-#' @param expected_points (numeric) number of survey points (sites) to be selected.
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' from functions \code{\link{random_selection}},
+#' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
+#' @param expected_points (numeric) number of survey points (sites) to be
+#' selected.
 #' @param guess_distances (logical) whether or not to use internal algorithm
 #' to automatically select \code{initial_distance} and \code{increase}. Default
-#' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.
+#' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be
+#' defined.
 #' @param initial_distance (numeric) distance in km to be used for a first
 #' process of thinning and detection of remaining points. Default = NULL.
 #' @param increase (numeric) initial value to be added to or subtracted from
 #' \code{initial_distance} until reaching the number of \code{expected_points}.
 #' Default = NULL.
-#' @param max_n_samplings (numeric) maximum number of samples to be chosen after
-#' performing all thinning \code{replicates}. Default = 1.
+#' @param max_n_samplings (numeric) maximum number of samples to be chosen
+#' after performing all thinning \code{replicates}. Default = 1.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
 #' @param use_preselected_sites (logical) whether to use sites that have been
 #' defined as part of the selected sites previous any selection. Object in
 #' \code{master} must contain the site(s) preselected in and element of name
 #' "preselected_sites" for this argument to be effective. Default = TRUE.
 #' See details for more information on the approach used.
-#' @param median_distance_filter (character) optional argument to define a median
-#' distance-based filter based on which sets of sampling sites will be selected.
-#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
-#' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
+#' @param median_distance_filter (character) optional argument to define a
+#' median distance-based filter based on which sets of sampling sites will be
+#' selected. The default, NULL, does not apply such a filter. Options are:
+#' "max" and "min".
+#' @param set_seed (numeric) integer value to specify a initial seed.
+#' Default = 1.
 #' @param verbose (logical) whether or not to print messages about the process.
 #' Default = TRUE.
 #'
@@ -37,34 +41,35 @@
 #'
 #' @details
 #' Survey sites are selected searching for maximum geographic distances among
-#' all sites. This approach helps in selecting points that can cover most of the
-#' geographic extent of the region of interest. This type of selection could be
-#' appropriate when the region of interest has a complex geographic pattern (e.g.,
-#' an archipelago). This type of selection does not consider environmental
-#' conditions in the region of interest, which is why important environmental
-#' combinations may not be represented in the final selection of sites.
+#' all sites. This approach helps in selecting points that can cover most of
+#' the geographic extent of the region of interest. This type of selection
+#' could be appropriate when the region of interest has a complex geographic
+#' pattern (e.g., an archipelago). This type of selection does not consider
+#' environmental conditions in the region of interest, which is why important
+#' environmental combinations may not be represented in the final selection of
+#' sites.
 #'
 #' Exploring the geographic and environmental spaces of the region of interest
-#' would be a crucial first step before selecting survey sites. Such explorations
-#' can be done using the function \code{\link{explore_data_EG}}.
+#' would be a crucial first step before selecting survey sites. Such
+#' explorations can be done using the function \code{\link{explore_data_EG}}.
 #'
 #' If \code{use_preselected_sites} is TRUE and such sites are included as an
 #' element in the object in \code{master}, the approach for selecting uniform
-#' sites in geography is different than what was described above. User preselected
-#' sites will always be part of the sites selected. Other points are selected
-#' based on an algorithm that searches for sites that are uniformly distributed
-#' in geographic space but at a distance from preselected sites that helps in
-#' maintaining uniformity. Note that preselected sites will not be processed,
-#' therefore, uniformity of such points cannot be warrantied.
+#' sites in geography is different than what was described above. User
+#' preselected sites will always be part of the sites selected. Other points
+#' are selected based on an algorithm that searches for sites that are
+#' uniformly distributed in geographic space but at a distance from preselected
+#' sites that helps in maintaining uniformity. Note that preselected sites will
+#' not be processed, therefore, uniformity of such points cannot be warrantied.
 #'
-#' As multiple sets could result from selection when the \code{use_preselected_sites}
-#' is set as FALSE, the argument of the function \code{median_distance_filter}
-#' could be used to select the set of sites with the maximum ("max") or minimum
-#' ("min") median distance among selected sites. The option "max" will increase
-#' the geographic distance among sampling sites, which could be desirable if the
-#' goal is to cover the region of interest more broadly. The other option "min",
-#' could be used in cases when the goal is to reduce resources and time needed
-#' to sample such sites.
+#' As multiple sets could result from selection when the
+#' \code{use_preselected_sites} is set as FALSE, the argument of the function
+#' \code{median_distance_filter} could be used to select the set of sites with
+#' the maximum ("max") or minimum ("min") median distance among selected sites.
+#' The option "max" will increase the geographic distance among sampling sites,
+#' which could be desirable if the goal is to cover the region of interest more
+#' broadly. The other option "min", could be used in cases when the goal is to
+#' reduce resources and time needed to sample such sites.
 #'
 #' @seealso
 #' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
@@ -199,7 +204,8 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
 
     return(new_master_selection(master$data_matrix, master$preselected_sites,
                                 master$region, master$mask, master$raster_base,
-                                master$PCA_results, master$selected_sites_random,
+                                master$PCA_results,
+                                master$selected_sites_random,
                                 thin, master$selected_sites_E,
                                 master$selected_sites_EG))
   }
@@ -266,14 +272,16 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
   if (class(master)[1] == "master_matrix") {
     return(new_master_selection(master$data_matrix, master$preselected_sites,
                                 master$region, master$mask, master$raster_base,
-                                master$PCA_results, selected_sites_random = NULL,
+                                master$PCA_results,
+                                selected_sites_random = NULL,
                                 thin, selected_sites_E = NULL,
                                 selected_sites_EG = NULL))
 
   } else {
     return(new_master_selection(master$data_matrix, master$preselected_sites,
                                 master$region, master$mask, master$raster_base,
-                                master$PCA_results, master$selected_sites_random,
+                                master$PCA_results,
+                                master$selected_sites_random,
                                 thin, master$selected_sites_E,
                                 master$selected_sites_EG))
   }

@@ -1,22 +1,24 @@
 #' Species accumulation curves from PAM_subset
 #'
-#' @description Creates species accumulation curves for each set of selected sites
-#' contained in elements of \code{PAM_subset} that contain information of
+#' @description Creates species accumulation curves for each set of selected
+#' sites contained in elements of \code{PAM_subset} that contain information of
 #' species incidence (presence-absence).
 #'
 #' @param PAM_subset object of class PAM_subset obtained using the function
 #' \code{\link{subset_PAM}}.
-#' @param selection_type type of selection to be considered when creating SAC for
-#' elements in \code{PAM_subset}. Options are: "all", "random", "E", "G", "EG".
-#' The default, "all", uses all selection types present in
+#' @param selection_type type of selection to be considered when creating SAC
+#' for elements in \code{PAM_subset}. Options are: "all", "random", "E", "G",
+#' "EG". The default, "all", uses all selection types present in
 #' \code{PAM_subset}.
-#' @param method (character) species accumulation method to be passed to function
-#' \code{\link[vegan]{specaccum}}. Default = "exact".
-#' @param ... other arguments to be passed to function \code{\link[vegan]{specaccum}}.
+#' @param method (character) species accumulation method to be passed to
+#' function \code{\link[vegan]{specaccum}}. Default = "exact".
+#' @param ... other arguments to be passed to function
+#' \code{\link[vegan]{specaccum}}.
 #'
 #' @return
-#' A list of species accumulation curves (SACs, "\code{specaccum}" objects) for
-#' all sets of selected sites according to option defined in \code{selection_type}.
+#' A list of species accumulation curves (SACs, "\code{specaccum}" objects)
+#' for all sets of selected sites according to option defined in
+#' \code{selection_type}.
 #'
 #' @details
 #' Important details about the process performed to obtain each of the SACs can

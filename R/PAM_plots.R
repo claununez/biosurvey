@@ -21,8 +21,8 @@
 #' @param col_sites color for selected sites. The default, NULL, uses
 #' a red color to represent selected sites.
 #' @param col_pre color for preselected sites. The default, NULL, uses
-#' a purple color to represent preselected sites. Ignored if preselected sites are
-#' not present in \code{master_selection}.
+#' a purple color to represent preselected sites. Ignored if preselected sites
+#' are not present in \code{master_selection}.
 #' @param pch_sites (numeric) integer specifying a symbol when plotting points
 #' of selected sites. Default = 16.
 #' @param pch_pre (numeric) integer specifying a symbol when plotting points
@@ -161,13 +161,13 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' @param PAM_CS an object of class PAM_CS or a base_PAM object containing
 #' a PAM_CS object as part of PAM_indices. These objects can be obtained using
 #' the function \code{\link{prepare_PAM_CS}}.
-#' @param add_significant (logical) whether to add statistically significant values
-#' using a different symbol. Default = FALSE. If TRUE and values indicating
-#' significance are not in \code{PAM_CS}, a message will be printed.
+#' @param add_significant (logical) whether to add statistically significant
+#' values using a different symbol. Default = FALSE. If TRUE and values
+#' indicating significance are not in \code{PAM_CS}, a message will be printed.
 #' @param add_random_values (logical) whether to add values resulted from
 #' the randomization process done when preparing \code{PAM_CS}. Default = FALSE.
-#' Valid only if \code{add_significant} = TRUE, and randomized values are present
-#' in \code{PAM_CS}.
+#' Valid only if \code{add_significant} = TRUE, and randomized values are
+#' present in \code{PAM_CS}.
 #' @param col_all color code or name for all values. Default = "#8C8C8C".
 #' @param col_signiicant color code or name for significant values.
 #' Default = "#000000".
@@ -191,8 +191,8 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' relevant for interpreting the diagram. Default = TRUE.
 #'
 #' @return
-#' A Christen-Soberon plot with values of normalized richness in the x axis, and
-#' normalized values of the dispersion field index in the y axis.
+#' A Christen-Soberon plot with values of normalized richness in the x axis,
+#' and normalized values of the dispersion field index in the y axis.
 #'
 #' @export
 #' @importFrom graphics legend polygon
@@ -207,8 +207,9 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' # plot
 #' plot_PAM_CS(pcs)
 
-plot_PAM_CS <- function(PAM_CS, add_significant = FALSE, add_random_values = FALSE,
-                        col_all = "#8C8C8C", col_signiicant = "#000000",
+plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
+                        add_random_values = FALSE, col_all = "#8C8C8C",
+                        col_signiicant = "#000000",
                         col_random_values = "#D2D2D2", pch_all = 1,
                         pch_significant = 19, pch_random_values = 1, main = NULL,
                         xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,

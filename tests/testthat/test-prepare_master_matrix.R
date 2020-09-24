@@ -3,9 +3,9 @@ context("Preparation of master matrix")
 test_that("Correct creation of master_matrix", {
   variables <- raster::stack(system.file("extdata/variables.tif",
                                          package = "biosurvey"))
-  names(variables) <- c("Mean_temperature", "Max_temperature", "Min_temperature",
-                        "Annual_precipitation", "Prec_wettest_month",
-                        "Prec_driest_month")
+  names(variables) <- c("Mean_temperature", "Max_temperature",
+                        "Min_temperature", "Annual_precipitation",
+                        "Prec_wettest_month", "Prec_driest_month")
   m_matrix <- prepare_master_matrix(region = mx, variables = variables)
   m_matrix1 <- prepare_master_matrix(region = mx, variables = variables,
                                      do_pca = T, scale = T,
@@ -21,8 +21,9 @@ test_that("Correct creation of master_matrix", {
   enams <- c("Longitude", "Latitude", "Mean_temperature", "Max_temperature",
              "Min_temperature", "Annual_precipitation", "Prec_wettest_month",
              "Prec_driest_month")
-  enams1 <- c("Longitude", "Latitude", "Mean_temperature", "Annual_precipitation",
-              "PC1", "PC2")
+  enams1 <- c("Longitude", "Latitude", "Mean_temperature",
+              "Annual_precipitation", "PC1", "PC2")
+
 
   testthat::expect_s3_class(m_matrix, "master_matrix")
   testthat::expect_null(m_matrix$mask)

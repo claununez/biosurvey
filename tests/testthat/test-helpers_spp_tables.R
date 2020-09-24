@@ -45,7 +45,8 @@ test_that("Errors spdf_2data", {
   testthat::expect_error(spdf_2data(spdf_object = species_data))
   testthat::expect_error(spdf_2data(spdf_grid = grid_reg))
   testthat::expect_error(spdf_2data(spdf_object = species_data,
-                                    spdf_grid = as(grid_reg, "SpatialPolygons")))
+                                    spdf_grid = as(grid_reg,
+                                                   "SpatialPolygons")))
 })
 #----
 
@@ -54,7 +55,8 @@ test_that("Errors spdf_2data", {
 context("Tables from rlist")
 
 test_that("Correct rlist_2data", {
-  rsp <- raster::stack(system.file("extdata/sp_layers.tif", package = "biosurvey"))
+  rsp <- raster::stack(system.file("extdata/sp_layers.tif",
+                                   package = "biosurvey"))
   names(rsp) <- paste0("Species_", 1:5)
   rlist <- lapply(1:5, function(x) {rsp[[x]]})
   sp_data <- rlist_2data(raster_list = rlist)

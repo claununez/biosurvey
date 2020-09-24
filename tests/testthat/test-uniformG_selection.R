@@ -25,10 +25,13 @@ test_that("Correct G master_selection", {
 
 
 test_that("Errors and messages G selection", {
-  testthat::expect_message(uniformG_selection(m_matrix_pre, expected_points = 20,
-                                              max_n_samplings = 1, replicates = 1))
+  testthat::expect_message(uniformG_selection(m_matrix_pre,
+                                              expected_points = 20,
+                                              max_n_samplings = 1,
+                                              replicates = 1))
   testthat::expect_error(uniformG_selection(1:100, expected_points = 20,
-                                            max_n_samplings = 1, replicates = 1))
+                                            max_n_samplings = 1,
+                                            replicates = 1))
   testthat::expect_error(uniformG_selection(m_matrix))
   testthat::expect_error(uniformG_selection())
   testthat::expect_error(uniformG_selection(expected_points = 10))

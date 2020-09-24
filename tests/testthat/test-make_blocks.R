@@ -24,7 +24,8 @@ test_that("Correct creation of blocks", {
 test_that("Errors make_blocks", {
   testthat::expect_error(make_blocks())
   testthat::expect_error(make_blocks(master_matrix = m_matrix))
-  testthat::expect_error(make_blocks(master_matrix = m_matrix, variable_1 = "PC1"))
+  testthat::expect_error(make_blocks(master_matrix = m_matrix,
+                                     variable_1 = "PC1"))
   testthat::expect_error(make_blocks(region = variables, variable_1 = "PC1",
                                      variable_2 = "PC2"))
 })

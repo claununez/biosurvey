@@ -14,19 +14,19 @@
 #' excluded. Default = NULL.
 #'
 #' @return
-#' If \code{PAM} is a matrix or data.frame, the result is a list with the results
-#' described below (depending on \code{indices}). If \code{PAM} is a base_PAM
-#' object, a base_PAM object will be returned and the list described above will
-#' be appended to the element PAM_indices in such an element.
+#' If \code{PAM} is a matrix or data.frame, the result is a list with the
+#' results described below (depending on \code{indices}). If \code{PAM} is a
+#' base_PAM object, a base_PAM object will be returned and the list described
+#' above will be appended to the element PAM_indices in such an element.
 #'
 #' @details
 #' Description of the codes of all indices to be calculated is presented in the
 #' table below. If \code{indices} = "basic", only basic indices are calculated.
 #' However, basic indices are calculated in all cases not matter the code(s)
-#' defined in \code{indices}. Some indices require previous calculations of other
-#' indices, in such cases, all indices required are added to the final list.
-#' For further details on the way calculations are performed and the meaning of
-#' the indices see Soberon and Cavner (2015)
+#' defined in \code{indices}. Some indices require previous calculations of
+#' other indices, in such cases, all indices required are added to the final
+#' list. For further details on the way calculations are performed and the
+#' meaning of the indices see Soberon and Cavner (2015)
 #' \doi{https://doi.org/10.17161/bi.v10i0.4801}.
 #'
 #' |Code  |Index                                    |Calculation                     |
@@ -61,7 +61,8 @@
 #' data("sp_data", package = "biosurvey")
 #'
 #' # PAM
-#' pam <- PAM_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+#' pam <- PAM_from_table(data = sp_data, ID_column = "ID",
+#'                       species_column = "Species")
 #'
 #' pam_ind <- PAM_indices(pam, exclude_column = 1)
 #' pam_ind[1:3]
@@ -225,8 +226,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   # returning results
-  tab_in <- data.frame(Value = c(N, S, av_dfield, av_sccomp, BA, BW, BL, VCS_cov,
-                                 VRS_cov, Nc, Cs),
+  tab_in <- data.frame(Value = c(N, S, av_dfield, av_sccomp, BA, BW, BL,
+                                 VCS_cov, VRS_cov, Nc, Cs),
                        row.names = c("Sites_Cells", "Species", "Av_dispersion_field",
                                      "Av_shared_community_composition",
                                      "Additive_Beta", "Beta_Whittaker",
@@ -241,7 +242,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
               Dispersion_field = d_field, Shared_community_composition = sc_comp,
               Mean_composition_covariance = Ccov_mean,
               Mean_range_covariance = Rcov_mean,
-              Cov_mat_sites_composition = CS_cov, Cov_mat_species_ranges = RS_cov)
+              Cov_mat_sites_composition = CS_cov,
+              Cov_mat_species_ranges = RS_cov)
 
   if (cpam == "base_PAM") {
     if (is.null(bpam$PAM_indices)) {
