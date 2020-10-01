@@ -17,11 +17,11 @@ with function \code{\link{selected_sites_SAC}}.}
 \item{col_CI}{(character) color for confidence interval region for the curve;
 default = "lightblue".}
 
-\item{alpha_mean}{(numeric) alpha level for line representing the mean, values
-from 0 to 1; default = 0.7. Values close to 0 increase transparency.}
+\item{alpha_mean}{(numeric) alpha level for line representing the mean,
+values from 0 to 1; default = 0.7. Values close to 0 increase transparency.}
 
-\item{alpha_CI}{(numeric) alpha level for the region representing the confidence
-interval; default = 0.2.}
+\item{alpha_CI}{(numeric) alpha level for the region representing the
+confidence interval; default = 0.2.}
 
 \item{xlab}{(character) label for x axis of plot; default = "Number of sites".}
 
@@ -42,8 +42,8 @@ A plot of species "\code{specaccum}" objects. Multiple panels will be plotted
 if \code{SAC_selected_sites} list contains more than one element.
 }
 \description{
-Creates species accumulation curve plots (one or multiple panels)
-from information contained in lists obtained with the function
+Creates species accumulation curve plots (one or multiple
+panels) from information contained in lists obtained with the function
 \code{\link{selected_sites_SAC}}.
 }
 \examples{

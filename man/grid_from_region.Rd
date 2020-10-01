@@ -10,8 +10,8 @@ grid_from_region(region, cell_size, complete_cover = TRUE)
 \item{region}{SpatialPolygonsDataFrame of the region of interest. Object must
 be unprojected, World Geodetic System (WGS84).}
 
-\item{cell_size}{(numeric) resolution for grid (single number or vector of two
-numbers) in kilometers (km).}
+\item{cell_size}{(numeric) resolution for grid (single number or vector of
+two numbers) in kilometers (km).}
 
 \item{complete_cover}{(logical) whether or not to include cells of grid
 partially overlapped with region. Default = TRUE.}

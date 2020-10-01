@@ -12,7 +12,8 @@ identifiers). Must include at least two columns: "ID" and "Species".}
 
 \item{ID_column}{(character) name of the column containing identifiers.}
 
-\item{species_column}{(character) name of the column containing species names.}
+\item{species_column}{(character) name of the column containing species
+names.}
 }
 \value{
 Species' presence (1) and absence (0) matrix for a set of positions defined
@@ -27,6 +28,7 @@ contains species names and identifiers of positions where species are found.
 data("sp_data", package = "biosurvey")
 
 # PAM
-pam <- PAM_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+pam <- PAM_from_table(data = sp_data, ID_column = "ID",
+                      species_column = "Species")
 pam[1:10, c(1, 21:25)]
 }

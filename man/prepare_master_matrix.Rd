@@ -4,8 +4,9 @@
 \alias{prepare_master_matrix}
 \title{Prepare a base object to perform further analyses}
 \usage{
-prepare_master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
-                      do_pca = FALSE, center = TRUE, scale = FALSE,
+prepare_master_matrix(region, variables, mask = NULL,
+                      preselected_sites = NULL, do_pca = FALSE,
+                      center = TRUE, scale = FALSE,
                       variables_in_matrix = NULL, verbose = TRUE)
 }
 \arguments{
@@ -15,25 +16,25 @@ a country, another type of administrative are, or a protected area.}
 \item{variables}{RasterStack or RasterBrick of environmental variables.}
 
 \item{mask}{(optional) SpatialPolygons* object to mask \code{variables} and
-reduce \code{region} to an area that is more relevant for analysis (e.g., only
-areas with natural vegetation cover). Default = NULL.}
+reduce \code{region} to an area that is more relevant for analysis (e.g.,
+only areas with natural vegetation cover). Default = NULL.}
 
 \item{preselected_sites}{data.frame containing sites that must be included
 in posterior selections of sites for the survey system. Columns must be:
 "Sites", "Longitude", "Latitude", in that order.}
 
-\item{do_pca}{(logical) whether or not to perform a Principal Component Analysis.
-Default = FALSE.}
+\item{do_pca}{(logical) whether or not to perform a Principal Component
+Analysis. Default = FALSE.}
 
-\item{center}{(logical) whether or not to center variables. Argument to be passed
-to the function \code{\link[stats]{prcomp}}. Default = TRUE.}
+\item{center}{(logical) whether or not to center variables. Argument to be
+passed to the function \code{\link[stats]{prcomp}}. Default = TRUE.}
 
-\item{scale}{(logical) whether or not to scale the variables. Recommended when
-variables are in different units. Argument to be passed to the function
+\item{scale}{(logical) whether or not to scale the variables. Recommended
+when variables are in different units. Argument to be passed to the function
 \code{\link[stats]{prcomp}}. Default = FALSE.}
 
-\item{variables_in_matrix}{(character) name of variables to include in matrix.
-If NULL (the default) all variables will be included.}
+\item{variables_in_matrix}{(character) name of variables to include in
+matrix. If NULL (the default) all variables will be included.}
 
 \item{verbose}{(logical) whether or not to print messages about the process.
 Default = TRUE.}
@@ -48,8 +49,8 @@ the first two principal components derived from original data.
 \item mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
 \item preselected_sites: sites defined by used. NULL if \code{preselected_sites}
 was not defined.
-\item raster_base: a SpatialPolygonsDataFrame representing the grid of the rasters
-used, which will be used for plotting purposes.
+\item raster_base: a SpatialPolygonsDataFrame representing the grid of the
+rasters used, which will be used for plotting purposes.
 \item PCA_results: if \code{do_pca} is TRUE, other results from principal
 component analysis. If FALSE, PCA_results element of the object is NULL.
 }
@@ -64,10 +65,10 @@ This function helps in preparing all data as needed for further analyses
 aiming to define a survey sampling system considering geographic and
 environmental spaces in the \code{region} of interest.
 
-If \code{mask} is defined all analyses will be restricted to such an area. If
-\code{mask} is not fully contained by \code{region}, the mask used for reducing
-\code{variables}, and returned as part of the S3 object (master_matrix) is the
-intersection between them.
+If \code{mask} is defined all analyses will be restricted to such an area.
+If \code{mask} is not fully contained by \code{region}, the mask used for
+reducing \code{variables}, and returned as part of the S3 object
+(master_matrix) is the intersection between them.
 
 If \code{preselected_sites} is defined, environmental values and, if
 \code{do_pca} = TRUE, principal components are added to such records. These

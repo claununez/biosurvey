@@ -9,8 +9,8 @@ explore_data_EG(master, variable_1, variable_2, col_variable1 = NULL,
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
+\code{\link{prepare_master_matrix}} or a master_selection object derived from
+functions \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
 or \code{EG_selection}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
@@ -33,15 +33,16 @@ NULL, uses a color blind friendly palette similar to viridis.}
 uses the 25th color of the default palette for \code{col_variable1} with an
 alpha of 0.6.}
 
-\item{col_density}{a color palette to represent representation density of points
-in environmental space. This palette can be defined using functions like
-\code{\link{heat.colors}}, or one generated using functions like
-\code{\link{colorRampPalette}}. The default, NULL, uses a color blind friendly
-palette similar to magma, and changes the first color in the palette by NA.}
+\item{col_density}{a color palette to represent representation density of
+points in environmental space. This palette can be defined using functions
+like \code{\link{heat.colors}}, or one generated using functions like
+\code{\link{colorRampPalette}}. The default, NULL, uses a color blind
+friendly palette similar to magma, and changes the first color in the palette
+by NA.}
 }
 \value{
-A multi-panel plot showing two of the environmental predictors in the region of
-interest in both spaces, geographic and environmental.
+A multi-panel plot showing two of the environmental predictors in the region
+of interest in both spaces, geographic and environmental.
 }
 \description{
 Creates a four-panel plot with information of two environmental

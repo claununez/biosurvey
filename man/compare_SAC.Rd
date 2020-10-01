@@ -15,22 +15,24 @@ compare_SAC(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
 \item{SAC_selected_sites}{nested list of "\code{specaccum}" objects obtained
 with function \code{\link{selected_sites_SAC}}.}
 
-\item{element_1}{(numeric or character) index of position or character indicator
-of the first element (type of selection) in \code{SAC_selected_sites} to be
-plotted. Character options are: "random", "E", "G", "EG".}
+\item{element_1}{(numeric or character) index of position or character
+indicator of the first element (type of selection) in
+\code{SAC_selected_sites} to be plotted. Character options are: "random",
+"E", "G", "EG".}
 
-\item{element_2}{(numeric or character) index of position or character indicator
-of the second element (type of selection) in \code{SAC_selected_sites} to be
-plotted. Character options are: "random", "E", "G", "EG".}
+\item{element_2}{(numeric or character) index of position or character
+indicator of the second element (type of selection) in
+\code{SAC_selected_sites} to be plotted. Character options are: "random",
+"E", "G", "EG".}
 
-\item{col_mean1}{(character) color for mean value of curve in \code{element_1};
-default = "blue".}
+\item{col_mean1}{(character) color for mean value of curve in
+\code{element_1}; default = "blue".}
 
 \item{col_CI1}{(character) color for confidence interval region for the curve
 in \code{element_1}; default = "lightblue".}
 
-\item{col_mean2}{(character) color for mean value of curve in \code{element_2};
-default = "gray15".}
+\item{col_mean2}{(character) color for mean value of curve in
+\code{element_2}; default = "gray15".}
 
 \item{col_CI2}{(character) color for confidence interval region for the curve
 in \code{element_2}; default = "gray65".}
@@ -39,11 +41,11 @@ in \code{element_2}; default = "gray65".}
 
 \item{lty2}{type of line for \code{element_2}.}
 
-\item{alpha_mean}{(numeric) alpha level for line representing the mean, values
-from 0 to 1; default = 0.9. Values close to 0 increase transparency.}
+\item{alpha_mean}{(numeric) alpha level for line representing the mean,
+values from 0 to 1; default = 0.9. Values close to 0 increase transparency.}
 
-\item{alpha_CI}{(numeric) alpha level for the region representing the confidence
-interval; default = 0.3.}
+\item{alpha_CI}{(numeric) alpha level for the region representing the
+confidence interval; default = 0.3.}
 
 \item{xlab}{(character) label for x axis of plot; default = "Number of sites".}
 
@@ -60,8 +62,8 @@ TRUE.}
 "\code{specaccum}".}
 }
 \value{
-A comparative plot of two species "\code{specaccum}" objects done based on what
-is defined in \code{element_1} and  \code{element_2}.
+A comparative plot of two species "\code{specaccum}" objects done based on
+what is defined in \code{element_1} and  \code{element_2}.
 }
 \description{
 Creates comparative plots of two species accumulation curves

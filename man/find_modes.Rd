@@ -11,8 +11,8 @@ find_modes(density)
 \code{\link{density}}.}
 }
 \value{
-A data.frame containing the values corresponding to the modes and the density
-for those particular values.
+A data.frame containing the values corresponding to the modes and the
+density for those particular values.
 }
 \description{
 Find modes in a multimodal distribution of values based on the

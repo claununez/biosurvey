@@ -8,7 +8,8 @@ make_blocks(master_matrix, variable_1, variable_2, n_cols, n_rows = NULL,
             block_type = "equal_area")
 }
 \arguments{
-\item{master_matrix}{object derived from function \code{\link{prepare_master_matrix}}.}
+\item{master_matrix}{object derived from function
+\code{\link{prepare_master_matrix}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis) to be used to create blocks.}
@@ -17,8 +18,8 @@ variable (X axis) to be used to create blocks.}
 variable (Y axis) to be used to create blocks (must be different from the
 first one).}
 
-\item{n_cols}{(numeric) number of columns of a grid used to creates blocks and
-split the bi-dimensional space.}
+\item{n_cols}{(numeric) number of columns of a grid used to creates blocks
+and split the bi-dimensional space.}
 
 \item{n_rows}{(numeric) number of rows of a grid used to creates blocks and
 split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.}
@@ -29,9 +30,9 @@ the bi-dimensional space. Two options are available: "equal_area" and
 }
 \value{
 An S3 object of class master_matrix, containing the same elements found in a
-master_matrix object, with an additional column on the master_matrix data.frame
-containing block identifiers. If the element preselected_sites is not NULL in
-master_matrix blocks are also assigned to this sites.
+master_matrix object, with an additional column on the master_matrix
+data.frame containing block identifiers. If the element preselected_sites is
+not NULL in master_matrix blocks are also assigned to this sites.
 }
 \description{
 Divides a two-dimensional cloud of points in blocks according to
@@ -39,9 +40,9 @@ a user-defined number of rows and columns. This is applied to the element
 master_matrix and, if not NULL, to preselected_sites.
 }
 \details{
-For block_type, option "equal_area" generates blocks of the same size. The other
-option ("equal_points"), generates blocks containing the same number of points,
-which generally results in blocks of different sizes.
+For block_type, option "equal_area" generates blocks of the same size. The
+other option ("equal_points"), generates blocks containing the same number
+of points, which generally results in blocks of different sizes.
 }
 \examples{
 # Data

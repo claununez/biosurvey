@@ -16,8 +16,9 @@ A data frame of species geographic records derived from values of presence
 in each layer from the RasterStack.
 }
 \description{
-Creates a data frame of species' references that contains longitude,
-latitude, and species name, using a RasterStack or a RasterBrick as input.
+Creates a data frame of species' references that contains
+longitude, latitude, and species name, using a RasterStack or a RasterBrick
+as input.
 }
 \examples{
 # Data

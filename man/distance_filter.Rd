@@ -10,9 +10,10 @@ distance_filter(site_list, median_distance_filter = "max")
 \item{site_list}{list of selected sites provided as data.frames. Columns
 "Longitude" and "Latitude" are needed for distance calculation.}
 
-\item{median_distance_filter}{(character) optional argument to define a median
-distance-based filter based on which sets of sampling sites will be selected.
-The default, NULL, does not apply such a filter. Options are: "max" and "min".}
+\item{median_distance_filter}{(character) optional argument to define a
+median distance-based filter based on which sets of sampling sites will be
+selected. The default, NULL, does not apply such a filter. Options are:
+"max" and "min".}
 }
 \description{
 Helper to filter sets of sites by median distance among all points
