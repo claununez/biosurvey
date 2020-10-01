@@ -32,8 +32,8 @@ randomization test used to calculate statistical significance. Default = 100.}
 values. Default = 0.05.}
 
 \item{picante_iterations}{(numeric) number of iterations to be used for each
-matrix randomization process (to be done \code{randomization_iterations} times).
-This process is done using the function \code{\link[picante]{randomizeMatrix}}
+matrix randomization process (to be done \code{randomization_iterations}
+times). This process is done using the function \code{randomizeMatrix}
 from the package \code{picante}. The default, NULL, uses \code{2 * sum(PAM)}.}
 
 \item{keep_randomizations}{(logical) whether to keep a matrix with all values
@@ -47,7 +47,12 @@ TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
 An S3 object of class PAM_CS if \code{PAM} is a matrix or data.frame,
-otherwise, the base_PAM that includes the PAM_CS object as part of PAM_indices.
+otherwise, the base_PAM that includes the PAM_CS object as part of
+PAM_indices.
+
+Significant vales are presented as a vector in which 0 means non-significant,
+and 1 and 2 represent significant values below and above confidence limits of
+random expectations, respectively.
 }
 \description{
 Preparation of data and details to create Christen- Soberón
@@ -56,8 +61,8 @@ diagrams.
 \details{
 Christen-Soberón diagrams are plots that allow explorations of patterns of
 biodiversity in a region based on the data of presence-absence matrices. The
-plots to be produced using the information prepared here are a modification of
-those presented in Arita et al. (2011)
+plots to be produced using the information prepared here are a modification
+of those presented in Arita et al. (2011)
 \doi{https://doi.org/10.1111/j.1466-8238.2011.00662.x}.
 }
 \examples{

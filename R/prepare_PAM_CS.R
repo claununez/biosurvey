@@ -33,6 +33,10 @@
 #' otherwise, the base_PAM that includes the PAM_CS object as part of
 #' PAM_indices.
 #'
+#' Significant vales are presented as a vector in which 0 means non-significant,
+#' and 1 and 2 represent significant values below and above confidence limits of
+#' random expectations, respectively.
+#'
 #' @details
 #' Christen-Soberón diagrams are plots that allow explorations of patterns of
 #' biodiversity in a region based on the data of presence-absence matrices. The
@@ -175,10 +179,11 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
     ## identifying significant cells
     cl <- CL / 2
 
-    qq <- unlist(lapply(1:n, function(x) {
+    qq <- vapply(1:n, FUN.VALUE = numeric(1), FUN = function(x) {
       qqq <- quantile(alea[x, ], prob = c(0 + cl, 1 - cl))
-      ifelse(fists[x] > qqq[1] & fists[x] < qqq[2], 0, 1)
-    }))
+      ifelse(fists[x] > qqq[1] & fists[x] < qqq[2], 0,
+             ifelse(fists[x] < qqq[1], 1, 2))
+    })
   }
 
   # preparing results

@@ -169,7 +169,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' Valid only if \code{add_significant} = TRUE, and randomized values are
 #' present in \code{PAM_CS}.
 #' @param col_all color code or name for all values. Default = "#8C8C8C".
-#' @param col_signiicant color code or name for significant values.
+#' @param col_significant color code or name for significant values.
 #' Default = "#000000".
 #' @param col_random_values color code or name for randomized values.
 #' Default = "D2D2D2".
@@ -194,6 +194,17 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' A Christen-Soberon plot with values of normalized richness in the x axis,
 #' and normalized values of the dispersion field index in the y axis.
 #'
+#' @usage
+#' plot_PAM_CS(PAM_CS, add_significant = FALSE,
+#'             add_random_values = FALSE, col_all = "#8C8C8C",
+#'             col_significant_low = "#000000",
+#'             col_significant_high = "#000000",
+#'             col_random_values = "#D2D2D2", pch_all = 1,
+#'             pch_significant_low = 19, pch_significant_high = 19,
+#'             pch_random_values = 1, main = NULL,
+#'             xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
+#'             ylim_expansion = 0.25, add_legend = TRUE)
+#'
 #' @export
 #' @importFrom graphics legend polygon
 #'
@@ -209,9 +220,11 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 
 plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
                         add_random_values = FALSE, col_all = "#8C8C8C",
-                        col_signiicant = "#000000",
+                        col_significant_low = "#000000",
+                        col_significant_high = "#000000",
                         col_random_values = "#D2D2D2", pch_all = 1,
-                        pch_significant = 19, pch_random_values = 1, main = NULL,
+                        pch_significant_low = 19, pch_significant_high = 19,
+                        pch_random_values = 1, main = NULL,
                         xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
                         ylim_expansion = 0.25, add_legend = TRUE) {
 
@@ -268,19 +281,27 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
                       as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~ .(sper)))))
   }
 
+  # randomized values
+  if (add_random_values == TRUE) {
+    if (!all(is.na(PAM$Randomized_DF))) {
+      for (i in 1:ncol(PAM$Randomized_DF)) {
+        points(alfas, PAM$Randomized_DF[, i], col = col_random_values,
+               pch = pch_random_values, cex = 0.8)
+      }
+      points(alfas, fists, col = col_all, pch = pch_all)
+    } else {
+      message("Values from randomization process are missing in 'PAM_CS'")
+    }
+  }
+
   # significant values
   if (add_significant == TRUE) {
     if (!all(is.na(PAM$S_significance_id))) {
-      if (add_random_values == TRUE & !all(is.na(PAM$Randomized_DF))) {
-        for (i in 1:ncol(PAM$Randomized_DF)) {
-          points(alfas, PAM$Randomized_DF[, i], col = col_random_values,
-                 pch = pch_random_values, cex = 0.8)
-        }
-        points(alfas, fists, col = col_all, pch = pch_all)
-      }
-
       sig_vals <- cbind(alfas, fists)[PAM$S_significance_id == 1, ]
-      points(sig_vals, pch = pch_significant, col = col_signiicant)
+      points(sig_vals, pch = pch_significant_low, col = col_significant_low)
+
+      sig_vals <- cbind(alfas, fists)[PAM$S_significance_id == 2, ]
+      points(sig_vals, pch = pch_significant_high, col = col_significant_high)
     } else {
       message("Values that indicate significance are missing in 'PAM_CS'")
     }
