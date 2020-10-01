@@ -30,10 +30,22 @@ present in \code{PAM_CS}.}
 
 \item{col_all}{color code or name for all values. Default = "#8C8C8C".}
 
+\item{col_significant_low}{color code or name for significant values below
+confidence limits of random expectations. Default = "#000000".}
+
+\item{col_significant_high}{color code or name for significant values above
+confidence limits of random expectations. Default = "#000000".}
+
 \item{col_random_values}{color code or name for randomized values.
 Default = "D2D2D2".}
 
 \item{pch_all}{point symbol to be used for all values. Default = 1.}
+
+\item{pch_significant_low}{point symbol to be used for significant values
+below confidence limits of random expectations. Default = 19.}
+
+\item{pch_significant_high}{point symbol to be used for significant values
+above confidence limits of random expectations. Default = 19.}
 
 \item{pch_random_values}{point symbol to be used for randomized values.
 Default = 1.}
@@ -49,18 +61,13 @@ of normalized richness.}
 
 \item{ylim}{y limits of the plot. The default, NULL, uses the range of the
 normalized values of the dispersion field. The second limit is increased
-by adding the result of multiplying it by \code{ylim_expansion}.}
+by adding the result of multiplying it by \code{ylim_expansion}, if
+\code{add_legend} = TRUE.}
 
 \item{ylim_expansion}{value used or expanding the \code{ylim}. Default = 0.25.}
 
 \item{add_legend}{(logical) whether to add a legend describing information
 relevant for interpreting the diagram. Default = TRUE.}
-
-\item{col_significant}{color code or name for significant values.
-Default = "#000000".}
-
-\item{pch_significant}{point symbol to be used for significant values.
-Default = 19.}
 }
 \value{
 A Christen-Soberon plot with values of normalized richness in the x axis,

@@ -169,13 +169,17 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' Valid only if \code{add_significant} = TRUE, and randomized values are
 #' present in \code{PAM_CS}.
 #' @param col_all color code or name for all values. Default = "#8C8C8C".
-#' @param col_significant color code or name for significant values.
-#' Default = "#000000".
+#' @param col_significant_low color code or name for significant values below
+#' confidence limits of random expectations. Default = "#000000".
+#' @param col_significant_high color code or name for significant values above
+#' confidence limits of random expectations. Default = "#000000".
 #' @param col_random_values color code or name for randomized values.
 #' Default = "D2D2D2".
 #' @param pch_all point symbol to be used for all values. Default = 1.
-#' @param pch_significant point symbol to be used for significant values.
-#' Default = 19.
+#' @param pch_significant_low point symbol to be used for significant values
+#' below confidence limits of random expectations. Default = 19.
+#' @param pch_significant_high point symbol to be used for significant values
+#' above confidence limits of random expectations. Default = 19.
 #' @param pch_random_values point symbol to be used for randomized values.
 #' Default = 1.
 #' @param main main title for the plot. Default = NULL.
@@ -185,7 +189,8 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' of normalized richness.
 #' @param ylim y limits of the plot. The default, NULL, uses the range of the
 #' normalized values of the dispersion field. The second limit is increased
-#' by adding the result of multiplying it by \code{ylim_expansion}.
+#' by adding the result of multiplying it by \code{ylim_expansion}, if
+#' \code{add_legend} = TRUE.
 #' @param ylim_expansion value used or expanding the \code{ylim}. Default = 0.25.
 #' @param add_legend (logical) whether to add a legend describing information
 #' relevant for interpreting the diagram. Default = TRUE.
