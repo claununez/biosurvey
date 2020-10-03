@@ -1,7 +1,7 @@
-#' Preparing data for Christen-Soberón diagrams
+#' Preparing data for new diversity-range plot
 #'
-#' @description Preparation of data and details to create Christen- Soberón
-#' diagrams.
+#' @description Preparation of data and details to create diversity-range
+#' plots.
 #'
 #' @param PAM matrix, data.frame, or base_PAM object containing information on
 #' species presence and absence for a set of sites. Sites are organized in the
@@ -38,8 +38,8 @@
 #' random expectations, respectively.
 #'
 #' @details
-#' Christen-Soberón diagrams are plots that allow explorations of patterns of
-#' biodiversity in a region based on the data of presence-absence matrices. The
+#' Diversity-range plot allow explorations of patterns of biodiversity
+#' in a region based on the data of presence-absence matrices. The
 #' plots to be produced using the information prepared here are a modification
 #' of those presented in Arita et al. (2011)
 #' \doi{https://doi.org/10.1111/j.1466-8238.2011.00662.x}.

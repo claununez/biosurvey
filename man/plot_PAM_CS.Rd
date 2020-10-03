@@ -2,7 +2,7 @@
 % Please edit documentation in R/PAM_plots.R
 \name{plot_PAM_CS}
 \alias{plot_PAM_CS}
-\title{Plot Christen-Soberon diagrams}
+\title{Plot new diversity-range diagram}
 \usage{
 plot_PAM_CS(PAM_CS, add_significant = FALSE,
             add_random_values = FALSE, col_all = "#8C8C8C",
@@ -70,11 +70,12 @@ by adding the result of multiplying it by \code{ylim_expansion}, if
 relevant for interpreting the diagram. Default = TRUE.}
 }
 \value{
-A Christen-Soberon plot with values of normalized richness in the x axis,
-and normalized values of the dispersion field index in the y axis.
+A diversity-range plot with values of normalized richness in the x axis,
+and normalized values of the dispersion field index divided by number of
+species in the y axis.
 }
 \description{
-Plot Christen-Soberon diagrams
+Plot new diversity-range diagram
 }
 \examples{
 # data

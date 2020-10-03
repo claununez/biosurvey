@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepare_PAM_CS.R
 \name{prepare_PAM_CS}
 \alias{prepare_PAM_CS}
-\title{Preparing data for Christen-Soberón diagrams}
+\title{Preparing data for new diversity-range plot}
 \usage{
 prepare_PAM_CS(PAM, exclude_column = NULL, id_column = NULL,
                significance_test = FALSE, randomization_iterations = 100,
@@ -55,12 +55,12 @@ and 1 and 2 represent significant values below and above confidence limits of
 random expectations, respectively.
 }
 \description{
-Preparation of data and details to create Christen- Soberón
-diagrams.
+Preparation of data and details to create diversity-range
+plots.
 }
 \details{
-Christen-Soberón diagrams are plots that allow explorations of patterns of
-biodiversity in a region based on the data of presence-absence matrices. The
+Diversity-range plot allow explorations of patterns of biodiversity
+in a region based on the data of presence-absence matrices. The
 plots to be produced using the information prepared here are a modification
 of those presented in Arita et al. (2011)
 \doi{https://doi.org/10.1111/j.1466-8238.2011.00662.x}.

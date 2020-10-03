@@ -156,7 +156,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 
 
 
-#' Plot Christen-Soberon diagrams
+#' Plot new diversity-range diagram
 #'
 #' @param PAM_CS an object of class PAM_CS or a base_PAM object containing
 #' a PAM_CS object as part of PAM_indices. These objects can be obtained using
@@ -196,8 +196,9 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' relevant for interpreting the diagram. Default = TRUE.
 #'
 #' @return
-#' A Christen-Soberon plot with values of normalized richness in the x axis,
-#' and normalized values of the dispersion field index in the y axis.
+#' A diversity-range plot with values of normalized richness in the x axis,
+#' and normalized values of the dispersion field index divided by number of
+#' species in the y axis.
 #'
 #' @usage
 #' plot_PAM_CS(PAM_CS, add_significant = FALSE,
@@ -259,13 +260,13 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
 
   # plot elements
   if (is.null(main)) {
-    main <- "Christen-Soberon diagram"
+    main <- "Diversity-range plot"
   }
   if (is.null(xlab)) {
     xlab <- "Normalized richness"
   }
   if (is.null(ylab)) {
-    ylab <- "Normalized dispersion field"
+    ylab <- "Normalized dispersion field / S"
   }
   if (is.null(xlim)) {
     xlim <- range(vx)
@@ -281,7 +282,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
   polygon(vx, vy, border = "#474747")
   if (add_legend == TRUE) {
     legend("topleft", bty = "n", inset = -0.02,
-           legend = c(paste("N species =", s), paste("N sites-cells =", n),
+           legend = c(paste("N species (S) =", s), paste("N sites-cells =", n),
                       paste("Beta W =", round(betty, 3)),
                       as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~ .(sper)))))
   }
