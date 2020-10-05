@@ -18,7 +18,9 @@ test_that("Errors pft", {
                                         species_column = "Species"))
   testthat::expect_error(PAM_from_table(data = sp_data, ID_column = "ID",
                                         species_column = "Spes"))
-  testthat::expect_error(PAM_from_table(ID_column = "ID", species_column = "Spes"))
-  testthat::expect_error(PAM_from_table(data = sp_data, species_column = "Spes"))
+  testthat::expect_error(PAM_from_table(ID_column = "ID",
+                                        species_column = "Spes"))
+  testthat::expect_error(PAM_from_table(data = sp_data,
+                                        species_column = "Spes"))
   testthat::expect_error(PAM_from_table(data = sp_data, ID_column = "ID"))
 })

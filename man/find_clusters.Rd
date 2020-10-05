@@ -4,8 +4,9 @@
 \alias{find_clusters}
 \title{Detection of clusters in 2D spaces}
 \usage{
-find_clusters(data, x_column, y_column, space, cluster_method = "hierarchical",
-              n_k_means = NULL, split_distance = NULL)
+find_clusters(data, x_column, y_column, space,
+              cluster_method = "hierarchical", n_k_means = NULL,
+              split_distance = NULL)
 }
 \arguments{
 \item{data}{a matrix or a data frame that contains at least two columns.}
@@ -29,14 +30,16 @@ euclidean distance (if \code{space} = "E") to identify clusters if
 \code{cluster_method} = "hierarchical".}
 }
 \value{
-A data.frame containing \code{data} and an additional column defining clusters.
+A data.frame containing \code{data} and an additional column defining
+clusters.
 }
 \description{
-Finds clusters of data in two dimensions based on distinct methods.
+Finds clusters of data in two dimensions based on distinct
+methods.
 }
 \details{
-Clustering methods make distinct assumptions and one of them may perform better
-than the other depending on the pattern of the data.
+Clustering methods make distinct assumptions and one of them may perform
+better than the other depending on the pattern of the data.
 
 The k-means method tends to performs better when data are spatially grouped
 (spherically) and clusters are of a similar size. The hierarchical clustering

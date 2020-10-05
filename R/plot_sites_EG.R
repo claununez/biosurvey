@@ -9,7 +9,8 @@
 #' @param selection_type (character) Type of selection depending on the function
 #' used to select sites. The options available are "random"
 #' (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
-#' "E" (\code{\link{uniformE_selection}}), and "EG" (\code{\link{EG_selection}}).
+#' "E" (\code{\link{uniformE_selection}}), and "EG"
+#' (\code{\link{EG_selection}}).
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X axis) to be plotted in environmental space. Default = NULL,
 #' required when \code{selection_type} = "random" or "G".
@@ -33,15 +34,16 @@
 #' @param cex_pre (numeric) value defining magnification of preselected sites
 #' relative to the default. Default = 1. Ignored if preselected sites are
 #' not present in \code{master_selection}.
-#' @param pch_all (numeric) integer specifying a symbol when plotting all points.
-#' Default = 16.
+#' @param pch_all (numeric) integer specifying a symbol when plotting all
+#' points. Default = 16.
 #' @param pch_sites (numeric) integer specifying a symbol when plotting points
 #' of selected sites. Default = 16.
 #' @param pch_pre (numeric) integer specifying a symbol when plotting points
 #' of preselected sites. Default = 16. Ignored if preselected sites are
 #' not present in \code{master_selection}.
 #' @param add_main (logical) whether or not to add fixed titles to the plot.
-#' Default = TRUE. Titles added are "Environmental space" and "Geographic space".
+#' Default = TRUE. Titles added are "Environmental space" and "Geographic
+#' space".
 #'
 #' @return
 #' A two-panel plot showing the selected sites. They are show in both spaces,
@@ -72,7 +74,8 @@
 #' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E space
-#' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+#' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
+#'                                  variable_2 = "PC2",
 #'                                  selection_from = "block_centroids",
 #'                                  expected_points = 25, max_n_samplings = 1,
 #'                                  initial_distance = 1, increase = 0.1,
@@ -83,10 +86,11 @@
 
 
 plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
-                          variable_2 = NULL, selection_number = 1, col_all = NULL,
-                          col_sites = NULL, col_pre = NULL, cex_all = 0.7,
-                          cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-                          pch_pre = 16, add_main = TRUE) {
+                          variable_2 = NULL, selection_number = 1,
+                          col_all = NULL, col_sites = NULL, col_pre = NULL,
+                          cex_all = 0.7, cex_sites = 1, cex_pre = 1,
+                          pch_all = 16, pch_sites = 16, pch_pre = 16,
+                          add_main = TRUE) {
   # initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
@@ -179,7 +183,8 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
 
   ## selected sites
   selected_data <- master_selection[[selection_type]][[selection_number]]
-  points(selected_data[, evars], pch = pch_sites, cex = cex_sites, col = col_sites)
+  points(selected_data[, evars], pch = pch_sites, cex = cex_sites,
+         col = col_sites)
 
   ## preselected sites
   precon <- sel_args$arguments$use_preselected_sites
@@ -202,7 +207,8 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
   sp::plot(master_selection[[where]], col = col_all, add = TRUE)
 
   ## selected sites
-  points(selected_data[, gvars], pch = pch_sites, cex = cex_sites, col = col_sites)
+  points(selected_data[, gvars], pch = pch_sites, cex = cex_sites,
+         col = col_sites)
 
   ## preselected sites
   if (!is.null(master_selection$preselected_sites) & precon == TRUE) {

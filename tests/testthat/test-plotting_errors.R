@@ -4,8 +4,10 @@ context("Explore data EG")
 test_that("Errors explore_data_EG", {
   testthat::expect_error(explore_data_EG())
   testthat::expect_error(explore_data_EG(m_matrix))
-  testthat::expect_error(explore_data_EG(m_matrix, variable_1 = "Mean_temperature"))
-  testthat::expect_error(explore_data_EG(m_matrix, variable_2 = "Annual_precipitation"))
+  testthat::expect_error(explore_data_EG(m_matrix,
+                                         variable_1 = "Mean_temperature"))
+  testthat::expect_error(explore_data_EG(m_matrix,
+                                         variable_2 = "Annual_precipitation"))
 })
 #----
 
@@ -33,7 +35,8 @@ test_that("Errors plot_sites_EG", {
   m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                           variable_2 = "PC2", n_cols = 10, n_rows = 10,
                           block_type = "equal_area")
-  selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+  selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
+                                   variable_2 = "PC2",
                                    selection_from = "block_centroids",
                                    expected_points = 20, max_n_samplings = 1,
                                    replicates = 5)

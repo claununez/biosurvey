@@ -5,8 +5,8 @@
 #' system.
 #'
 #' @param master a master_matrix object derived from the function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-#' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived from
+#' functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X axis).
@@ -14,11 +14,12 @@
 #' variable (Y axis) to be used to create blocks (must be different from the
 #' first one).
 #' @param expected_blocks (numeric) number of blocks to be selected.
-#' @param selection_type (character) Type of selection. Two options are available:
-#' "uniform" and "random". Default = "uniform".
+#' @param selection_type (character) Type of selection. Two options are
+#' available: "uniform" and "random". Default = "uniform".
 #' @param replicates (numeric) number of thinning replicates performed to select
 #' blocks uniformly. Default = 10.
-#' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
+#' @param set_seed (numeric) integer value to specify a initial seed.
+#' Default = 1.
 #'
 #' @details
 #' When blocks in \code{master} were defined using the option "equal_points"
@@ -27,8 +28,9 @@
 #'
 #' @return
 #' An S3 object of class master_matrix or master_selection, containing the same
-#' elements found in the input object, with an additional column in the master_matrix
-#' data.frame containing a binary code for selected (1) and non-selected (0) blocks.
+#' elements found in the input object, with an additional column in the
+#' master_matrix data.frame containing a binary code for selected (1) and
+#' non-selected (0) blocks.
 #'
 #' @usage
 #' block_sample(master, variable_1, variable_2, expected_blocks,

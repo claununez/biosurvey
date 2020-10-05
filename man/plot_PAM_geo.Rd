@@ -39,8 +39,8 @@ not plot any border.}
 a red color to represent selected sites.}
 
 \item{col_pre}{color for preselected sites. The default, NULL, uses
-a purple color to represent preselected sites. Ignored if preselected sites are
-not present in \code{master_selection}.}
+a purple color to represent preselected sites. Ignored if preselected sites
+are not present in \code{master_selection}.}
 
 \item{pch_sites}{(numeric) integer specifying a symbol when plotting points
 of selected sites. Default = 16.}

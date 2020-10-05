@@ -18,7 +18,8 @@ plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
 \item{selection_type}{(character) Type of selection depending on the function
 used to select sites. The options available are "random"
 (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
-"E" (\code{\link{uniformE_selection}}), and "EG" (\code{\link{EG_selection}}).}
+"E" (\code{\link{uniformE_selection}}), and "EG"
+(\code{\link{EG_selection}}).}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis) to be plotted in environmental space. Default = NULL,
@@ -52,8 +53,8 @@ relative to the default. Default = 1.}
 relative to the default. Default = 1. Ignored if preselected sites are
 not present in \code{master_selection}.}
 
-\item{pch_all}{(numeric) integer specifying a symbol when plotting all points.
-Default = 16.}
+\item{pch_all}{(numeric) integer specifying a symbol when plotting all
+points. Default = 16.}
 
 \item{pch_sites}{(numeric) integer specifying a symbol when plotting points
 of selected sites. Default = 16.}
@@ -63,7 +64,8 @@ of preselected sites. Default = 16. Ignored if preselected sites are
 not present in \code{master_selection}.}
 
 \item{add_main}{(logical) whether or not to add fixed titles to the plot.
-Default = TRUE. Titles added are "Environmental space" and "Geographic space".}
+Default = TRUE. Titles added are "Environmental space" and "Geographic
+space".}
 }
 \value{
 A two-panel plot showing the selected sites. They are show in both spaces,
@@ -86,7 +88,8 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 colnames(m_blocks$data_matrix)
 
 # Selecting sites uniformly in E space
-selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
+                                 variable_2 = "PC2",
                                  selection_from = "block_centroids",
                                  expected_points = 25, max_n_samplings = 1,
                                  initial_distance = 1, increase = 0.1,

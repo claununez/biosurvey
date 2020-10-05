@@ -1,7 +1,7 @@
 #' Subset PAM according to selected sites
 #'
-#' @description Subsets of a base_PAM object according to survey sites contained
-#' in a master_selection object.
+#' @description Subsets of a base_PAM object according to survey sites
+#' contained in a master_selection object.
 #'
 #' @param base_PAM object of class base_PAM obtained using the function
 #' \code{\link{prepare_base_PAM}}.

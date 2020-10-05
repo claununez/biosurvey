@@ -8,17 +8,17 @@ files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 }
 \arguments{
 \item{path}{(character) full path name of directory containing raster,
-shapefiles, geopackage, or GeoJSON files representing species geographic ranges.
-Each file must be named as the species that it represents. All files must be in
-the same format. If files are raster, values in each layer must be 1 (presence)
-and 0 (absence).}
+shapefiles, geopackage, or GeoJSON files representing species geographic
+ranges. Each file must be named as the species that it represents. All files
+must be in the same format. If files are raster, values in each layer must be
+1 (presence) and 0 (absence).}
 
 \item{format}{(character) the format files found in \code{path}. Current
 available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
 
-\item{spdf_grid}{geographic grid for the region of interest (output of function
-\code{\link{grid_from_region}}). Used when format equals "shp", "gpkg".
-Default = NULL.}
+\item{spdf_grid}{geographic grid for the region of interest (output of
+function \code{\link{grid_from_region}}). Used when format equals "shp",
+"gpkg". Default = NULL.}
 
 \item{parallel}{(logical) whether to perform analyses in parallel.
 Default = FALSE.}
@@ -31,11 +31,12 @@ If files are in raster format, a data frame of species geographic records
 derived from values of presence in each layer.
 
 If files are not in raster format, a data frame of species' found in distinct
-positions (defined with identifiers); includes two columns: "ID" and "Species".
+positions (defined with identifiers); includes two columns: "ID" and
+"Species".
 }
 \description{
-Creates a data frame of species' references that contains longitude,
-latitude, and species name, from a character.
+Creates a data frame of species' references that contains
+longitude, latitude, and species name, from a character.
 }
 \examples{
 # example of how to define arguments, check argument descriptions above

@@ -2,9 +2,9 @@
 #'
 #' @description Prepares a presence-absence matrix (PAM) in which all sites
 #' of interest (rows) will have a value for presence or absence of a species
-#' of interest (columns). Initial points of interest will be represented by an ID,
-#' and longitude and latitude coordinates. The PAM will be linked to a spatial
-#' grid.
+#' of interest (columns). Initial points of interest will be represented by an
+#' ID, and longitude and latitude coordinates. The PAM will be linked to a
+#' spatial grid.
 #'
 #' @param data species geographic ranges to be used to create a presence-absence
 #' matrix (PAM). This argument can be: character, data.frame, RasterStack,
@@ -12,10 +12,10 @@
 #' details for a description of the characteristics of data for each option.
 #' @param format (character) if \code{data} is of class character, available
 #' options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
-#' @param master_matrix object of class "master_matrix" or "master_selection". See
-#' details.
-#' @param cell_size (numeric) resolution for grid (single number or vector of two
-#' numbers) in kilometers (km).
+#' @param master_matrix object of class "master_matrix" or "master_selection".
+#' See details.
+#' @param cell_size (numeric) resolution for grid (single number or vector of
+#' two numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with the geographic region of interest contained in
 #' \code{master_matrix}. Default = TRUE.
@@ -45,10 +45,10 @@
 #' (EPSG:4326).
 #'
 #' Description of objects to be used as \code{data}:
-#' - character.- name of directory containing raster, shapefiles, geopackage, or
-#' geojson files representing species geographic ranges. Each file must be named
-#' as the species that it represents. All files must be in an only format. If
-#' files are in raster format, "GTiff" and "ascii" are acceptable extensions;
+#' - character.- name of directory containing raster, shapefiles, geopackage,
+#' or geojson files representing species geographic ranges. Each file must be
+#' named as the species that it represents. All files must be in an only format.
+#' If files are in raster format, "GTiff" and "ascii" are acceptable extensions;
 #' values in each layer must be 1 (presence) and 0 (absence).
 #' - data.frame.- a table containing  three columns. Columns must be in the
 #' following order: Longitude, Latitude, Species.
@@ -57,8 +57,8 @@
 #' (absence).
 #' - list.-  a list of RasterLayers that cannot be stacked because of extent or
 #' resolution differences. Each element of the list must be named as the species
-#' which range it represents, and values in each RasterLayer must be 1 (presence)
-#' and 0 (absence).
+#' which range it represents, and values in each RasterLayer must be 1
+#' (presence) and 0 (absence).
 #' - SpatialPolygonsDataFrame.- object representing species' geographic ranges.
 #' The data frame associated with the object must contain a column
 #' named "Species" to distinguish among features representing each species range.
@@ -68,7 +68,8 @@
 #'
 #' A list of codes and indices that can be calculated is described below. For
 #' further details on the way calculations are performed and the meaning of the
-#' indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.4801}.
+#' indices see Soberon and Cavner (2015)
+#' \doi{https://doi.org/10.17161/bi.v10i0.4801}.
 #'
 #' |Code  |Index                                    |Calculation                     |
 #' |:-----|----------------------------------------:|-------------------------------:|
@@ -125,8 +126,8 @@
 
 prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
                              complete_cover = TRUE, clip_grid = FALSE,
-                             indices = "basic", parallel = FALSE, n_cores = NULL,
-                             verbose = TRUE) {
+                             indices = "basic", parallel = FALSE,
+                             n_cores = NULL, verbose = TRUE) {
   # Initial tests
   clsdata <- class(data)[1]
 
@@ -155,7 +156,8 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   if (verbose == TRUE) {
     message("Preparing spatial grid")
   }
-  grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size, complete_cover)
+  grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size,
+                                 complete_cover)
 
   # Prepare SpaptialPoints from different objects
   if (verbose == TRUE) {

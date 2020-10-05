@@ -4,8 +4,8 @@
 #'
 #' @param region SpatialPolygonsDataFrame of the region of interest. Object must
 #' be unprojected, World Geodetic System (WGS84).
-#' @param cell_size (numeric) resolution for grid (single number or vector of two
-#' numbers) in kilometers (km).
+#' @param cell_size (numeric) resolution for grid (single number or vector of
+#' two numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with region. Default = TRUE.
 #'
@@ -110,8 +110,9 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 
 #' Creates a data frame of species' references from RasterStack
 #'
-#' @description Creates a data frame of species' references that contains longitude,
-#' latitude, and species name, using a RasterStack or a RasterBrick as input.
+#' @description Creates a data frame of species' references that contains
+#' longitude, latitude, and species name, using a RasterStack or a RasterBrick
+#' as input.
 #'
 #' @param species_layers RasterStack or RasterBrick object. Each layer must be
 #' named as the species that it represents, and values in each layer must be
@@ -165,22 +166,23 @@ stack_2data <- function(species_layers) {
 
 #' Creates a data frame of species' references from SpatialPolygonsDataFrame
 #'
-#' @description Creates a data frame of species' references that contains identifiers
-#' of portion and species name, using a SpatialPolygonsDataFrame as input.
+#' @description Creates a data frame of species' references that contains
+#' identifiers of portion and species name, using a SpatialPolygonsDataFrame as
+#' input.
 #'
 #' @param spdf_object SpatialPolygonsDataFrame representing species' geographic
-#' distributions. The data frame associated with the object must contain a column
-#' named "Species" to distinguish among features.
-#' @param spdf_grid geographic grid for the region of interest (output of function
-#' \code{\link{grid_from_region}}).
+#' distributions. The data frame associated with the object must contain a
+#' column named "Species" to distinguish among features.
+#' @param spdf_grid geographic grid for the region of interest (output of
+#' function \code{\link{grid_from_region}}).
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
 #' @param n_cores (numeric) number of cores to be used when \code{parallel} =
 #' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
-#' A data frame of species' found in distinct positions (defined with identifiers);
-#' includes two columns: "ID" and "Species".
+#' A data frame of species' found in distinct positions (defined with
+#' identifiers); includes two columns: "ID" and "Species".
 #'
 #' @usage
 #' spdf_2data(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL)
@@ -201,7 +203,8 @@ stack_2data <- function(species_layers) {
 #' sp_data <- spdf_2data(spdf_object = species_data, spdf_grid = grid_reg)
 #' summary(sp_data)
 
-spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL) {
+spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
+                       n_cores = NULL) {
   # Initial tests
   if (missing(spdf_object)) {
     stop("Argument 'spdf_object' must be defined")
@@ -267,12 +270,12 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL)
 
 #' Creates a data frame of species' references from a list of raster layers
 #'
-#' @description Creates a data frame of species' references that contains longitude,
-#' latitude, and species name, using a list of raster layers as input. Useful when
-#' raster layers have distinct extent or resolution.
+#' @description Creates a data frame of species' references that contains
+#' longitude, latitude, and species name, using a list of raster layers as
+#' input. Useful when raster layers have distinct extent or resolution.
 #'
-#' @param raster_list list of RasterLayer objects. Each raster layer must be named
-#' as the species that it represents, and values in each layer must be
+#' @param raster_list list of RasterLayer objects. Each raster layer must be
+#' named as the species that it represents, and values in each layer must be
 #' 1 (presence) and 0 (absence).
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
@@ -291,7 +294,8 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL)
 #'
 #' @examples
 #' # Data
-#' rsp <- raster::stack(system.file("extdata/sp_layers.tif", package = "biosurvey"))
+#' rsp <- raster::stack(system.file("extdata/sp_layers.tif",
+#'                      package = "biosurvey"))
 #' names(rsp) <- paste0("Species_", 1:5)
 #'
 #' rlist <- lapply(1:5, function(x) {rsp[[x]]})
@@ -377,19 +381,19 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 
 #' Creates a data frame of species' references from files in a directory
 #'
-#' @description Creates a data frame of species' references that contains longitude,
-#' latitude, and species name, from a character.
+#' @description Creates a data frame of species' references that contains
+#' longitude, latitude, and species name, from a character.
 #'
 #' @param path (character) full path name of directory containing raster,
-#' shapefiles, geopackage, or GeoJSON files representing species geographic ranges.
-#' Each file must be named as the species that it represents. All files must be in
-#' the same format. If files are raster, values in each layer must be 1 (presence)
-#' and 0 (absence).
+#' shapefiles, geopackage, or GeoJSON files representing species geographic
+#' ranges. Each file must be named as the species that it represents. All files
+#' must be in the same format. If files are raster, values in each layer must be
+#' 1 (presence) and 0 (absence).
 #' @param format (character) the format files found in \code{path}. Current
 #' available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
-#' @param spdf_grid geographic grid for the region of interest (output of function
-#' \code{\link{grid_from_region}}). Used when format equals "shp", "gpkg".
-#' Default = NULL.
+#' @param spdf_grid geographic grid for the region of interest (output of
+#' function \code{\link{grid_from_region}}). Used when format equals "shp",
+#' "gpkg". Default = NULL.
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
 #' @param n_cores (numeric) number of cores to be used when \code{parallel} =
@@ -400,7 +404,8 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' derived from values of presence in each layer.
 #'
 #' If files are not in raster format, a data frame of species' found in distinct
-#' positions (defined with identifiers); includes two columns: "ID" and "Species".
+#' positions (defined with identifiers); includes two columns: "ID" and
+#' "Species".
 #'
 #' @usage
 #' files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
@@ -487,14 +492,18 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                               if (format %in% c("shp", "gpkg", "geojson")) {
                                 ## reading data
                                 if (format == "shp") {
-                                  rs <- rgdal::readOGR(dsn = path, layer = mlist[i],
+                                  rs <- rgdal::readOGR(dsn = path,
+                                                       layer = mlist[i],
                                                        verbose = FALSE)
                                 } else {
                                   if (format == "gpkg") {
-                                    rs <- rgdal::readOGR(paste0(path, "/", mlist[i]),
-                                                         spnames[x], verbose = FALSE)
+                                    rs <- rgdal::readOGR(paste0(path, "/",
+                                                                mlist[i]),
+                                                         spnames[x],
+                                                         verbose = FALSE)
                                   } else {
-                                    rs <- rgdal::readOGR(paste0(path, "/", mlist[i]),
+                                    rs <- rgdal::readOGR(paste0(path, "/",
+                                                                mlist[i]),
                                                          verbose = FALSE)
                                   }
                                 }
@@ -583,7 +592,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 #' @param data data frame of species' found in distinct positions (defined by
 #' identifiers). Must include at least two columns: "ID" and "Species".
 #' @param ID_column (character) name of the column containing identifiers.
-#' @param species_column (character) name of the column containing species names.
+#' @param species_column (character) name of the column containing species
+#' names.
 #'
 #' @return
 #' Species' presence (1) and absence (0) matrix for a set of positions defined
@@ -599,7 +609,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 #' data("sp_data", package = "biosurvey")
 #'
 #' # PAM
-#' pam <- PAM_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+#' pam <- PAM_from_table(data = sp_data, ID_column = "ID",
+#'                       species_column = "Species")
 #' pam[1:10, c(1, 21:25)]
 
 PAM_from_table <- function(data, ID_column, species_column) {

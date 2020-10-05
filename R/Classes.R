@@ -43,8 +43,10 @@ new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
 
 new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
                                  mask = NULL, raster_base, PCA_results = NULL,
-                                 selected_sites_random = NULL, selected_sites_G = NULL,
-                                 selected_sites_E = NULL, selected_sites_EG = NULL) {
+                                 selected_sites_random = NULL,
+                                 selected_sites_G = NULL,
+                                 selected_sites_E = NULL,
+                                 selected_sites_EG = NULL) {
 
   randclass <- class(selected_sites_random)[1]
   gclass <- class(selected_sites_G)[1]
@@ -65,8 +67,9 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
   }
 
   val <- new_master_matrix(data_matrix = data_matrix,
-                           preselected_sites = preselected_sites, region = region,
-                           mask = mask, raster_base = raster_base,
+                           preselected_sites = preselected_sites,
+                           region = region, mask = mask,
+                           raster_base = raster_base,
                            PCA_results = PCA_results)
   val <- c(val, list(selected_sites_random = selected_sites_random,
                      selected_sites_G = selected_sites_G,
@@ -99,7 +102,8 @@ new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
 
 new_PAM_subset <- function(PAM = new("SpatialPolygonsDataFrame"),
                            PAM_indices = NULL, PAM_selected_sites_random = NULL,
-                           PAM_selected_sites_G = NULL, PAM_selected_sites_E = NULL,
+                           PAM_selected_sites_G = NULL,
+                           PAM_selected_sites_E = NULL,
                            PAM_selected_sites_EG = NULL) {
 
   prclass <- class(PAM_selected_sites_random)[1]

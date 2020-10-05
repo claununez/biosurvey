@@ -6,26 +6,28 @@
 #'
 #' @param SAC_selected_sites nested list of "\code{specaccum}" objects obtained
 #' with function \code{\link{selected_sites_SAC}}.
-#' @param element_1 (numeric or character) index of position or character indicator
-#' of the first element (type of selection) in \code{SAC_selected_sites} to be
-#' plotted. Character options are: "random", "E", "G", "EG".
-#' @param element_2 (numeric or character) index of position or character indicator
-#' of the second element (type of selection) in \code{SAC_selected_sites} to be
-#' plotted. Character options are: "random", "E", "G", "EG".
-#' @param col_mean1 (character) color for mean value of curve in \code{element_1};
-#' default = "blue".
-#' @param col_mean2 (character) color for mean value of curve in \code{element_2};
-#' default = "gray15".
+#' @param element_1 (numeric or character) index of position or character
+#' indicator of the first element (type of selection) in
+#' \code{SAC_selected_sites} to be plotted. Character options are: "random",
+#' "E", "G", "EG".
+#' @param element_2 (numeric or character) index of position or character
+#' indicator of the second element (type of selection) in
+#' \code{SAC_selected_sites} to be plotted. Character options are: "random",
+#' "E", "G", "EG".
+#' @param col_mean1 (character) color for mean value of curve in
+#' \code{element_1}; default = "blue".
+#' @param col_mean2 (character) color for mean value of curve in
+#' \code{element_2}; default = "gray15".
 #' @param col_CI1 (character) color for confidence interval region for the curve
 #' in \code{element_1}; default = "lightblue".
 #' @param col_CI2 (character) color for confidence interval region for the curve
 #' in \code{element_2}; default = "gray65".
 #' @param lty1 type of line for \code{element_1}. See lty in \code{\link{par}}.
 #' @param lty2 type of line for \code{element_2}.
-#' @param alpha_mean (numeric) alpha level for line representing the mean, values
-#' from 0 to 1; default = 0.9. Values close to 0 increase transparency.
-#' @param alpha_CI (numeric) alpha level for the region representing the confidence
-#' interval; default = 0.3.
+#' @param alpha_mean (numeric) alpha level for line representing the mean,
+#' values from 0 to 1; default = 0.9. Values close to 0 increase transparency.
+#' @param alpha_CI (numeric) alpha level for the region representing the
+#' confidence interval; default = 0.3.
 #' @param xlab (character) label for x axis of plot; default = "Number of sites".
 #' @param ylab (character) label for y axis of plot; default = "Species".
 #' @param line_for_multiple (logical) whether to plot SACs only as lines when
@@ -37,8 +39,8 @@
 #' "\code{specaccum}".
 #'
 #' @return
-#' A comparative plot of two species "\code{specaccum}" objects done based on what
-#' is defined in \code{element_1} and  \code{element_2}.
+#' A comparative plot of two species "\code{specaccum}" objects done based on
+#' what is defined in \code{element_1} and  \code{element_2}.
 #'
 #' @usage
 #' compare_SAC(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
@@ -64,10 +66,10 @@
 #'
 #' compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 2)
 
-compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "blue",
-                        col_CI1 = "lightblue", col_mean2 = "gray15",
-                        col_CI2 = "gray65", lty1 = 1, lty2 = 2,
-                        alpha_mean = 0.9, alpha_CI = 0.3,
+compare_SAC <- function(SAC_selected_sites, element_1, element_2,
+                        col_mean1 = "blue", col_CI1 = "lightblue",
+                        col_mean2 = "gray15", col_CI2 = "gray65", lty1 = 1,
+                        lty2 = 2, alpha_mean = 0.9, alpha_CI = 0.3,
                         xlab = "Number of sites", ylab = "Species",
                         line_for_multiple = TRUE, add_legend = TRUE, ...) {
   # Initial tests
@@ -118,8 +120,10 @@ compare_SAC <- function(SAC_selected_sites, element_1, element_2, col_mean1 = "b
   sac2nam <- gsub("_", " ", sac2nam)
 
   # Preparing limits if more than one SAC
-  rany1 <- max(unlist(lapply(sac1, function(x) {max(x$richness + (1.96 * x$sd))})))
-  rany2 <- max(unlist(lapply(sac2, function(x) {max(x$richness + (1.96 * x$sd))})))
+  rany1 <- max(unlist(lapply(sac1, function(x) {max(x$richness +
+                                                      (1.96 * x$sd))})))
+  rany2 <- max(unlist(lapply(sac2, function(x) {max(x$richness +
+                                                      (1.96 * x$sd))})))
 
   y_lim <- c(c(0, max(rany1, rany2)))
 

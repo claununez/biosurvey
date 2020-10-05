@@ -8,9 +8,10 @@ test_that("Correct creation of base_PAM", {
   inams <- names(b_pam$PAM_indices)
 
   enams <- c("One_value_indices", "Richness", "Range", "Richness_normalized",
-             "Range_normalized", "Dispersion_field", "Shared_community_composition",
-             "Mean_composition_covariance", "Mean_range_covariance",
-             "Cov_mat_sites_composition", "Cov_mat_species_ranges")
+             "Range_normalized", "Dispersion_field",
+             "Shared_community_composition", "Mean_composition_covariance",
+             "Mean_range_covariance", "Cov_mat_sites_composition",
+             "Cov_mat_species_ranges")
 
   testthat::expect_s3_class(b_pam, "base_PAM")
   testthat::expect_s4_class(b_pam$PAM, "SpatialPolygonsDataFrame")

@@ -32,10 +32,12 @@ test_that("Correct point_sample_cluster", {
                           n_cols = 10, n_rows = 10, block_type = "equal_area")
   datam <- m_blocks$data_matrix
   datam <- datam[datam$Block %in% names(dist_list), ]
-  point_clus <- point_sample_cluster(datam, variable_1 = "PC1", variable_2 = "PC2",
+  point_clus <- point_sample_cluster(datam, variable_1 = "PC1",
+                                     variable_2 = "PC2",
                                      distance_list = dist_list, n = 1,
                                      cluster_method = "hierarchical",
-                                     select_point = "E_centroid", id_column = "Block")
+                                     select_point = "E_centroid",
+                                     id_column = "Block")
 
   dtda <- dim(point_clus)
   cnam <- colnames(point_clus)
@@ -50,10 +52,12 @@ test_that("Errors point_sample_cluster", {
                           n_cols = 10, n_rows = 10, block_type = "equal_area")
   datam <- m_blocks$data_matrix
   datam <- datam[datam$Block %in% names(dist_list), ]
-  point_clus <- point_sample_cluster(datam, variable_1 = "PC1", variable_2 = "PC2",
+  point_clus <- point_sample_cluster(datam, variable_1 = "PC1",
+                                     variable_2 = "PC2",
                                      distance_list = dist_list, n = 1,
                                      cluster_method = "hierarchical",
-                                     select_point = "E_centroid", id_column = "Block")
+                                     select_point = "E_centroid",
+                                     id_column = "Block")
   testthat::expect_error(point_sample_cluster())
   testthat::expect_error(closest_to_centroid(datam))
   testthat::expect_error(closest_to_centroid(datam, variable_1 = "PC1"))

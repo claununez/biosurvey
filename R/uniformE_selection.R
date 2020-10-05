@@ -4,22 +4,24 @@
 #' maximizing uniformity of points in environmental space.
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-#' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
-#' or \code{\link{EG_selection}}.
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' from functions \code{\link{random_selection}},
+#' \code{\link{uniformG_selection}}, or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y-axis).
-#' @param selection_from (character) set of points to perform the selection from.
-#' Two options are available, "all_points" or "block_centroids". The first option
-#' picks the points from all points in the environmental cloud, and the second
-#' one selects points only from centroids of environmental blocks. See
-#' \code{\link{make_blocks}}. Default = "all_points".
-#' @param expected_points (numeric) number of survey points (sites) to be selected.
+#' @param selection_from (character) set of points to perform the selection
+#' from. Two options are available, "all_points" or "block_centroids". The
+#' first option picks the points from all points in the environmental cloud,
+#' and the second one selects points only from centroids of environmental
+#' blocks. See \code{\link{make_blocks}}. Default = "all_points".
+#' @param expected_points (numeric) number of survey points (sites) to be
+#' selected.
 #' @param guess_distances (logical) whether or not to use internal algorithm
 #' to automatically select \code{initial_distance} and \code{increase}. Default
-#' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.
+#' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be
+#' defined.
 #' @param initial_distance (numeric) euclidean distance to be used for a first
 #' process of thinning and detection of remaining points. Default = NULL.
 #' @param increase (numeric) initial value to be added to or subtracted from
@@ -33,10 +35,12 @@
 #' \code{master} must contain the site(s) preselected in and element of name
 #' "preselected_sites" for this argument to be effective. Default = TRUE.
 #' See details for more information on the approach used.
-#' @param median_distance_filter (character) optional argument to define a median
-#' distance-based filter based on which sets of sampling sites will be selected.
-#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
-#' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
+#' @param median_distance_filter (character) optional argument to define a
+#' median distance-based filter based on which sets of sampling sites will be
+#' selected. The default, NULL, does not apply such a filter. Options are:
+#' "max" and "min".
+#' @param set_seed (numeric) integer value to specify a initial seed.
+#' Default = 1.
 #' @param verbose (logical) whether or not to print messages about the process.
 #' Default = TRUE.
 #'
@@ -45,34 +49,35 @@
 #' selected_sites_E containing one or more sets of selected sites.
 #'
 #' @details
-#' Survey sites are selected in ways in which points will be uniformly dispersed
-#' in environmental space, helping to select sites that present different
-#' environmental conditions across the area of interest. This type of selection
-#' is very useful to include, in the selected sites, distinct environmental
-#' combinations existent in the area of interest. However, as the distribution of
-#' climatic or other environmental combinations is not uniform in geography, the
-#' sites selected with this function could appear clustered when looked in a map.
+#' Survey sites are selected in ways in which points will be uniformly
+#' dispersed in environmental space, helping to select sites that present
+#' different environmental conditions across the area of interest. This type of
+#' selection is very useful to include, in the selected sites, distinct
+#' environmental combinations existent in the area of interest. However, as the
+#' distribution of climatic or other environmental combinations is not uniform
+#' in geography, the sites selected with this function could appear clustered
+#' when looked in a map.
 #'
 #' Exploring the geographic and environmental spaces of the region of interest
-#' would be a crucial first step before selecting survey sites. Such explorations
-#' can be done using the function \code{\link{explore_data_EG}}.
+#' would be a crucial first step before selecting survey sites. Such
+#' explorations can be done using the function \code{\link{explore_data_EG}}.
 #'
 #' If \code{use_preselected_sites} is TRUE and such sites are included as an
 #' element in the object in \code{master}, the approach for selecting uniform
 #' sites in environmental space is different than what was described above.
-#' User preselected sites will always be part of the sites selected. Other points
-#' are selected based on an algorithm that searches for sites that are uniformly
-#' distributed in environmental space but at a distance from preselected sites
-#' that helps in maintaining uniformity. Note that preselected sites will not be
-#' processed, therefore, uniformity of such points cannot be warrantied.
-#'
-#' As multiple sets could result from selection, the argument of the function
-#' \code{median_distance_filter} could be used to select the set of sites with
-#' the maximum ("max") or minimum ("min") median distance among selected sites.
-#' Option "max" will increase the geographic distance among sampling sites, which
-#' could be desirable if the goal is to cover the region of interest more broadly.
-#' The other option "min", could be used in cases when the goal is to reduce
-#' resources and time needed to sample such sites.
+#' User preselected sites will always be part of the sites selected. Other
+#' points are selected based on an algorithm that searches for sites that are
+#' uniformly distributed in environmental space but at a distance from
+#' preselected sites that helps in maintaining uniformity. Note that
+#' preselected sites will not be processed, therefore, uniformity of such points
+#' cannot be warrantied. As multiple sets could result from selection, the
+#' argument of the function \code{median_distance_filter} could be used to
+#' select the set of sites with the maximum ("max") or minimum ("min") median
+#' distance among selected sites. Option "max" will increase the geographic
+#' distance among sampling sites, which could be desirable if the goal is to
+#' cover the region of interest more broadly. The other option "min", could be
+#' used in cases when the goal is to reduce resources and time needed to sample
+#' such sites.
 #'
 #' @seealso
 #' \code{\link{uniformG_selection}}, \code{\link{random_selection}},
@@ -103,7 +108,8 @@
 #' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E space
-#' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+#' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
+#'                                  variable_2 = "PC2",
 #'                                  selection_from = "block_centroids",
 #'                                  expected_points = 15, max_n_samplings = 1,
 #'                                  replicates = 5, set_seed = 1)
@@ -154,7 +160,8 @@ uniformE_selection <- function(master, variable_1, variable_2,
   }
 
   # arguments for attributes
-  other_args <- list(arguments = list(variable_1 = variable_1, variable_2 = variable_2,
+  other_args <- list(arguments = list(variable_1 = variable_1,
+                                      variable_2 = variable_2,
                                       selection_from = selection_from,
                                       expected_points = expected_points,
                                       guess_distances = guess_distances,

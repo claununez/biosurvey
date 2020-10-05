@@ -7,8 +7,8 @@
 rlist_2data(raster_list, parallel = FALSE, n_cores = NULL)
 }
 \arguments{
-\item{raster_list}{list of RasterLayer objects. Each raster layer must be named
-as the species that it represents, and values in each layer must be
+\item{raster_list}{list of RasterLayer objects. Each raster layer must be
+named as the species that it represents, and values in each layer must be
 1 (presence) and 0 (absence).}
 
 \item{parallel}{(logical) whether to perform analyses in parallel.
@@ -22,13 +22,14 @@ A data frame of species geographic records derived from values of presence
 in each layer from the list of raster layers.
 }
 \description{
-Creates a data frame of species' references that contains longitude,
-latitude, and species name, using a list of raster layers as input. Useful when
-raster layers have distinct extent or resolution.
+Creates a data frame of species' references that contains
+longitude, latitude, and species name, using a list of raster layers as
+input. Useful when raster layers have distinct extent or resolution.
 }
 \examples{
 # Data
-rsp <- raster::stack(system.file("extdata/sp_layers.tif", package = "biosurvey"))
+rsp <- raster::stack(system.file("extdata/sp_layers.tif",
+                     package = "biosurvey"))
 names(rsp) <- paste0("Species_", 1:5)
 
 rlist <- lapply(1:5, function(x) {rsp[[x]]})

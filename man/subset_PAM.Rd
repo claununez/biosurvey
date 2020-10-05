@@ -24,8 +24,8 @@ An object of class PAM_subset containing the original \code{base_PAM} and
 other subsets of the PAM according to \code{selection_type}.
 }
 \description{
-Subsets of a base_PAM object according to survey sites contained
-in a master_selection object.
+Subsets of a base_PAM object according to survey sites
+contained in a master_selection object.
 }
 \examples{
 # Data

@@ -7,20 +7,21 @@
 #' @param x_column (character) the name of the X-axis.
 #' @param y_column (character) the name of the Y-axis.
 #' @param thinning_distance (numeric) distance for thinning. Units must be
-#' selected according to the space, km for geographic and euclidean distances for
-#' environmental space.
+#' selected according to the space, km for geographic and euclidean distances
+#' for environmental space.
 #' @param space (character) space in which the thinning will be performed. There
 #' are two options available: "G", if it will be in geographic space, and
 #' "E", if it will be in environmental space.
 #' @param max_n_samples (numeric) maximum number of samples to chose with most
 #' points included. Default = 1.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
-#' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
+#' @param set_seed (numeric) integer value to specify a initial seed.
+#' Default = 1.
 #'
 #' @return
 #' A list with one or more elements, depending on \code{max_n_samples}. Each
-#' element is a data.frame containing points retained after thinning. All elements
-#' are different in at least one of the selected points.
+#' element is a data.frame containing points retained after thinning. All
+#' elements are different in at least one of the selected points.
 #'
 #' @usage
 #' point_thinning(data, x_column, y_column, thinning_distance, space,
@@ -68,7 +69,8 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 
   # Initial preparation
   data <- data[!is.na(data[, x_column]) & !is.na(data[, y_column]), ]
-  data <- data[!duplicated(paste(data[, x_column], data[, y_column], sep = "_")), ]
+  data <- data[!duplicated(paste(data[, x_column], data[, y_column],
+                                 sep = "_")), ]
 
   cls <- class(data)[1]
   if (cls != "data.frame") {
@@ -149,8 +151,8 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 #' If, NULL, the default, only one set is assumed.
 #'
 #' @return
-#' A data.frame containing \code{n} rows corresponding to the point or points that
-#' are the closest to the centroid of all other points of reference.
+#' A data.frame containing \code{n} rows corresponding to the point or points
+#' that are the closest to the centroid of all other points of reference.
 #'
 #' @usage
 #' closest_to_centroid(data, x_column, y_column, space, n = 1, id_column = NULL)
@@ -213,7 +215,8 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
       if (nrow(gblock) > 20) {
         ## process for more than 20 points
         covm <- stats::cov(gblock[, c(x_column, y_column)])
-        ndim <- length(cent); sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
+        ndim <- length(cent); sigma_i <- solve(covm) / stats::qchisq(level,
+                                                                     df = ndim)
         stds <- 1 / sqrt(eigen(sigma_i)$values)
         hl <- cent + stds; ll <- cent - stds
         c1 <- gblock[, x_column] >= ll[1] & gblock[, x_column] <= hl[1] &
@@ -226,12 +229,14 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
             if (level > 0.98) {
               ## distance in G space
               if (space == "G") {
-                ds <- raster::pointDistance(cent, gblock[, c(x_column, y_column)],
+                ds <- raster::pointDistance(cent, gblock[, c(x_column,
+                                                             y_column)],
                                             lonlat = TRUE)
               } else {
                 ## distance in E space
                 ds <- stats::mahalanobis(x = gblock[, c(x_column, y_column)],
-                                         center = cent, cov = covm, tol = 0.0000009)
+                                         center = cent, cov = covm,
+                                         tol = 0.0000009)
               }
               break()
             }
@@ -280,9 +285,10 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
 #'
 #' @param site_list list of selected sites provided as data.frames. Columns
 #' "Longitude" and "Latitude" are needed for distance calculation.
-#' @param median_distance_filter (character) optional argument to define a median
-#' distance-based filter based on which sets of sampling sites will be selected.
-#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
+#' @param median_distance_filter (character) optional argument to define a
+#' median distance-based filter based on which sets of sampling sites will be
+#' selected. The default, NULL, does not apply such a filter. Options are:
+#' "max" and "min".
 #'
 #' @export
 #' @importFrom stats median
