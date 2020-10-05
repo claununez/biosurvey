@@ -19,8 +19,8 @@ variable (X axis) to be used to create blocks.}
 variable (Y axis) to be used to create blocks (must be different from the
 first one).}
 
-\item{n_cols}{(numeric) number of columns of a grid used to creates blocks and
-split the bi-dimensional space.}
+\item{n_cols}{(numeric) number of columns of a grid used to creates blocks
+and split the bi-dimensional space.}
 
 \item{n_rows}{(numeric) number of rows of a grid used to creates blocks and
 split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.}
@@ -29,7 +29,8 @@ split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.}
 \code{variable_1}.}
 
 \item{ylb}{(numeric) Vector of values of extremes for all blocks considering
-\code{variable_2}. Needed when \code{block_type} = "equal area". Default = NULL.}
+\code{variable_2}. Needed when \code{block_type} = "equal area".
+Default = NULL.}
 
 \item{block_type}{(character) type of blocks to be use for dividing
 the bi-dimensional space. Two options are available: "equal_area" and

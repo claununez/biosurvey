@@ -10,11 +10,12 @@ preselected_dist_mask(master, expected_points, space, variable_1 = NULL,
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-\code{\link{random_selection}}, \code{\link{uniformE_selection}},
-or \code{\link{EG_selection}}.}
+\code{\link{prepare_master_matrix}} or a master_selection object derived
+from functions \code{\link{random_selection}},
+\code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
-\item{expected_points}{(numeric) number of survey points (sites) to be selected.}
+\item{expected_points}{(numeric) number of survey points (sites) to be
+selected.}
 
 \item{space}{(character) space in which the thinning will be performed. There
 are two options available: "G", if it will be in geographic space, and
@@ -33,8 +34,9 @@ all points when \code{space} = "E". Default = FALSE.}
 Default = TRUE.}
 }
 \value{
-A list of two elements: the distance used to obtain \code{expected_points} and
-a SpatialPolygonsDataFrame object created from preselected_sites in master.
+A list of two elements: the distance used to obtain \code{expected_points}
+and a SpatialPolygonsDataFrame object created from preselected_sites in
+master.
 }
 \description{
 Helper to create objects to detect points to close to preselected sites

@@ -12,9 +12,9 @@ plot_blocks_EG(master, variable_1, variable_2, which = "all",
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
-or \code{\link{EG_selection}}.}
+\code{\link{prepare_master_matrix}} or a master_selection object derived
+from functions \code{\link{uniformG_selection}},
+\code{\link{uniformE_selection}} or \code{\link{EG_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
 variable (X axis) used to create blocks.}
@@ -23,20 +23,21 @@ variable (X axis) used to create blocks.}
 variable (Y axis) used to create blocks (must be different from the
 first one).}
 
-\item{which}{(character) blocks to be plotted. Options are "all" or "selected".
-Default = "all".}
+\item{which}{(character) blocks to be plotted. Options are "all" or
+"selected". Default = "all".}
 
 \item{block_ID}{(logical) whether to add an text ID to blocks plotted in
 environmental space. Default = FALSE.}
 
-\item{col_all}{colors for points in all blocks. The default, NULL, uses a color
-blind friendly palette to differentiate among distinct blocks when \code{which}
-= "all", or uses a light gray color when \code{which} = "selected". See details
-for explanations of how to define them.}
+\item{col_all}{colors for points in all blocks. The default, NULL, uses a
+color blind friendly palette to differentiate among distinct blocks when
+\code{which} = "all", or uses a light gray color when
+\code{which} = "selected". See details for explanations of how to define
+them.}
 
-\item{col_selected}{color for points in selected blocks. Ignored if \code{which}
-= "all". The default, NULL, uses a blue color to represent selected blocks on
-top of all.}
+\item{col_selected}{color for points in selected blocks. Ignored if
+\code{which} = "all". The default, NULL, uses a blue color to represent
+selected blocks on top of all.}
 
 \item{col_ID}{color for text ID to be added if \code{block_ID} = TRUE. The
 default, NULL, uses the "back".}
@@ -47,17 +48,18 @@ relative to the default. Default = 0.7.}
 \item{cex_selected}{(numeric) value defining magnification of points in
 selected blocks relative to the default. Default = 1.}
 
-\item{cex_ID}{(numeric) value defining magnification of text ID to be added if
-\code{block_ID} = TRUE. Default = 1.}
+\item{cex_ID}{(numeric) value defining magnification of text ID to be added
+if \code{block_ID} = TRUE. Default = 1.}
 
 \item{pch_all}{(numeric) integer specifying a symbol when plotting points of
 all blocks. Default = 16.}
 
-\item{pch_selected}{(numeric) integer specifying a symbol when plotting points
-of selected blocks. Default = 16.}
+\item{pch_selected}{(numeric) integer specifying a symbol when plotting
+points of selected blocks. Default = 16.}
 
 \item{add_main}{(logical) whether or not to add fixed titles to the plot.
-Default = TRUE. Titles added are "Environmental space" and "Geographic space".}
+Default = TRUE. Titles added are "Environmental space" and "Geographic
+space".}
 }
 \value{
 A two-panel plot showing all the blocks of the region of interest and the

@@ -4,39 +4,41 @@
 #' (all or selected) in both spaces, environmental and geographic.
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
-#' or \code{\link{EG_selection}}.
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' from functions \code{\link{uniformG_selection}},
+#' \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X axis) used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis) used to create blocks (must be different from the
 #' first one).
-#' @param which (character) blocks to be plotted. Options are "all" or "selected".
-#' Default = "all".
+#' @param which (character) blocks to be plotted. Options are "all" or
+#' "selected". Default = "all".
 #' @param block_ID (logical) whether to add an text ID to blocks plotted in
 #' environmental space. Default = FALSE.
-#' @param col_all colors for points in all blocks. The default, NULL, uses a color
-#' blind friendly palette to differentiate among distinct blocks when \code{which}
-#' = "all", or uses a light gray color when \code{which} = "selected". See details
-#' for explanations of how to define them.
-#' @param col_selected color for points in selected blocks. Ignored if \code{which}
-#' = "all". The default, NULL, uses a blue color to represent selected blocks on
-#' top of all.
+#' @param col_all colors for points in all blocks. The default, NULL, uses a
+#' color blind friendly palette to differentiate among distinct blocks when
+#' \code{which} = "all", or uses a light gray color when
+#' \code{which} = "selected". See details for explanations of how to define
+#' them.
+#' @param col_selected color for points in selected blocks. Ignored if
+#' \code{which} = "all". The default, NULL, uses a blue color to represent
+#' selected blocks on top of all.
 #' @param col_ID color for text ID to be added if \code{block_ID} = TRUE. The
 #' default, NULL, uses the "back".
 #' @param cex_all (numeric) value defining magnification of points in all blocks
 #' relative to the default. Default = 0.7.
 #' @param cex_selected (numeric) value defining magnification of points in
 #' selected blocks relative to the default. Default = 1.
-#' @param cex_ID (numeric) value defining magnification of text ID to be added if
-#' \code{block_ID} = TRUE. Default = 1.
+#' @param cex_ID (numeric) value defining magnification of text ID to be added
+#' if \code{block_ID} = TRUE. Default = 1.
 #' @param pch_all (numeric) integer specifying a symbol when plotting points of
 #' all blocks. Default = 16.
-#' @param pch_selected (numeric) integer specifying a symbol when plotting points
-#' of selected blocks. Default = 16.
+#' @param pch_selected (numeric) integer specifying a symbol when plotting
+#' points of selected blocks. Default = 16.
 #' @param add_main (logical) whether or not to add fixed titles to the plot.
-#' Default = TRUE. Titles added are "Environmental space" and "Geographic space".
+#' Default = TRUE. Titles added are "Environmental space" and "Geographic
+#' space".
 #'
 #' @details
 #' Defining colors in \code{col_all} depends on what is chosen in \code{which}.
@@ -136,7 +138,8 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
 
   if (is.null(col_all) & is.null(col_selected) & is.null(col_ID)) {
     if (which == "all") {
-      col_all <- sample(col_pal(nblocks), nblocks)[as.factor(master$data_matrix$Block)]
+      col_all <- sample(col_pal(nblocks),
+                        nblocks)[as.factor(master$data_matrix$Block)]
     } else {
       col_all <- "#E1E1E1"
       col_selected <- "#3B22CB"

@@ -1,10 +1,11 @@
 #' Helper to create objects to detect points to close to preselected sites
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-#' \code{\link{random_selection}}, \code{\link{uniformE_selection}},
-#' or \code{\link{EG_selection}}.
-#' @param expected_points (numeric) number of survey points (sites) to be selected.
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' from functions \code{\link{random_selection}},
+#' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
+#' @param expected_points (numeric) number of survey points (sites) to be
+#' selected.
 #' @param space (character) space in which the thinning will be performed. There
 #' are two options available: "G", if it will be in geographic space, and
 #' "E", if it will be in environmental space.
@@ -18,8 +19,9 @@
 #' Default = TRUE.
 #'
 #' @return
-#' A list of two elements: the distance used to obtain \code{expected_points} and
-#' a SpatialPolygonsDataFrame object created from preselected_sites in master.
+#' A list of two elements: the distance used to obtain \code{expected_points}
+#' and a SpatialPolygonsDataFrame object created from preselected_sites in
+#' master.
 #'
 #' @usage
 #' preselected_dist_mask(master, expected_points, space, variable_1 = NULL,
@@ -40,9 +42,9 @@
 #' pdm <- preselected_dist_mask(master = m_matrix_pre, expected_points = 20,
 #'                              space = "G")
 
-preselected_dist_mask <- function(master, expected_points, space, variable_1 = NULL,
-                                  variable_2 = NULL, use_blocks = FALSE,
-                                  verbose = TRUE) {
+preselected_dist_mask <- function(master, expected_points, space,
+                                  variable_1 = NULL, variable_2 = NULL,
+                                  use_blocks = FALSE, verbose = TRUE) {
 
   # Initial tests
   if (missing(master)) {
@@ -163,7 +165,8 @@ preselected_dist_mask <- function(master, expected_points, space, variable_1 = N
     }
     sppre <- sp::SpatialPointsDataFrame(pre[, c(x_column, y_column)], pre,
                                         proj4string = sp::CRS("+init=epsg:4326"))
-    maskp <- suppressWarnings(rgeos::gBuffer(sppre, width = dist, quadsegs = 100))
+    maskp <- suppressWarnings(rgeos::gBuffer(sppre, width = dist,
+                                             quadsegs = 100))
     maskp <- raster::disaggregate(maskp)
     maskp <- sp::SpatialPolygonsDataFrame(maskp, data.frame(ID = 1:length(maskp)),
                                           match.ID = FALSE)

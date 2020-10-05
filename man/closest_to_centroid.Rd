@@ -25,8 +25,8 @@ in \code{data} containing identifiers of one or distinct sets of points.
 If, NULL, the default, only one set is assumed.}
 }
 \value{
-A data.frame containing \code{n} rows corresponding to the point or points that
-are the closest to the centroid of all other points of reference.
+A data.frame containing \code{n} rows corresponding to the point or points
+that are the closest to the centroid of all other points of reference.
 }
 \description{
 Detection of the closest points to the centroid of a cloud of points

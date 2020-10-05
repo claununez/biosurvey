@@ -4,14 +4,15 @@
 \alias{random_selection}
 \title{Random selection of survey sites}
 \usage{
-random_selection(master, n_sites, n_samplings = 1, use_preselected_sites = TRUE,
-                 median_distance_filter = NULL, set_seed = 1, verbose = TRUE)
+random_selection(master, n_sites, n_samplings = 1,
+                 use_preselected_sites = TRUE, median_distance_filter = NULL,
+                 set_seed = 1, verbose = TRUE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
-or \code{\link{EG_selection}}.}
+\code{\link{prepare_master_matrix}} or a master_selection object derived
+from functions \code{\link{uniformG_selection}},
+\code{\link{uniformE_selection}} or \code{\link{EG_selection}}.}
 
 \item{n_sites}{(numeric) number of sites to be selected from
 \code{master_matrix} to be used as sites to be sampled in survey.}
@@ -24,11 +25,13 @@ defined as part of the selected sites previous any selection. Object in
 \code{master} must contain the site(s) preselected in and element of name
 "preselected_sites" for this argument to be effective. Default = TRUE.}
 
-\item{median_distance_filter}{(character) optional argument to define a median
-distance-based filter based on which sets of sampling sites will be selected.
-The default, NULL, does not apply such a filter. Options are: "max" and "min".}
+\item{median_distance_filter}{(character) optional argument to define a
+median distance-based filter based on which sets of sampling sites will be
+selected. The default, NULL, does not apply such a filter. Options are:
+"max" and "min".}
 
-\item{set_seed}{(numeric) integer value to specify a initial seed. Default = 1.}
+\item{set_seed}{(numeric) integer value to specify a initial seed.
+Default = 1.}
 
 \item{verbose}{(logical) whether or not to print messages about the process.
 Default = TRUE.}
@@ -44,22 +47,22 @@ selected from a set of points provided in \code{master}.
 \details{
 Survey sites are selected randomly from the entire set of points provided in
 \code{master$data_matrix}. Considering the environmental space, as points
-are selected randomly, sites that have environmental conditions that are common
-in the region of interest will be sampled more that other sites that present
-condition that are not as common.
+are selected randomly, sites that have environmental conditions that are
+common in the region of interest will be sampled more that other sites that
+present condition that are not as common.
 
 To see how common or rare are distinct environments in the region of interest
 the function \code{\link{explore_data_EG}} can be used. Common environmental
-conditions are those that are present in areas of higher density in one of the
-plots obtained with \code{\link{explore_data_EG}}.
+conditions are those that are present in areas of higher density in one of
+the plots obtained with \code{\link{explore_data_EG}}.
 
 As multiple sets could result from selection, the argument of the function
 \code{median_distance_filter} could be used to select the set of sites with
 the maximum ("max") or minimum ("min") median distance among selected sites.
-Option "max" will increase the geographic distance among sampling sites, which
-could be desirable if the goal is to cover the region of interest more broadly.
-The other option "min", could be used in cases when the goal is to reduce
-resources and time needed to sample such sites.
+Option "max" will increase the geographic distance among sampling sites,
+which could be desirable if the goal is to cover the region of interest more
+broadly. The other option "min", could be used in cases when the goal is to
+reduce resources and time needed to sample such sites.
 }
 \examples{
 # Data

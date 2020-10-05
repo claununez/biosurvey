@@ -20,10 +20,10 @@ are calculated all the time, other indices need to be specified. Options are:
 excluded. Default = NULL.}
 }
 \value{
-If \code{PAM} is a matrix or data.frame, the result is a list with the results
-described below (depending on \code{indices}). If \code{PAM} is a base_PAM
-object, a base_PAM object will be returned and the list described above will
-be appended to the element PAM_indices in such an element.
+If \code{PAM} is a matrix or data.frame, the result is a list with the
+results described below (depending on \code{indices}). If \code{PAM} is a
+base_PAM object, a base_PAM object will be returned and the list described
+above will be appended to the element PAM_indices in such an element.
 }
 \description{
 Calculates a set of biodiversity indices using values contained
@@ -33,10 +33,10 @@ in a presence-absence matrix.
 Description of the codes of all indices to be calculated is presented in the
 table below. If \code{indices} = "basic", only basic indices are calculated.
 However, basic indices are calculated in all cases not matter the code(s)
-defined in \code{indices}. Some indices require previous calculations of other
-indices, in such cases, all indices required are added to the final list.
-For further details on the way calculations are performed and the meaning of
-the indices see Soberon and Cavner (2015)
+defined in \code{indices}. Some indices require previous calculations of
+other indices, in such cases, all indices required are added to the final
+list. For further details on the way calculations are performed and the
+meaning of the indices see Soberon and Cavner (2015)
 \doi{https://doi.org/10.17161/bi.v10i0.4801}.\tabular{lrr}{
    Code \tab Index \tab Calculation \cr
    RI \tab Richness \tab Basic \cr
@@ -63,7 +63,8 @@ the indices see Soberon and Cavner (2015)
 data("sp_data", package = "biosurvey")
 
 # PAM
-pam <- PAM_from_table(data = sp_data, ID_column = "ID", species_column = "Species")
+pam <- PAM_from_table(data = sp_data, ID_column = "ID",
+                      species_column = "Species")
 
 pam_ind <- PAM_indices(pam, exclude_column = 1)
 pam_ind[1:3]

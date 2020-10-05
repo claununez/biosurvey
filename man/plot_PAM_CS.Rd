@@ -2,53 +2,50 @@
 % Please edit documentation in R/PAM_plots.R
 \name{plot_PAM_CS}
 \alias{plot_PAM_CS}
-\title{Plot Christen-Soberon diagrams}
+\title{Plot new diversity-range diagram}
 \usage{
-plot_PAM_CS(
-  PAM_CS,
-  add_significant = FALSE,
-  add_random_values = FALSE,
-  col_all = "#8C8C8C",
-  col_signiicant = "#000000",
-  col_random_values = "#D2D2D2",
-  pch_all = 1,
-  pch_significant = 19,
-  pch_random_values = 1,
-  main = NULL,
-  xlab = NULL,
-  ylab = NULL,
-  xlim = NULL,
-  ylim = NULL,
-  ylim_expansion = 0.25,
-  add_legend = TRUE
-)
+plot_PAM_CS(PAM_CS, add_significant = FALSE,
+            add_random_values = FALSE, col_all = "#8C8C8C",
+            col_significant_low = "#000000",
+            col_significant_high = "#000000",
+            col_random_values = "#D2D2D2", pch_all = 1,
+            pch_significant_low = 19, pch_significant_high = 19,
+            pch_random_values = 1, main = NULL,
+            xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
+            ylim_expansion = 0.25, add_legend = TRUE)
 }
 \arguments{
 \item{PAM_CS}{an object of class PAM_CS or a base_PAM object containing
 a PAM_CS object as part of PAM_indices. These objects can be obtained using
 the function \code{\link{prepare_PAM_CS}}.}
 
-\item{add_significant}{(logical) whether to add statistically significant values
-using a different symbol. Default = FALSE. If TRUE and values indicating
-significance are not in \code{PAM_CS}, a message will be printed.}
+\item{add_significant}{(logical) whether to add statistically significant
+values using a different symbol. Default = FALSE. If TRUE and values
+indicating significance are not in \code{PAM_CS}, a message will be printed.}
 
 \item{add_random_values}{(logical) whether to add values resulted from
 the randomization process done when preparing \code{PAM_CS}. Default = FALSE.
-Valid only if \code{add_significant} = TRUE, and randomized values are present
-in \code{PAM_CS}.}
+Valid only if \code{add_significant} = TRUE, and randomized values are
+present in \code{PAM_CS}.}
 
 \item{col_all}{color code or name for all values. Default = "#8C8C8C".}
 
-\item{col_signiicant}{color code or name for significant values.
-Default = "#000000".}
+\item{col_significant_low}{color code or name for significant values below
+confidence limits of random expectations. Default = "#000000".}
+
+\item{col_significant_high}{color code or name for significant values above
+confidence limits of random expectations. Default = "#000000".}
 
 \item{col_random_values}{color code or name for randomized values.
 Default = "D2D2D2".}
 
 \item{pch_all}{point symbol to be used for all values. Default = 1.}
 
-\item{pch_significant}{point symbol to be used for significant values.
-Default = 19.}
+\item{pch_significant_low}{point symbol to be used for significant values
+below confidence limits of random expectations. Default = 19.}
+
+\item{pch_significant_high}{point symbol to be used for significant values
+above confidence limits of random expectations. Default = 19.}
 
 \item{pch_random_values}{point symbol to be used for randomized values.
 Default = 1.}
@@ -64,7 +61,8 @@ of normalized richness.}
 
 \item{ylim}{y limits of the plot. The default, NULL, uses the range of the
 normalized values of the dispersion field. The second limit is increased
-by adding the result of multiplying it by \code{ylim_expansion}.}
+by adding the result of multiplying it by \code{ylim_expansion}, if
+\code{add_legend} = TRUE.}
 
 \item{ylim_expansion}{value used or expanding the \code{ylim}. Default = 0.25.}
 
@@ -72,11 +70,12 @@ by adding the result of multiplying it by \code{ylim_expansion}.}
 relevant for interpreting the diagram. Default = TRUE.}
 }
 \value{
-A Christen-Soberon plot with values of normalized richness in the x axis, and
-normalized values of the dispersion field index in the y axis.
+A diversity-range plot with values of normalized richness in the x axis,
+and normalized values of the dispersion field index divided by number of
+species in the y axis.
 }
 \description{
-Plot Christen-Soberon diagrams
+Plot new diversity-range diagram
 }
 \examples{
 # data

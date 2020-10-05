@@ -21,8 +21,8 @@
 #' @param col_sites color for selected sites. The default, NULL, uses
 #' a red color to represent selected sites.
 #' @param col_pre color for preselected sites. The default, NULL, uses
-#' a purple color to represent preselected sites. Ignored if preselected sites are
-#' not present in \code{master_selection}.
+#' a purple color to represent preselected sites. Ignored if preselected sites
+#' are not present in \code{master_selection}.
 #' @param pch_sites (numeric) integer specifying a symbol when plotting points
 #' of selected sites. Default = 16.
 #' @param pch_pre (numeric) integer specifying a symbol when plotting points
@@ -156,26 +156,30 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 
 
 
-#' Plot Christen-Soberon diagrams
+#' Plot new diversity-range diagram
 #'
 #' @param PAM_CS an object of class PAM_CS or a base_PAM object containing
 #' a PAM_CS object as part of PAM_indices. These objects can be obtained using
 #' the function \code{\link{prepare_PAM_CS}}.
-#' @param add_significant (logical) whether to add statistically significant values
-#' using a different symbol. Default = FALSE. If TRUE and values indicating
-#' significance are not in \code{PAM_CS}, a message will be printed.
+#' @param add_significant (logical) whether to add statistically significant
+#' values using a different symbol. Default = FALSE. If TRUE and values
+#' indicating significance are not in \code{PAM_CS}, a message will be printed.
 #' @param add_random_values (logical) whether to add values resulted from
 #' the randomization process done when preparing \code{PAM_CS}. Default = FALSE.
-#' Valid only if \code{add_significant} = TRUE, and randomized values are present
-#' in \code{PAM_CS}.
+#' Valid only if \code{add_significant} = TRUE, and randomized values are
+#' present in \code{PAM_CS}.
 #' @param col_all color code or name for all values. Default = "#8C8C8C".
-#' @param col_signiicant color code or name for significant values.
-#' Default = "#000000".
+#' @param col_significant_low color code or name for significant values below
+#' confidence limits of random expectations. Default = "#000000".
+#' @param col_significant_high color code or name for significant values above
+#' confidence limits of random expectations. Default = "#000000".
 #' @param col_random_values color code or name for randomized values.
 #' Default = "D2D2D2".
 #' @param pch_all point symbol to be used for all values. Default = 1.
-#' @param pch_significant point symbol to be used for significant values.
-#' Default = 19.
+#' @param pch_significant_low point symbol to be used for significant values
+#' below confidence limits of random expectations. Default = 19.
+#' @param pch_significant_high point symbol to be used for significant values
+#' above confidence limits of random expectations. Default = 19.
 #' @param pch_random_values point symbol to be used for randomized values.
 #' Default = 1.
 #' @param main main title for the plot. Default = NULL.
@@ -185,14 +189,27 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' of normalized richness.
 #' @param ylim y limits of the plot. The default, NULL, uses the range of the
 #' normalized values of the dispersion field. The second limit is increased
-#' by adding the result of multiplying it by \code{ylim_expansion}.
+#' by adding the result of multiplying it by \code{ylim_expansion}, if
+#' \code{add_legend} = TRUE.
 #' @param ylim_expansion value used or expanding the \code{ylim}. Default = 0.25.
 #' @param add_legend (logical) whether to add a legend describing information
 #' relevant for interpreting the diagram. Default = TRUE.
 #'
 #' @return
-#' A Christen-Soberon plot with values of normalized richness in the x axis, and
-#' normalized values of the dispersion field index in the y axis.
+#' A diversity-range plot with values of normalized richness in the x axis,
+#' and normalized values of the dispersion field index divided by number of
+#' species in the y axis.
+#'
+#' @usage
+#' plot_PAM_CS(PAM_CS, add_significant = FALSE,
+#'             add_random_values = FALSE, col_all = "#8C8C8C",
+#'             col_significant_low = "#000000",
+#'             col_significant_high = "#000000",
+#'             col_random_values = "#D2D2D2", pch_all = 1,
+#'             pch_significant_low = 19, pch_significant_high = 19,
+#'             pch_random_values = 1, main = NULL,
+#'             xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
+#'             ylim_expansion = 0.25, add_legend = TRUE)
 #'
 #' @export
 #' @importFrom graphics legend polygon
@@ -207,10 +224,13 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' # plot
 #' plot_PAM_CS(pcs)
 
-plot_PAM_CS <- function(PAM_CS, add_significant = FALSE, add_random_values = FALSE,
-                        col_all = "#8C8C8C", col_signiicant = "#000000",
+plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
+                        add_random_values = FALSE, col_all = "#8C8C8C",
+                        col_significant_low = "#000000",
+                        col_significant_high = "#000000",
                         col_random_values = "#D2D2D2", pch_all = 1,
-                        pch_significant = 19, pch_random_values = 1, main = NULL,
+                        pch_significant_low = 19, pch_significant_high = 19,
+                        pch_random_values = 1, main = NULL,
                         xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
                         ylim_expansion = 0.25, add_legend = TRUE) {
 
@@ -240,13 +260,13 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE, add_random_values = FAL
 
   # plot elements
   if (is.null(main)) {
-    main <- "Christen-Soberon diagram"
+    main <- "Diversity-range plot"
   }
   if (is.null(xlab)) {
     xlab <- "Normalized richness"
   }
   if (is.null(ylab)) {
-    ylab <- "Normalized dispersion field"
+    ylab <- "Normalized dispersion field / S"
   }
   if (is.null(xlim)) {
     xlim <- range(vx)
@@ -262,24 +282,32 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE, add_random_values = FAL
   polygon(vx, vy, border = "#474747")
   if (add_legend == TRUE) {
     legend("topleft", bty = "n", inset = -0.02,
-           legend = c(paste("N species =", s), paste("N sites-cells =", n),
+           legend = c(paste("N species (S) =", s), paste("N sites-cells =", n),
                       paste("Beta W =", round(betty, 3)),
                       as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~ .(sper)))))
+  }
+
+  # randomized values
+  if (add_random_values == TRUE) {
+    if (!all(is.na(PAM$Randomized_DF))) {
+      for (i in 1:ncol(PAM$Randomized_DF)) {
+        points(alfas, PAM$Randomized_DF[, i], col = col_random_values,
+               pch = pch_random_values, cex = 0.8)
+      }
+      points(alfas, fists, col = col_all, pch = pch_all)
+    } else {
+      message("Values from randomization process are missing in 'PAM_CS'")
+    }
   }
 
   # significant values
   if (add_significant == TRUE) {
     if (!all(is.na(PAM$S_significance_id))) {
-      if (add_random_values == TRUE & !all(is.na(PAM$Randomized_DF))) {
-        for (i in 1:ncol(PAM$Randomized_DF)) {
-          points(alfas, PAM$Randomized_DF[, i], col = col_random_values,
-                 pch = pch_random_values, cex = 0.8)
-        }
-        points(alfas, fists, col = col_all, pch = pch_all)
-      }
-
       sig_vals <- cbind(alfas, fists)[PAM$S_significance_id == 1, ]
-      points(sig_vals, pch = pch_significant, col = col_signiicant)
+      points(sig_vals, pch = pch_significant_low, col = col_significant_low)
+
+      sig_vals <- cbind(alfas, fists)[PAM$S_significance_id == 2, ]
+      points(sig_vals, pch = pch_significant_high, col = col_significant_high)
     } else {
       message("Values that indicate significance are missing in 'PAM_CS'")
     }

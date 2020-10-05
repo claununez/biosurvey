@@ -5,22 +5,23 @@
 \alias{biosurvey}
 \title{biosurvey: Tools for Biological Survey Planning}
 \description{
-biosurvey is a collection of tools that allow users to plan systems of sampling
-sites increasing the efficiency of biodiversity monitoring by considering the
-relationship between environmental and geographic conditions in a region.
+biosurvey is a collection of tools that allow users to plan systems of
+sampling sites increasing the efficiency of biodiversity monitoring by
+considering the relationship between environmental and geographic conditions
+in a region.
 Three main modules are included: 1) Data preparation; 2) Selection of sets
 of sites for biodiversity sampling; and, 3) Tools for testing efficiency of
-distinct sets of sampling sites. Data are prepared in ways that avoid the need
-for more data in posterior analyses, and allow concentrating in critical
+distinct sets of sampling sites. Data are prepared in ways that avoid the
+need for more data in posterior analyses, and allow concentrating in critical
 methodological decisions to select sampling sites. Various algorithms for
 selecting sampling sites are available, and options for considering
 pre-selected sites (known to be important for biodiversity monitoring) are
 included. Visualization is a critical component in this set of tools and most
-of the results obtained can be plotted to help to understand their implications.
-The options for selecting sampling sites include here differ from other
-implementations in that they consider the environmental and geographic
-structure of a region to suggest sampling sites that could increase the
-efficiency of efforts dedicated to monitoring biodiversity.
+of the results obtained can be plotted to help to understand their
+implications. The options for selecting sampling sites include here differ
+from other implementations in that they consider the environmental and
+geographic structure of a region to suggest sampling sites that could
+increase the efficiency of efforts dedicated to monitoring biodiversity.
 }
 \section{Main functions in biosurvey}{
 

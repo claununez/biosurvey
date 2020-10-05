@@ -4,8 +4,8 @@
 \alias{point_sample}
 \title{Sample points from a 2D environmental space}
 \usage{
-point_sample(data, variable_1, variable_2, n = 1, select_point = "E_centroid",
-             id_column = NULL)
+point_sample(data, variable_1, variable_2, n = 1,
+             select_point = "E_centroid", id_column = NULL)
 }
 \arguments{
 \item{data}{a matrix or a data frame that contains at least four columns:
@@ -22,29 +22,30 @@ variable (Y axis). Must be different from the first one.}
 defined this argument indicates the number of points per set. Default = 1.}
 
 \item{select_point}{(character) How or which point will be selected. Three
-options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-indicate that the point(s) closest to the respective centroid will be selected.
-Default = "E_centroid".}
+options are available: "random", "E_centroid", "G_centroid". E_ or G_
+centroid indicate that the point(s) closest to the respective centroid will
+be selected. Default = "E_centroid".}
 
 \item{id_column}{(character or numeric) name or numeric index of the column
 in \code{data} containing identifiers of one or distinct sets of points.
 If, NULL, the default, only one set is assumed.}
 }
 \value{
-A data.frame containing \code{n} rows corresponding to the point or points that
-were sampled.
+A data.frame containing \code{n} rows corresponding to the point or points
+that were sampled.
 }
 \description{
 Sample one or more points from a two dimensional environmental
-space according to a selection rule and with the possibility of having distinct
-sets of points to be sampled independently.
+space according to a selection rule and with the possibility of having
+distinct sets of points to be sampled independently.
 }
 \examples{
 # Data
 data("m_matrix", package = "biosurvey")
 
 # Sampling points
-points_s <- point_sample(m_matrix$data_matrix, variable_1 = "Max_temperature",
+points_s <- point_sample(m_matrix$data_matrix,
+                         variable_1 = "Max_temperature",
                          variable_2 = "Min_temperature", n = 1,
                          select_point = "E_centroid", id_column = NULL)
 

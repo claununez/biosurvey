@@ -2,20 +2,20 @@
 #'
 #' @description Prepares a presence-absence matrix (PAM) in which all sites
 #' of interest (rows) will have a value for presence or absence of a species
-#' of interest (columns). Initial points of interest will be represented by an ID,
-#' and longitude and latitude coordinates. The PAM will be linked to a spatial
-#' grid.
+#' of interest (columns). Initial points of interest will be represented by an
+#' ID, and longitude and latitude coordinates. The PAM will be linked to a
+#' spatial grid.
 #'
 #' @param data species geographic ranges to be used to create a presence-absence
-#' matrix (PAM). This argument can be: data.frame, RasterStack, RasterBrick,
-#' list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
-#' details for description of characteristics of each option.
+#' matrix (PAM). This argument can be: character, data.frame, RasterStack,
+#' RasterBrick, list, SpatialPolygonsDataFrame, or SpatialPointsDataFrame. See
+#' details for a description of the characteristics of data for each option.
 #' @param format (character) if \code{data} is of class character, available
 #' options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
-#' @param master_matrix object of class "master_matrix" or "master_selection". See
-#' details.
-#' @param cell_size (numeric) resolution for grid (single number or vector of two
-#' numbers) in kilometers (km).
+#' @param master_matrix object of class "master_matrix" or "master_selection".
+#' See details.
+#' @param cell_size (numeric) resolution for grid (single number or vector of
+#' two numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with the geographic region of interest contained in
 #' \code{master_matrix}. Default = TRUE.
@@ -26,17 +26,30 @@
 #' are calculated all the time, other indices need to be specified. Options are:
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
 #' "CMSC", and "CMSR". See details. Default = "basic". See details.
+#' @param parallel (logical) whether to perform analyses in parallel.
+#' Default = FALSE. Not used if data is of class data.frame, RasterStack, or
+#' RasterBrick.
+#' @param n_cores (numeric) number of cores to be used when \code{parallel} =
+#' TRUE. The default, NULL, uses available cores - 1.
 #' @param verbose (logical) whether or not to print messages about the process.
 #' Default = TRUE.
 #'
 #' @details
-#' Objects of class "master_matrix" or "master_selection" could be obtained from
+#' Objects of class "master_matrix" or "master_selection" can be obtained from
 #' functions \code{\link{prepare_master_matrix}}, \code{\link{random_selection}},
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
 #' \code{uniformEG_selection}. The element region or mask if this last is not
 #' NULL is used to prepare the spatial grid.
 #'
+#' Geographic projection of objects or coordinates involved must be WGS84
+#' (EPSG:4326).
+#'
 #' Description of objects to be used as \code{data}:
+#' - character.- name of directory containing raster, shapefiles, geopackage,
+#' or geojson files representing species geographic ranges. Each file must be
+#' named as the species that it represents. All files must be in an only format.
+#' If files are in raster format, "GTiff" and "ascii" are acceptable extensions;
+#' values in each layer must be 1 (presence) and 0 (absence).
 #' - data.frame.- a table containing  three columns. Columns must be in the
 #' following order: Longitude, Latitude, Species.
 #' - RasterStack or RasterBrick.- Each layer must be named as the species which
@@ -44,22 +57,19 @@
 #' (absence).
 #' - list.-  a list of RasterLayers that cannot be stacked because of extent or
 #' resolution differences. Each element of the list must be named as the species
-#' which range it represents, and values in each RasterLayer must be 1 (presence)
-#' and 0 (absence).
+#' which range it represents, and values in each RasterLayer must be 1
+#' (presence) and 0 (absence).
 #' - SpatialPolygonsDataFrame.- object representing species' geographic ranges.
 #' The data frame associated with the object must contain a column
 #' named "Species" to distinguish among features representing each species range.
 #' - SpatialPointsDataFrame.- object of spatial points where each record of a
 #' species must be a point. The associated data.frame must contain the following
 #' columns (in that order): Longitude, Latitude, Species.
-#' - character.- name of directory containing raster, shapefiles, or geopackage
-#' files representing species geographic ranges. Each file must be named as the
-#' species that it represents. All files must be in an only format. If files are
-#' raster, values in each layer must be 1 (presence) and 0 (absence).
 #'
 #' A list of codes and indices that can be calculated is described below. For
 #' further details on the way calculations are performed and the meaning of the
-#' indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.4801}.
+#' indices see Soberon and Cavner (2015)
+#' \doi{https://doi.org/10.17161/bi.v10i0.4801}.
 #'
 #' |Code  |Index                                    |Calculation                     |
 #' |:-----|----------------------------------------:|-------------------------------:|
@@ -95,7 +105,8 @@
 #' @usage
 #' prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
 #'                  complete_cover = TRUE, clip_grid = FALSE,
-#'                  indices = "basic", verbose = TRUE)
+#'                  indices = "basic", parallel = FALSE, n_cores = NULL,
+#'                  verbose = TRUE)
 #'
 #' @export
 #' @importFrom sp SpatialPointsDataFrame over
@@ -115,7 +126,8 @@
 
 prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
                              complete_cover = TRUE, clip_grid = FALSE,
-                             indices = "basic", verbose = TRUE) {
+                             indices = "basic", parallel = FALSE,
+                             n_cores = NULL, verbose = TRUE) {
   # Initial tests
   clsdata <- class(data)[1]
 
@@ -144,13 +156,14 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   if (verbose == TRUE) {
     message("Preparing spatial grid")
   }
-  grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size, complete_cover)
+  grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size,
+                                 complete_cover)
 
   # Prepare SpaptialPoints from different objects
   if (verbose == TRUE) {
     message("Preparing PAM from 'data'")
   }
-  if (!is.data.frame(data)) {
+  if (clsdata != "data.frame") {
     ## from raster objects
     if (clsdata %in% c("RasterStack", "RasterBrick")) {
       data <- stack_2data(species_layers = data)
@@ -158,21 +171,29 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
 
     ## from a list
     if (clsdata == "list") {
-      data <- rlist_2data(raster_list = data)
+      data <- rlist_2data(raster_list = data, parallel = parallel,
+                          n_cores = n_cores)
     }
 
     ## from files stored in a directory
     if (clsdata == "character") {
       if (!format %in% c("shp", "gpkg", "geojson")) {
-        data <- files_2data(path = data, format)
+        data <- files_2data(path = data, format = format, parallel = parallel,
+                            n_cores = n_cores)
       }
     }
+  } else {
+    sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data,
+                                            proj4string = sp::CRS("+init=epsg:4326"))
   }
 
   # SpatialPointsDataFrame from data if needed
   if (!clsdata %in% c("SpatialPointsDataFrame", "SpatialPolygonsDataFrame")) {
-    if (clsdata == "character" & !format %in% c("shp", "gpkg", "geojson")) {
-      sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data)
+    if (clsdata == "character") {
+      if (!format %in% c("shp", "gpkg", "geojson")) {
+        sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data,
+                                                proj4string = sp::CRS("+init=epsg:4326"))
+      }
     }
   }
 
@@ -180,11 +201,13 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   ## direct step from SPDF or character data argument
   if (clsdata %in% c("SpatialPolygonsDataFrame", "character")) {
     if (clsdata == "SpatialPolygonsDataFrame") {
-      sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol)
+      sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol,
+                              parallel = parallel, n_cores = n_cores)
     }
     if (clsdata == "character") {
       if (format %in% c("shp", "gpkg", "geojson")) {
-        sp_points <- files_2data(path = data, format, spdf_grid = grid_r_pol)
+        sp_points <- files_2data(path = data, format, spdf_grid = grid_r_pol,
+                                 parallel = parallel, n_cores = n_cores)
       }
     }
   }

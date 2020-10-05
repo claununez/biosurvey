@@ -1,7 +1,7 @@
 #' Plotting lists of species accumulation curves
 #'
-#' @description Creates species accumulation curve plots (one or multiple panels)
-#' from information contained in lists obtained with the function
+#' @description Creates species accumulation curve plots (one or multiple
+#' panels) from information contained in lists obtained with the function
 #' \code{\link{selected_sites_SAC}}.
 #'
 #' @param SAC_selected_sites nested list of "\code{specaccum}" objects obtained
@@ -9,10 +9,10 @@
 #' @param col_mean (character) color for mean value of curve; default = "blue".
 #' @param col_CI (character) color for confidence interval region for the curve;
 #' default = "lightblue".
-#' @param alpha_mean (numeric) alpha level for line representing the mean, values
-#' from 0 to 1; default = 0.7. Values close to 0 increase transparency.
-#' @param alpha_CI (numeric) alpha level for the region representing the confidence
-#' interval; default = 0.2.
+#' @param alpha_mean (numeric) alpha level for line representing the mean,
+#' values from 0 to 1; default = 0.7. Values close to 0 increase transparency.
+#' @param alpha_CI (numeric) alpha level for the region representing the
+#' confidence interval; default = 0.2.
 #' @param xlab (character) label for x axis of plot; default = "Number of sites".
 #' @param ylab (character) label for y axis of plot; default = "Species".
 #' @param line_for_multiple (logical) whether to plot SACs only as lines when
@@ -48,9 +48,10 @@
 #' # plotting
 #' plot_SAC(SACs)
 
-plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue",
-                     alpha_mean = 0.7, alpha_CI = 0.2, xlab = "Number of sites",
-                     ylab = "Species", line_for_multiple = TRUE, main = NULL, ...) {
+plot_SAC <- function(SAC_selected_sites, col_mean = "blue",
+                     col_CI = "lightblue", alpha_mean = 0.7, alpha_CI = 0.2,
+                     xlab = "Number of sites", ylab = "Species",
+                     line_for_multiple = TRUE, main = NULL, ...) {
 
   # Initial tests
   if (missing(SAC_selected_sites)) {
@@ -104,11 +105,12 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
       if (line_for_multiple == TRUE) {
         pple <- lapply(1:length(SAC_selected_sites[[1]]), function(x) {
           if (x == 1) {
-            plot(SAC_selected_sites[[1]][[x]], ci.type = "line", ci = 0, col = cm,
-                 ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[1], ...)
+            plot(SAC_selected_sites[[1]][[x]], ci.type = "line", ci = 0,
+                 col = cm, ylim = y_lim, xlab = xlab, ylab = ylab,
+                 main = mains[1], ...)
           } else {
-            plot(SAC_selected_sites[[1]][[x]], ci.type = "line", ci = 0, col = cm,
-                 add = TRUE, ...)
+            plot(SAC_selected_sites[[1]][[x]], ci.type = "line", ci = 0,
+                 col = cm, add = TRUE, ...)
           }
         })
       } else {
@@ -146,8 +148,9 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue", col_CI = "lightblue"
         if (line_for_multiple == TRUE) {
           pple <- lapply(1:length(SAC_selected_sites[[i]]), function(x) {
             if (x == 1) {
-              plot(SAC_selected_sites[[i]][[x]], ci.type = "line", ci = 0, col = cm,
-                   ylim = y_lim, xlab = xlab, ylab = ylab, main = mains[i], ...)
+              plot(SAC_selected_sites[[i]][[x]], ci.type = "line", ci = 0,
+                   col = cm, ylim = y_lim, xlab = xlab, ylab = ylab,
+                   main = mains[i], ...)
             } else {
               plot(SAC_selected_sites[[i]][[x]], ci.type = "line", ci = 0,
                    col = cm, add = TRUE, ...)

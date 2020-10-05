@@ -13,7 +13,8 @@ test_that("Correct creation of SACs for sites", {
   testthat::expect_equal(cnam, enams)
   testthat::expect_s3_class(SACs$SAC_selected_sites_G$selection_1, "specaccum")
   testthat::expect_s3_class(SACs$SAC_selected_sites_E$selection_1, "specaccum")
-  testthat::expect_s3_class(SACs$SAC_selected_sites_random$selection_1, "specaccum")
+  testthat::expect_s3_class(SACs$SAC_selected_sites_random$selection_1,
+                            "specaccum")
 })
 
 

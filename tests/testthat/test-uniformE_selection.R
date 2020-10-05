@@ -4,7 +4,8 @@ test_that("Correct E master_selection", {
   m_blocks <- make_blocks(m_matrix_pre, variable_1 = "PC1",
                           variable_2 = "PC2", n_cols = 10, n_rows = 10,
                           block_type = "equal_area")
-  selection <- uniformE_selection(m_blocks, variable_1 = "PC1", variable_2 = "PC2",
+  selection <- uniformE_selection(m_blocks, variable_1 = "PC1",
+                                  variable_2 = "PC2",
                                   selection_from = "block_centroids",
                                   expected_points = 15, max_n_samplings = 1,
                                   replicates = 1)
@@ -35,13 +36,13 @@ test_that("Errors and messages E selection", {
                           block_type = "equal_area")
   testthat::expect_message(uniformE_selection(m_blocks, variable_1 = "PC1",
                                               variable_2 = "PC2",
-                                              selection_from = "block_centroids",
+                                              selection_from ="block_centroids",
                                               expected_points = 15,
                                               max_n_samplings = 1,
                                               replicates = 1))
   testthat::expect_error(uniformE_selection(m_matrix_pre, variable_1 = "PC1",
                                               variable_2 = "PC2",
-                                              selection_from = "block_centroids",
+                                              selection_from ="block_centroids",
                                               expected_points = 15,
                                               max_n_samplings = 1,
                                               replicates = 1))

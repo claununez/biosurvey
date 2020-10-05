@@ -8,20 +8,20 @@
 #' a country, another type of administrative are, or a protected area.
 #' @param variables RasterStack or RasterBrick of environmental variables.
 #' @param mask (optional) SpatialPolygons* object to mask \code{variables} and
-#' reduce \code{region} to an area that is more relevant for analysis (e.g., only
-#' areas with natural vegetation cover). Default = NULL.
+#' reduce \code{region} to an area that is more relevant for analysis (e.g.,
+#' only areas with natural vegetation cover). Default = NULL.
 #' @param preselected_sites data.frame containing sites that must be included
 #' in posterior selections of sites for the survey system. Columns must be:
 #' "Sites", "Longitude", "Latitude", in that order.
-#' @param do_pca (logical) whether or not to perform a Principal Component Analysis.
-#' Default = FALSE.
-#' @param center (logical) whether or not to center variables. Argument to be passed
-#' to the function \code{\link[stats]{prcomp}}. Default = TRUE.
-#' @param scale (logical) whether or not to scale the variables. Recommended when
-#' variables are in different units. Argument to be passed to the function
+#' @param do_pca (logical) whether or not to perform a Principal Component
+#' Analysis. Default = FALSE.
+#' @param center (logical) whether or not to center variables. Argument to be
+#' passed to the function \code{\link[stats]{prcomp}}. Default = TRUE.
+#' @param scale (logical) whether or not to scale the variables. Recommended
+#' when variables are in different units. Argument to be passed to the function
 #' \code{\link[stats]{prcomp}}. Default = FALSE.
-#' @param variables_in_matrix (character) name of variables to include in matrix.
-#' If NULL (the default) all variables will be included.
+#' @param variables_in_matrix (character) name of variables to include in
+#' matrix. If NULL (the default) all variables will be included.
 #' @param verbose (logical) whether or not to print messages about the process.
 #' Default = TRUE.
 #'
@@ -34,8 +34,8 @@
 #' - mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
 #' - preselected_sites: sites defined by used. NULL if \code{preselected_sites}
 #' was not defined.
-#' - raster_base: a SpatialPolygonsDataFrame representing the grid of the rasters
-#' used, which will be used for plotting purposes.
+#' - raster_base: a SpatialPolygonsDataFrame representing the grid of the
+#' rasters used, which will be used for plotting purposes.
 #' - PCA_results: if \code{do_pca} is TRUE, other results from principal
 #' component analysis. If FALSE, PCA_results element of the object is NULL.
 #'
@@ -44,18 +44,19 @@
 #' aiming to define a survey sampling system considering geographic and
 #' environmental spaces in the \code{region} of interest.
 #'
-#' If \code{mask} is defined all analyses will be restricted to such an area. If
-#' \code{mask} is not fully contained by \code{region}, the mask used for reducing
-#' \code{variables}, and returned as part of the S3 object (master_matrix) is the
-#' intersection between them.
+#' If \code{mask} is defined all analyses will be restricted to such an area.
+#' If \code{mask} is not fully contained by \code{region}, the mask used for
+#' reducing \code{variables}, and returned as part of the S3 object
+#' (master_matrix) is the intersection between them.
 #'
 #' If \code{preselected_sites} is defined, environmental values and, if
 #' \code{do_pca} = TRUE, principal components are added to such records. These
 #' records and their characteristics will be considered in further analyses.
 #'
 #' @usage
-#' prepare_master_matrix(region, variables, mask = NULL, preselected_sites = NULL,
-#'                       do_pca = FALSE, center = TRUE, scale = FALSE,
+#' prepare_master_matrix(region, variables, mask = NULL,
+#'                       preselected_sites = NULL, do_pca = FALSE,
+#'                       center = TRUE, scale = FALSE,
 #'                       variables_in_matrix = NULL, verbose = TRUE)
 #'
 #' @export
@@ -96,7 +97,7 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     }
 
     # Intersection of region and mask to avoid complications
-    mask <- raster::intersect(region, mask)
+    #mask <- raster::intersect(region, mask)
   }
 
   # Mask variables to polygons (region of interest)
@@ -116,7 +117,8 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     }
 
     preselected_sites <- data.frame(preselected_sites,
-                                    raster::extract(variables, preselected_sites[, 2:3]))
+                                    raster::extract(variables,
+                                                    preselected_sites[, 2:3]))
     colnames(preselected_sites)[2:3] <- c("Longitude", "Latitude")
   }
 
@@ -156,8 +158,8 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     }
 
     # Return results
-    return(new_master_matrix(data_matrix = master_m, region = region, mask = mask,
-                             raster_base = b_raster,
+    return(new_master_matrix(data_matrix = master_m, region = region,
+                             mask = mask, raster_base = b_raster,
                              preselected_sites = preselected_sites,
                              PCA_results = pca))
 
@@ -166,8 +168,8 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     master_m <- data.frame(variables)
 
     # Return results
-    return(new_master_matrix(data_matrix = master_m, region = region, mask = mask,
-                             raster_base = b_raster,
+    return(new_master_matrix(data_matrix = master_m, region = region,
+                             mask = mask, raster_base = b_raster,
                              preselected_sites = preselected_sites,
                              PCA_results = NULL))
   }

@@ -4,12 +4,12 @@
 #' @description Selection of sites to be sampled in a survey, with the goal of
 #' maximizing uniformity of points in environment, but considering geographic
 #' patterns of data. Sets of points that are environmentally similar and have a
-#' disjoint pattern in geography, are selected twice (two survey sites are placed
-#' so they consider the biggest geographic clusters).
+#' disjoint pattern in geography, are selected twice (two survey sites are
+#' placed so they consider the biggest geographic clusters).
 #'
 #' @param master a master_matrix object derived from the function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from functions
-#' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived from
+#' functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X-axis).
@@ -19,7 +19,8 @@
 #' base for further explorations. Default = NULL.
 #' @param guess_distances (logical) whether or not to use internal algorithm
 #' to automatically select \code{initial_distance} and \code{increase}. Default
-#' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be defined.
+#' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be
+#' defined.
 #' @param initial_distance (numeric) euclidean distance to be used for a first
 #' process of thinning and detection of remaining blocks. See details in
 #' \code{\link{point_thinning}}. Default = NULL.
@@ -40,17 +41,19 @@
 #' "G_centroid". E_ or G_ centroid indicate that the point(s) closets to the
 #' respective centroid will be selected. Default = "E_centroid".
 #' @param cluster_method (character) name of the method to be used for detecting
-#' geographic clusters of points inside each block. Options are "hierarchical" and
-#' "k-means"; default = "hierarchical". See details in \code{\link{find_clusters}}.
+#' geographic clusters of points inside each block. Options are "hierarchical"
+#' and "k-means"; default = "hierarchical". See details in
+#' \code{\link{find_clusters}}.
 #' @param sample_for_distance (numeric) sample to be considered when measuring
-#' the geographic distances among points in blocks created in environmental space.
-#' The distances measured are then used to test whether points are distributed
-#' uniformly or not in the geography. Default = 250.
-#' @param median_distance_filter (character) optional argument to define a median
-#' distance-based filter based on which sets of sampling sites will be selected.
-#' The default, NULL, does not apply such a filter. Options are: "max" and "min".
-#' See details.
-#' @param set_seed (numeric) integer value to specify a initial seed. Default = 1.
+#' the geographic distances among points in blocks created in environmental
+#' space. The distances measured are then used to test whether points are
+#' distributed uniformly or not in the geography. Default = 250.
+#' @param median_distance_filter (character) optional argument to define a
+#' median distance-based filter based on which sets of sampling sites will be
+#' selected. The default, NULL, does not apply such a filter. Options are:
+#' "max" and "min". See details.
+#' @param set_seed (numeric) integer value to specify a initial seed.
+#' Default = 1.
 #' @param verbose (logical) whether or not to print messages about the process.
 #' Default = TRUE.
 #'
@@ -60,21 +63,21 @@
 #' \code{max_n_samplings} and \code{median_distance_filter}.
 #'
 #' @details
-#' Two important steps are needed before using this function: 1) exploring data in
-#' environmental and geographic spaces, and 2) performing a regionalization of the
-#' environmental space. Exploring the data can be done using the function
+#' Two important steps are needed before using this function: 1) exploring data
+#' in environmental and geographic spaces, and 2) performing a regionalization
+#' of the environmental space. Exploring the data can be done using the function
 #' \code{\link{explore_data_EG}}. This step is optional but strongly recommended,
 #' as important decisions that need to be taken depend on the configuration
 #' of the data in the two spaces. A regionalization of the environmental space
 #' of the region of interest helps in defining important parts of your region
-#' that should be considered to select sites. This can be done using the function
-#' \code{\link{make_blocks}}. Later the regions created in environmental space
-#' will be used for selecting one or more sampling sites per block depending on
-#' the geographic pattern of such environmental combinations.
+#' that should be considered to select sites. This can be done using the
+#' function \code{\link{make_blocks}}. Later the regions created in
+#' environmental space will be used for selecting one or more sampling sites per
+#' block depending on the geographic pattern of such environmental combinations.
 #'
 #' The process of survey-site selection with this function is the most complex
-#' among all functions in this package. The complexity derives from the aim of the
-#' function, which is to select sites that sample appropriately environmental
+#' among all functions in this package. The complexity derives from the aim of
+#' the function, which is to select sites that sample appropriately environmental
 #' combinations in the region of interest (environmental space), but
 #' considering the geographic patterns of such environmental regions (geographic
 #' space).
@@ -102,10 +105,10 @@
 #' As multiple sets could result from selection, the argument of the function
 #' \code{median_distance_filter} could be used to select the set of sites with
 #' the maximum ("max") or minimum ("min") median distance among selected sites.
-#' Option "max" will increase the geographic distance among sampling sites, which
-#' could be desirable if the goal is to cover the region of interest more broadly.
-#' The other option "min", could be used in cases when the goal is to reduce
-#' resources and time needed to sample such sites.
+#' Option "max" will increase the geographic distance among sampling sites,
+#' which could be desirable if the goal is to cover the region of interest more
+#' broadly. The other option "min", could be used in cases when the goal is to
+#' reduce resources and time needed to sample such sites.
 #'
 #' @seealso
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}},
@@ -135,8 +138,9 @@
 #' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E and G spaces
-#' EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-#'                        n_blocks = 10, initial_distance = 1.5, increase = 0.1,
+#' EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1",
+#'                        variable_2 = "PC2", n_blocks = 10,
+#'                        initial_distance = 1.5, increase = 0.1,
 #'                        replicates = 1, max_n_samplings = 1,
 #'                        select_point = "E_centroid",
 #'                        cluster_method = "hierarchical",
@@ -150,9 +154,11 @@
 EG_selection <- function(master, variable_1, variable_2, n_blocks,
                          guess_distances = TRUE, initial_distance = NULL,
                          increase = NULL, max_n_samplings = 1, replicates = 10,
-                         use_preselected_sites = TRUE, select_point = "E_centroid",
+                         use_preselected_sites = TRUE,
+                         select_point = "E_centroid",
                          cluster_method = "hierarchical",
-                         median_distance_filter = NULL, sample_for_distance = 250,
+                         median_distance_filter = NULL,
+                         sample_for_distance = 250,
                          set_seed = 1, verbose = TRUE) {
 
   # Initial tests
@@ -295,10 +301,10 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
     ## analysis with no mode (very few points)
     if (nrow(nmodp) > 0) {
-      unselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"] %in%
-                                                    nmodp[, "Block"], ], variable_1,
-                             variable_2, n = 1, select_point = "random",
-                             id_column = "Block")
+      unselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"]
+                                                %in% nmodp[, "Block"], ],
+                             variable_1, variable_2, n = 1,
+                             select_point = "random", id_column = "Block")
     } else {
       unselp <- matrix(nrow = 0, ncol = ncol(master$data_matrix))
       colnames(unselp) <- colnames(master$data_matrix)
@@ -307,10 +313,10 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
     ## analysis with unimodal
     if (nrow(unimp) > 0) {
-      ueselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"] %in%
-                                                    unimp[, "Block"], ], variable_1,
-                             variable_2, n = 1, select_point = select_point,
-                             id_column = "Block")
+      ueselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"]
+                                                %in%  unimp[, "Block"], ],
+                             variable_1, variable_2, n = 1,
+                             select_point = select_point, id_column = "Block")
     } else {
       ueselp <- matrix(nrow = 1, ncol = ncol(master$data_matrix))
       colnames(ueselp) <- colnames(master$data_matrix)
@@ -320,11 +326,13 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     ## analysis with multimodal
     if (nrow(mmodp) > 0) {
       distsp <- distsp[as.character(mmodp$Block)]
-      meselp <- point_sample_cluster(master$data_matrix[master$data_matrix[, "Block"] %in%
-                                                            mmodp[, "Block"], ],
-                                     variable_1, variable_2, distance_list = distsp,
+      meselp <- point_sample_cluster(master$data_matrix[master$data_matrix[, "Block"]
+                                                       %in% mmodp[, "Block"], ],
+                                     variable_1, variable_2,
+                                     distance_list = distsp,
                                      n = 1, cluster_method = cluster_method,
-                                     select_point = select_point, id_column = "Block")
+                                     select_point = select_point,
+                                     id_column = "Block")
     } else {
       meselp <- matrix(nrow = 0, ncol = ncol(master$data_matrix))
       colnames(meselp) <- colnames(master$data_matrix)
@@ -384,7 +392,8 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   names(all_sites) <- paste0("selection_", 1:length(all_sites))
 
   ## arguments as attributes
-  other_args <- list(arguments = list(variable_1 = variable_1, variable_2 = variable_2,
+  other_args <- list(arguments = list(variable_1 = variable_1,
+                                      variable_2 = variable_2,
                                       n_blocks = n_blocks,
                                       guess_distances = guess_distances,
                                       max_n_samplings = max_n_samplings,

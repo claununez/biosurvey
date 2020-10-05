@@ -6,22 +6,23 @@
 \usage{
 prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
                  complete_cover = TRUE, clip_grid = FALSE,
-                 indices = "basic", verbose = TRUE)
+                 indices = "basic", parallel = FALSE, n_cores = NULL,
+                 verbose = TRUE)
 }
 \arguments{
 \item{data}{species geographic ranges to be used to create a presence-absence
-matrix (PAM). This argument can be: data.frame, RasterStack, RasterBrick,
-list, SpatialPolygonsDataFrame, SpatialPointsDataFrame, or character. See
-details for description of characteristics of each option.}
+matrix (PAM). This argument can be: character, data.frame, RasterStack,
+RasterBrick, list, SpatialPolygonsDataFrame, or SpatialPointsDataFrame. See
+details for a description of the characteristics of data for each option.}
 
 \item{format}{(character) if \code{data} is of class character, available
 options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
 
-\item{master_matrix}{object of class "master_matrix" or "master_selection". See
-details.}
+\item{master_matrix}{object of class "master_matrix" or "master_selection".
+See details.}
 
-\item{cell_size}{(numeric) resolution for grid (single number or vector of two
-numbers) in kilometers (km).}
+\item{cell_size}{(numeric) resolution for grid (single number or vector of
+two numbers) in kilometers (km).}
 
 \item{complete_cover}{(logical) whether or not to include cells of grid
 partially overlapped with the geographic region of interest contained in
@@ -35,6 +36,13 @@ region of interest is it could take time to perform this task.}
 are calculated all the time, other indices need to be specified. Options are:
 "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
 "CMSC", and "CMSR". See details. Default = "basic". See details.}
+
+\item{parallel}{(logical) whether to perform analyses in parallel.
+Default = FALSE. Not used if data is of class data.frame, RasterStack, or
+RasterBrick.}
+
+\item{n_cores}{(numeric) number of cores to be used when \code{parallel} =
+TRUE. The default, NULL, uses available cores - 1.}
 
 \item{verbose}{(logical) whether or not to print messages about the process.
 Default = TRUE.}
@@ -51,19 +59,27 @@ biodiversity as default, but can be changed using the argument \code{indices}.
 \description{
 Prepares a presence-absence matrix (PAM) in which all sites
 of interest (rows) will have a value for presence or absence of a species
-of interest (columns). Initial points of interest will be represented by an ID,
-and longitude and latitude coordinates. The PAM will be linked to a spatial
-grid.
+of interest (columns). Initial points of interest will be represented by an
+ID, and longitude and latitude coordinates. The PAM will be linked to a
+spatial grid.
 }
 \details{
-Objects of class "master_matrix" or "master_selection" could be obtained from
+Objects of class "master_matrix" or "master_selection" can be obtained from
 functions \code{\link{prepare_master_matrix}}, \code{\link{random_selection}},
 \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
 \code{uniformEG_selection}. The element region or mask if this last is not
 NULL is used to prepare the spatial grid.
 
+Geographic projection of objects or coordinates involved must be WGS84
+(EPSG:4326).
+
 Description of objects to be used as \code{data}:
 \itemize{
+\item character.- name of directory containing raster, shapefiles, geopackage,
+or geojson files representing species geographic ranges. Each file must be
+named as the species that it represents. All files must be in an only format.
+If files are in raster format, "GTiff" and "ascii" are acceptable extensions;
+values in each layer must be 1 (presence) and 0 (absence).
 \item data.frame.- a table containing  three columns. Columns must be in the
 following order: Longitude, Latitude, Species.
 \item RasterStack or RasterBrick.- Each layer must be named as the species which
@@ -71,23 +87,20 @@ range it represents, and values in each layer must be 1 (presence) and 0
 (absence).
 \item list.-  a list of RasterLayers that cannot be stacked because of extent or
 resolution differences. Each element of the list must be named as the species
-which range it represents, and values in each RasterLayer must be 1 (presence)
-and 0 (absence).
+which range it represents, and values in each RasterLayer must be 1
+(presence) and 0 (absence).
 \item SpatialPolygonsDataFrame.- object representing species' geographic ranges.
 The data frame associated with the object must contain a column
 named "Species" to distinguish among features representing each species range.
 \item SpatialPointsDataFrame.- object of spatial points where each record of a
 species must be a point. The associated data.frame must contain the following
 columns (in that order): Longitude, Latitude, Species.
-\item character.- name of directory containing raster, shapefiles, or geopackage
-files representing species geographic ranges. Each file must be named as the
-species that it represents. All files must be in an only format. If files are
-raster, values in each layer must be 1 (presence) and 0 (absence).
 }
 
 A list of codes and indices that can be calculated is described below. For
 further details on the way calculations are performed and the meaning of the
-indices see Soberon and Cavner (2015) \doi{https://doi.org/10.17161/bi.v10i0.4801}.\tabular{lrr}{
+indices see Soberon and Cavner (2015)
+\doi{https://doi.org/10.17161/bi.v10i0.4801}.\tabular{lrr}{
    Code \tab Index \tab Calculation \cr
    RI \tab Richness \tab Basic \cr
    RA \tab Range \tab Basic \cr

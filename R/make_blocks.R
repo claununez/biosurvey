@@ -4,14 +4,15 @@
 #' a user-defined number of rows and columns. This is applied to the element
 #' master_matrix and, if not NULL, to preselected_sites.
 #'
-#' @param master_matrix object derived from function \code{\link{prepare_master_matrix}}.
+#' @param master_matrix object derived from function
+#' \code{\link{prepare_master_matrix}}.
 #' @param variable_1 (character or numeric) name or position of the first
 #' variable (X axis) to be used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis) to be used to create blocks (must be different from the
 #' first one).
-#' @param n_cols (numeric) number of columns of a grid used to creates blocks and
-#' split the bi-dimensional space.
+#' @param n_cols (numeric) number of columns of a grid used to creates blocks
+#' and split the bi-dimensional space.
 #' @param n_rows (numeric) number of rows of a grid used to creates blocks and
 #' split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.
 #' @param block_type (character) type of blocks to be use for dividing
@@ -19,15 +20,15 @@
 #' "equal_points". Default = "equal_area".
 #'
 #' @details
-#' For block_type, option "equal_area" generates blocks of the same size. The other
-#' option ("equal_points"), generates blocks containing the same number of points,
-#' which generally results in blocks of different sizes.
+#' For block_type, option "equal_area" generates blocks of the same size. The
+#' other option ("equal_points"), generates blocks containing the same number
+#' of points, which generally results in blocks of different sizes.
 #'
 #' @return
 #' An S3 object of class master_matrix, containing the same elements found in a
-#' master_matrix object, with an additional column on the master_matrix data.frame
-#' containing block identifiers. If the element preselected_sites is not NULL in
-#' master_matrix blocks are also assigned to this sites.
+#' master_matrix object, with an additional column on the master_matrix
+#' data.frame containing block identifiers. If the element preselected_sites is
+#' not NULL in master_matrix blocks are also assigned to this sites.
 #'
 #' @usage
 #' make_blocks(master_matrix, variable_1, variable_2, n_cols, n_rows = NULL,
@@ -101,8 +102,8 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
     # Assigning blocks to user predefined sites
     if (!is.null(master_matrix$preselected_sites)) {
-      prese <- assign_blocks(predata, variable_1, variable_2, n_cols, n_rows, xlb,
-                             ylb, block_type = "equal_area")
+      prese <- assign_blocks(predata, variable_1, variable_2, n_cols, n_rows,
+                             xlb, ylb, block_type = "equal_area")
     }
   } else {
     # Detecting ranges and intervals
@@ -115,17 +116,19 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
     # Assigning blocks to user predefined sites
     if (!is.null(master_matrix$preselected_sites)) {
-      prese <- assign_blocks(predata, variable_1, variable_2, n_cols, n_rows, xlb,
-                             block_type = "equal_points")
+      prese <- assign_blocks(predata, variable_1, variable_2, n_cols, n_rows,
+                             xlb, block_type = "equal_points")
     }
   }
 
   # Returning results
-  all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ] # matches data back in order
+  ## matches data back in order
+  all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ]
   master_matrix$data_matrix <- all_cls
 
   if (!is.null(master_matrix$preselected_sites)) {
-    prese <- prese[match(idpre, paste(prese[, 2], prese[, 3])), ] # matches preselected data back in order
+    ## matches preselected data back in order
+    prese <- prese[match(idpre, paste(prese[, 2], prese[, 3])), ]
     master_matrix$preselected_sites <- prese
   }
 
@@ -144,14 +147,15 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis) to be used to create blocks (must be different from the
 #' first one).
-#' @param n_cols (numeric) number of columns of a grid used to creates blocks and
-#' split the bi-dimensional space.
+#' @param n_cols (numeric) number of columns of a grid used to creates blocks
+#' and split the bi-dimensional space.
 #' @param n_rows (numeric) number of rows of a grid used to creates blocks and
 #' split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.
 #' @param xlb (numeric) Vector of values of extremes for all blocks considering
 #' \code{variable_1}.
 #' @param ylb (numeric) Vector of values of extremes for all blocks considering
-#' \code{variable_2}. Needed when \code{block_type} = "equal area". Default = NULL.
+#' \code{variable_2}. Needed when \code{block_type} = "equal area".
+#' Default = NULL.
 #' @param block_type (character) type of blocks to be use for dividing
 #' the bi-dimensional space. Two options are available: "equal_area" and
 #' "equal_points". Default = "equal_area".

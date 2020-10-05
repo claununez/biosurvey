@@ -2,7 +2,8 @@
 % Please edit documentation in R/selectionEG_helpers.R
 \name{point_sample_cluster}
 \alias{point_sample_cluster}
-\title{Sample points from a 2D environmental space potentially disjoint in geography}
+\title{Sample points from a 2D environmental space potentially disjoint in
+geography}
 \usage{
 point_sample_cluster(data, variable_1, variable_2, distance_list,
                      n = 1, cluster_method = "hierarchical",
@@ -19,11 +20,11 @@ variable (X axis).}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y axis). Must be different from the first one.}
 
-\item{distance_list}{list of vectors of geographic distances among all points.
-If \code{id_column} is not defined, only one element in the list is needed,
-otherwise, \code{distance_list} must contain as many elements as unique IDs in
-\code{id_column}. In the later case, the names in \code{distance_list} must
-match the IDs in \code{id_column}.}
+\item{distance_list}{list of vectors of geographic distances among all
+points. If \code{id_column} is not defined, only one element in the list is
+needed, otherwise, \code{distance_list} must contain as many elements as
+unique IDs in \code{id_column}. In the later case, the names in
+\code{distance_list} must match the IDs in \code{id_column}.}
 
 \item{n}{(numeric) number of points that are close to the centroid to be
 detected. Default = 1.}
@@ -32,24 +33,24 @@ detected. Default = 1.}
 "hierarchical" and "k-means". Default = "hierarchical".}
 
 \item{select_point}{(character) How or which point will be selected. Three
-options are available: "random", "E_centroid", "G_centroid". E_ or G_ centroid
-indicate that the point(s) closest to the respective centroid will be selected.
-Default = "E_centroid".}
+options are available: "random", "E_centroid", "G_centroid". E_ or G_
+centroid indicate that the point(s) closest to the respective centroid will
+be selected. Default = "E_centroid".}
 
 \item{id_column}{(character or numeric) name or numeric index of the column
 in \code{data} containing identifiers of one or distinct sets of points.
 If, NULL, the default, only one set is assumed.}
 }
 \value{
-A data.frame containing \code{n} rows corresponding to the point or points that
-were sampled.
+A data.frame containing \code{n} rows corresponding to the point or points
+that were sampled.
 }
 \description{
 Sample one or more points from a two dimensional environmental
-space according to a selection rule and with the possibility of having distinct
-sets of points to be sampled independently. Points to be sampled can be
-disjoint in geographic space and when that happens two points are selected
-considering the most numerous clusters.
+space according to a selection rule and with the possibility of having
+distinct sets of points to be sampled independently. Points to be sampled
+can be disjoint in geographic space and when that happens two points are
+selected considering the most numerous clusters.
 }
 \examples{
 # Data
@@ -64,8 +65,10 @@ datam <- m_blocks$data_matrix
 datam <- datam[datam$Block \%in\% names(dist_list), ]
 
 # Sampling points
-point_clus <- point_sample_cluster(datam, variable_1 = "PC1", variable_2 = "PC2",
+point_clus <- point_sample_cluster(datam, variable_1 = "PC1",
+                                   variable_2 = "PC2",
                                    distance_list = dist_list, n = 1,
                                    cluster_method = "hierarchical",
-                                   select_point = "E_centroid", id_column = "Block")
+                                   select_point = "E_centroid",
+                                   id_column = "Block")
 }
