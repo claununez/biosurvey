@@ -208,6 +208,8 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
     PAM$CS_diagram$S_significance_id <- qq
 
     if (keep_randomizations == TRUE) {
+      rownames(alea) <- new_ids
+      alea <- alea[as.character(site_id), ]
       PAM$CS_diagram$Randomized_DF <- alea
     }
   }
