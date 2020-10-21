@@ -90,15 +90,18 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
   ## data for analyses
   if (cpam == "base_PAM") {
     bp <- PAM$PAM
-    site_id <- bp@data[, 1]
+    site_id <- as.character(bp@data[, 1])
     mtt <- bp@data[, -(1:3)]
+    rownames(mtt) <- site_id
   } else {
     if (!is.null(id_column)) {
       site_id <- PAM[, id_column]
     } else {
-      site_id <- 1:nrow(PAM)
+      site_id <- as.character(1:nrow(PAM))
+      rownames(PAM) <- site_id
     }
     mtt <- PAM[, -exclude_column]
+    rownames(mtt) <- site_id
   }
 
   ## getting valid sites-cells and indices
@@ -107,7 +110,13 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
   site_id <- site_id[keep]
   keepc <- colSums(mtt, na.rm = TRUE) > 0
   mtt <- mtt[, keepc]
-  PAM <- PAM_indices(mtt, indices = "all")
+
+  # breaking geographic link of cells
+  mtt <- mtt[sample(nrow(mtt)), ]
+  new_ids <- rownames(mtt)
+
+  # calculating indices
+  PAM <- PAM_indices(mtt, indices = c("BW", "DF", "MCC"))
 
   # Preparing values to be used in plots
   s <- PAM$One_value_indices["Species", ]
@@ -190,11 +199,12 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
   PAM$CS_diagram <- new_PAM_CS(Species = s, Sites_cells = n,
                                Beta_W = betty, Spearman_cor = sper,
                                Theoretical_boundaries = list(x = vx, y = vy),
-                               Richness_normalized = alfas,
-                               Dispersion_field_normalized = fist)
+                               Richness_normalized = alfas[as.character(site_id)],
+                               Dispersion_field_normalized = fist[as.character(site_id)])
 
   if (significance_test == TRUE) {
-    names(qq) <- site_id
+    names(qq) <- new_ids
+    qq <- qq[as.character(site_id)]
     PAM$CS_diagram$S_significance_id <- qq
 
     if (keep_randomizations == TRUE) {
