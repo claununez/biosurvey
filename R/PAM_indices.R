@@ -180,21 +180,32 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   ## Matrix of covariance of composition of sites
-  if (any(indices %in% c("all", "CMSC", "SCSC", "MCC"))) {
+  if (any(indices %in% c("all", "CMSC", "SCSC"))) {
     CS_cov <- (A / S) - (richS %*% t(richS))
-    ## Mean
+
+  } else {
+    CS_cov <- NULL
+  }
+
+  ## Mean composition covariance
+  if (any(indices %in% c("all", "MCC"))) {
     Ccov_mean <- (d_field / (N * S)) - (BW^-1 * richS)
   } else {
-    CS_cov <- Ccov_mean <- NULL
+    Ccov_mean <- NULL
   }
 
   ## Matrix of covariance of ranges of species
-  if (any(indices %in% c("all", "CMSR", "SCSR", "MRC"))) {
+  if (any(indices %in% c("all", "CMSR", "SCSR"))) {
     RS_cov <- (O / S) - (rangN %*% t(rangN))
-    ## Mean
+  } else {
+    RS_cov <- NULL
+  }
+
+  ## Mean range covariance
+  if (any(indices %in% c("all", "MRC"))) {
     Rcov_mean <- (sc_comp / (N * S)) - (BW^-1 * rangN)
   } else {
-    RS_cov <- Rcov_mean <- NULL
+    Rcov_mean <- NULL
   }
 
   ## Schluter sites-composition covariance
