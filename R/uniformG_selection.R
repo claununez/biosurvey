@@ -36,7 +36,7 @@
 #' Default = TRUE.
 #'
 #' @return
-#' A master_selection object (S3) with an additional element called
+#' A \code{\link{master_selection}} object (S3) with an additional element called
 #' selected_sites_G containing one or more sets of selected sites.
 #'
 #' @details

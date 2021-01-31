@@ -46,7 +46,7 @@ Default = FALSE.}
 TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
-An S3 object of class PAM_CS if \code{PAM} is a matrix or data.frame,
+An S3 object of class \code{\link{PAM_CS}} if \code{PAM} is a matrix or data.frame,
 otherwise, the base_PAM that includes the PAM_CS object as part of
 PAM_indices.
 

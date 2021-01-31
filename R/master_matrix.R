@@ -26,7 +26,8 @@
 #' Default = TRUE.
 #'
 #' @return
-#' An S3 object of class master_matrix containing the following elements:
+#' An S3 object of class \code{\link{master_matrix}} containing the following
+#' elements:
 #' - data_matrix: a date.frame with information about geographic location of
 #' raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 #' the first two principal components derived from original data.
