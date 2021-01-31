@@ -94,13 +94,14 @@
 #' @seealso \code{\link{PAM_indices}}
 #'
 #' @return
-#' A presence-absence matrix (PAM) of class base_PAM for the region of interest
-#' associated with a SpatialPolygonsDataFrame, as in a grid of \code{cell_size}
-#' resolution. Each grid cell is related to a specific ID and longitude and
-#' latitude coordinates. Presence (1) and absence (0) values for each species
-#' in every cell of the PAM are included as apart of the data frame of the
-#' SpatialPolygonsDataFrame. PAM indices is returned with the basic indices of
-#' biodiversity as default, but can be changed using the argument \code{indices}.
+#' A presence-absence matrix (PAM) of class \code{\link{base_PAM}} for the
+#' region of interest associated with a SpatialPolygonsDataFrame, as in a grid
+#' of \code{cell_size} resolution. Each grid cell is related to a specific ID
+#' and longitude and latitude coordinates. Presence (1) and absence (0) values
+#' for each species in every cell of the PAM are included as apart of the data
+#' frame of the SpatialPolygonsDataFrame. PAM indices is returned with the basic
+#' indices of biodiversity as default, but can be changed using the argument
+#' \code{indices}.
 #'
 #' @usage
 #' prepare_base_PAM(data, format = NULL, master_matrix, cell_size,

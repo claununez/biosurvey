@@ -40,7 +40,8 @@ matrix. If NULL (the default) all variables will be included.}
 Default = TRUE.}
 }
 \value{
-An S3 object of class master_matrix containing the following elements:
+An S3 object of class \code{\link{master_matrix}} containing the following
+elements:
 \itemize{
 \item data_matrix: a date.frame with information about geographic location of
 raster cells, initial environmental data, and if \code{do_pca} is TRUE,

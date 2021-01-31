@@ -14,8 +14,9 @@
 #' "all", uses all selection types present in \code{master_selection}.
 #'
 #' @return
-#' An object of class PAM_subset containing the original \code{base_PAM} and
-#' other subsets of the PAM according to \code{selection_type}.
+#' An object of class \code{\link{PAM_subset}} containing the original
+#' \code{base_PAM} and other subsets of the PAM according to
+#' \code{selection_type}.
 #'
 #' @usage
 #' subset_PAM(base_PAM, master_selection, selection_type = "all")

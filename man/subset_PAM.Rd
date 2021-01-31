@@ -20,8 +20,9 @@ obtained using the functions: \code{\link{random_selection}},
 "all", uses all selection types present in \code{master_selection}.}
 }
 \value{
-An object of class PAM_subset containing the original \code{base_PAM} and
-other subsets of the PAM according to \code{selection_type}.
+An object of class \code{\link{PAM_subset}} containing the original
+\code{base_PAM} and other subsets of the PAM according to
+\code{selection_type}.
 }
 \description{
 Subsets of a base_PAM object according to survey sites

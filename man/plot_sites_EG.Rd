@@ -2,6 +2,8 @@
 % Please edit documentation in R/plot_sites_EG.R
 \name{plot_sites_EG}
 \alias{plot_sites_EG}
+\alias{plot_sites_E}
+\alias{plot_sites_G}
 \title{Representation of sites selected to be surveyed}
 \usage{
 plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
@@ -9,6 +11,17 @@ plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
               col_sites = NULL, col_pre = NULL, cex_all = 0.7,
               cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
               pch_pre = 16, add_main = TRUE)
+
+plot_sites_E(master_selection, selection_type, variable_1 = NULL,
+             variable_2 = NULL, selection_number = 1, col_all = NULL,
+             col_sites = NULL, col_pre = NULL, cex_all = 0.7,
+             cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
+             pch_pre = 16, main = "")
+
+plot_sites_G(master_selection, selection_type, selection_number = 1,
+             col_all = NULL, col_sites = NULL, col_pre = NULL, cex_all = 0.7,
+             cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
+             pch_pre = 16, main = "")
 }
 \arguments{
 \item{master_selection}{a master_selection object derived from functions
@@ -66,35 +79,27 @@ not present in \code{master_selection}.}
 \item{add_main}{(logical) whether or not to add fixed titles to the plot.
 Default = TRUE. Titles added are "Environmental space" and "Geographic
 space".}
+
+\item{main}{(character) the main title for the plot.}
 }
 \value{
-A two-panel plot showing the selected sites. They are show in both spaces,
-geographic and environmental.
+\code{plot_sites_EG} returns a two-panel plot showing the selected sites.
+They are show in both spaces, geographic and environmental.
+
+\code{plot_sites_E} returns a plot of selected sites in environmental space.
+
+\code{plot_sites_G} returns a plot of selected sites in geographic space.
 }
 \description{
-Creates a two-panel plot representing sites (all and selected
-for survey) in both spaces, environmental and geographic.
+Plots representing sites (all and selected for survey) in
+environmental and/or geographic space.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
-
-# Making blocks for analysis
-m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
-                        variable_2 = "PC2", n_cols = 10, n_rows = 10,
-                        block_type = "equal_area")
-
-# Checking column names
-colnames(m_blocks$data_matrix)
-
-# Selecting sites uniformly in E space
-selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
-                                 variable_2 = "PC2",
-                                 selection_from = "block_centroids",
-                                 expected_points = 25, max_n_samplings = 1,
-                                 initial_distance = 1, increase = 0.1,
-                                 replicates = 5, set_seed = 1)
+data("m_selection", package = "biosurvey")
 
 # Plotting
-plot_sites_EG(selectionE, selection_type = "E")
+plot_sites_EG(m_selection, selection_type = "E")
+plot_sites_E(m_selection, selection_type = "E")
+plot_sites_G(m_selection, selection_type = "E")
 }

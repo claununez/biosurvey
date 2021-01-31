@@ -79,7 +79,7 @@ Default = 1.}
 Default = TRUE.}
 }
 \value{
-A master_selection object (S3) with a special element called
+A \code{\link{master_selection}} object (S3) with a special element called
 selected_sites_EG containing one or more sets of selected sites depending on
 \code{max_n_samplings} and \code{median_distance_filter}.
 }
