@@ -1,3 +1,29 @@
+#' Constructor of S3 objects of class master_matrix
+#'
+#' @name master_matrix
+#' @aliases master_matrix new_master_matrix
+#'
+#' @param data_matrix a date.frame with information about geographic location of
+#' raster cells, initial environmental data, and if available, the first two
+#' principal components derived from an analysis done with environmental values.
+#' @param preselected_sites data.frame containing sites that must be included
+#' in posterior selections of sites for the survey system. Columns must be:
+#' "Sites", "Longitude", "Latitude", in that order. Default = NULL.
+#' @param region SpatialPolygons* object representing the region of interest.
+#' @param mask SpatialPolygons* object used. Default = NULL.
+#' @param raster_base a SpatialPolygonsDataFrame representing the grid of the
+#' raster layers used, which will be used for plotting purposes.
+#' @param PCA_results results of principal component analysis performed with
+#' values from raster layers used. Default = NULL.
+#'
+#' @return
+#' An S3 object of class \code{master_matrix}.
+#'
+#' @export
+#'
+#' @usage
+#' new_master_matrix(data_matrix, preselected_sites = NULL, region,
+#'                   mask = NULL, raster_base, PCA_results = NULL)
 
 new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
                               mask = NULL, raster_base, PCA_results = NULL) {
@@ -41,6 +67,43 @@ new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
 }
 
 
+#' Constructor of S3 objects of class master_selection
+#'
+#' @name master_selection
+#' @aliases master_selection new_master_selection
+#'
+#' @param data_matrix a date.frame with information about geographic location of
+#' raster cells, initial environmental data, and if available, the first two
+#' principal components derived from an analysis done with environmental values.
+#' @param preselected_sites data.frame containing sites that must be included
+#' in posterior selections of sites for the survey system. Columns must be:
+#' "Sites", "Longitude", "Latitude", in that order. Default = NULL.
+#' @param region SpatialPolygons* object representing the region of interest.
+#' @param mask SpatialPolygons* object used. Default = NULL.
+#' @param raster_base a SpatialPolygonsDataFrame representing the grid of the
+#' raster layers used, which will be used for plotting purposes.
+#' @param PCA_results results of principal component analysis performed with
+#' values from raster layers used. Default = NULL.
+#' @param selected_sites_random data.frame with the sites selected randomly.
+#' Default = NULL.
+#' @param selected_sites_G data.frame with the sites selected based on
+#' geographic distances. Default = NULL.
+#' @param selected_sites_E data.frame with the sites selected based on
+#' environmental distances. Default = NULL.
+#' @param selected_sites_EG data.frame with the sites selected based on
+#' environmental and geographic considerations. Default = NULL.
+#'
+#' @return
+#' An S3 object of class \code{master_selection}.
+#'
+#' @export
+#'
+#' @usage
+#' new_master_selection(data_matrix, preselected_sites = NULL, region,
+#'                      mask = NULL, raster_base, PCA_results = NULL,
+#'                      selected_sites_random = NULL, selected_sites_G = NULL,
+#'                      selected_sites_E = NULL, selected_sites_EG = NULL)
+
 new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
                                  mask = NULL, raster_base, PCA_results = NULL,
                                  selected_sites_random = NULL,
@@ -81,6 +144,22 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
 
 
 
+#' Constructor of S3 objects of class base_PAM
+#'
+#' @name base_PAM
+#'
+#' @param PAM a SpatialPolygonsDataFrame object associated to information about
+#' species presence and absence in a goegraphic grid.
+#' @param PAM_indices list of indices derived from a PAM. Default = NULL.
+#'
+#' @export
+#'
+#' @return
+#' An object of class \code{base_PAM}.
+#'
+#' @usage
+#' new_base_PAM(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL)
+
 new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
                          PAM_indices = NULL) {
   pclass <- class(PAM)[1]
@@ -99,6 +178,31 @@ new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
 }
 
 
+#' Constructor of S3 objects of class PAM_subset
+#'
+#' @name PAM_subset
+#'
+#' @param PAM a SpatialPolygonsDataFrame object associated to information about
+#' species presence and absence in a goegraphic grid.
+#' @param PAM_indices list of indices derived from a PAM. Default = NULL.
+#' @param PAM_selected_sites_random subset of \code{PAM} for sites derived from
+#' random selection. Default = NULL.
+#' @param PAM_selected_sites_G subset of \code{PAM} for sites derived from
+#' selection considering geographic distances. Default = NULL.
+#' @param PAM_selected_sites_E subset of \code{PAM} for sites derived from
+#' selection considering environmental distances. Default = NULL.
+#' @param PAM_selected_sites_EG subset of \code{PAM} for sites derived from
+#' selection considering environment and geography. Default = NULL.
+#'
+#' @export
+#'
+#' @return
+#' An object of class \code{PAM_subset}.
+#'
+#' @usage
+#' new_PAM_subset(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL,
+#'                PAM_selected_sites_random = NULL, PAM_selected_sites_G = NULL,
+#'                PAM_selected_sites_E = NULL, PAM_selected_sites_EG = NULL)
 
 new_PAM_subset <- function(PAM = new("SpatialPolygonsDataFrame"),
                            PAM_indices = NULL, PAM_selected_sites_random = NULL,
@@ -136,6 +240,35 @@ new_PAM_subset <- function(PAM = new("SpatialPolygonsDataFrame"),
 
 
 
+#' Constructor of S3 objects of class PAM_CS
+#'
+#' @name PAM_CS
+#'
+#' @param Species (numeric) species name. Default = NA.
+#' @param Sites_cells (numeric) number of sites or cells. Default = NA.
+#' @param Beta_W (numeric) value of Whittaker's Beta. Default = NA.
+#' @param Spearman_cor (numeric) value of Spearman's correlation. Default = NA.
+#' @param Theoretical_boundaries list of theoretical boundaries for the values.
+#' Default = NA.
+#' @param Richness_normalized (numeric) values of normalized richness.
+#' Default = NA.
+#' @param Dispersion_field_normalized (numeric) values of normalized dispersion
+#' field. Default = NA.
+#' @param S_significance_id (numeric) values indicating statistical significance
+#' of the normalized dispersion field. Default = NA.
+#' @param Randomized_DF matrix of values resulted from randomizing matrices.
+#' Default = NA.
+#'
+#' @export
+#'
+#' @return
+#' An object of class \code{PAM_CS}.
+#'
+#' @usage
+#' new_PAM_CS(Species = NA, Sites_cells = NA, Beta_W = NA, Spearman_cor = NA,
+#'            Theoretical_boundaries = list(x = NA, y = NA),
+#'            Richness_normalized = NA, Dispersion_field_normalized = NA,
+#'            S_significance_id = NA, Randomized_DF = matrix())
 
 new_PAM_CS <- function(Species = NA_integer_, Sites_cells = NA_integer_,
                        Beta_W = NA_real_, Spearman_cor = NA_real_,
