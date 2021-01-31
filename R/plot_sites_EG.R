@@ -131,6 +131,7 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
 
 
 #' @rdname plot_sites_EG
+#' @export
 #' @param main (character) the main title for the plot.
 #' @usage
 #' plot_sites_E(master_selection, selection_type, variable_1 = NULL,
@@ -227,6 +228,7 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
 
 
 #' @rdname plot_sites_EG
+#' @export
 #' @usage
 #' plot_sites_G(master_selection, selection_type, selection_number = 1,
 #'              col_all = NULL, col_sites = NULL, col_pre = NULL, cex_all = 0.7,
