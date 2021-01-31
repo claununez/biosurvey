@@ -91,8 +91,8 @@ They are show in both spaces, geographic and environmental.
 \code{plot_sites_G} returns a plot of selected sites in geographic space.
 }
 \description{
-Creates a two-panel plot representing sites (all and selected
-for survey) in both spaces, environmental and geographic.
+Plots representing sites (all and selected for survey) in
+environmental and/or geographic space.
 }
 \examples{
 # Data

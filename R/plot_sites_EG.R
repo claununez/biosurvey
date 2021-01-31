@@ -1,7 +1,7 @@
 #' Representation of sites selected to be surveyed
 #'
-#' @description Creates a two-panel plot representing sites (all and selected
-#' for survey) in both spaces, environmental and geographic.
+#' @description Plots representing sites (all and selected for survey) in
+#' environmental and/or geographic space.
 #'
 #' @aliases plot_sites_EG plot_sites_E plot_sites_G
 #'
