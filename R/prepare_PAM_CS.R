@@ -57,7 +57,7 @@
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
 #' @importFrom picante randomizeMatrix
 #' @importFrom stats cor
 #'
@@ -154,7 +154,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
         function(...) {
           count <<- count + length(list(...)) - 1
           utils::setTxtProgressBar(pb, count)
-          flush.console()
+          utils::flush.console()
           cbind(...)
         }
       }

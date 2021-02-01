@@ -191,7 +191,7 @@ stack_2data <- function(species_layers) {
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
 #' @importFrom sp over
 #' @importFrom stats na.omit
 #'
@@ -237,7 +237,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
       function(...) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
-        flush.console()
+        utils::flush.console()
         rbind(...)
       }
     }
@@ -307,7 +307,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
 #'
 #' @examples
 #' # Data
@@ -355,7 +355,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
       function(...) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
-        flush.console()
+        utils::flush.console()
         rbind(...)
       }
     }
@@ -444,7 +444,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
 #'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
@@ -516,7 +516,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
       function(...) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
-        flush.console()
+        utils::flush.console()
         rbind(...)
       }
     }
