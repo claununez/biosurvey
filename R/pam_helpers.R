@@ -188,6 +188,10 @@ stack_2data <- function(species_layers) {
 #' spdf_2data(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL)
 #'
 #' @export
+#' @importFrom foreach foreach %dopar%
+#' @importFrom parallel detectCores makeCluster stopCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom sp over
 #' @importFrom stats na.omit
 #'
@@ -225,23 +229,32 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
   if (parallel == TRUE) {
     ## preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
-    cl <- snow::makeSOCKcluster(n_cores)
-    doSNOW::registerDoSNOW(cl)
 
-    ## progress bar
-    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
-    progress <- function(n) {utils::setTxtProgressBar(pb, n)}
-    opts <- list(progress = progress)
+    ## progress combine (rbind) function
+    fpc <- function(iterator){
+      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
+      count <- 0
+      function(...) {
+        count <<- count + length(list(...)) - 1
+        utils::setTxtProgressBar(pb, count)
+        flush.console()
+        rbind(...)
+      }
+    }
+
+    ## start a cluster
+    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
+    doParallel::registerDoParallel(cl)
 
     ## processing
     sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
-                            .options.snow = opts, .combine = "rbind") %dopar% {
+                            .combine = fpc(length(spnames))) %dopar% {
                               sp <- sp::over(spdf_grid,
                                              spdf_object[spnames == spnames[i], ])
                               return(na.omit(data.frame(ID, sp)))
                             }
 
-    snow::stopCluster(cl)
+    parallel::stopCluster(cl)
   } else {
     ## progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
@@ -291,6 +304,10 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #'
 #' @export
 #' @importFrom raster rasterToPoints
+#' @importFrom foreach foreach %dopar%
+#' @importFrom parallel detectCores makeCluster stopCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @examples
 #' # Data
@@ -330,17 +347,26 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
   if (parallel == TRUE) {
     ## preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
-    cl <- snow::makeSOCKcluster(n_cores)
-    doSNOW::registerDoSNOW(cl)
 
-    ## progress bar
-    pb <- utils::txtProgressBar(min = 1, max = length(raster_list), style = 3)
-    progress <- function(n) {utils::setTxtProgressBar(pb, n)}
-    opts <- list(progress = progress)
+    ## progress combine (rbind) function
+    fpc <- function(iterator){
+      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
+      count <- 0
+      function(...) {
+        count <<- count + length(list(...)) - 1
+        utils::setTxtProgressBar(pb, count)
+        flush.console()
+        rbind(...)
+      }
+    }
+
+    ## start a cluster
+    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
+    doParallel::registerDoParallel(cl)
 
     ## processing
     sps <- foreach::foreach(i = 1:length(raster_list), .inorder = TRUE,
-                            .options.snow = opts, .combine = "rbind") %dopar% {
+                            .combine = fcp(length(raster_list))) %dopar% {
                               # raster to matrix
                               sppm <- raster::rasterToPoints(raster_list[[i]])
                               spname <- names(raster_list[[i]])
@@ -349,7 +375,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
                               data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
                             }
 
-    snow::stopCluster(cl)
+    parallel::stopCluster(cl)
   } else {
     ## progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(raster_list), style = 3)
@@ -415,6 +441,10 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' @importFrom sp over
 #' @importFrom raster raster rasterToPoints
 #' @importFrom stats na.omit
+#' @importFrom foreach foreach %dopar%
+#' @importFrom parallel detectCores makeCluster stopCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
@@ -478,17 +508,26 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
   if (parallel == TRUE) {
     ## preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
-    cl <- snow::makeSOCKcluster(n_cores)
-    doSNOW::registerDoSNOW(cl)
 
-    ## progress bar
-    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
-    progress <- function(n) {utils::setTxtProgressBar(pb, n)}
-    opts <- list(progress = progress)
+    ## progress combine (rbind) function
+    fpc <- function(iterator){
+      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
+      count <- 0
+      function(...) {
+        count <<- count + length(list(...)) - 1
+        utils::setTxtProgressBar(pb, count)
+        flush.console()
+        rbind(...)
+      }
+    }
+
+    ## start a cluster
+    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
+    doParallel::registerDoParallel(cl)
 
     ## processing
     sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
-                            .options.snow = opts, .combine = "rbind") %dopar% {
+                            .combine = fpc(length(spnames))) %dopar% {
                               if (format %in% c("shp", "gpkg", "geojson")) {
                                 ## reading data
                                 if (format == "shp") {
@@ -527,7 +566,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                               }
                             }
 
-    snow::stopCluster(cl)
+    parallel::stopCluster(cl)
   } else {
     ## progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
