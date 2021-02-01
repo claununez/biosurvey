@@ -366,7 +366,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 
     ## processing
     sps <- foreach::foreach(i = 1:length(raster_list), .inorder = TRUE,
-                            .combine = fcp(length(raster_list))) %dopar% {
+                            .combine = fpc(length(raster_list))) %dopar% {
                               # raster to matrix
                               sppm <- raster::rasterToPoints(raster_list[[i]])
                               spname <- names(raster_list[[i]])
