@@ -9,8 +9,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-library(biosurvey)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", echo = FALSE)
 ```
 
 ### Description
@@ -25,15 +24,37 @@ Before we start, we would like to clarify that the examples used here are for de
 
 With the following lines of code we are going to prepare a presence-absence matrix (PAM) in which all initial points of interest (rows) will have a representation of presence or absence of the species in such areas (as columns). The initial points of interest will be represented by an ID, and longitude and latitude coordinates. The result of this process is a **base_PAM** object that will be used in further processes.
 
-```{r preare_base_PAM, fig.height=6, fig.width=6}
+```{r preare_base_PAM, eval=FALSE, echo=TRUE}
 # Data
 data("species_data", package = "biosurvey")
 
 # Create base_pam
 b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix, 
                           cell_size = 50)
+#> Preparing spatial grid
+#> Preparing PAM from 'data'
+#> |======================================================================| 100%
+#> Calculating PAM indices
 
 summary(b_pam)
+#> 
+#>                       Summary of a base_PAM object
+#> ---------------------------------------------------------------------------
+#> 
+#> Presence-absence matrix:
+#>   Number of cells:    1020
+#>   Number of species:  25
+#> 
+#> Spatial object representing the PAM:
+#> class       : SpatialPolygonsDataFrame 
+#> features    : 1020 
+#> extent      : -118.4298, -86.51483, 14.28854, 32.77954  (xmin, xmax, ymin, ymax)
+#> crs         : +proj=longlat +datum=WGS84 +no_defs 
+#> variables   : 28
+#> names       :   ID,         Longitude,         Latitude, Species_1, Species_2, Species_3, Species_4, Species_5, Species_6, Species_7, Species_8, Species_9, Species_10, Species_11, Species_12, ... 
+#> min values  :  471, -118.184325012541, 14.5140353096983,         0,         0,         0,         0,         0,         0,         0,         0,         0,          0,          0,          0, ... 
+#> max values  : 3602,  -86.760325012541, 32.5540353096983,         1,         1,         1,         1,         1,         1,         1,         1,         1,          1,          1,          1, ...
+
 ```
 
 <br>
@@ -42,7 +63,7 @@ summary(b_pam)
 
 Various biodiversity indices can be calculated from a PAM. The function used below calculates all indices described in [Soberon and Cavner (2015)](https://journals.ku.edu/jbi/article/view/4801).
 
-```{r PAM_indices}
+```{r PAM_indices, eval=FALSE, echo=TRUE}
 # Calculating indices
 b_pam <- PAM_indices(PAM = b_pam)
 
@@ -58,14 +79,14 @@ b_pam <- PAM_indices(PAM = b_pam)
 
 Example of a **master_selection** object obtained using three types of selection (random, uniform in G, and uniform in E).
 
-```{r m_selection}
+```{r m_selection, eval=FALSE, echo=TRUE}
 # Data
 data("m_selection", package = "biosurvey")
 ```
 
 Now let's subset the **base_PAM** object according to the sites that were selected for sampling.
 
-```{r subset_PAM}
+```{r subset_PAM, eval=FALSE, echo=TRUE}
 # Subset of base PAM according to selections
 ## using all selections the time
 sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
@@ -77,7 +98,7 @@ sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
 
 The following line helps to perform analyses to represent diversity in selected sites based on species accumulation curves (SACs) created using subsets of **base_PAM**. SACs are performed using a process that randomizes the effect of sites.
 
-```{r selected_sites_SAC}
+```{r selected_sites_SAC, eval=FALSE, echo=TRUE}
 # species accumulation curves for all selected sites based on PAM
 SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")
 ```
@@ -88,10 +109,14 @@ SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")
 
 Plots of species accumulation curves, for sites selected based on distinct methods, are used to detect which ones perform better or worse in representing the biodiversity in the region of interest.
 
-```{r plot_SAC, fig.height=6, fig.width=6}
+```{r plot_SAC, eval=FALSE, echo=TRUE}
 ## all sets at the time
 plot_SAC(SAC_selected_sites = SACs)
 
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f1.png")
 ```
 
 <br>
@@ -100,16 +125,32 @@ plot_SAC(SAC_selected_sites = SACs)
 
 These plots will help us to compare the species richness that can be recovered using distinct methods for selecting sampling sites. 
 
-```{r compare_SAC, fig.height=6, fig.width=6}
+```{r compare_SAC, eval=FALSE, echo=TRUE}
 # random vs uniform in E
 compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 2)
+```
 
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f2.png")
+```
+
+```{r, eval=FALSE, echo=TRUE}
 # random vs uniform in G
 compare_SAC(SAC_selected_sites = SACs, element_1 = 1, element_2 = 3)
+```
 
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f3.png")
+```
+
+```{r, eval=FALSE, echo=TRUE}
 # uniform in E vs uniform in G
 compare_SAC(SAC_selected_sites = SACs, element_1 = 2, element_2 = 3)
 
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f4.png")
 ```
 
 <br>
@@ -120,30 +161,62 @@ These plots will give us an idea of how rich or unique are the sites selected in
 
 Let's start with species richness:
 
-```{r indices, fig.height=6, fig.width=6}
+```{r, eval=FALSE, echo=TRUE}
 # random selection
 plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "random")
+```
 
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f5.png")
+```
+
+```{r, eval=FALSE, echo=TRUE}
 # G selection
 plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "G")
+```
 
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f6.png")
+```
+
+```{r, eval=FALSE, echo=TRUE}
 # E selection
 plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "E")
 
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f7.png")
 ```
 
 <br>
 
 The next index represents how unique is the set of species in each cell in the PAM. Having the selected sites on top of this map helps to assess how well or sites will be sampling interesting areas in the region of interest.
 
-```{r indices1, fig.height=6, fig.width=6}
+```{r, eval=FALSE, echo=TRUE}
 # random selection
 plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "random")
+```
 
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f8.png")
+```
+
+```{r, eval=FALSE, echo=TRUE}
 # G selection
 plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "G")
+```
 
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f9.png")
+```
+
+```{r, eval=FALSE, echo=TRUE}
 # E selection
 plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "E")
 
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f10.png")
 ```

@@ -55,10 +55,9 @@
 #' @export
 #'
 #' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores
-#' @importFrom snow makeSOCKcluster stopCluster
-#' @importFrom doSNOW registerDoSNOW
-#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom parallel detectCores makeCluster stopCluster
+#' @importFrom doParallel registerDoParallel
+#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
 #' @importFrom picante randomizeMatrix
 #' @importFrom stats cor
 #'
@@ -147,17 +146,26 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
     if (parallel == TRUE) {
       ## preparing parallel running
       n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
-      cl <- snow::makeSOCKcluster(n_cores)
-      doSNOW::registerDoSNOW(cl)
 
-      ## progress bar
-      pb <- utils::txtProgressBar(min = 1, max = reps, style = 3)
-      progress <- function(n) {utils::setTxtProgressBar(pb, n)}
-      opts <- list(progress = progress)
+      ## progress combine (cbind) function
+      fpc <- function(iterator){
+        pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
+        count <- 0
+        function(...) {
+          count <<- count + length(list(...)) - 1
+          utils::setTxtProgressBar(pb, count)
+          utils::flush.console()
+          cbind(...)
+        }
+      }
+
+      ## start a cluster
+      cl <- parallel::makeCluster(n_cores, type = 'SOCK')
+      doParallel::registerDoParallel(cl)
 
       ## processing
-      alea <- foreach::foreach(i = 1:reps, .inorder = TRUE, .options.snow = opts,
-                               .combine = "cbind") %dopar% {
+      alea <- foreach::foreach(i = 1:reps, .inorder = TRUE,
+                               .combine = fpc(reps)) %dopar% {
                                  mt3 <- picante::randomizeMatrix(mtt,
                                                                  null.model = "independentswap",
                                                                  iterations = pit)
@@ -165,7 +173,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
                                  return((pin$Dispersion_field / n) / s)
                                }
 
-      snow::stopCluster(cl)
+      parallel::stopCluster(cl)
 
     } else {
       ## progress bar
