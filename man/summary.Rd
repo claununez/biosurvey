@@ -10,6 +10,7 @@
 \alias{summary.master_selection}
 \alias{summary.base_PAM}
 \alias{summary.PAM_subset}
+\alias{summary.PAM_CS}
 \title{Summary of attributes and results}
 \usage{
 \method{summary}{master_matrix}(object, ...)
@@ -19,6 +20,8 @@
 \method{summary}{base_PAM}(object, ...)
 
 \method{summary}{PAM_subset}(object, ...)
+
+\method{summary}{PAM_CS}(object, ...)
 }
 \arguments{
 \item{object}{object of class master_matrix or master_selection.}
