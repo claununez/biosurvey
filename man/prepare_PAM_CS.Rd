@@ -46,9 +46,9 @@ Default = FALSE.}
 TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
-An S3 object of class \code{\link{PAM_CS}} if \code{PAM} is a matrix or data.frame,
-otherwise, the base_PAM that includes the PAM_CS object as part of
-PAM_indices.
+An S3 object of class \code{\link{PAM_CS}} if \code{PAM} is a matrix or
+data.frame, otherwise, an object of class \code{\link{base_PAM}} that contains
+the \code{\link{PAM_CS}} object as a part of \code{PAM_indices}.
 
 Significant vales are presented as a vector in which 0 means non-significant,
 and 1 and 2 represent significant values below and above confidence limits of

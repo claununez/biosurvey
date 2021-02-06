@@ -10,6 +10,7 @@
 \alias{print.master_selection}
 \alias{print.base_PAM}
 \alias{print.PAM_subset}
+\alias{print.PAM_CS}
 \title{Print a short version of elements in master objects}
 \usage{
 \method{print}{master_matrix}(x, ...)
@@ -19,6 +20,8 @@
 \method{print}{base_PAM}(x, ...)
 
 \method{print}{PAM_subset}(x, ...)
+
+\method{print}{PAM_CS}(x, ...)
 }
 \arguments{
 \item{x}{object of class master_matrix, master_selection, base_PAM, or

@@ -210,6 +210,46 @@ print.PAM_subset <- function(x, ...) {
 }
 
 
+#' @export
+#' @rdname print
+
+print.PAM_CS <- function(x, ...) {
+
+  cat("Species:  ", x$Species)
+  cat("\nSites_cells:  ", x$Sites_cells)
+  cat("\nBeta_W:  ", x$Sites_cells)
+  cat("\nSpearman_cor:  ", x$Sites_cells)
+
+  cat("\n\nTheoretical_boundaries:\n")
+  cat(" X:\n")
+  cat(" ", x$Theoretical_boundaries$x)
+  cat("\n Y:\n")
+  cat(" ", x$Theoretical_boundaries$y)
+
+  cat("\n\nRichness_normalized:\n")
+  cat(head(x$Richness_normalized), "...\n")
+
+  cat("\nDispersion_field_normalized:\n")
+  cat(head(x$Dispersion_field_normalized), "...\n")
+
+  cat("\nS_significance_id:\n")
+  if (!all(is.na(x$S_significance_id))) {
+    cat(head(x$S_significance_id), "...\n")
+  } else {
+    cat("Empty\n")
+  }
+
+  cat("\nRandomized_DF:\n")
+  if (!all(is.na(c(x$Randomized_DF)))) {
+    print(head(x$Randomized_DF[, 1:6]))
+    cat("...\n")
+  } else {
+    cat("Empty\n")
+  }
+}
+
+
+
 #' Summary of attributes and results
 #' @name summary
 #' @aliases summary,master_matrix-method summary,master_selection-method
@@ -333,5 +373,31 @@ summary.PAM_subset <- function(object, ...) {
     cnam <- cnam[icol:length(cnam)]
     sum(apply(x[[1]][, icol:ncol(x[[1]])], 2, max) == 1)
   })
-  print(data.frame(Cells = ncells, Species = sps))
+  print(data.frame(Cells = ncells, Species = sps), row.names = FALSE)
+}
+
+
+
+#' @export
+#' @rdname summary
+
+summary.PAM_CS <- function(object, ...) {
+
+  cat("\n                     Summary of a PAM_CS object\n")
+  cat("---------------------------------------------------------------------------\n\n")
+  cat("Descriptive values:\n")
+  cat("  Number of species:  ", object$Species)
+  cat("\n  Number of cells:  ", object$Sites_cells)
+  cat("\n  Whittaker's beta:  ", object$Sites_cells)
+  cat("\n  Spearman's correlation:  ", object$Sites_cells)
+
+  cat("\n\nBoundaries:\n")
+  print(data.frame(x = object$Theoretical_boundaries$x,
+                   y = object$Theoretical_boundaries$y), row.names = FALSE)
+
+  cat("\nSummary normalized richness:\n")
+  print(summary(object$Richness_normalized))
+
+  cat("\nSummary normalized dispersion field:\n")
+  print(summary(object$Dispersion_field_normalized))
 }

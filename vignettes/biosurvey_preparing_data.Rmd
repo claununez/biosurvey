@@ -12,6 +12,26 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", echo = FALSE)
 ```
 
+### Description of data needed for analysis
+
+The main goal of **biosurvey** is to help users to identify sites for biodiversity surveys. This package contain tools that use environmental and geographic information to promote the selection of sites that could allow a better sampling of species in a region. The types of data needed to perform analysis are:
+
+- Spatial polygons (e.g., shapefiles) representing the region(s) of interest.
+- Raster layers (e.g., GeoTiff, ASCII, and BIL) representing the environmental variables of interest.
+- Spatial coordinates, spatial polygons, or raster layers representing species distribution ranges (optional, only used for tests).
+
+The types of data mentioned above can be load in **R** using tools from packages like **raster**, **sp**, and **rgdal**. The classes of objects that you will need for using **biosurvey** are: 
+
+- **RasterLayer**
+- **RasterStack**
+- **SpatialPolygonsDataFrame**
+- **SpatialPolygonsDataFrame**
+- Other basic objects from **R**, like **matrix**, **data.frame**, and **list**. 
+
+The geographic projection of objects or coordinates involved in analyses must be WGS84 (EPSG:4326). Environmental and geographic information is all that is needed to select biodiversity survey sites (sampling sites). Information about species distribution is not required, but if it exists and is reliable, can be used to test the effectiveness of the sampling sites selected based on what is known about species richness in the region of interest.
+
+<br>
+
 ### Example of how to prepare the data
 
 #### Preparing an object that contains all information needed
