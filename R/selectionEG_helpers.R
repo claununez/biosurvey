@@ -1,20 +1,20 @@
 #' Sample points from a 2D environmental space
 #'
-#' @description Sample one or more points from a two dimensional environmental
+#' @description sample one or more points from a two dimensional environmental
 #' space according to a selection rule and with the possibility of having
 #' distinct sets of points to be sampled independently.
 #'
-#' @param data a matrix or a data frame that contains at least four columns:
+#' @param data a matrix or a data.frame that contains at least four columns:
 #' "Longitude" and "Latitude" to represent geographic position, and two other
 #' columns to represent the variables of the 2D environmental space.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis).
+#' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis). Must be different from the first one.
+#' variable (Y-axis). Must be different from the first one.
 #' @param n (numeric) number of points to be selected. If \code{id_column}is
 #' defined this argument indicates the number of points per set. Default = 1.
-#' @param select_point (character) How or which point will be selected. Three
-#' options are available: "random", "E_centroid", "G_centroid". E_ or G_
+#' @param select_point (character) how or which point will be selected. Three
+#' options are available: "random", "E_centroid", and "G_centroid". E_ or G_
 #' centroid indicate that the point(s) closest to the respective centroid will
 #' be selected. Default = "E_centroid".
 #' @param id_column (character or numeric) name or numeric index of the column
@@ -46,7 +46,7 @@
 
 point_sample <- function(data, variable_1, variable_2, n = 1,
                          select_point = "E_centroid", id_column = NULL) {
-  # initial tests
+  # Initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined.")
   }
@@ -67,13 +67,13 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
     stop("Argument 'select_point' is not valid, options are:\n'random', 'E_centroid', 'G_centroid'")
   }
 
-  # preparing data
+  # Preparing data
   e_cols <- c(variable_1, variable_2)
   g_cols <- c("Longitude", "Latitude")
   bda <- data[, id_column]
   bs <- unique(bda)
 
-  # rabdom option
+  # Random option
   if (select_point[1] == "random") {
     samp <- lapply(bs, function(x) {
       bd <- data[bda == x, ]
@@ -105,7 +105,7 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 
 #' Unimodality test for list of one or multiple sets of values
 #'
-#' @description Test of unimodality based in Hartigans' dip statistic D.
+#' @description test of unimodality based in Hartigans' dip statistic D.
 #' Calculations of the statistic and p-value are done as in
 #' \code{\link[diptest]{dip.test}}.
 #'
@@ -134,15 +134,15 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 
 
 unimodal_test <- function(values_list, MC_replicates= 1000) {
-  # initial tests
+  # Initial tests
   if (missing(values_list)) {
     stop("Argument 'values_list' must be defined.")
   }
 
-  # preparing data
+  # Preparing data
   bs <- names(values_list)
 
-  # tests in loop
+  # Tests in loop
   dss <- lapply(bs, function(x) {
     ds <- values_list[[x]]
 
@@ -163,7 +163,7 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 
 #' Find modes in a multimodal distribution
 #'
-#' @description Find modes in a multimodal distribution of values based on the
+#' @description find modes in a multimodal distribution of values based on the
 #' density of such values.
 #'
 #' @param density an object of class density obtained using the function
@@ -190,23 +190,23 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 
 
 find_modes <- function(density) {
-  # initial tests
+  # Initial tests
   if (missing(density)) {
     stop("Argument 'density' must be defined.")
   }
 
-  # preparing data
+  # Preparing data
   density_y <- density$y
   modes <- NULL
 
-  # finding modes in loop
+  # Finding modes in loop
   for (i in 2:(length(density_y) - 1)) {
     if ((density_y[i] > density_y[i - 1]) & (density_y[i] > density_y[i + 1])) {
       modes <- c(modes, i)
     }
   }
 
-  # returning results in a data.frame
+  # Returning results in a data.frame
   if ( length(modes) == 0 ) {
     message("This is a monotonic distribution. Returning NA.")
     return(data.frame(mode = NA, density = NA))
@@ -222,7 +222,7 @@ find_modes <- function(density) {
 
 #' Detection of clusters in 2D spaces
 #'
-#' @description Finds clusters of data in two dimensions based on distinct
+#' @description finds clusters of data in two dimensions based on distinct
 #' methods.
 #'
 #' @param data a matrix or a data frame that contains at least two columns.
@@ -237,10 +237,10 @@ find_modes <- function(density) {
 #' euclidean distance (if \code{space} = "E") to identify clusters if
 #' \code{cluster_method} = "hierarchical".
 #' @param n_k_means (numeric) number of clusters to be identified when using the
-#' "k-means" \code{cluster_method}.
+#' "k-means" in \code{cluster_method}.
 #'
 #' @return
-#' A data.frame containing \code{data} and an additional column defining
+#' A data frame containing \code{data} and an additional column defining
 #' clusters.
 #'
 #' @details
@@ -276,7 +276,7 @@ find_modes <- function(density) {
 find_clusters <- function(data, x_column, y_column, space,
                           cluster_method = "hierarchical",
                           n_k_means = NULL, split_distance = NULL) {
-  # initial tests
+  # Initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined.")
   }
@@ -299,23 +299,23 @@ find_clusters <- function(data, x_column, y_column, space,
 
   if (cluster_method %in% c("hierarchical", "k-means")) {
     if (cluster_method[1] == "hierarchical") {
-      # finding clusters hierarchically by distance
+      # Finding clusters hierarchically by distance
       if (is.null(split_distance)) {
         stop("Argument 'split_distance' must be defined if 'cluster_method' = 'hierarchical'.")
       }
 
       if (space == "E") {
-        ## in E
+        ## In E
         cluster <- stats::hclust(dist(data[, c(x_column, y_column)]),
                                  method = "complete")
       } else {
-        ## in G
+        ## In G
         cluster <- stats::hclust(as.dist(raster::pointDistance(data[, c(x_column, y_column)],
                                                                lonlat = T)),
                                  method = "complete")
       }
 
-      ## vector defining clusters
+      ## Vector defining clusters
       cluster_vector <- stats::cutree(cluster, h = split_distance)
 
     } else {
@@ -323,7 +323,7 @@ find_clusters <- function(data, x_column, y_column, space,
         stop("Argument 'n_k_means' must be defined if 'cluster_method' = 'k-means'.")
       }
 
-      ## vector defining clusters
+      ## Vector defining clusters
       set.seed(1)
       cluster_vector <- stats::kmeans(as.matrix(data[, c(x_column, y_column)]),
                                       n_k_means)$cluster
@@ -332,7 +332,7 @@ find_clusters <- function(data, x_column, y_column, space,
     stop("Argument 'cluster_method' is not valid.")
   }
 
-  # returning results
+  # Returning results
   data <- data.frame(data, clusters = cluster_vector)
   return(data)
 }
@@ -344,19 +344,19 @@ find_clusters <- function(data, x_column, y_column, space,
 #' Sample points from a 2D environmental space potentially disjoint in
 #' geography
 #'
-#' @description Sample one or more points from a two dimensional environmental
+#' @description sample one or more points from a two dimensional environmental
 #' space according to a selection rule and with the possibility of having
 #' distinct sets of points to be sampled independently. Points to be sampled
 #' can be disjoint in geographic space and when that happens two points are
 #' selected considering the most numerous clusters.
 #'
-#' @param data a matrix or a data frame that contains at least four columns:
+#' @param data a matrix or a data.frame that contains at least four columns:
 #' "Longitude" and "Latitude" to represent geographic position, and two other
 #' columns to represent the variables of the 2D environmental space.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis).
+#' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis). Must be different from the first one.
+#' variable (Y-axis). Must be different from the first one.
 #' @param n (numeric) number of points to be selected. If \code{id_column}is
 #' defined this argument indicates the number of points per set. Default = 1.
 #' @param distance_list list of vectors of geographic distances among all
@@ -366,10 +366,10 @@ find_clusters <- function(data, x_column, y_column, space,
 #' \code{distance_list} must match the IDs in \code{id_column}.
 #' @param n (numeric) number of points that are close to the centroid to be
 #' detected. Default = 1.
-#' @param cluster_method (character) There are two options available:
+#' @param cluster_method (character) there are two options available:
 #' "hierarchical" and "k-means". Default = "hierarchical".
-#' @param select_point (character) How or which point will be selected. Three
-#' options are available: "random", "E_centroid", "G_centroid". E_ or G_
+#' @param select_point (character) how or which point will be selected. Three
+#' options are available: "random", "E_centroid", and "G_centroid". E_ or G_
 #' centroid indicate that the point(s) closest to the respective centroid will
 #' be selected. Default = "E_centroid".
 #' @param id_column (character or numeric) name or numeric index of the column
@@ -413,7 +413,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                                  n = 1, cluster_method = "hierarchical",
                                  select_point = "E_centroid",
                                  id_column = NULL) {
-  # initial tests
+  # Initial tests
   if (missing(data)) {
     stop("Argument 'data' must be defined.")
   }
@@ -440,16 +440,16 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
     stop("Argument 'cluster_method' is not valid.")
   }
 
-  # preparing data
+  # Preparing data
   bda <- data[, id_column]
   bs <- unique(bda)
 
   mgsel <- lapply(bs, function(x) {
-    # finding modes
+    # Finding modes
     md <- suppressMessages(find_modes(density = density(distance_list[[as.character(x)]])))
 
     if (nrow(md) > 1) {
-      # defining clusters for locks with more than one mode
+      # Defining clusters for locks with more than one mode
       dens <- md$density
       mdss <- md[order(dens), ]
       dd <- abs(diff(mdss[(length(dens) - 1):length(dens), 1]))
@@ -458,7 +458,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                              space = "G", cluster_method = cluster_method,
                              split_distance = dd)
 
-      # sampling blocks according to most numerous clusters
+      # Sampling blocks according to most numerous clusters
       sel <- as.numeric(names(sort(table(clush$clusters), decreasing = T)[1:2]))
 
       bse <- point_sample(data = clush[clush$clusters %in% sel, ],
@@ -466,7 +466,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
                           select_point = select_point, id_column = "clusters")
       bse$clusters <- NULL
     } else {
-      # sampling if unimodal
+      # Sampling if unimodal
       bse <- point_sample(data = data[bda == x, ], variable_1, variable_2,
                           n = n, select_point = select_point,
                           id_column = id_column)
@@ -475,7 +475,7 @@ point_sample_cluster <- function(data, variable_1, variable_2, distance_list,
   })
   mgsel <- do.call(rbind, mgsel)
 
-  # returning results
+  # Returning results
   return(mgsel)
 }
 

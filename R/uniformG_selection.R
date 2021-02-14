@@ -1,6 +1,6 @@
 #' Selection of survey sites maximizing uniformity in geography
 #'
-#' @description Selection of sites to be sampled in a survey, with the goal of
+#' @description selection of sites to be sampled in a survey, with the goal of
 #' maximizing uniformity of points in geographic space.
 #'
 #' @param master a master_matrix object derived from function
@@ -53,7 +53,7 @@
 #' would be a crucial first step before selecting survey sites. Such
 #' explorations can be done using the function \code{\link{explore_data_EG}}.
 #'
-#' If \code{use_preselected_sites} is TRUE and such sites are included as an
+#' If \code{use_preselected_sites} = TRUE and such sites are included as an
 #' element in the object in \code{master}, the approach for selecting uniform
 #' sites in geography is different than what was described above. User
 #' preselected sites will always be part of the sites selected. Other points
@@ -101,7 +101,7 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                                use_preselected_sites = TRUE,
                                median_distance_filter = NULL, set_seed = 1,
                                verbose = TRUE) {
-  # initial tests
+  # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is not defined.")
   }
@@ -131,7 +131,7 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
     use_preselected_sites <- FALSE
   }
 
-  # arguments for attributes
+  # Arguments for attributes
   other_args <- list(arguments = list(expected_points = expected_points,
                                       guess_distances = guess_distances,
                                       max_n_samplings = max_n_samplings,
@@ -140,29 +140,29 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                                       median_distance_filter = median_distance_filter,
                                       set_seed = set_seed))
 
-  # preparing data
+  # Preparing data
   data <- master$data_matrix
   x_column <- "Longitude"
   y_column <- "Latitude"
 
-  # selection depending on option of user points
+  # Selection depending on option of user points
   if (use_preselected_sites == TRUE) {
-    # using preselected sites to create mask and define distance
+    # Using preselected sites to create mask and define distance
     tst <- preselected_dist_mask(master, expected_points = expected_points,
                                  space = "G", verbose = verbose)
 
-    # excluding close points from analysis
+    # Excluding close points from analysis
     data <- sp::SpatialPointsDataFrame(data[, c(x_column, y_column)], data,
                                         proj4string = sp::CRS("+init=epsg:4326"))
     data <- data[is.na(sp::over(data, tst$mask)$ID), ]@data
 
-    # npre
+    # Npre
     npre <- nrow(master$preselected_sites)
     expected_points <- expected_points - npre
   }
 
-  # preparing selection variables
-  ## guessing distances
+  # Preparing selection variables
+  ## Guessing distances
   if (guess_distances == TRUE) {
     if (use_preselected_sites == TRUE) {
       dist <- round(tst$distance, 2)
@@ -176,14 +176,14 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
     dist <- initial_distance
   }
 
-  ## other variables
+  ## Other variables
   np <- nrow(data)
   ininp <- np
   pnp <- np
   inin <- 1
   count <- 1
 
-  # condition
+  # Condition
   if (np < expected_points) {
     stop("Number of available points in is smaller than 'expected_points'.")
   }
@@ -210,13 +210,13 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                                 master$selected_sites_EG))
   }
 
-  # selection process
+  # Selection process
   if (verbose == TRUE) {
     message("Running algorithm for selecting sites, please wait...")
   }
 
   while (np > expected_points) {
-    # thinning
+    # Thinning
     thin <- point_thinning(data, x_column, y_column, dist, space = "G",
                            max_n_samplings, replicates, set_seed)
     np <- nrow(thin[[1]])
@@ -226,13 +226,13 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
 
     if (np <= expected_points) {
       if (np == expected_points) {
-        # selection done
+        # Selection done
         break()
       } else {
-        # reducing initial distance
+        # Reducing initial distance
         dist <- dist - increase
 
-        # reducing increase distance
+        # Reducing increase distance
         if (count > 1 & pnp > expected_points) {
           increase <- increase / 10
         }
@@ -241,26 +241,26 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
       dist <- dist + increase
     }
 
-    # starting again
+    # Starting again
     pnp <- np
     np <- ininp
     count <- count + 1
   }
 
   # Returning results
-  ## adding preselected to selected
+  ## Adding preselected to selected
   if (use_preselected_sites == TRUE) {
     thin <- lapply(thin, function(x) {
       rbind(master$preselected_sites[, -1], x[, colnames(x) != "Selected_blocks"])
     })
   }
 
-  ## filtering by distances success
+  ## Filtering by distances success
   if (length(thin) > 1 & !is.null(median_distance_filter)) {
     thin <- distance_filter(thin, median_distance_filter)
   }
 
-  ## naming and returning
+  ## Naming and returning
   names(thin) <- paste0("selection_", 1:length(thin))
 
   if (verbose == TRUE) {

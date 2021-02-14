@@ -7,7 +7,7 @@
 closest_to_centroid(data, x_column, y_column, space, n = 1, id_column = NULL)
 }
 \arguments{
-\item{data}{a matrix or a data frame that contains at least two columns.}
+\item{data}{a matrix or a data.frame that contains at least two columns.}
 
 \item{x_column}{(character) the name of the X-axis.}
 

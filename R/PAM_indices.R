@@ -1,6 +1,6 @@
 #' Biodiversity indices derived from PAM
 #'
-#' @description Calculates a set of biodiversity indices using values contained
+#' @description calculates a set of biodiversity indices using values contained
 #' in a presence-absence matrix.
 #'
 #' @param PAM matrix, data.frame, or base_PAM object containing information on
@@ -9,7 +9,7 @@
 #' @param indices (character) code for indices to be calculated. Basic indices
 #' are calculated all the time, other indices need to be specified. Options are:
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-#' "CMSC", "CMSR", "MCC", and "MRC". See details. Default = "all"
+#' "CMSC", "CMSR", "MCC", and "MRC". Default = "all". See details.
 #' @param exclude_column (optional) name or numeric index of columns to be
 #' excluded. Default = NULL.
 #'
@@ -93,12 +93,12 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   if (!is.null(exclude_column)) {
-    ## test class of exclude column
+    ## Test class of exclude column
     if (class(!exclude_column)[1] %in% c("numeric", "character")) {
       stop("Argument 'exclude_column' must be of class 'numeric' or 'character'.")
     }
 
-    ## process matrix to exclude
+    ## Process matrix to exclude
     if (is.numeric(exclude_column)) {
       PAM <- PAM[, -exclude_column]
     } else {
@@ -117,47 +117,47 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   S <- ncol(PAM)
   N <- nrow(PAM)
 
-  # matrices A and Omega
+  # Matrices A and Omega
   A <- PAM %*% tm1
   O <- tm1 %*% PAM
 
-  # richness and ranges
-  ## richness (spp per cell) and ranges (ncells per sp)
+  # Richness and ranges
+  ## Richness (spp per cell) and ranges (ncells per sp)
   rich <- diag(A)
   rang <- diag(O)
 
-  ## richness and ranges adjusted to S and N
+  ## Richness and ranges adjusted to S and N
   richS <- rich / S
   rangN <- rang / N
 
-  ## traces of richness and ranges
+  ## Traces of richness and ranges
   trA <- sum(rich)
   trO <- sum(rang)
 
   # Dispersion field and shared community composition
-  ## values of Dispersion field
+  ## Values of Dispersion field
   if (any(indices %in% c("all", "DF", "BL", "WRN", "SRC", "CMSC"))) {
     d_field <- c(PAM %*% rang)
     names(d_field) <- rownames(PAM)
-    ## average
+    ## Average
     av_dfield <- mean(d_field)
   } else {
     d_field <- NULL
     av_dfield <- NA
   }
 
-  ## values shared community composition
+  ## Values shared community composition
   if (any(indices %in% c("all", "SCC", "CMSR"))) {
     sc_comp <- c(tm1 %*% rich)
     names(sc_comp) <- colnames(PAM)
-    ## average
+    ## Average
     av_sccomp <- mean(sc_comp)
   } else {
     sc_comp <- NULL
     av_sccomp <- NA
   }
 
-  # other indices
+  # Other indices
   ## Whittaker's multiplicative beta
   if (any(indices %in% c("all", "BW", "WRN", "CMSR", "CMSC"))) {
     BW <- (S * N) / trO
@@ -236,7 +236,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     Cs <- NA
   }
 
-  # returning results
+  # Returning results
   tab_in <- data.frame(Value = c(N, S, av_dfield, av_sccomp, BA, BW, BL,
                                  VCS_cov, VRS_cov, Nc, Cs),
                        row.names = c("Sites_Cells", "Species", "Av_dispersion_field",
@@ -247,7 +247,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
                                      "Wright_Reeves_nestedness",
                                      "Stone_Roberts_Cscore"))
 
-  # if base_PAM
+  # If base_PAM
   nil <- list(One_value_indices = tab_in, Richness = rich, Range = rang,
               Richness_normalized = richS, Range_normalized = rangN,
               Dispersion_field = d_field, Shared_community_composition = sc_comp,
@@ -265,7 +265,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
 
     return(bpam)
   } else {
-    # if matrix
+    # If matrix
     return(nil)
   }
 }

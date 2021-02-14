@@ -3,9 +3,9 @@
 \docType{data}
 \name{preselected}
 \alias{preselected}
-\title{Example of a data frame of preselected sites}
+\title{Example of a data.frame of preselected sites}
 \format{
-data frame:
+data.frame:
 \describe{
 \item{Site}{name of preselected sites}
 \item{Longitude}{x coordinates}
@@ -16,7 +16,7 @@ data frame:
 preselected
 }
 \description{
-A data frame with 5 rows and three columns: "Site", "Longitude",
+a data.frame with 5 rows and three columns: "Site", "Longitude",
 and "Latitude".
 }
 \examples{

@@ -3,10 +3,10 @@
 #' @name master_matrix
 #' @aliases master_matrix new_master_matrix
 #'
-#' @param data_matrix a date.frame with information about geographic location of
+#' @param data_matrix a date frame with information about geographic location of
 #' raster cells, initial environmental data, and if available, the first two
 #' principal components derived from an analysis done with environmental values.
-#' @param preselected_sites data.frame containing sites that must be included
+#' @param preselected_sites data frame containing sites that must be included
 #' in posterior selections of sites for the survey system. Columns must be:
 #' "Sites", "Longitude", "Latitude", in that order. Default = NULL.
 #' @param region SpatialPolygons* object representing the region of interest.
@@ -72,10 +72,10 @@ new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
 #' @name master_selection
 #' @aliases master_selection new_master_selection
 #'
-#' @param data_matrix a date.frame with information about geographic location of
+#' @param data_matrix a date frame with information about geographic location of
 #' raster cells, initial environmental data, and if available, the first two
 #' principal components derived from an analysis done with environmental values.
-#' @param preselected_sites data.frame containing sites that must be included
+#' @param preselected_sites data frame containing sites that must be included
 #' in posterior selections of sites for the survey system. Columns must be:
 #' "Sites", "Longitude", "Latitude", in that order. Default = NULL.
 #' @param region SpatialPolygons* object representing the region of interest.
@@ -86,11 +86,11 @@ new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
 #' values from raster layers used. Default = NULL.
 #' @param selected_sites_random data.frame with the sites selected randomly.
 #' Default = NULL.
-#' @param selected_sites_G data.frame with the sites selected based on
+#' @param selected_sites_G data frame with the sites selected based on
 #' geographic distances. Default = NULL.
-#' @param selected_sites_E data.frame with the sites selected based on
+#' @param selected_sites_E data frame with the sites selected based on
 #' environmental distances. Default = NULL.
-#' @param selected_sites_EG data.frame with the sites selected based on
+#' @param selected_sites_EG data frame with the sites selected based on
 #' environmental and geographic considerations. Default = NULL.
 #'
 #' @return
@@ -149,7 +149,7 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
 #' @name base_PAM
 #'
 #' @param PAM a SpatialPolygonsDataFrame object associated to information about
-#' species presence and absence in a goegraphic grid.
+#' species presence and absence in a geographic grid.
 #' @param PAM_indices list of indices derived from a PAM. Default = NULL.
 #'
 #' @export

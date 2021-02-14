@@ -39,7 +39,7 @@ in \code{element_2}; default = "gray65".}
 
 \item{lty1}{type of line for \code{element_1}. See lty in \code{\link{par}}.}
 
-\item{lty2}{type of line for \code{element_2}.}
+\item{lty2}{type of line for \code{element_2}. See lty in \code{\link{par}}.}
 
 \item{alpha_mean}{(numeric) alpha level for line representing the mean,
 values from 0 to 1; default = 0.9. Values close to 0 increase transparency.}
@@ -66,7 +66,7 @@ A comparative plot of two species "\code{specaccum}" objects done based on
 what is defined in \code{element_1} and  \code{element_2}.
 }
 \description{
-Creates comparative plots of two species accumulation curves
+creates comparative plots of two species accumulation curves
 from information contained in lists obtained with the function
 \code{\link{selected_sites_SAC}}.
 }

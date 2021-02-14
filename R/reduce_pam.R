@@ -1,6 +1,6 @@
 #' Subset PAM according to selected sites
 #'
-#' @description Subsets of a base_PAM object according to survey sites
+#' @description subsets of a base_PAM object according to survey sites
 #' contained in a master_selection object.
 #'
 #' @param base_PAM object of class base_PAM obtained using the function
@@ -10,8 +10,8 @@
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, and
 #' \code{\link{EG_selection}}.
 #' @param selection_type type of selection to be considered to subset
-#' \code{base_PAM}. Options are: "all", "random", "E", "G", "EG". The default,
-#' "all", uses all selection types present in \code{master_selection}.
+#' \code{base_PAM}. Options are: "all", "random", "E", "G", and "EG". The
+#' default, "all", uses all selection types present in \code{master_selection}.
 #'
 #' @return
 #' An object of class \code{\link{PAM_subset}} containing the original
@@ -32,7 +32,7 @@
 #' ## only uniform in G
 #' sub_pam_G <- subset_PAM(b_pam, m_selection, selection_type = "G")
 #'
-#' ## all at the time
+#' ## All at the time
 #' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
 
 subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
@@ -63,7 +63,7 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
   }
 
   # Joining PAM with selected sites
-  ## random
+  ## Random
   if ("selected_sites_random" %in% selection_type &
       !is.null(master_selection$selected_sites_random)) {
     rpsel <- master_selection$selected_sites_random

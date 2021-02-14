@@ -53,7 +53,7 @@ defined as part of the selected sites previous any selection. Object in
 See details for more information on the approach used.}
 
 \item{select_point}{(character) how or which point will be selected for each
-block or cluster. Three options are available: "random", "E_centroid",
+block or cluster. Three options are available: "random", "E_centroid", and
 "G_centroid". E_ or G_ centroid indicate that the point(s) closets to the
 respective centroid will be selected. Default = "E_centroid".}
 

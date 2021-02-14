@@ -1,6 +1,6 @@
 #' Presence-absence matrix (PAM) linked to a spatial grid
 #'
-#' @description Prepares a presence-absence matrix (PAM) in which all sites
+#' @description prepares a presence-absence matrix (PAM) in which all sites
 #' of interest (rows) will have a value for presence or absence of a species
 #' of interest (columns). Initial points of interest will be represented by an
 #' ID, and longitude and latitude coordinates. The PAM will be linked to a
@@ -25,7 +25,7 @@
 #' @param indices (character) code for indices to be calculated. Basic indices
 #' are calculated all the time, other indices need to be specified. Options are:
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-#' "CMSC", and "CMSR". See details. Default = "basic". See details.
+#' "CMSC", and "CMSR". Default = "basic". See details.
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE. Not used if data is of class data.frame, RasterStack, or
 #' RasterBrick.
@@ -60,7 +60,7 @@
 #' which range it represents, and values in each RasterLayer must be 1
 #' (presence) and 0 (absence).
 #' - SpatialPolygonsDataFrame.- object representing species' geographic ranges.
-#' The data frame associated with the object must contain a column
+#' The data.frame associated with the object must contain a column
 #' named "Species" to distinguish among features representing each species range.
 #' - SpatialPointsDataFrame.- object of spatial points where each record of a
 #' species must be a point. The associated data.frame must contain the following
@@ -98,10 +98,10 @@
 #' region of interest associated with a SpatialPolygonsDataFrame, as in a grid
 #' of \code{cell_size} resolution. Each grid cell is related to a specific ID
 #' and longitude and latitude coordinates. Presence (1) and absence (0) values
-#' for each species in every cell of the PAM are included as apart of the data
-#' frame of the SpatialPolygonsDataFrame. PAM indices is returned with the basic
-#' indices of biodiversity as default, but can be changed using the argument
-#' \code{indices}.
+#' for each species in every cell of the PAM are included as apart of the
+#' data.frame of the SpatialPolygonsDataFrame. PAM indices is returned with the
+#' basic indices of biodiversity as default, but can be changed using the
+#' argument \code{indices}.
 #'
 #' @usage
 #' prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
@@ -165,12 +165,12 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     message("Preparing PAM from 'data'")
   }
   if (clsdata != "data.frame") {
-    ## from raster objects
+    ## From raster objects
     if (clsdata %in% c("RasterStack", "RasterBrick")) {
       data <- stack_2data(species_layers = data)
     }
 
-    ## from a list
+    ## From a list
     if (clsdata == "list") {
       data <- rlist_2data(raster_list = data, parallel = parallel,
                           n_cores = n_cores)
@@ -199,7 +199,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   }
 
   # Assign ID to points depending of type of data if needed
-  ## direct step from SPDF or character data argument
+  ## Direct step from SPDF or character data argument
   if (clsdata %in% c("SpatialPolygonsDataFrame", "character")) {
     if (clsdata == "SpatialPolygonsDataFrame") {
       sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol,
@@ -213,7 +213,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     }
   }
 
-  ## merging with ID if any other object is defined in data
+  ## Merging with ID if any other object is defined in data
   if (class(data)[1] %in% c("data.frame", "SpatialPointsDataFrame")) {
     if (class(data)[1] %in% "SpatialPointsDataFrame") {
       sp_points <- data

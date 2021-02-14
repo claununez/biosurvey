@@ -35,7 +35,7 @@ region of interest is it could take time to perform this task.}
 \item{indices}{(character) code for indices to be calculated. Basic indices
 are calculated all the time, other indices need to be specified. Options are:
 "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-"CMSC", and "CMSR". See details. Default = "basic". See details.}
+"CMSC", and "CMSR". Default = "basic". See details.}
 
 \item{parallel}{(logical) whether to perform analyses in parallel.
 Default = FALSE. Not used if data is of class data.frame, RasterStack, or
@@ -52,13 +52,13 @@ A presence-absence matrix (PAM) of class \code{\link{base_PAM}} for the
 region of interest associated with a SpatialPolygonsDataFrame, as in a grid
 of \code{cell_size} resolution. Each grid cell is related to a specific ID
 and longitude and latitude coordinates. Presence (1) and absence (0) values
-for each species in every cell of the PAM are included as apart of the data
-frame of the SpatialPolygonsDataFrame. PAM indices is returned with the basic
-indices of biodiversity as default, but can be changed using the argument
-\code{indices}.
+for each species in every cell of the PAM are included as apart of the
+data.frame of the SpatialPolygonsDataFrame. PAM indices is returned with the
+basic indices of biodiversity as default, but can be changed using the
+argument \code{indices}.
 }
 \description{
-Prepares a presence-absence matrix (PAM) in which all sites
+prepares a presence-absence matrix (PAM) in which all sites
 of interest (rows) will have a value for presence or absence of a species
 of interest (columns). Initial points of interest will be represented by an
 ID, and longitude and latitude coordinates. The PAM will be linked to a
@@ -91,7 +91,7 @@ resolution differences. Each element of the list must be named as the species
 which range it represents, and values in each RasterLayer must be 1
 (presence) and 0 (absence).
 \item SpatialPolygonsDataFrame.- object representing species' geographic ranges.
-The data frame associated with the object must contain a column
+The data.frame associated with the object must contain a column
 named "Species" to distinguish among features representing each species range.
 \item SpatialPointsDataFrame.- object of spatial points where each record of a
 species must be a point. The associated data.frame must contain the following

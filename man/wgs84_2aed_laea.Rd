@@ -7,11 +7,11 @@
 wgs84_2aed_laea(data, longitude, latitude, which = "ED")
 }
 \arguments{
-\item{data}{a matrix or a data frame that contains at least two columns, one with
-longitude information and the other with latitude information.}
+\item{data}{a matrix or a data.frame that contains at least two columns, one
+with longitude information and the other with latitude information.}
 
-\item{longitude}{(character) the name of the column that contains the longitude
-information.}
+\item{longitude}{(character) the name of the column that contains the
+longitude information.}
 
 \item{latitude}{(character) the name of the column that contains the latitude
 information.}

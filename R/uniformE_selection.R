@@ -1,6 +1,6 @@
 #' Selection of survey sites maximizing uniformity in environmental space
 #'
-#' @description Selection of sites to be sampled in a survey, with the goal of
+#' @description selection of sites to be sampled in a survey, with the goal of
 #' maximizing uniformity of points in environmental space.
 #'
 #' @param master a master_matrix object derived from function
@@ -62,7 +62,7 @@
 #' would be a crucial first step before selecting survey sites. Such
 #' explorations can be done using the function \code{\link{explore_data_EG}}.
 #'
-#' If \code{use_preselected_sites} is TRUE and such sites are included as an
+#' If \code{use_preselected_sites} = TRUE and such sites are included as an
 #' element in the object in \code{master}, the approach for selecting uniform
 #' sites in environmental space is different than what was described above.
 #' User preselected sites will always be part of the sites selected. Other
@@ -159,7 +159,7 @@ uniformE_selection <- function(master, variable_1, variable_2,
     use_preselected_sites <- FALSE
   }
 
-  # arguments for attributes
+  # Arguments for attributes
   other_args <- list(arguments = list(variable_1 = variable_1,
                                       variable_2 = variable_2,
                                       selection_from = selection_from,
@@ -171,11 +171,11 @@ uniformE_selection <- function(master, variable_1, variable_2,
                                       median_distance_filter = median_distance_filter,
                                       set_seed = set_seed))
 
-  # preparing data
+  # Preparing data
   if (!selection_from[1] %in% c("all_points", "block_centroids")) {
     stop("Argument 'selection_from' is not valid, check function's help.")
   } else {
-    # preparing data
+    # Preparing data
     data <- master$data_matrix
 
     if (selection_from[1] == "block_centroids") {
@@ -183,7 +183,7 @@ uniformE_selection <- function(master, variable_1, variable_2,
         stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
       }
 
-      # preparing centroids
+      # Preparing centroids
       data <- closest_to_centroid(data, variable_1, variable_2, space = "E",
                                   n = 1, id_column = "Block")
       useb <- TRUE
@@ -197,26 +197,26 @@ uniformE_selection <- function(master, variable_1, variable_2,
     }
   }
 
-  # selection depending on option of user points
+  # Selection depending on option of user points
   if (use_preselected_sites == TRUE) {
-    # using preselected sites to create mask and define distance
+    # Using preselected sites to create mask and define distance
     tst <- preselected_dist_mask(master, expected_points = expected_points,
                                  space = "E", variable_1 = variable_1,
                                  variable_2 = variable_2, use_blocks = useb,
                                  verbose = verbose)
 
-    # excluding close points from analysis
+    # Excluding close points from analysis
     data <- sp::SpatialPointsDataFrame(data[, c(variable_1, variable_2)], data,
                                        proj4string = sp::CRS("+init=epsg:4326"))
     data <- data[is.na(sp::over(data, tst$mask)$ID), ]@data
 
-    # npre
+    # Npre
     npre <- nrow(master$preselected_sites)
     expected_points <- expected_points - npre
   }
 
-  # preparing selection variables
-  ## guessing distances
+  # Preparing selection variables
+  ## Guessing distances
   if (guess_distances == TRUE) {
     if (use_preselected_sites == TRUE) {
       dist <- round(tst$distance, 2)
@@ -229,14 +229,14 @@ uniformE_selection <- function(master, variable_1, variable_2,
     dist <- initial_distance
   }
 
-  ## other variables
+  ## Other variables
   np <- nrow(data)
   ininp <- np
   pnp <- np
   inin <- 1
   count <- 1
 
-  # condition
+  # Condition
   mess <- ifelse(selection_from[1] == "all_points",
                  "Number of available points using 'all_points'",
                  "Number of available points using 'block_centroids.
@@ -265,13 +265,13 @@ uniformE_selection <- function(master, variable_1, variable_2,
                                 master$selected_sites_EG))
   }
 
-  # selection process
+  # Selection process
   if (verbose == TRUE) {
     message("Running algorithm for selecting sites, please wait...")
   }
 
   while (np > expected_points) {
-    # thinning
+    # Thinning
     thin <- point_thinning(data, variable_1, variable_2, dist, space = "E",
                            max_n_samplings, replicates, set_seed)
     np <- nrow(thin[[1]])
@@ -281,13 +281,13 @@ uniformE_selection <- function(master, variable_1, variable_2,
 
     if (np <= expected_points) {
       if (np == expected_points) {
-        # selection done
+        # Selection done
         break()
       } else {
-        # reducing initial distance
+        # Reducing initial distance
         dist <- dist - increase
 
-        # reducing increase distance
+        # Reducing increase distance
         if (count > 1 & pnp > expected_points) {
           increase <- increase / 10
         }
@@ -296,26 +296,26 @@ uniformE_selection <- function(master, variable_1, variable_2,
       dist <- dist + increase
     }
 
-    # starting again
+    # Starting again
     pnp <- np
     np <- ininp
     count <- count + 1
   }
 
   # Returning results
-  ## adding preselected to selected
+  ## Adding preselected to selected
   if (use_preselected_sites == TRUE) {
     thin <- lapply(thin, function(x) {
       rbind(master$preselected_sites[, -1], x[, colnames(x) != "Selected_blocks"])
     })
   }
 
-  ## filtering by distances success
+  ## Filtering by distances success
   if (length(thin) > 1 & !is.null(median_distance_filter)) {
     thin <- distance_filter(thin, median_distance_filter)
   }
 
-  ## naming and returning
+  ## Naming and returning
   names(thin) <- paste0("selection_", 1:length(thin))
 
   if (verbose == TRUE) {

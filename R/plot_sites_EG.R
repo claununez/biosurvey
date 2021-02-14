@@ -1,6 +1,6 @@
 #' Representation of sites selected to be surveyed
 #'
-#' @description Plots representing sites (all and selected for survey) in
+#' @description plots representing sites (all and selected for survey) in
 #' environmental and/or geographic space.
 #'
 #' @aliases plot_sites_EG plot_sites_E plot_sites_G
@@ -14,10 +14,10 @@
 #' "E" (\code{\link{uniformE_selection}}), and "EG"
 #' (\code{\link{EG_selection}}).
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis) to be plotted in environmental space. Default = NULL,
+#' variable (X-axis) to be plotted in environmental space. Default = NULL,
 #' required when \code{selection_type} = "random" or "G".
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis) to be plotted in environmental space. It must be different
+#' variable (Y-axis) to be plotted in environmental space. It must be different
 #' from the first one. Default = NULL, required when \code{selection_type} =
 #' "random" or "G".
 #' @param selection_number (numeric) number of selection to be plotted.

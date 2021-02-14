@@ -62,10 +62,10 @@
 #' @importFrom stats cor
 #'
 #' @examples
-#' # data
+#' # Data
 #' data("b_pam", package = "biosurvey")
 #'
-#' # preparing data for CS diagram
+#' # Preparing data for CS diagram
 #' pcs <- prepare_PAM_CS(PAM = b_pam)
 #'
 #' summary(pcs$PAM_indices$CS_diagram)
@@ -85,8 +85,8 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
     stop("Argument 'PAM' must be of class 'base_PAM' or 'matrix'.")
   }
 
-  # preparing data
-  ## data for analyses
+  # Preparing data
+  ## Data for analyses
   if (cpam == "base_PAM") {
     bp <- PAM$PAM
     site_id <- as.character(bp@data[, 1])
@@ -103,18 +103,18 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
     rownames(mtt) <- site_id
   }
 
-  ## getting valid sites-cells and indices
+  ## Getting valid sites-cells and indices
   keep <- rowSums(mtt, na.rm = TRUE) > 0
   mtt <- mtt[keep, ]
   site_id <- site_id[keep]
   keepc <- colSums(mtt, na.rm = TRUE) > 0
   mtt <- mtt[, keepc]
 
-  # breaking geographic link of cells
+  # Breaking geographic link of cells
   mtt <- mtt[sample(nrow(mtt)), ]
   new_ids <- rownames(mtt)
 
-  # calculating indices
+  # Calculating indices
   PAM <- PAM_indices(mtt, indices = c("BW", "DF", "MCC"))
 
   # Preparing values to be used in plots
@@ -124,7 +124,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
   fist <- PAM$Dispersion_field / n
   fists <- fist / s
 
-  # prepare vertex of plot limits
+  # Prepare vertex of plot limits
   arange <- range(alfas)
   rrange <- range(PAM$Mean_composition_covariance)
   betty <- PAM$One_value_indices["Beta_Whittaker", ]
@@ -135,19 +135,19 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
   # Spearman correlation
   sper <- cor(cbind(alfas, fist), method = "spearman")[[1, 2]]
 
-  # significance test
+  # Significance test
   if (significance_test == TRUE) {
     mt3 <- mtt
 
-    ## running randomization
+    ## Running randomization
     reps <- randomization_iterations
     pit <- ifelse(is.null(picante_iterations), 2 * sum(mt3), picante_iterations)
 
     if (parallel == TRUE) {
-      ## preparing parallel running
+      ## Preparing parallel running
       n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
-      ## progress combine (cbind) function
+      ## Progress combine (cbind) function
       fpc <- function(iterator){
         pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
         count <- 0
@@ -159,11 +159,11 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
         }
       }
 
-      ## start a cluster
+      ## Start a cluster
       cl <- parallel::makeCluster(n_cores, type = 'SOCK')
       doParallel::registerDoParallel(cl)
 
-      ## processing
+      ## Processing
       alea <- foreach::foreach(i = 1:reps, .inorder = TRUE,
                                .combine = fpc(reps)) %dopar% {
                                  mt3 <- picante::randomizeMatrix(mtt,
@@ -176,10 +176,10 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
       parallel::stopCluster(cl)
 
     } else {
-      ## progress bar
+      ## Progress bar
       pb <- utils::txtProgressBar(min = 1, max = reps, style = 3)
 
-      ## processing
+      ## Processing
       alea <- matrix(0, nrow = n, ncol = reps)
 
       for (x in 1:reps) {
@@ -193,7 +193,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
       }
     }
 
-    ## identifying significant cells
+    ## Identifying significant cells
     cl <- CL / 2
 
     qq <- vapply(1:n, FUN.VALUE = numeric(1), FUN = function(x) {
@@ -203,7 +203,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
     })
   }
 
-  # preparing results
+  # Preparing results
   PAM$CS_diagram <- new_PAM_CS(Species = s, Sites_cells = n,
                                Beta_W = betty, Spearman_cor = sper,
                                Theoretical_boundaries = list(x = vx, y = vy),
@@ -222,7 +222,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
     }
   }
 
-  # returning results
+  # Returning results
   if (cpam == "base_PAM") {
     return(new_base_PAM(PAM = bp, PAM_indices = PAM))
   } else {

@@ -37,7 +37,7 @@
 #' "preselected_sites" for this argument to be effective. Default = TRUE.
 #' See details for more information on the approach used.
 #' @param select_point (character) how or which point will be selected for each
-#' block or cluster. Three options are available: "random", "E_centroid",
+#' block or cluster. Three options are available: "random", "E_centroid", and
 #' "G_centroid". E_ or G_ centroid indicate that the point(s) closets to the
 #' respective centroid will be selected. Default = "E_centroid".
 #' @param cluster_method (character) name of the method to be used for detecting

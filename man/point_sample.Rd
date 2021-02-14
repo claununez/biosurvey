@@ -8,21 +8,21 @@ point_sample(data, variable_1, variable_2, n = 1,
              select_point = "E_centroid", id_column = NULL)
 }
 \arguments{
-\item{data}{a matrix or a data frame that contains at least four columns:
+\item{data}{a matrix or a data.frame that contains at least four columns:
 "Longitude" and "Latitude" to represent geographic position, and two other
 columns to represent the variables of the 2D environmental space.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X axis).}
+variable (X-axis).}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis). Must be different from the first one.}
+variable (Y-axis). Must be different from the first one.}
 
 \item{n}{(numeric) number of points to be selected. If \code{id_column}is
 defined this argument indicates the number of points per set. Default = 1.}
 
-\item{select_point}{(character) How or which point will be selected. Three
-options are available: "random", "E_centroid", "G_centroid". E_ or G_
+\item{select_point}{(character) how or which point will be selected. Three
+options are available: "random", "E_centroid", and "G_centroid". E_ or G_
 centroid indicate that the point(s) closest to the respective centroid will
 be selected. Default = "E_centroid".}
 
@@ -35,7 +35,7 @@ A data.frame containing \code{n} rows corresponding to the point or points
 that were sampled.
 }
 \description{
-Sample one or more points from a two dimensional environmental
+sample one or more points from a two dimensional environmental
 space according to a selection rule and with the possibility of having
 distinct sets of points to be sampled independently.
 }

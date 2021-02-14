@@ -42,10 +42,10 @@ master.
 Helper to create objects to detect points to close to preselected sites
 }
 \examples{
-# data
+# Data
 data("m_matrix_pre", package = "biosurvey")
 
-# running
+# Running
 pdm <- preselected_dist_mask(master = m_matrix_pre, expected_points = 20,
                              space = "G")
 }

@@ -1,6 +1,6 @@
 #' Species accumulation curves from PAM_subset
 #'
-#' @description Creates species accumulation curves for each set of selected
+#' @description creates species accumulation curves for each set of selected
 #' sites contained in elements of \code{PAM_subset} that contain information of
 #' species incidence (presence-absence).
 #'
@@ -8,7 +8,7 @@
 #' \code{\link{subset_PAM}}.
 #' @param selection_type type of selection to be considered when creating SAC
 #' for elements in \code{PAM_subset}. Options are: "all", "random", "E", "G",
-#' "EG". The default, "all", uses all selection types present in
+#' #' and "EG". The default, "all", uses all selection types present in
 #' \code{PAM_subset}.
 #' @param method (character) species accumulation method to be passed to
 #' function \code{\link[vegan]{specaccum}}. Default = "exact".
@@ -74,7 +74,7 @@ selected_sites_SAC <- function(PAM_subset, selection_type = "all",
   }
 
   # SAC calculations
-  ## random
+  ## Random
   if ("PAM_selected_sites_random" %in% selection_type &
       !is.null(PAM_subset$PAM_selected_sites_random)) {
     rsel <- PAM_subset$PAM_selected_sites_random

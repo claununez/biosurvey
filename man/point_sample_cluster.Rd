@@ -10,15 +10,15 @@ point_sample_cluster(data, variable_1, variable_2, distance_list,
                      select_point = "E_centroid", id_column = NULL)
 }
 \arguments{
-\item{data}{a matrix or a data frame that contains at least four columns:
+\item{data}{a matrix or a data.frame that contains at least four columns:
 "Longitude" and "Latitude" to represent geographic position, and two other
 columns to represent the variables of the 2D environmental space.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X axis).}
+variable (X-axis).}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis). Must be different from the first one.}
+variable (Y-axis). Must be different from the first one.}
 
 \item{distance_list}{list of vectors of geographic distances among all
 points. If \code{id_column} is not defined, only one element in the list is
@@ -29,11 +29,11 @@ unique IDs in \code{id_column}. In the later case, the names in
 \item{n}{(numeric) number of points that are close to the centroid to be
 detected. Default = 1.}
 
-\item{cluster_method}{(character) There are two options available:
+\item{cluster_method}{(character) there are two options available:
 "hierarchical" and "k-means". Default = "hierarchical".}
 
-\item{select_point}{(character) How or which point will be selected. Three
-options are available: "random", "E_centroid", "G_centroid". E_ or G_
+\item{select_point}{(character) how or which point will be selected. Three
+options are available: "random", "E_centroid", and "G_centroid". E_ or G_
 centroid indicate that the point(s) closest to the respective centroid will
 be selected. Default = "E_centroid".}
 
@@ -46,7 +46,7 @@ A data.frame containing \code{n} rows corresponding to the point or points
 that were sampled.
 }
 \description{
-Sample one or more points from a two dimensional environmental
+sample one or more points from a two dimensional environmental
 space according to a selection rule and with the possibility of having
 distinct sets of points to be sampled independently. Points to be sampled
 can be disjoint in geographic space and when that happens two points are

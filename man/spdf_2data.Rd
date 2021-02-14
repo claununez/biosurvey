@@ -2,13 +2,13 @@
 % Please edit documentation in R/pam_helpers.R
 \name{spdf_2data}
 \alias{spdf_2data}
-\title{Creates a data frame of species' references from SpatialPolygonsDataFrame}
+\title{Creates a data.frame of species' references from SpatialPolygonsDataFrame}
 \usage{
 spdf_2data(spdf_object, spdf_grid, parallel = FALSE, n_cores = NULL)
 }
 \arguments{
 \item{spdf_object}{SpatialPolygonsDataFrame representing species' geographic
-distributions. The data frame associated with the object must contain a
+distributions. The data.frame associated with the object must contain a
 column named "Species" to distinguish among features.}
 
 \item{spdf_grid}{geographic grid for the region of interest (output of
@@ -21,11 +21,11 @@ Default = FALSE.}
 TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
-A data frame of species' found in distinct positions (defined with
+A data.frame of species' found in distinct positions (defined with
 identifiers); includes two columns: "ID" and "Species".
 }
 \description{
-Creates a data frame of species' references that contains
+creates a data.frame of species' references that contains
 identifiers of portion and species name, using a SpatialPolygonsDataFrame as
 input.
 }
@@ -37,7 +37,7 @@ data("mx", package = "biosurvey")
 # GRID
 grid_reg <- grid_from_region(region = mx, cell_size = 100)
 
-# species data from polygons
+# Species data from polygons
 sp_data <- spdf_2data(spdf_object = species_data, spdf_grid = grid_reg)
 summary(sp_data)
 }

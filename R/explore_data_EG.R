@@ -9,11 +9,11 @@
 #' @param master a master_matrix object derived from function
 #' \code{\link{prepare_master_matrix}} or a master_selection object derived from
 #' functions \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
-#' or \code{EG_selection}.
+#' or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis) to be explored.
+#' variable (X-axis) to be explored.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis) to be explored (must be different from the first one).
+#' variable (Y-axis) to be explored (must be different from the first one).
 #' @param col_variable1 a color palette for \code{variable_1} defined
 #' using functions like \code{\link{heat.colors}}, or one generated
 #' using functions like \code{\link{colorRampPalette}}. The default,

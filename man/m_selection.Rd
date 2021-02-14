@@ -7,7 +7,7 @@
 \format{
 A list of 10 elements:
 \describe{
-\item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+\item{data_matrix}{data.frame wiht 6276 rows and 10 columns}
 \item{preselected_sites}{NULL}
 \item{region}{object of class SpatialPolygons*}
 \item{mask}{NULL}

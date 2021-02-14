@@ -42,12 +42,12 @@
 "m_matrix_pre"
 
 
-#' Example of a data frame of preselected sites
+#' Example of a data.frame of preselected sites
 #'
-#' @description A data frame with 5 rows and three columns: "Site", "Longitude",
+#' @description a data.frame with 5 rows and three columns: "Site", "Longitude",
 #' and "Latitude".
 #'
-#' @format data frame:
+#' @format data.frame:
 #' \describe{
 #'   \item{Site}{name of preselected sites}
 #'   \item{Longitude}{x coordinates}
@@ -67,7 +67,7 @@
 #'
 #' @format SpatialPolygonsDataFrame:
 #' \describe{
-#'   \item{data}{data frame wiht 1 row and 11 columns}
+#'   \item{data}{data.frame wiht 1 row and 11 columns}
 #'   \item{polygons}{SpatialPolygons}
 #'   \item{proj4string}{object of class CRS}
 #' }
@@ -79,12 +79,12 @@
 "mx"
 
 
-#' Example of a data frame of species' found in distinct positions
+#' Example of a data.frame of species' found in distinct positions
 #'
-#' @description A data frame with 590 rows and two columns: "ID" and "Species".
+#' @description a data.frame with 590 rows and two columns: "ID" and "Species".
 #' It is the output of the function \code{\link{spdf_2data}}.
 #'
-#' @format data frame:
+#' @format data.frame:
 #' \describe{
 #'   \item{ID}{identifier of position}
 #'   \item{Species}{different species in the table}
@@ -101,9 +101,9 @@
 #'
 #' An object of class SpatialPolygonsDataFrame.
 #'
-#' @format data frame:
+#' @format data.frame:
 #' \describe{
-#'   \item{data}{data frame wiht 25 rows and 1 column}
+#'   \item{data}{data.frame wiht 25 rows and 1 column}
 #'   \item{polygons}{SpatialPolygons}
 #'   \item{proj4string}{object of class CRS}
 #' }
@@ -161,7 +161,7 @@ NULL
 #' @description A dataset containing geographic coordinates of a Cuban
 #' butterfly.
 #'
-#' @format A data frame with 19 rows and 3 columns.
+#' @format A data.frame with 19 rows and 3 columns.
 #' \describe{
 #'   \item{name}{character, species scientific name.}
 #'   \item{longitude}{numeric, longitude values.}
@@ -197,7 +197,7 @@ NULL
 #'
 #' @format A list of 10 elements:
 #' \describe{
-#'   \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+#'   \item{data_matrix}{data.frame wiht 6276 rows and 10 columns}
 #'   \item{preselected_sites}{NULL}
 #'   \item{region}{object of class SpatialPolygons*}
 #'   \item{mask}{NULL}

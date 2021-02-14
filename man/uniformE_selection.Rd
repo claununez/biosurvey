@@ -72,7 +72,7 @@ A \code{\link{master_selection}} object (S3) with an additional element called
 selected_sites_E containing one or more sets of selected sites.
 }
 \description{
-Selection of sites to be sampled in a survey, with the goal of
+selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in environmental space.
 }
 \details{
@@ -89,7 +89,7 @@ Exploring the geographic and environmental spaces of the region of interest
 would be a crucial first step before selecting survey sites. Such
 explorations can be done using the function \code{\link{explore_data_EG}}.
 
-If \code{use_preselected_sites} is TRUE and such sites are included as an
+If \code{use_preselected_sites} = TRUE and such sites are included as an
 element in the object in \code{master}, the approach for selecting uniform
 sites in environmental space is different than what was described above.
 User preselected sites will always be part of the sites selected. Other

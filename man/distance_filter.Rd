@@ -19,11 +19,11 @@ selected. The default, NULL, does not apply such a filter. Options are:
 Helper to filter sets of sites by median distance among all points
 }
 \examples{
-# data
+# Data
 data("m_selection", package = "biosurvey")
 
 slist <- m_selection$selected_sites_random
 
-# distance filter
+# Distance filter
 max_sites <- distance_filter(slist, median_distance_filter = "max")
 }

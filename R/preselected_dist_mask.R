@@ -35,10 +35,10 @@
 #' @importFrom stats dist
 #'
 #' @examples
-#' # data
+#' # Data
 #' data("m_matrix_pre", package = "biosurvey")
 #'
-#' # running
+#' # Running
 #' pdm <- preselected_dist_mask(master = m_matrix_pre, expected_points = 20,
 #'                              space = "G")
 
@@ -72,7 +72,7 @@ preselected_dist_mask <- function(master, expected_points, space,
       stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
     }
 
-    # preparing centroids
+    # Preparing centroids
     data <- closest_to_centroid(data, variable_1, variable_2, space = "E",
                                 n = 1, id_column = "Block")
   }
@@ -80,7 +80,7 @@ preselected_dist_mask <- function(master, expected_points, space,
   # Test if enough points
   np <- nrow(data)
 
-  ## condition
+  ## Condition
   mess <- ifelse(use_blocks == FALSE, "Number of points in 'data_matrix'",
                  "Number of block centroid points")
   if (np < expected_points) {
@@ -112,31 +112,31 @@ preselected_dist_mask <- function(master, expected_points, space,
     increase <- dist / 10
   }
 
-  # preparing selection variables
+  # Preparing selection variables
   ininp <- np
   pnp <- np
   inin <- 1
   count <- 1
 
-  # testing distance
+  # Testing distance
   if (verbose == TRUE) {
     message("Running distance optimization, please wait...")
   }
 
   while (np > expected_points) {
-    # thinning
+    # Thinning
     thin <- point_thinning(data, x_column, y_column, dist, space, 1, 1)
     np <- nrow(thin[[1]])
 
     if (np <= expected_points) {
       if (np == expected_points) {
-        # distance found
+        # Distance found
         break()
       } else {
-        # reducing initial distance
+        # Reducing initial distance
         dist <- dist - increase
 
-        # reducing increase distance
+        # Reducing increase distance
         if (count > 1 & pnp > expected_points) {
           increase <- increase / 10
         }
@@ -145,13 +145,13 @@ preselected_dist_mask <- function(master, expected_points, space,
       dist <- dist + increase
     }
 
-    # starting again
+    # Starting again
     pnp <- np
     np <- ininp
     count <- count + 1
   }
 
-  # distance determined, creating mask
+  # Distance determined, creating mask
   if (space == "G") {
     sppre <- wgs84_2aed_laea(pre, x_column, y_column)
     maskp <- rgeos::gBuffer(sppre, width = dist * 1000, quadsegs = 100)
@@ -172,6 +172,6 @@ preselected_dist_mask <- function(master, expected_points, space,
                                           match.ID = FALSE)
   }
 
-  # returning results
+  # Returning results
   return(list(distance = dist, mask = maskp))
 }

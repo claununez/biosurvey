@@ -2,7 +2,7 @@
 % Please edit documentation in R/pam_helpers.R
 \name{stack_2data}
 \alias{stack_2data}
-\title{Creates a data frame of species' references from RasterStack}
+\title{Creates a data.frame of species' references from RasterStack}
 \usage{
 stack_2data(species_layers)
 }
@@ -12,11 +12,11 @@ named as the species that it represents, and values in each layer must be
 1 (presence) and 0 (absence).}
 }
 \value{
-A data frame of species geographic records derived from values of presence
+A data.frame of species geographic records derived from values of presence
 in each layer from the RasterStack.
 }
 \description{
-Creates a data frame of species' references that contains
+creates a data.frame of species' references that contains
 longitude, latitude, and species name, using a RasterStack or a RasterBrick
 as input.
 }
@@ -26,7 +26,7 @@ rsp <- raster::stack(system.file("extdata/sp_layers.tif",
                                  package = "biosurvey"))
 names(rsp) <- paste0("Species_", 1:5)
 
-# species data from RasterStack
+# Species data from RasterStack
 sp_data <- stack_2data(species_layers = rsp)
 summary(sp_data)
 }

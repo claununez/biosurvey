@@ -1,6 +1,6 @@
 #' Representation of environmental blocks in geography and environment
 #'
-#' @description Creates a two-panel plot representing environmental blocks
+#' @description creates a two-panel plot representing environmental blocks
 #' (all or selected) in both spaces, environmental and geographic.
 #'
 #' @param master a master_matrix object derived from function
@@ -8,13 +8,13 @@
 #' from functions \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis) used to create blocks.
+#' variable (X-axis) used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis) used to create blocks (must be different from the
+#' variable (Y-axis) used to create blocks (must be different from the
 #' first one).
 #' @param which (character) blocks to be plotted. Options are "all" or
 #' "selected". Default = "all".
-#' @param block_ID (logical) whether to add an text ID to blocks plotted in
+#' @param block_ID (logical) whether to add a text ID to blocks plotted in
 #' environmental space. Default = FALSE.
 #' @param col_all colors for points in all blocks. The default, NULL, uses a
 #' color blind friendly palette to differentiate among distinct blocks when
@@ -77,7 +77,7 @@
 #' plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
 #'                block_ID = TRUE)
 #'
-#' # defining your own colors
+#' # Defining your own colors
 #' n_blocks <- length(m_blocks$data_matrix$Block)
 #' your_palette <- sample(heat.colors(n_blocks), n_blocks)
 #' block_factor <- as.factor(m_blocks$data_matrix$Block)

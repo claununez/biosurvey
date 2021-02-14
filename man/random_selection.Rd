@@ -10,7 +10,7 @@ random_selection(master, n_sites, n_samplings = 1,
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived
+\code{\link{prepare_master_matrix}}, or a master_selection object derived
 from functions \code{\link{uniformG_selection}},
 \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.}
 
@@ -41,7 +41,7 @@ A \code{\link{master_selection}} object (S3) with an additional element called
 selected_sites_random containing one or more sets of selected sites.
 }
 \description{
-Random selection of sites to be sampled in a survey. Sites are
+random selection of sites to be sampled in a survey. Sites are
 selected from a set of points provided in \code{master}.
 }
 \details{
