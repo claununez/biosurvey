@@ -14,7 +14,7 @@ rows and species in the columns. See details.}
 \item{indices}{(character) code for indices to be calculated. Basic indices
 are calculated all the time, other indices need to be specified. Options are:
 "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-"CMSC", "CMSR", "MCC", and "MRC". See details. Default = "all"}
+"CMSC", "CMSR", "MCC", and "MRC". Default = "all". See details.}
 
 \item{exclude_column}{(optional) name or numeric index of columns to be
 excluded. Default = NULL.}
@@ -26,7 +26,7 @@ base_PAM object, a base_PAM object will be returned and the list described
 above will be appended to the element PAM_indices in such an element.
 }
 \description{
-Calculates a set of biodiversity indices using values contained
+calculates a set of biodiversity indices using values contained
 in a presence-absence matrix.
 }
 \details{

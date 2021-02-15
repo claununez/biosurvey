@@ -1,6 +1,6 @@
 #' Creates grid for a given geographic region
 #'
-#' @description Divides the region of interest in a grid of a specific cell size.
+#' @description divides the region of interest in a grid of a specific cell size.
 #'
 #' @param region SpatialPolygonsDataFrame of the region of interest. Object must
 #' be unprojected, World Geodetic System (WGS84).
@@ -52,7 +52,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
                            " +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
     region <- sp::spTransform(region, LAEA)
 
-    # test if dimensions are valid
+    # Test if dimensions are valid
     dims <- raster::extent(region)
     xdim <- diff(dims[1:2])
     ydim <- diff(dims[3:4])
@@ -68,17 +68,17 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
     }
   }
 
-  # creating a grid
+  # Creating a grid
   grid <- raster::raster(raster::extent(region))
 
-  # grid resolution and values
+  # Grid resolution and values
   raster::res(grid) <- cell_size * 1000
   raster::values(grid) <- 1
 
-  # grid projection
+  # Grid projection
   sp::proj4string(grid) <- sp::proj4string(region)
 
-  # extract grid with region
+  # Extract grid with region
   if (complete_cover == TRUE) {
     SpP_ras <- raster::rasterize(region, grid, getCover = TRUE)
     SpP_ras[SpP_ras == 0] <- NA
@@ -89,13 +89,13 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
     grid_reg <- raster::mask(grid, region)
   }
 
-  # back to WGS84
+  # Back to WGS84
   grid_reg <- raster::projectRaster(grid_reg, crs = WGS84)
 
-  # grid for region of interest
+  # Grid for region of interest
   grid_r_pol <- raster::rasterToPolygons(grid_reg)
 
-  # points for region of interest
+  # Points for region of interest
   matrix_a <- raster::rasterToPoints(grid_reg)
 
   # Adding ID for PAM
@@ -108,9 +108,9 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 
 
 
-#' Creates a data frame of species' references from RasterStack
+#' Creates a data.frame of species' references from RasterStack
 #'
-#' @description Creates a data frame of species' references that contains
+#' @description creates a data.frame of species' references that contains
 #' longitude, latitude, and species name, using a RasterStack or a RasterBrick
 #' as input.
 #'
@@ -119,7 +119,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #' 1 (presence) and 0 (absence).
 #'
 #' @return
-#' A data frame of species geographic records derived from values of presence
+#' A data.frame of species geographic records derived from values of presence
 #' in each layer from the RasterStack.
 #'
 #' @usage
@@ -134,7 +134,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #'                                  package = "biosurvey"))
 #' names(rsp) <- paste0("Species_", 1:5)
 #'
-#' # species data from RasterStack
+#' # Species data from RasterStack
 #' sp_data <- stack_2data(species_layers = rsp)
 #' summary(sp_data)
 
@@ -164,14 +164,14 @@ stack_2data <- function(species_layers) {
 
 
 
-#' Creates a data frame of species' references from SpatialPolygonsDataFrame
+#' Creates a data.frame of species' references from SpatialPolygonsDataFrame
 #'
-#' @description Creates a data frame of species' references that contains
+#' @description creates a data.frame of species' references that contains
 #' identifiers of portion and species name, using a SpatialPolygonsDataFrame as
 #' input.
 #'
 #' @param spdf_object SpatialPolygonsDataFrame representing species' geographic
-#' distributions. The data frame associated with the object must contain a
+#' distributions. The data.frame associated with the object must contain a
 #' column named "Species" to distinguish among features.
 #' @param spdf_grid geographic grid for the region of interest (output of
 #' function \code{\link{grid_from_region}}).
@@ -181,7 +181,7 @@ stack_2data <- function(species_layers) {
 #' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
-#' A data frame of species' found in distinct positions (defined with
+#' A data.frame of species' found in distinct positions (defined with
 #' identifiers); includes two columns: "ID" and "Species".
 #'
 #' @usage
@@ -203,7 +203,7 @@ stack_2data <- function(species_layers) {
 #' # GRID
 #' grid_reg <- grid_from_region(region = mx, cell_size = 100)
 #'
-#' # species data from polygons
+#' # Species data from polygons
 #' sp_data <- spdf_2data(spdf_object = species_data, spdf_grid = grid_reg)
 #' summary(sp_data)
 
@@ -227,10 +227,10 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
   spnames <- as.character(spdf_object@data$Species)
 
   if (parallel == TRUE) {
-    ## preparing parallel running
+    ## Preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
-    ## progress combine (rbind) function
+    ## Progress combine (rbind) function
     fpc <- function(iterator){
       pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
       count <- 0
@@ -242,11 +242,11 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
       }
     }
 
-    ## start a cluster
+    ## Start a cluster
     cl <- parallel::makeCluster(n_cores, type = 'SOCK')
     doParallel::registerDoParallel(cl)
 
-    ## processing
+    ## Processing
     sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
                             .combine = fpc(length(spnames))) %dopar% {
                               sp <- sp::over(spdf_grid,
@@ -256,7 +256,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 
     parallel::stopCluster(cl)
   } else {
-    ## progress bar
+    ## Progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
 
     # Running in loop for all elements of list
@@ -281,9 +281,9 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 
 
 
-#' Creates a data frame of species' references from a list of raster layers
+#' Creates a data.frame of species' references from a list of raster layers
 #'
-#' @description Creates a data frame of species' references that contains
+#' @description creates a data.frame of species' references that contains
 #' longitude, latitude, and species name, using a list of raster layers as
 #' input. Useful when raster layers have distinct extent or resolution.
 #'
@@ -296,7 +296,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
-#' A data frame of species geographic records derived from values of presence
+#' A data.frame of species geographic records derived from values of presence
 #' in each layer from the list of raster layers.
 #'
 #' @usage
@@ -317,7 +317,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #'
 #' rlist <- lapply(1:5, function(x) {rsp[[x]]})
 #'
-#' # species data from RasterStack
+#' # Species data from RasterStack
 #' sp_data <- rlist_2data(raster_list = rlist)
 #' summary(sp_data)
 
@@ -336,7 +336,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 
   # Running in loop for all elements of list
   sps <- lapply(1:length(raster_list), function(x) {
-    # raster to matrix
+    # Raster to matrix
     sppm <- raster::rasterToPoints(raster_list[[x]])
     spname <- names(raster_list[[x]])
 
@@ -345,10 +345,10 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
   })
 
   if (parallel == TRUE) {
-    ## preparing parallel running
+    ## Preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
-    ## progress combine (rbind) function
+    ## Progress combine (rbind) function
     fpc <- function(iterator){
       pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
       count <- 0
@@ -360,14 +360,14 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
       }
     }
 
-    ## start a cluster
+    ## Start a cluster
     cl <- parallel::makeCluster(n_cores, type = 'SOCK')
     doParallel::registerDoParallel(cl)
 
-    ## processing
+    ## Processing
     sps <- foreach::foreach(i = 1:length(raster_list), .inorder = TRUE,
                             .combine = fpc(length(raster_list))) %dopar% {
-                              # raster to matrix
+                              # Raster to matrix
                               sppm <- raster::rasterToPoints(raster_list[[i]])
                               spname <- names(raster_list[[i]])
 
@@ -377,7 +377,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 
     parallel::stopCluster(cl)
   } else {
-    ## progress bar
+    ## Progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(raster_list), style = 3)
 
     # Running in loop for all elements of list
@@ -387,7 +387,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
       Sys.sleep(0.1)
       utils::setTxtProgressBar(pb, x)
 
-      # raster to matrix
+      # Raster to matrix
       sppm <- raster::rasterToPoints(raster_list[[x]])
       spname <- names(raster_list[[x]])
 
@@ -405,9 +405,9 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 
 
 
-#' Creates a data frame of species' references from files in a directory
+#' Creates a data.frame of species' references from files in a directory
 #'
-#' @description Creates a data frame of species' references that contains
+#' @description creates a data.frame of species' references that contains
 #' longitude, latitude, and species name, from a character.
 #'
 #' @param path (character) full path name of directory containing raster,
@@ -418,7 +418,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' @param format (character) the format files found in \code{path}. Current
 #' available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
 #' @param spdf_grid geographic grid for the region of interest (output of
-#' function \code{\link{grid_from_region}}). Used when format equals "shp",
+#' function \code{\link{grid_from_region}}). Used when format equals "shp" or
 #' "gpkg". Default = NULL.
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
@@ -426,10 +426,10 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
-#' If files are in raster format, a data frame of species geographic records
+#' If files are in raster format, a data.frame of species geographic records
 #' derived from values of presence in each layer.
 #'
-#' If files are not in raster format, a data frame of species' found in distinct
+#' If files are not in raster format, a data.frame of species' found in distinct
 #' positions (defined with identifiers); includes two columns: "ID" and
 #' "Species".
 #'
@@ -506,10 +506,10 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
   }
 
   if (parallel == TRUE) {
-    ## preparing parallel running
+    ## Preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
-    ## progress combine (rbind) function
+    ## Progress combine (rbind) function
     fpc <- function(iterator){
       pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
       count <- 0
@@ -521,15 +521,15 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
       }
     }
 
-    ## start a cluster
+    ## Start a cluster
     cl <- parallel::makeCluster(n_cores, type = 'SOCK')
     doParallel::registerDoParallel(cl)
 
-    ## processing
+    ## Processing
     sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
                             .combine = fpc(length(spnames))) %dopar% {
                               if (format %in% c("shp", "gpkg", "geojson")) {
-                                ## reading data
+                                ## Reading data
                                 if (format == "shp") {
                                   rs <- rgdal::readOGR(dsn = path,
                                                        layer = mlist[i],
@@ -547,7 +547,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                                   }
                                 }
 
-                                ## preparing data
+                                ## Preparing data
                                 sp <- sp::over(spdf_grid, rs)[, 1]
                                 sppm <- na.omit(data.frame(ID, Species = sp))
                                 sppm$Species <- spnames[x]
@@ -568,7 +568,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 
     parallel::stopCluster(cl)
   } else {
-    ## progress bar
+    ## Progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
 
     # Running in loop for all elements of list
@@ -579,7 +579,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
       utils::setTxtProgressBar(pb, x)
 
       if (format %in% c("shp", "gpkg", "geojson")) {
-        ## reading data
+        ## Reading data
         if (format == "shp") {
           rs <- rgdal::readOGR(dsn = path, layer = mlist[x], verbose = FALSE)
         } else {
@@ -592,7 +592,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
           }
         }
 
-        ## preparing data
+        ## Preparing data
         sppm <- na.omit(data.frame(ID, Species = sp::over(spdf_grid, rs)[, 1]))
         sppm$Species <- spnames[x]
         sps[[x]] <- sppm
@@ -623,12 +623,12 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 
 
 
-#' Creates presence-absence matrix from a data frame
+#' Creates presence-absence matrix from a data.frame
 #'
-#' @description Creates a presence-absence matrix (PAM) from a data frame that
+#' @description creates a presence-absence matrix (PAM) from a data.frame that
 #' contains species names and identifiers of positions where species are found.
 #'
-#' @param data data frame of species' found in distinct positions (defined by
+#' @param data data.frame of species' found in distinct positions (defined by
 #' identifiers). Must include at least two columns: "ID" and "Species".
 #' @param ID_column (character) name of the column containing identifiers.
 #' @param species_column (character) name of the column containing species
@@ -751,11 +751,11 @@ refill_PAM_indices <- function(initial_index_list, new_index_list) {
     stop("Argument 'new_index_list' must be defined.")
   }
 
-  # starting filling list
+  # Starting filling list
   index_list <- initial_index_list
 
-  # non basic
-  ## one value
+  # Non basic
+  ## One value
   index_list$One_value_indices["Av_dispersion_field", ] <- ifelse(
     is.na(new_index_list$One_value_indices["Av_dispersion_field", ]) &
       !is.na(initial_index_list$One_value_indices["Av_dispersion_field", ]),
@@ -817,7 +817,7 @@ refill_PAM_indices <- function(initial_index_list, new_index_list) {
     new_index_list$One_value_indices["Stone_Roberts_Cscore", ]
   )
 
-  ## lists
+  ## Lists
   if (all(is.na(new_index_list$Dispersion_field)) &
       any(!is.na(initial_index_list$Dispersion_field))) {
     index_list$Dispersion_field <- initial_index_list$Dispersion_field

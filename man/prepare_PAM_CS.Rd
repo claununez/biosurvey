@@ -66,10 +66,10 @@ of those presented in Arita et al. (2011)
 \doi{https://doi.org/10.1111/j.1466-8238.2011.00662.x}.
 }
 \examples{
-# data
+# Data
 data("b_pam", package = "biosurvey")
 
-# preparing data for CS diagram
+# Preparing data for CS diagram
 pcs <- prepare_PAM_CS(PAM = b_pam)
 
 summary(pcs$PAM_indices$CS_diagram)

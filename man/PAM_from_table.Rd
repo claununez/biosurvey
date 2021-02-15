@@ -2,12 +2,12 @@
 % Please edit documentation in R/pam_helpers.R
 \name{PAM_from_table}
 \alias{PAM_from_table}
-\title{Creates presence-absence matrix from a data frame}
+\title{Creates presence-absence matrix from a data.frame}
 \usage{
 PAM_from_table(data, ID_column, species_column)
 }
 \arguments{
-\item{data}{data frame of species' found in distinct positions (defined by
+\item{data}{data.frame of species' found in distinct positions (defined by
 identifiers). Must include at least two columns: "ID" and "Species".}
 
 \item{ID_column}{(character) name of the column containing identifiers.}
@@ -20,7 +20,7 @@ Species' presence (1) and absence (0) matrix for a set of positions defined
 by identifiers.
 }
 \description{
-Creates a presence-absence matrix (PAM) from a data frame that
+creates a presence-absence matrix (PAM) from a data.frame that
 contains species names and identifiers of positions where species are found.
 }
 \examples{

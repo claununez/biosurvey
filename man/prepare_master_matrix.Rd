@@ -57,7 +57,7 @@ component analysis. If FALSE, PCA_results element of the object is NULL.
 }
 }
 \description{
-Prepare an S3 object that will serve as the base to perform all
+prepare an S3 object that will serve as the base to perform all
 further analyses. This object will contain geographic and environmental
 information that will be used to characterize the region of interest.
 }

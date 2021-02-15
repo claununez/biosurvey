@@ -1,20 +1,20 @@
 #' Plotting lists of species accumulation curves
 #'
-#' @description Creates species accumulation curve plots (one or multiple
+#' @description creates species accumulation curve plots (one or multiple
 #' panels) from information contained in lists obtained with the function
 #' \code{\link{selected_sites_SAC}}.
 #'
 #' @param SAC_selected_sites nested list of "\code{specaccum}" objects obtained
 #' with function \code{\link{selected_sites_SAC}}.
-#' @param col_mean (character) color for mean value of curve; default = "blue".
-#' @param col_CI (character) color for confidence interval region for the curve;
-#' default = "lightblue".
+#' @param col_mean (character) color for mean value of curve. Default = "blue".
+#' @param col_CI (character) color for confidence interval region for the curve.
+#' Default = "lightblue".
 #' @param alpha_mean (numeric) alpha level for line representing the mean,
-#' values from 0 to 1; default = 0.7. Values close to 0 increase transparency.
+#' values from 0 to 1. Default = 0.7. Values close to 0 increase transparency.
 #' @param alpha_CI (numeric) alpha level for the region representing the
-#' confidence interval; default = 0.2.
-#' @param xlab (character) label for x axis of plot; default = "Number of sites".
-#' @param ylab (character) label for y axis of plot; default = "Species".
+#' confidence interval. Default = 0.2.
+#' @param xlab (character) label for x axis of plot. Default = "Number of sites".
+#' @param ylab (character) label for y axis of plot. Default = "Species".
 #' @param line_for_multiple (logical) whether to plot SACs only as lines when
 #' multiple objects are in one or more of the internal lists in
 #' \code{SAC_selected_sites}. Default = TRUE.
@@ -40,7 +40,7 @@
 #' data("b_pam", package = "biosurvey")
 #' data("m_selection", package = "biosurvey")
 #'
-#' # Subsetting base PAM according to selections
+#' # subsetting base PAM according to selections
 #' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
 #'
 #' SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")

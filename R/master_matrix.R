@@ -1,6 +1,6 @@
 #' Prepare a base object to perform further analyses
 #'
-#' @description Prepare an S3 object that will serve as the base to perform all
+#' @description prepare an S3 object that will serve as the base to perform all
 #' further analyses. This object will contain geographic and environmental
 #' information that will be used to characterize the region of interest.
 #'
@@ -152,7 +152,7 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     # Create matrix
     master_m <- data.frame(variables, pca$x[, 1:2])
 
-    # predict in predefined sites
+    # Predict in predefined sites
     if (!is.null(preselected_sites)) {
       sspca <- stats::predict(pca, preselected_sites[, -(1:3)])
       preselected_sites <- data.frame(preselected_sites, sspca[, 1:2])

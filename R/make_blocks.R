@@ -1,15 +1,15 @@
 #' Creates a block-like regionalization of environmental space
 #'
-#' @description Divides a two-dimensional cloud of points in blocks according to
+#' @description divides a two-dimensional cloud of points in blocks according to
 #' a user-defined number of rows and columns. This is applied to the element
 #' master_matrix and, if not NULL, to preselected_sites.
 #'
 #' @param master_matrix object derived from function
 #' \code{\link{prepare_master_matrix}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis) to be used to create blocks.
+#' variable (X-axis) to be used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis) to be used to create blocks (must be different from the
+#' variable (Y-axis) to be used to create blocks (must be different from the
 #' first one).
 #' @param n_cols (numeric) number of columns of a grid used to creates blocks
 #' and split the bi-dimensional space.
@@ -147,13 +147,13 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y axis) to be used to create blocks (must be different from the
 #' first one).
-#' @param n_cols (numeric) number of columns of a grid used to creates blocks
+#' @param n_cols (numeric) number of columns of a grid used to create blocks
 #' and split the bi-dimensional space.
-#' @param n_rows (numeric) number of rows of a grid used to creates blocks and
+#' @param n_rows (numeric) number of rows of a grid used to create blocks and
 #' split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.
-#' @param xlb (numeric) Vector of values of extremes for all blocks considering
+#' @param xlb (numeric) vector of values of extremes for all blocks considering
 #' \code{variable_1}.
-#' @param ylb (numeric) Vector of values of extremes for all blocks considering
+#' @param ylb (numeric) vector of values of extremes for all blocks considering
 #' \code{variable_2}. Needed when \code{block_type} = "equal area".
 #' Default = NULL.
 #' @param block_type (character) type of blocks to be use for dividing

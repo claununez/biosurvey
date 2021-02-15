@@ -35,11 +35,11 @@ used to select sites. The options available are "random"
 (\code{\link{EG_selection}}).}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X axis) to be plotted in environmental space. Default = NULL,
+variable (X-axis) to be plotted in environmental space. Default = NULL,
 required when \code{selection_type} = "random" or "G".}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis) to be plotted in environmental space. It must be different
+variable (Y-axis) to be plotted in environmental space. It must be different
 from the first one. Default = NULL, required when \code{selection_type} =
 "random" or "G".}
 
@@ -91,7 +91,7 @@ They are show in both spaces, geographic and environmental.
 \code{plot_sites_G} returns a plot of selected sites in geographic space.
 }
 \description{
-Plots representing sites (all and selected for survey) in
+plots representing sites (all and selected for survey) in
 environmental and/or geographic space.
 }
 \examples{

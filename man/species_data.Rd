@@ -5,9 +5,9 @@
 \alias{species_data}
 \title{Example of species ranges as SpatialPolygonsDataFrame}
 \format{
-data frame:
+data.frame:
 \describe{
-\item{data}{data frame wiht 25 rows and 1 column}
+\item{data}{data.frame wiht 25 rows and 1 column}
 \item{polygons}{SpatialPolygons}
 \item{proj4string}{object of class CRS}
 }

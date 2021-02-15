@@ -17,16 +17,16 @@ from functions \code{\link{uniformG_selection}},
 \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X axis) used to create blocks.}
+variable (X-axis) used to create blocks.}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis) used to create blocks (must be different from the
+variable (Y-axis) used to create blocks (must be different from the
 first one).}
 
 \item{which}{(character) blocks to be plotted. Options are "all" or
 "selected". Default = "all".}
 
-\item{block_ID}{(logical) whether to add an text ID to blocks plotted in
+\item{block_ID}{(logical) whether to add a text ID to blocks plotted in
 environmental space. Default = FALSE.}
 
 \item{col_all}{colors for points in all blocks. The default, NULL, uses a
@@ -67,7 +67,7 @@ blocks that were selected. They are show in both spaces, geographic and
 environmental.
 }
 \description{
-Creates a two-panel plot representing environmental blocks
+creates a two-panel plot representing environmental blocks
 (all or selected) in both spaces, environmental and geographic.
 }
 \details{
@@ -90,7 +90,7 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
                block_ID = TRUE)
 
-# defining your own colors
+# Defining your own colors
 n_blocks <- length(m_blocks$data_matrix$Block)
 your_palette <- sample(heat.colors(n_blocks), n_blocks)
 block_factor <- as.factor(m_blocks$data_matrix$Block)

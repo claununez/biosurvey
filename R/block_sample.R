@@ -9,12 +9,12 @@
 #' functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis).
+#' variable (X-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis) to be used to create blocks (must be different from the
+#' variable (Y-axis) to be used to create blocks (must be different from the
 #' first one).
 #' @param expected_blocks (numeric) number of blocks to be selected.
-#' @param selection_type (character) Type of selection. Two options are
+#' @param selection_type (character) type of selection. Two options are
 #' available: "uniform" and "random". Default = "uniform".
 #' @param replicates (numeric) number of thinning replicates performed to select
 #' blocks uniformly. Default = 10.
@@ -51,7 +51,7 @@
 #' colnames(m_blocks$data_matrix)
 #' summary(m_blocks$data_matrix[, c("PC1", "PC2")])
 #'
-#' # Selecting Blocks uniformly in E space
+#' # Selecting blocks uniformly in E space
 #' block_sel <- block_sample(m_blocks, variable_1 = "PC1", variable_2  = "PC2",
 #'                           expected_blocks = 10, selection_type = "uniform")
 #'

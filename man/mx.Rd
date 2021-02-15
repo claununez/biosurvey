@@ -7,7 +7,7 @@
 \format{
 SpatialPolygonsDataFrame:
 \describe{
-\item{data}{data frame wiht 1 row and 11 columns}
+\item{data}{data.frame wiht 1 row and 11 columns}
 \item{polygons}{SpatialPolygons}
 \item{proj4string}{object of class CRS}
 }

@@ -12,10 +12,10 @@ make_blocks(master_matrix, variable_1, variable_2, n_cols, n_rows = NULL,
 \code{\link{prepare_master_matrix}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X axis) to be used to create blocks.}
+variable (X-axis) to be used to create blocks.}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y axis) to be used to create blocks (must be different from the
+variable (Y-axis) to be used to create blocks (must be different from the
 first one).}
 
 \item{n_cols}{(numeric) number of columns of a grid used to creates blocks
@@ -35,7 +35,7 @@ data.frame containing block identifiers. If the element preselected_sites is
 not NULL in master_matrix blocks are also assigned to this sites.
 }
 \description{
-Divides a two-dimensional cloud of points in blocks according to
+divides a two-dimensional cloud of points in blocks according to
 a user-defined number of rows and columns. This is applied to the element
 master_matrix and, if not NULL, to preselected_sites.
 }

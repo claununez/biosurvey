@@ -15,7 +15,7 @@ A data.frame containing the values corresponding to the modes and the
 density for those particular values.
 }
 \description{
-Find modes in a multimodal distribution of values based on the
+find modes in a multimodal distribution of values based on the
 density of such values.
 }
 \examples{

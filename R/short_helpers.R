@@ -1,23 +1,3 @@
-#' Tests whether a number is pair
-#'
-#' @param x (numeric) value to be tested.
-#' @return Logical value
-#' @export
-#' @examples
-#' is_pair(4)
-#' is_pair(5)
-
-is_pair <- function(x) {
-  # initial test
-  if (missing(x)) {stop("Argument 'x' needs to be defined.")}
-  # test
-  x / 2 == as.integer(x / 2)
-}
-
-
-
-
-
 #' Helper function to find raster extension
 #'
 #' @param format (character) any of the format types allowed for raster objects.
@@ -31,9 +11,9 @@ is_pair <- function(x) {
 #' match_rformat("GTiff")
 
 match_rformat <- function(format) {
-  # initial test
+  # Initial test
   if (missing(format)) {stop("Argument 'format' needs to be defined.")}
-  # defining format
+  # Defining format
   if (format == "raster") {format1 <- ".grd"}
   if (format == "GTiff") {format1 <- ".tif"}
   if (format == "EHdr") {format1 <- ".bil"}
@@ -52,10 +32,10 @@ match_rformat <- function(format) {
 
 #' Project spatial points from geographic coordinates
 #'
-#' @param data a matrix or a data frame that contains at least two columns, one with
-#' longitude information and the other with latitude information.
-#' @param longitude (character) the name of the column that contains the longitude
-#' information.
+#' @param data a matrix or a data.frame that contains at least two columns, one
+#' with longitude information and the other with latitude information.
+#' @param longitude (character) the name of the column that contains the
+#' longitude information.
 #' @param latitude (character) the name of the column that contains the latitude
 #' information.
 #' @param which (character) type of projection. There are two options available:
@@ -117,7 +97,7 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0,
     stop("Argument 'col' is required to produce the legend.")
   }
 
-  # bar plot
+  # Bar plot
   legend_image <- as.raster(matrix(make_alpha(rev(col), alpha), ncol = 1))
   text(x = 0.6, y = 0.525, labels = title, srt = 90)
   if (is.numeric(value_range)) {
@@ -131,7 +111,7 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0,
 
 
 
-# make colors transparent at distinct levels
+# Make colors transparent at distinct levels
 
 make_alpha <- function(col, alpha = 1) {
   rgb <- farver::decode_colour(col, alpha = TRUE)

@@ -1,14 +1,14 @@
 #' Helps in thinning points either in geographic or environmental space
 #'
-#' @description Point thinning based on user-defined distances in geographic or
+#' @description point thinning based on user-defined distances in geographic or
 #' environmental space.
 #'
-#' @param data a matrix or a data frame that contains at least two columns.
+#' @param data a matrix or a data.frame that contains at least two columns.
 #' @param x_column (character) the name of the X-axis.
 #' @param y_column (character) the name of the Y-axis.
 #' @param thinning_distance (numeric) distance for thinning. Units must be
-#' selected according to the space, km for geographic and euclidean distances
-#' for environmental space.
+#' selected according to the space, kilometers (km) for geographic and euclidean
+#' distances for environmental space.
 #' @param space (character) space in which the thinning will be performed. There
 #' are two options available: "G", if it will be in geographic space, and
 #' "E", if it will be in environmental space.
@@ -32,11 +32,11 @@
 #' @importFrom spatstat ppp closepairs
 #'
 #' @examples
-#' # Data
+#' # data
 #' data("m_matrix", package = "biosurvey")
 #' data1 <- m_matrix$data_matrix
 #'
-#' # Thinnig the points
+#' # thinning the points
 #' thin <- point_thinning(data1, x_column = "Longitude", y_column = "Latitude",
 #'                        thinning_distance = 200, space = "G",
 #'                        max_n_samples = 1, replicates = 5, set_seed = 1)
@@ -138,7 +138,7 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 
 #' Detection of the closest points to the centroid of a cloud of points
 #'
-#' @param data a matrix or a data frame that contains at least two columns.
+#' @param data a matrix or a data.frame that contains at least two columns.
 #' @param x_column (character) the name of the X-axis.
 #' @param y_column (character) the name of the Y-axis.
 #' @param space (character) space in which the thinning will be performed. There
@@ -208,12 +208,12 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
   # Detection of points closest to centroid
   ucent <- lapply(bs, function(x) {
     gblock <- data[bda == x, ]
-    ## process for more than 2 points
+    ## Process for more than 2 points
     if (nrow(gblock) > 2) {
       cent <- apply(gblock[, c(x_column, y_column)], 2, mean)
       level <- 0.01
       if (nrow(gblock) > 20) {
-        ## process for more than 20 points
+        ## Process for more than 20 points
         covm <- stats::cov(gblock[, c(x_column, y_column)])
         ndim <- length(cent); sigma_i <- solve(covm) / stats::qchisq(level,
                                                                      df = ndim)
@@ -224,23 +224,23 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
         con <- sum(c1)
 
         if (con <= 2) {
-          ## loop for measuring distances among distinct amount of points
+          ## Loop for measuring distances among distinct amount of points
           while (con == 0) {
             if (level > 0.98) {
-              ## distance in G space
+              ## Distance in G space
               if (space == "G") {
                 ds <- raster::pointDistance(cent, gblock[, c(x_column,
                                                              y_column)],
                                             lonlat = TRUE)
               } else {
-                ## distance in E space
+                ## Distance in E space
                 ds <- stats::mahalanobis(x = gblock[, c(x_column, y_column)],
                                          center = cent, cov = covm,
                                          tol = 0.0000009)
               }
               break()
             }
-            ## detecting whether closest point was detected or not
+            ## Dtecting whether closest point was detected or not
             level <- level + 0.01
             sigma_i <- solve(covm) / stats::qchisq(level, df = ndim)
             stds <- 1 / sqrt(eigen(sigma_i)$values)
@@ -294,16 +294,16 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
 #' @importFrom stats median
 #'
 #' @examples
-#' # data
+#' # Data
 #' data("m_selection", package = "biosurvey")
 #'
 #' slist <- m_selection$selected_sites_random
 #'
-#' # distance filter
+#' # Distance filter
 #' max_sites <- distance_filter(slist, median_distance_filter = "max")
 
 distance_filter <- function(site_list, median_distance_filter = "max") {
-  # initial tests
+  # Initial tests
   if (!median_distance_filter %in% c("max", "min")) {
     stop("Argument 'median_distance_filter' is not valid, see function's help.")
   }

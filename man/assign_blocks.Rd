@@ -19,16 +19,16 @@ variable (X axis) to be used to create blocks.}
 variable (Y axis) to be used to create blocks (must be different from the
 first one).}
 
-\item{n_cols}{(numeric) number of columns of a grid used to creates blocks
+\item{n_cols}{(numeric) number of columns of a grid used to create blocks
 and split the bi-dimensional space.}
 
-\item{n_rows}{(numeric) number of rows of a grid used to creates blocks and
+\item{n_rows}{(numeric) number of rows of a grid used to create blocks and
 split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.}
 
-\item{xlb}{(numeric) Vector of values of extremes for all blocks considering
+\item{xlb}{(numeric) vector of values of extremes for all blocks considering
 \code{variable_1}.}
 
-\item{ylb}{(numeric) Vector of values of extremes for all blocks considering
+\item{ylb}{(numeric) vector of values of extremes for all blocks considering
 \code{variable_2}. Needed when \code{block_type} = "equal area".
 Default = NULL.}
 

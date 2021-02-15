@@ -1,10 +1,10 @@
 #' Random selection of survey sites
 #'
-#' @description Random selection of sites to be sampled in a survey. Sites are
+#' @description random selection of sites to be sampled in a survey. Sites are
 #' selected from a set of points provided in \code{master}.
 #'
 #' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' \code{\link{prepare_master_matrix}}, or a master_selection object derived
 #' from functions \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.
 #' @param n_sites (numeric) number of sites to be selected from
@@ -119,7 +119,7 @@ random_selection <- function(master, n_sites, n_samplings = 1,
   # Returning results
   names(selected_sites) <- paste0("selection_", 1:length(selected_sites))
 
-  ## arguments as attributes
+  ## Arguments as attributes
   other_args <- list(arguments = list(n_sites = n_sites,
                                       n_samplings = n_samplings,
                                       use_preselected_sites = use_preselected_sites,

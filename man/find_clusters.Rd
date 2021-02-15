@@ -23,18 +23,18 @@ are two options available: "G", if it will be in the geographic space, and
 clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".}
 
 \item{n_k_means}{(numeric) number of clusters to be identified when using the
-"k-means" \code{cluster_method}.}
+"k-means" in \code{cluster_method}.}
 
 \item{split_distance}{(numeric) distance in meters (if \code{space} = "G") or
 euclidean distance (if \code{space} = "E") to identify clusters if
 \code{cluster_method} = "hierarchical".}
 }
 \value{
-A data.frame containing \code{data} and an additional column defining
+A data frame containing \code{data} and an additional column defining
 clusters.
 }
 \description{
-Finds clusters of data in two dimensions based on distinct
+finds clusters of data in two dimensions based on distinct
 methods.
 }
 \details{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pam_helpers.R
 \name{rlist_2data}
 \alias{rlist_2data}
-\title{Creates a data frame of species' references from a list of raster layers}
+\title{Creates a data.frame of species' references from a list of raster layers}
 \usage{
 rlist_2data(raster_list, parallel = FALSE, n_cores = NULL)
 }
@@ -18,11 +18,11 @@ Default = FALSE.}
 TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
-A data frame of species geographic records derived from values of presence
+A data.frame of species geographic records derived from values of presence
 in each layer from the list of raster layers.
 }
 \description{
-Creates a data frame of species' references that contains
+creates a data.frame of species' references that contains
 longitude, latitude, and species name, using a list of raster layers as
 input. Useful when raster layers have distinct extent or resolution.
 }
@@ -34,7 +34,7 @@ names(rsp) <- paste0("Species_", 1:5)
 
 rlist <- lapply(1:5, function(x) {rsp[[x]]})
 
-# species data from RasterStack
+# Species data from RasterStack
 sp_data <- rlist_2data(raster_list = rlist)
 summary(sp_data)
 }

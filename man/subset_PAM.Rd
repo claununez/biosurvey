@@ -16,8 +16,8 @@ obtained using the functions: \code{\link{random_selection}},
 \code{\link{EG_selection}}.}
 
 \item{selection_type}{type of selection to be considered to subset
-\code{base_PAM}. Options are: "all", "random", "E", "G", "EG". The default,
-"all", uses all selection types present in \code{master_selection}.}
+\code{base_PAM}. Options are: "all", "random", "E", "G", and "EG". The
+default, "all", uses all selection types present in \code{master_selection}.}
 }
 \value{
 An object of class \code{\link{PAM_subset}} containing the original
@@ -25,7 +25,7 @@ An object of class \code{\link{PAM_subset}} containing the original
 \code{selection_type}.
 }
 \description{
-Subsets of a base_PAM object according to survey sites
+subsets of a base_PAM object according to survey sites
 contained in a master_selection object.
 }
 \examples{
@@ -37,6 +37,6 @@ data("m_selection", package = "biosurvey")
 ## only uniform in G
 sub_pam_G <- subset_PAM(b_pam, m_selection, selection_type = "G")
 
-## all at the time
+## All at the time
 sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
 }

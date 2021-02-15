@@ -18,7 +18,7 @@ selecting sampling sites are available, and options for considering
 pre-selected sites (known to be important for biodiversity monitoring) are
 included. Visualization is a critical component in this set of tools and most
 of the results obtained can be plotted to help to understand their
-implications. The options for selecting sampling sites include here differ
+implications. The options for selecting sampling sites included here differ
 from other implementations in that they consider the environmental and
 geographic structure of a region to suggest sampling sites that could
 increase the efficiency of efforts dedicated to monitoring biodiversity.
