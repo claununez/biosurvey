@@ -238,6 +238,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
         utils::flush.console()
+        Sys.sleep(0.01)
         rbind(...)
       }
     }
@@ -356,6 +357,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
         utils::flush.console()
+        Sys.sleep(0.01)
         rbind(...)
       }
     }
@@ -517,6 +519,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
         utils::flush.console()
+        Sys.sleep(0.01)
         rbind(...)
       }
     }

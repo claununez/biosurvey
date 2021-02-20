@@ -155,6 +155,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
           count <<- count + length(list(...)) - 1
           utils::setTxtProgressBar(pb, count)
           utils::flush.console()
+          Sys.sleep(0.01)
           cbind(...)
         }
       }
