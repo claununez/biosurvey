@@ -238,7 +238,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
         utils::flush.console()
-        Sys.sleep(0.01)
+        Sys.sleep(0.02)
         rbind(...)
       }
     }
