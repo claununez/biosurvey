@@ -85,7 +85,12 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   }
 
   # index selection
-  PAM <- PAM_indices(PAM, indices = "all")
+  inPAM_in <- names(PAM$PAM_indices)
+
+  if (!index %in% inPAM_in) {
+    PAM <- PAM_indices(PAM, indices = "all")
+  }
+
   g_indices <- names(PAM$PAM_indices)[-c(1, 3, 5, 7, 9:11)]
   names(g_indices) <- all_in
 
@@ -121,8 +126,12 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   on.exit(par(opar))
 
   # plotting
-  layout(matrix(1:2, 1, byrow = T), widths = c(10, 1.5))
+  layout(matrix(2:1, 1, byrow = T), widths = c(10, 1.5))
   par(cex = cex, mar = rep(0, 4))
+
+  plot.new()
+  bar_legend(rfactor, col = col, title = gsub("_", " ", g_indices[index]),
+             round = 3, label_x = 0.5, labels_y = c(0.2, 0.85))
 
   sp::plot(PAM$PAM, border = "transparent")
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
@@ -146,10 +155,6 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
              col = col_pre)
     }
   }
-
-  plot.new()
-  bar_legend(rfactor, col = col, title = gsub("_", " ", g_indices[index]),
-             round = 3, label_x = 0.5, labels_y = c(0.18, 0.87))
 }
 
 
