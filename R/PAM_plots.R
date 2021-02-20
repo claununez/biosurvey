@@ -156,7 +156,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 
 
 
-#' Plot new diversity-range diagram
+#' Plot new range-diversity diagram
 #'
 #' @param PAM_CS an object of class PAM_CS or a base_PAM object containing
 #' a PAM_CS object as part of PAM_indices. These objects can be obtained using
@@ -196,7 +196,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' relevant for interpreting the diagram. Default = TRUE.
 #'
 #' @return
-#' A diversity-range plot with values of normalized richness in the x axis,
+#' A range-diversity plot with values of normalized richness in the x axis,
 #' and normalized values of the dispersion field index divided by number of
 #' species in the y axis.
 #'
@@ -232,7 +232,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
                         pch_significant_low = 19, pch_significant_high = 19,
                         pch_random_values = 1, main = NULL,
                         xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
-                        ylim_expansion = 0.25, add_legend = TRUE) {
+                        ylim_expansion = 0.25, add_legend = TRUE, las = 1) {
 
   if (!class(PAM_CS)[1] %in% c("base_PAM", "PAM_CS")) {
     stop("Class of 'PAM_CS' is not supported, see function's help.")
@@ -260,7 +260,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
 
   # plot elements
   if (is.null(main)) {
-    main <- "Diversity-range plot"
+    main <- "Range-diversity plot"
   }
   if (is.null(xlab)) {
     xlab <- "Normalized richness"
@@ -278,13 +278,15 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
 
   # plot
   plot(alfas, fists, col = col_all, pch = pch_all, xlim = xlim, ylim = ylim,
-       xlab = xlab, ylab = ylab, main = main)
+       xlab = xlab, ylab = ylab, main = main, las = las)
   polygon(vx, vy, border = "#474747")
   if (add_legend == TRUE) {
     legend("topleft", bty = "n", inset = -0.02,
            legend = c(paste("N species (S) =", s), paste("N sites-cells =", n),
-                      paste("Beta W =", round(betty, 3)),
-                      as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~ .(sper)))))
+                      as.expression(bquote("Whittaker's" ~ beta ~ "=" ~
+                                             .(round(betty, 3)))),
+                      as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~
+                                             .(sper)))))
   }
 
   # randomized values

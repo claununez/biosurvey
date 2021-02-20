@@ -1,6 +1,6 @@
-#' Preparing data for new diversity-range plot
+#' Preparing data for new range-diversity plot
 #'
-#' @description Preparation of data and details to create diversity-range
+#' @description Preparation of data and details to create range-diversity
 #' plots.
 #'
 #' @param PAM matrix, data.frame, or base_PAM object containing information on
@@ -38,7 +38,7 @@
 #' random expectations, respectively.
 #'
 #' @details
-#' Diversity-range plot allow explorations of patterns of biodiversity
+#' Range-diversity plot allow explorations of patterns of biodiversity
 #' in a region based on the data of presence-absence matrices. The
 #' plots to be produced using the information prepared here are a modification
 #' of those presented in Arita et al. (2011)
