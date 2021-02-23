@@ -553,19 +553,19 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                                 ## Preparing data
                                 sp <- sp::over(spdf_grid, rs)[, 1]
                                 sppm <- na.omit(data.frame(ID, Species = sp))
-                                sppm$Species <- spnames[x]
+                                sppm$Species <- spnames[i]
                                 return(sppm)
 
                               } else {
                                 ## Raster from file
-                                rs <- raster::raster(mlist[x])
+                                rs <- raster::raster(mlist[i])
 
                                 ## Raster to matrix
                                 sppm <- raster::rasterToPoints(rs)
 
                                 ## Preparing data
                                 return(data.frame(sppm[sppm[, 3] == 1, 1:2],
-                                                  spnames[x]))
+                                                  spnames[i]))
                               }
                             }
 
