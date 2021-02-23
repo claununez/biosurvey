@@ -561,7 +561,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                                 rs <- raster::raster(mlist[x])
 
                                 ## Raster to matrix
-                                sppm <- raster::rasterToPoints(rs[[x]])
+                                sppm <- raster::rasterToPoints(rs)
 
                                 ## Preparing data
                                 return(data.frame(sppm[sppm[, 3] == 1, 1:2],
@@ -605,7 +605,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
         rs <- raster::raster(mlist[x])
 
         ## Raster to matrix
-        sppm <- raster::rasterToPoints(rs[[x]])
+        sppm <- raster::rasterToPoints(rs)
 
         ## Preparing data
         sps[[x]] <- data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x])
