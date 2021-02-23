@@ -85,7 +85,12 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   }
 
   # index selection
-  PAM <- PAM_indices(PAM, indices = "all")
+  inPAM_in <- names(PAM$PAM_indices)
+
+  if (!index %in% inPAM_in) {
+    PAM <- PAM_indices(PAM, indices = "all")
+  }
+
   g_indices <- names(PAM$PAM_indices)[-c(1, 3, 5, 7, 9:11)]
   names(g_indices) <- all_in
 
@@ -121,8 +126,12 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   on.exit(par(opar))
 
   # plotting
-  layout(matrix(1:2, 1, byrow = T), widths = c(10, 1.5))
+  layout(matrix(2:1, 1, byrow = T), widths = c(10, 1.5))
   par(cex = cex, mar = rep(0, 4))
+
+  plot.new()
+  bar_legend(rfactor, col = col, title = gsub("_", " ", g_indices[index]),
+             round = 3, label_x = 0.5, labels_y = c(0.2, 0.85))
 
   sp::plot(PAM$PAM, border = "transparent")
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
@@ -146,17 +155,13 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
              col = col_pre)
     }
   }
-
-  plot.new()
-  bar_legend(rfactor, col = col, title = gsub("_", " ", g_indices[index]),
-             round = 3, label_x = 0.5, labels_y = c(0.18, 0.87))
 }
 
 
 
 
 
-#' Plot new diversity-range diagram
+#' Plot new range-diversity diagram
 #'
 #' @param PAM_CS an object of class PAM_CS or a base_PAM object containing
 #' a PAM_CS object as part of PAM_indices. These objects can be obtained using
@@ -196,7 +201,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' relevant for interpreting the diagram. Default = TRUE.
 #'
 #' @return
-#' A diversity-range plot with values of normalized richness in the x axis,
+#' A range-diversity plot with values of normalized richness in the x axis,
 #' and normalized values of the dispersion field index divided by number of
 #' species in the y axis.
 #'
@@ -232,7 +237,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
                         pch_significant_low = 19, pch_significant_high = 19,
                         pch_random_values = 1, main = NULL,
                         xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
-                        ylim_expansion = 0.25, add_legend = TRUE) {
+                        ylim_expansion = 0.25, add_legend = TRUE, las = 1) {
 
   if (!class(PAM_CS)[1] %in% c("base_PAM", "PAM_CS")) {
     stop("Class of 'PAM_CS' is not supported, see function's help.")
@@ -260,7 +265,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
 
   # plot elements
   if (is.null(main)) {
-    main <- "Diversity-range plot"
+    main <- "Range-diversity plot"
   }
   if (is.null(xlab)) {
     xlab <- "Normalized richness"
@@ -278,13 +283,15 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
 
   # plot
   plot(alfas, fists, col = col_all, pch = pch_all, xlim = xlim, ylim = ylim,
-       xlab = xlab, ylab = ylab, main = main)
+       xlab = xlab, ylab = ylab, main = main, las = las)
   polygon(vx, vy, border = "#474747")
   if (add_legend == TRUE) {
     legend("topleft", bty = "n", inset = -0.02,
            legend = c(paste("N species (S) =", s), paste("N sites-cells =", n),
-                      paste("Beta W =", round(betty, 3)),
-                      as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~ .(sper)))))
+                      as.expression(bquote("Whittaker's" ~ beta ~ "=" ~
+                                             .(round(betty, 3)))),
+                      as.expression(bquote("Spearman's" ~ r[s] ~ "=" ~
+                                             .(sper)))))
   }
 
   # randomized values

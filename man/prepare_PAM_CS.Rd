@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepare_PAM_CS.R
 \name{prepare_PAM_CS}
 \alias{prepare_PAM_CS}
-\title{Preparing data for new diversity-range plot}
+\title{Preparing data for new range-diversity plot}
 \usage{
 prepare_PAM_CS(PAM, exclude_column = NULL, id_column = NULL,
                significance_test = FALSE, randomization_iterations = 100,
@@ -55,11 +55,11 @@ and 1 and 2 represent significant values below and above confidence limits of
 random expectations, respectively.
 }
 \description{
-Preparation of data and details to create diversity-range
+Preparation of data and details to create range-diversity
 plots.
 }
 \details{
-Diversity-range plot allow explorations of patterns of biodiversity
+Range-diversity plot allow explorations of patterns of biodiversity
 in a region based on the data of presence-absence matrices. The
 plots to be produced using the information prepared here are a modification
 of those presented in Arita et al. (2011)
