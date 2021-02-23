@@ -12,7 +12,7 @@ plot_PAM_CS(PAM_CS, add_significant = FALSE,
             pch_significant_low = 19, pch_significant_high = 19,
             pch_random_values = 1, main = NULL,
             xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
-            ylim_expansion = 0.25, add_legend = TRUE)
+            ylim_expansion = 0.25, las = 1, add_legend = TRUE)
 }
 \arguments{
 \item{PAM_CS}{an object of class PAM_CS or a base_PAM object containing
@@ -65,6 +65,9 @@ by adding the result of multiplying it by \code{ylim_expansion}, if
 \code{add_legend} = TRUE.}
 
 \item{ylim_expansion}{value used or expanding the \code{ylim}. Default = 0.25.}
+
+\item{las}{the style of axis labels; default = 1.
+See \code{\link[graphics]{par}}.}
 
 \item{add_legend}{(logical) whether to add a legend describing information
 relevant for interpreting the diagram. Default = TRUE.}

@@ -197,6 +197,8 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' by adding the result of multiplying it by \code{ylim_expansion}, if
 #' \code{add_legend} = TRUE.
 #' @param ylim_expansion value used or expanding the \code{ylim}. Default = 0.25.
+#' @param las the style of axis labels; default = 1.
+#' See \code{\link[graphics]{par}}.
 #' @param add_legend (logical) whether to add a legend describing information
 #' relevant for interpreting the diagram. Default = TRUE.
 #'
@@ -214,7 +216,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #'             pch_significant_low = 19, pch_significant_high = 19,
 #'             pch_random_values = 1, main = NULL,
 #'             xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
-#'             ylim_expansion = 0.25, add_legend = TRUE)
+#'             ylim_expansion = 0.25, las = 1, add_legend = TRUE)
 #'
 #' @export
 #' @importFrom graphics legend polygon
@@ -237,7 +239,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
                         pch_significant_low = 19, pch_significant_high = 19,
                         pch_random_values = 1, main = NULL,
                         xlab = NULL, ylab = NULL, xlim = NULL, ylim = NULL,
-                        ylim_expansion = 0.25, add_legend = TRUE, las = 1) {
+                        ylim_expansion = 0.25, las = 1, add_legend = TRUE) {
 
   if (!class(PAM_CS)[1] %in% c("base_PAM", "PAM_CS")) {
     stop("Class of 'PAM_CS' is not supported, see function's help.")
