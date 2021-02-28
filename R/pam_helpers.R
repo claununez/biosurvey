@@ -153,7 +153,8 @@ stack_2data <- function(species_layers) {
 
   # Preparing data
   sps <- lapply(1:length(spnames), function(x) {
-    data.frame(sppm[sppm[, 2 + x] == 1, 1:2], spnames[x])
+    cond <- sppm[, 2 + x] == 1
+    data.frame(sppm[cond, 1], sppm[cond, 2], spnames[x])
   })
 
   sps <- do.call(rbind, sps)
@@ -374,7 +375,8 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
                               spname <- names(raster_list[[i]])
 
                               # Preparing data
-                              data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
+                              cond <- sppm[, 3] == 1
+                              data.frame(sppm[cond, 1], sppm[cond, 2], spname)
                             }
 
     parallel::stopCluster(cl)
@@ -394,7 +396,8 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
       spname <- names(raster_list[[x]])
 
       # Preparing data
-      sps[[x]] <- data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
+      cond <- sppm[, 3] == 1
+      sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spname)
     }
 
     sps <- do.call(rbind, sps)
@@ -564,7 +567,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                                 sppm <- raster::rasterToPoints(rs)
 
                                 ## Preparing data
-                                return(data.frame(sppm[sppm[, 3] == 1, 1:2],
+                                cond <- sppm[, 3] == 1
+                                return(data.frame(sppm[cond, 1], sppm[cond, 2],
                                                   spnames[i]))
                               }
                             }
@@ -608,7 +612,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
         sppm <- raster::rasterToPoints(rs)
 
         ## Preparing data
-        sps[[x]] <- data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x])
+        cond <- sppm[, 3] == 1
+        sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spnames[x])
       }
     }
 
