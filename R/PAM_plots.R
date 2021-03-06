@@ -7,6 +7,10 @@
 #' @param master_selection a master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
+#' @param region_border (logical) whether to add region border to the plot.
+#' Default = TRUE.
+#' @param mask_border (logical) whether to add mask border to the plot. Ignored
+#' if mask is not present in \code{master_selection}. Default = FALSE.
 #' @param selection_type (character) Type of selection depending on the function
 #' used to select sites. The options available are "random"
 #' (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
@@ -55,9 +59,11 @@
 #' plot_PAM_geo(b_pam, index = "RI")
 
 plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
+                         region_border = TRUE, mask_border = FALSE,
                          selection_type = NULL, selection_number = 1,
                          col_pal = NULL, border = NULL, col_sites = NULL,
-                         col_pre = NULL, pch_sites = 16, pch_pre = 16,cex = 0.9) {
+                         col_pre = NULL, pch_sites = 16, pch_pre = 16,
+                         cex = 0.9) {
   if (missing(PAM)) {
     stop("Argument 'PAM' is missing.")
   }
@@ -79,7 +85,6 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
     }
 
     # Where to visualize data
-    where <- ifelse(!is.null(master_selection$mask), "mask", "region")
     gvars <- c("Longitude", "Latitude")
     precon <- sel_args$arguments$use_preselected_sites
   }
@@ -125,6 +130,11 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   opar <- par(no.readonly = TRUE)
   on.exit(par(opar))
 
+  # box to plot
+  boxpam <- t(PAM$PAM@bbox)
+  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
+                                       proj4string = PAM$PAM@proj4string)
+
   # plotting
   layout(matrix(2:1, 1, byrow = T), widths = c(10, 1.5))
   par(cex = cex, mar = rep(0, 4))
@@ -133,17 +143,19 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   bar_legend(rfactor, col = col, title = gsub("_", " ", g_indices[index]),
              round = 3, label_x = 0.5, labels_y = c(0.2, 0.85))
 
-  sp::plot(PAM$PAM, border = "transparent")
+  sp::plot(boxpam, col = "transparent")
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   sp::plot(PAM$PAM, col = col[ifactor], border = border, add = TRUE)
   box()
 
   if (!is.null(master_selection)) {
-    if (is.null(master_selection$mask)) {
-      sp::plot(master_selection$region, border = "gray70", add = TRUE)
+    if (region_border == TRUE) {
+      sp::plot(master_selection$region, border = "gray50", add = TRUE)
     }
-    sp::plot(master_selection[[where]], border = "gray60", add = TRUE)
+    if (mask_border == TRUE & !is.null(master_selection$mask)) {
+      sp::plot(master_selection$mask, border = "gray50", add = TRUE)
+    }
 
     ## selected sites
     selected_data <- master_selection[[selection_type]][[selection_number]]

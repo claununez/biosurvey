@@ -19,6 +19,12 @@ variable (X-axis) to be explored.}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis) to be explored (must be different from the first one).}
 
+\item{region_border}{(logical) whether to add region border to the plot.
+Default = TRUE.}
+
+\item{mask_border}{(logical) whether to add mask border to the plot. Ignored
+if mask is not present in \code{master_selection}. Default = FALSE.}
+
 \item{col_variable1}{a color palette for \code{variable_1} defined
 using functions like \code{\link{heat.colors}}, or one generated
 using functions like \code{\link{colorRampPalette}}. The default,

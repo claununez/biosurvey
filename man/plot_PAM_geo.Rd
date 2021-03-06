@@ -20,6 +20,12 @@ plot_PAM_geo(PAM, index = "RI", master_selection = NULL,
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
+\item{region_border}{(logical) whether to add region border to the plot.
+Default = TRUE.}
+
+\item{mask_border}{(logical) whether to add mask border to the plot. Ignored
+if mask is not present in \code{master_selection}. Default = FALSE.}
+
 \item{selection_type}{(character) Type of selection depending on the function
 used to select sites. The options available are "random"
 (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
