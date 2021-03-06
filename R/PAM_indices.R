@@ -134,10 +134,10 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   trA <- sum(rich)
   trO <- sum(rang)
 
-  # Dispersion field and shared community composition
-  ## Values of Dispersion field
+  # Dispersion field
   if (any(indices %in% c("all", "DF", "BL", "WRN", "SRC", "CMSC"))) {
     d_field <- c(PAM %*% rang)
+    d_field <- (d_field - rich) / 2
     names(d_field) <- rownames(PAM)
     ## Average
     av_dfield <- mean(d_field)
@@ -146,7 +146,7 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     av_dfield <- NA
   }
 
-  ## Values shared community composition
+  # Shared community composition
   if (any(indices %in% c("all", "SCC", "CMSR"))) {
     sc_comp <- c(tm1 %*% rich)
     names(sc_comp) <- colnames(PAM)
