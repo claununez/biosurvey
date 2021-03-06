@@ -14,6 +14,10 @@
 #' variable (X-axis) to be explored.
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y-axis) to be explored (must be different from the first one).
+#' @param region_border (logical) whether to add region border to the plot.
+#' Default = TRUE.
+#' @param mask_border (logical) whether to add mask border to the plot. Ignored
+#' if mask is not present in \code{master_selection}. Default = FALSE.
 #' @param col_variable1 a color palette for \code{variable_1} defined
 #' using functions like \code{\link{heat.colors}}, or one generated
 #' using functions like \code{\link{colorRampPalette}}. The default,
@@ -62,6 +66,7 @@
 
 
 explore_data_EG <- function(master, variable_1, variable_2,
+                            region_border = TRUE, mask_border = FALSE,
                             col_variable1 = NULL, col_variable2 = NULL,
                             col_points = NULL, col_density = NULL) {
 
@@ -78,9 +83,6 @@ explore_data_EG <- function(master, variable_1, variable_2,
   if (!class(master)[1] %in% c("master_matrix", "master_selection")) {
     stop("Object defined in 'master' is not valid, see function's help.")
   }
-
-  # Where to visualize data
-  where <- ifelse(!is.null(master$mask), "mask", "region")
 
   # par settings
   opar <- par(no.readonly = TRUE)
@@ -152,10 +154,13 @@ explore_data_EG <- function(master, variable_1, variable_2,
   ### variable 1
   vf <- as.factor(master$data_matrix[, variable_1])
   sp::plot(master$raster_base, col = col_variable1[vf], border = NA)
-  if (is.null(master$mask)) {
-    sp::plot(master$region, border = "gray70", add = TRUE)
+
+  if(region_border == TRUE) {
+    sp::plot(master$region, border = "gray50", add = TRUE)
   }
-  sp::plot(master[[where]], add = TRUE)
+  if (mask_border == TRUE & !is.null(master$mask)) {
+    sp::plot(master$mask, border = "gray50", add = TRUE)
+  }
 
   plot.new()
   bar_legend(xlim, col = col_variable1, title = variable_1)
@@ -163,10 +168,13 @@ explore_data_EG <- function(master, variable_1, variable_2,
   ### variable 2
   vf <- as.factor(master$data_matrix[, variable_2])
   sp::plot(master$raster_base, col = col_variable2[vf], border = NA)
-  if (is.null(master$mask)) {
-    sp::plot(master$region, border = "gray70", add = TRUE)
+
+  if(region_border == TRUE) {
+    sp::plot(master$region, border = "gray50", add = TRUE)
   }
-  sp::plot(master[[where]], add = TRUE)
+  if (mask_border == TRUE & !is.null(master$mask)) {
+    sp::plot(master$mask, border = "gray50", add = TRUE)
+  }
 
   plot.new()
   bar_legend(ylim, col = col_variable2, title = variable_2)
