@@ -4,7 +4,8 @@
 \alias{explore_data_EG}
 \title{Plots to explore environmental factors in environmental and geographic space}
 \usage{
-explore_data_EG(master, variable_1, variable_2, col_variable1 = NULL,
+explore_data_EG(master, variable_1, variable_2, region_border = TRUE,
+                mask_border = FALSE, col_variable1 = NULL,
                 col_variable2 = NULL, col_points = NULL, col_density = NULL)
 }
 \arguments{
