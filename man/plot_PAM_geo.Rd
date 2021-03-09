@@ -5,6 +5,7 @@
 \title{Plot of PAM indices in geography}
 \usage{
 plot_PAM_geo(PAM, index = "RI", master_selection = NULL,
+             region_border = TRUE, mask_border = FALSE,
              selection_type = NULL, selection_number = 1,
              col_pal = NULL, border = NULL, col_sites = NULL,
              col_pre = NULL, pch_sites = 16, pch_pre = 16,cex = 0.9)
