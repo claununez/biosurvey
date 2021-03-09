@@ -8,9 +8,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}{inputenc}
 ---
 
+<hr>
+
+<img src='vignette_img/biosurveyfinal.png' align="right" height="200" /></a>
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", echo = FALSE)
 ```
+
 
 ### Description of data needed for analysis
 
