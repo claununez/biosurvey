@@ -19,7 +19,7 @@ opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 <br>
 <hr>
 
-<img src='README_files/biosurvey1.png' align="right" height="200" /></a>
+<img src='README_files/biosurveyfinal.png' align="right" height="200" /></a>
 
 **This repository is for the project "Biological Survey Planning Considering Hutchinson’s Duality" developed during the program GSoC 2020.**
 

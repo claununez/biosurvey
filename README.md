@@ -18,7 +18,7 @@ status](https://github.com/claununez/biosurvey/workflows/R-CMD-check/badge.svg)]
 <br>
 <hr>
 
-<img src='README_files/biosurvey1.png' align="right" height="200" /></a>
+<img src='README_files/biosurveyfinal.png' align="right" height="200" /></a>
 
 **This repository is for the project “Biological Survey Planning
 Considering Hutchinson’s Duality” developed during the program GSoC
@@ -26,8 +26,7 @@ Considering Hutchinson’s Duality” developed during the program GSoC
 
 <br>
 
-Project description
--------------------
+## Project description
 
 Student: *Claudia Nuñez-Penichet*
 
@@ -73,8 +72,7 @@ general descriptions of how to use it.
 
 <br>
 
-Package description
--------------------
+## Package description
 
 The biosurvey R package implements multiple tools to allow users to
 select sampling sites increasing efficiency of biodiversity survey
@@ -97,8 +95,7 @@ monitoring biodiversity.
 
 <br>
 
-Installing the package
-----------------------
+## Installing the package
 
 biosurvey is in a GitHub repository and can be installed and/or loaded
 using the code below (make sure to have Internet connection). If you
@@ -125,8 +122,7 @@ using install.packages(), then try re-installing biosurvey again.
 
 <br>
 
-biosurvey functions and vignettes
----------------------------------
+## biosurvey functions and vignettes
 
 To check all functions in the package use:
 
@@ -157,8 +153,7 @@ To check each vignette you can use:
 
 <br>
 
-Workflow description
---------------------
+## Workflow description
 
 To use biosurvey efficiently the first thing to do is to prepare an
 object containing all information to be used in following analyses. This
