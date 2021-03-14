@@ -7,7 +7,8 @@
 \title{Representation of sites selected to be surveyed}
 \usage{
 plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
-              variable_2 = NULL, selection_number = 1, col_all = NULL,
+              variable_2 = NULL, selection_number = 1,
+              region_border = TRUE, mask_border = FALSE, col_all = NULL,
               col_sites = NULL, col_pre = NULL, cex_all = 0.7,
               cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
               pch_pre = 16, add_main = TRUE)
@@ -19,7 +20,8 @@ plot_sites_E(master_selection, selection_type, variable_1 = NULL,
              pch_pre = 16, main = "")
 
 plot_sites_G(master_selection, selection_type, selection_number = 1,
-             col_all = NULL, col_sites = NULL, col_pre = NULL, cex_all = 0.7,
+             region_border = TRUE, mask_border = FALSE,
+             col_sites = NULL, col_pre = NULL, cex_all = 0.7,
              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
              pch_pre = 16, main = "")
 }
@@ -45,6 +47,12 @@ from the first one. Default = NULL, required when \code{selection_type} =
 
 \item{selection_number}{(numeric) number of selection to be plotted.
 Default = 1.}
+
+\item{region_border}{(logical) whether to add region border to the plot.
+Default = TRUE.}
+
+\item{mask_border}{(logical) whether to add mask border to the plot. Ignored
+if mask is not present in \code{master_selection}. Default = FALSE.}
 
 \item{col_all}{colors for points in all points in the region of interest.
 The default, NULL, uses a light gray color.}

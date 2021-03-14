@@ -22,6 +22,10 @@
 #' "random" or "G".
 #' @param selection_number (numeric) number of selection to be plotted.
 #' Default = 1.
+#' @param region_border (logical) whether to add region border to the plot.
+#' Default = TRUE.
+#' @param mask_border (logical) whether to add mask border to the plot. Ignored
+#' if mask is not present in \code{master_selection}. Default = FALSE.
 #' @param col_all colors for points in all points in the region of interest.
 #' The default, NULL, uses a light gray color.
 #' @param col_sites color for selected sites. The default, NULL, uses
@@ -57,7 +61,8 @@
 #'
 #' @usage
 #' plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
-#'               variable_2 = NULL, selection_number = 1, col_all = NULL,
+#'               variable_2 = NULL, selection_number = 1,
+#'               region_border = TRUE, mask_border = FALSE, col_all = NULL,
 #'               col_sites = NULL, col_pre = NULL, cex_all = 0.7,
 #'               cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
 #'               pch_pre = 16, add_main = TRUE)
@@ -81,6 +86,7 @@
 
 plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
                           variable_2 = NULL, selection_number = 1,
+                          region_border = TRUE, mask_border = FALSE,
                           col_all = NULL, col_sites = NULL, col_pre = NULL,
                           cex_all = 0.7, cex_sites = 1, cex_pre = 1,
                           pch_all = 16, pch_sites = 16, pch_pre = 16,
@@ -123,9 +129,9 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
 
   ## geographic space
   par(mar = rep(0.5, 4))
-  plot_sites_G(master_selection, selection_type, selection_number, col_all,
-               col_sites, col_pre, cex_all, cex_sites, cex_pre, pch_all,
-               pch_sites, pch_pre)
+  plot_sites_G(master_selection, selection_type, selection_number,
+               region_border, mask_border, col_all, col_sites, col_pre,
+               cex_all, cex_sites, cex_pre, pch_all, pch_sites, pch_pre)
 }
 
 
@@ -184,8 +190,6 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
   where <- ifelse(!is.null(master_selection$mask), "mask", "region")
 
   # preparing data
-  xlim <- master_selection[[where]]@bbox[1, ]
-  ylim <- master_selection[[where]]@bbox[2, ]
   evars <- c(variable_1, variable_2)
 
   # colors
@@ -231,11 +235,13 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
 #' @export
 #' @usage
 #' plot_sites_G(master_selection, selection_type, selection_number = 1,
-#'              col_all = NULL, col_sites = NULL, col_pre = NULL, cex_all = 0.7,
+#'              region_border = TRUE, mask_border = FALSE,
+#'              col_sites = NULL, col_pre = NULL, cex_all = 0.7,
 #'              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
 #'              pch_pre = 16, main = "")
 
 plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
+                         region_border = TRUE, mask_border = FALSE,
                          col_all = NULL, col_sites = NULL, col_pre = NULL,
                          cex_all = 0.7, cex_sites = 1, cex_pre = 1,
                          pch_all = 16, pch_sites = 16, pch_pre = 16, main = "") {
@@ -261,13 +267,7 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
     }
   }
 
-  # Where to visualize data
-  where <- ifelse(!is.null(master_selection$mask), "mask", "region")
-
   # preparing data
-  xlim <- master_selection[[where]]@bbox[1, ]
-  ylim <- master_selection[[where]]@bbox[2, ]
-
   gvars <- c("Longitude", "Latitude")
 
   # colors
@@ -288,16 +288,25 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
   }
 
   # plot
-  sp::plot(master_selection[[where]], border = "transparent", main = main)
+  ## box to plot
+  boxpam <- t(master_selection$region@bbox)
+  crsm <- master_selection$region@proj4string
+  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
+                                       proj4string = crsm)
+
+  ## the plot
+  sp::plot(boxpam, col = NA)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
 
   ## region
-  if (is.null(master_selection$mask)) {
-    sp::plot(master_selection$region, border = "gray70", add = TRUE)
+  if (region_border == TRUE) {
+    sp::plot(master_selection$region, border = "gray50", add = TRUE)
   }
-  sp::plot(master_selection[[where]], col = col_all, add = TRUE)
+  if (mask_border == TRUE & !is.null(master_selection$mask)) {
+    sp::plot(master_selection$mask, border = "gray50", add = TRUE)
+  }
 
   ## selected sites
   selected_data <- master_selection[[selection_type]][[selection_number]]
