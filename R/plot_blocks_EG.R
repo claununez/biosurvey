@@ -12,6 +12,10 @@
 #' @param variable_2 (character or numeric) name or position of the second
 #' variable (Y-axis) used to create blocks (must be different from the
 #' first one).
+#' @param region_border (logical) whether to add region border to the plot.
+#' Default = TRUE.
+#' @param mask_border (logical) whether to add mask border to the plot. Ignored
+#' if mask is not present in \code{master_selection}. Default = FALSE.
 #' @param which (character) blocks to be plotted. Options are "all" or
 #' "selected". Default = "all".
 #' @param block_ID (logical) whether to add a text ID to blocks plotted in
@@ -54,11 +58,11 @@
 #' environmental.
 #'
 #' @usage
-#' plot_blocks_EG(master, variable_1, variable_2, which = "all",
-#'                block_ID = FALSE, col_all = NULL, col_selected = NULL,
-#'                col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-#'                cex_ID = 1, pch_all = 16, pch_selected = 16,
-#'                add_main = TRUE)
+#' plot_blocks_EG(master, variable_1, variable_2, region_border = TRUE,
+#'                mask_border = FALSE, which = "all", block_ID = FALSE,
+#'                col_all = NULL, col_selected = NULL, col_ID = NULL,
+#'                cex_all = 0.7, cex_selected = 1, cex_ID = 1,
+#'                pch_all = 16, pch_selected = 16, add_main = TRUE)
 #'
 #' @export
 #' @importFrom maps map
@@ -87,11 +91,11 @@
 #'                block_ID = TRUE, col_all = your_colors)
 
 
-plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
-                           block_ID = FALSE, col_all = NULL, col_selected = NULL,
-                           col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-                           cex_ID = 1, pch_all = 16, pch_selected = 16,
-                           add_main = TRUE) {
+plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
+                           mask_border = FALSE,  which = "all", block_ID = FALSE,
+                           col_all = NULL, col_selected = NULL, col_ID = NULL,
+                           cex_all = 0.7, cex_selected = 1, cex_ID = 1,
+                           pch_all = 16, pch_selected = 16, add_main = TRUE) {
   # initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
@@ -118,13 +122,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
     }
   }
 
-  # Where to visualize data
-  where <- ifelse(!is.null(master$mask), "mask", "region")
-
   # preparing data
-  xlim <- master[[where]]@bbox[1, ]
-  ylim <- master[[where]]@bbox[2, ]
-
   ublocks <- unique(master$data_matrix$Block)
   nblocks <- length(ublocks)
 
@@ -208,17 +206,26 @@ plot_blocks_EG <- function(master, variable_1, variable_2, which = "all",
   }
 
   ## geographic space
+  ### box to plot
+  boxpam <- t(master$region@bbox)
+  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
+                                       proj4string = master$region@proj4string)
+
+  ### plot
   par(mar = rep(0.5, 4))
-  sp::plot(master[[where]], border = "transparent")
+  sp::plot(boxpam, col = NA)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
   points(master$data_matrix[, gvars], pch = pch_all, cex = cex_all,
          col = col_all)
-  if (is.null(master$mask)) {
-    sp::plot(master$region, border = "gray70", add = TRUE)
+
+  if (region_border == TRUE) {
+    sp::plot(master$region, border = "gray50", add = TRUE)
   }
-  sp::plot(master[[where]], add = TRUE)
+  if (mask_border == TRUE & !is.null(master$mask)) {
+    sp::plot(master$mask, border = "gray50", add = TRUE)
+  }
 
   ## selected blocks
   if (which == "selected") {

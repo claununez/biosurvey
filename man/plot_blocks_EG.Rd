@@ -4,11 +4,11 @@
 \alias{plot_blocks_EG}
 \title{Representation of environmental blocks in geography and environment}
 \usage{
-plot_blocks_EG(master, variable_1, variable_2, which = "all",
-               block_ID = FALSE, col_all = NULL, col_selected = NULL,
-               col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-               cex_ID = 1, pch_all = 16, pch_selected = 16,
-               add_main = TRUE)
+plot_blocks_EG(master, variable_1, variable_2, region_border = TRUE,
+               mask_border = FALSE, which = "all", block_ID = FALSE,
+               col_all = NULL, col_selected = NULL, col_ID = NULL,
+               cex_all = 0.7, cex_selected = 1, cex_ID = 1,
+               pch_all = 16, pch_selected = 16, add_main = TRUE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -22,6 +22,12 @@ variable (X-axis) used to create blocks.}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis) used to create blocks (must be different from the
 first one).}
+
+\item{region_border}{(logical) whether to add region border to the plot.
+Default = TRUE.}
+
+\item{mask_border}{(logical) whether to add mask border to the plot. Ignored
+if mask is not present in \code{master_selection}. Default = FALSE.}
 
 \item{which}{(character) blocks to be plotted. Options are "all" or
 "selected". Default = "all".}
