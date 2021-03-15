@@ -221,7 +221,8 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                            max_n_samplings, replicates, set_seed)
     np <- nrow(thin[[1]])
     if (verbose == TRUE) {
-      message("    Distance  ", dist, "  resulted in  ", np, "  points")
+      message("    Distance  ", round(dist, 3), "  resulted in  ",
+              np, "  points")
     }
 
     if (np <= expected_points) {

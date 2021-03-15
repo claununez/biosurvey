@@ -276,7 +276,8 @@ uniformE_selection <- function(master, variable_1, variable_2,
                            max_n_samplings, replicates, set_seed)
     np <- nrow(thin[[1]])
     if (verbose == TRUE) {
-      message("    Distance  ", dist, "  resulted in  ", np, "  points")
+      message("    Distance  ", round(dist, 3), "  resulted in  ",
+              np, "  points")
     }
 
     if (np <= expected_points) {
