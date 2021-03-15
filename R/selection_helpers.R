@@ -29,7 +29,7 @@
 #'
 #' @export
 #' @importFrom sp coordinates
-#' @importFrom spatstat ppp closepairs
+#' @importFrom spatstat.geom ppp closepairs
 #'
 #' @examples
 #' # data
@@ -98,11 +98,11 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
     set.seed(set_seed + x - 1)
 
     data1 <- data[sample(nrow(data)), ]
-    X <- spatstat::ppp(data1[, x_column], data1[, y_column],
-                       range(data1[, x_column]), range(data1[, y_column]))
+    X <- spatstat.geom::ppp(data1[, x_column], data1[, y_column],
+                            range(data1[, x_column]), range(data1[, y_column]))
 
-    close_index <- spatstat::closepairs(X, rmax = thinning_distance,
-                                        what = "indices", twice = FALSE)$j
+    close_index <- spatstat.geom::closepairs(X, rmax = thinning_distance,
+                                             what = "indices", twice = FALSE)$j
 
     return(data1[!1:nrow(data1) %in% close_index, !colnames(data1) %in%
                    c("xaed", "yaed")])
