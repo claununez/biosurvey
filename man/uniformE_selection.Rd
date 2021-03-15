@@ -10,7 +10,7 @@ uniformE_selection(master, variable_1, variable_2,
                    increase = NULL, max_n_samplings = 1,
                    replicates = 10, use_preselected_sites = TRUE,
                    median_distance_filter = NULL, set_seed = 1,
-                   verbose = TRUE)
+                   verbose = TRUE, force = FALSE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -66,6 +66,9 @@ Default = 1.}
 
 \item{verbose}{(logical) whether or not to print messages about the process.
 Default = TRUE.}
+
+\item{force}{(logical) whether to replace existing set of sites selected
+with this method in \code{master}.}
 }
 \value{
 A \code{\link{master_selection}} object (S3) with an additional element called

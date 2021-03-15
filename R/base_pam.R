@@ -162,7 +162,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
 
   # Prepare SpaptialPoints from different objects
   if (verbose == TRUE) {
-    message("Preparing PAM from 'data'")
+    message("Preprocessing 'data'")
   }
   if (clsdata != "data.frame") {
     ## From raster objects
@@ -224,6 +224,9 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   }
 
   # PAM from points
+  if (verbose == TRUE) {
+    message("\nPreparing PAM from information")
+  }
   sp_points <- PAM_from_table(sp_points, ID_column = "ID",
                               species_column = "Species")
 

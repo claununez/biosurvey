@@ -145,7 +145,7 @@ print.base_PAM <- function(x, ...) {
 
     cat("\n  Cov_mat_sites_composition:\n")
     if (!is.null(x$PAM_indices$Cov_mat_sites_composition)) {
-      print(head(x$PAM_indices$Cov_mat_sites_composition))
+      print(head(x$PAM_indices$Cov_mat_sites_composition[, 1:6]))
       cat("...\n")
     } else {
       cat("  Empty\n")
@@ -153,7 +153,7 @@ print.base_PAM <- function(x, ...) {
 
     cat("\n  Cov_mat_species_ranges\n")
     if (!is.null(x$PAM_indices$Cov_mat_species_ranges)) {
-      print(head(x$PAM_indices$Cov_mat_species_ranges))
+      print(head(x$PAM_indices$Cov_mat_species_ranges[, 1:6]))
       cat("...\n")
     } else {
       cat("  Empty\n")

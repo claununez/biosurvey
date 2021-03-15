@@ -2,13 +2,25 @@
 % Please edit documentation in R/plot_blocks_EG.R
 \name{plot_blocks_EG}
 \alias{plot_blocks_EG}
+\alias{plot_blocks_E}
+\alias{plot_blocks_G}
 \title{Representation of environmental blocks in geography and environment}
 \usage{
-plot_blocks_EG(master, variable_1, variable_2, which = "all",
-               block_ID = FALSE, col_all = NULL, col_selected = NULL,
-               col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-               cex_ID = 1, pch_all = 16, pch_selected = 16,
-               add_main = TRUE)
+plot_blocks_EG(master, variable_1, variable_2, region_border = TRUE,
+               mask_border = FALSE, which = "all", block_ID = FALSE,
+               col_all = NULL, col_selected = NULL, col_ID = NULL,
+               cex_all = 0.7, cex_selected = 1, cex_ID = 1,
+               pch_all = 16, pch_selected = 16, add_main = TRUE)
+
+plot_blocks_E(master, variable_1, variable_2, which = "all",
+              block_ID = FALSE, col_all = NULL, col_selected = NULL,
+              col_ID = NULL, cex_all = 0.7, cex_selected = 1,
+              cex_ID = 1, pch_all = 16, pch_selected = 16, main = "")
+
+plot_blocks_G(master, region_border = TRUE, mask_border = FALSE,
+              which = "all", block_ID = FALSE, col_all = NULL,
+              col_selected = NULL, col_ID = NULL, cex_all = 0.7,
+              cex_selected = 1, cex_ID = 1, pch_all = 16, pch_selected = 16)
 }
 \arguments{
 \item{master}{a master_matrix object derived from function
@@ -22,6 +34,12 @@ variable (X-axis) used to create blocks.}
 \item{variable_2}{(character or numeric) name or position of the second
 variable (Y-axis) used to create blocks (must be different from the
 first one).}
+
+\item{region_border}{(logical) whether to add region border to the plot.
+Default = TRUE.}
+
+\item{mask_border}{(logical) whether to add mask border to the plot. Ignored
+if mask is not present in \code{master_selection}. Default = FALSE.}
 
 \item{which}{(character) blocks to be plotted. Options are "all" or
 "selected". Default = "all".}
@@ -60,6 +78,8 @@ points of selected blocks. Default = 16.}
 \item{add_main}{(logical) whether or not to add fixed titles to the plot.
 Default = TRUE. Titles added are "Environmental space" and "Geographic
 space".}
+
+\item{main}{(character) the main title for the plot.}
 }
 \value{
 A two-panel plot showing all the blocks of the region of interest and the
@@ -89,6 +109,8 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 
 plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
                block_ID = TRUE)
+plot_blocks_E(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2")
+plot_blocks_G(master = m_blocks)
 
 # Defining your own colors
 n_blocks <- length(m_blocks$data_matrix$Block)

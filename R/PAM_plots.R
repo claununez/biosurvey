@@ -144,7 +144,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   bar_legend(rfactor, col = col, title = gsub("_", " ", g_indices[index]),
              round = 3, label_x = 0.5, labels_y = c(0.2, 0.85))
 
-  sp::plot(boxpam, col = "transparent")
+  sp::plot(boxpam, col = NA)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   sp::plot(PAM$PAM, col = col[ifactor], border = border, add = TRUE)
