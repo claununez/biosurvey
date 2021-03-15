@@ -23,7 +23,7 @@ plot_sites_G(master_selection, selection_type, selection_number = 1,
              region_border = TRUE, mask_border = FALSE,
              col_sites = NULL, col_pre = NULL, cex_all = 0.7,
              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-             pch_pre = 16, main = "")
+             pch_pre = 16)
 }
 \arguments{
 \item{master_selection}{a master_selection object derived from functions

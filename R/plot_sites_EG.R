@@ -238,13 +238,13 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
 #'              region_border = TRUE, mask_border = FALSE,
 #'              col_sites = NULL, col_pre = NULL, cex_all = 0.7,
 #'              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-#'              pch_pre = 16, main = "")
+#'              pch_pre = 16)
 
 plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
                          region_border = TRUE, mask_border = FALSE,
                          col_all = NULL, col_sites = NULL, col_pre = NULL,
                          cex_all = 0.7, cex_sites = 1, cex_pre = 1,
-                         pch_all = 16, pch_sites = 16, pch_pre = 16, main = "") {
+                         pch_all = 16, pch_sites = 16, pch_pre = 16) {
   # initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
