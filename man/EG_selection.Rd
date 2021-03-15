@@ -10,7 +10,8 @@ EG_selection(master, variable_1, variable_2, n_blocks,
              increase = NULL, max_n_samplings = 1, replicates = 10,
              use_preselected_sites = TRUE, select_point = "E_centroid",
              cluster_method = "hierarchical", median_distance_filter = NULL,
-             sample_for_distance = 250, set_seed = 1, verbose = TRUE)
+             sample_for_distance = 250, set_seed = 1,
+             verbose = TRUE, force = FALSE)
 }
 \arguments{
 \item{master}{a master_matrix object derived from the function
@@ -77,6 +78,9 @@ Default = 1.}
 
 \item{verbose}{(logical) whether or not to print messages about the process.
 Default = TRUE.}
+
+\item{force}{(logical) whether to replace existing set of sites selected
+with this method in \code{master}.}
 }
 \value{
 A \code{\link{master_selection}} object (S3) with a special element called

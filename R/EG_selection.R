@@ -56,6 +56,8 @@
 #' Default = 1.
 #' @param verbose (logical) whether or not to print messages about the process.
 #' Default = TRUE.
+#' @param force (logical) whether to replace existing set of sites selected
+#' with this method in \code{master}.
 #'
 #' @return
 #' A \code{\link{master_selection}} object (S3) with a special element called
@@ -121,7 +123,8 @@
 #'              increase = NULL, max_n_samplings = 1, replicates = 10,
 #'              use_preselected_sites = TRUE, select_point = "E_centroid",
 #'              cluster_method = "hierarchical", median_distance_filter = NULL,
-#'              sample_for_distance = 250, set_seed = 1, verbose = TRUE)
+#'              sample_for_distance = 250, set_seed = 1,
+#'              verbose = TRUE, force = FALSE)
 #'
 #' @export
 #'
@@ -159,11 +162,21 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
                          cluster_method = "hierarchical",
                          median_distance_filter = NULL,
                          sample_for_distance = 250,
-                         set_seed = 1, verbose = TRUE) {
+                         set_seed = 1, verbose = TRUE, force = FALSE) {
 
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' must be defined")
+  }
+  clsm <- class(master)[1]
+  if (clsm %in% c("master_matrix", "master_selection")) {
+    if (clsm == "master_selection") {
+      if (!is.null(master$selected_sites_random) & force == FALSE) {
+        stop("'master' already contains a selection of this type, use 'force' = TRUE to replace it")
+      }
+    }
+  } else {
+    stop("Argument 'master' must be of class 'master_matrix' or 'master_selection'")
   }
   if (missing(variable_1)) {
     stop("Argument 'variable_1' must be defined.")
