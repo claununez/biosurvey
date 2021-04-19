@@ -11,10 +11,10 @@ selected_sites_DI(PAM_subset, selection_type = "all", method = "jaccard",
 \item{PAM_subset}{object of class PAM_subset obtained using the function
 \code{\link{subset_PAM}}.}
 
-\item{selection_type}{type of selection to be considered when creating SAC
-for elements in \code{PAM_subset}. Options are: "all", "random", "E", "G",
-#' and "EG". The default, "all", uses all selection types present in
-\code{PAM_subset}.}
+\item{selection_type}{type of selection to be considered when creating
+dissimilarity matrices for elements in \code{PAM_subset}. Options are:
+"all", "random", "E", "G", and "EG". The default, "all", uses all selection
+types present in \code{PAM_subset}.}
 
 \item{method}{(character) dissimilarity index to be passed to function
 \code{\link[vegan]{vegdist}}. Default = "jaccard". See details.}
