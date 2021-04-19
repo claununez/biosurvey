@@ -9,6 +9,8 @@
 #' @param selection_type type of selection to be considered when creating DI
 #' matrix plot. Options are: "selections", "random", "E", "G", and "EG".
 #' The default, "selections", plots a comparison among all selection types.
+#' @param selection_number (numeric) number of selection to be plotted.
+#' Default = 1. Ignored if \code{selection_type} = "selections".
 #' @param values (logical) whether or not to add values of dissimilarity.
 #' Default = TRUE.
 #' @param col a list of colors derived from a palette. Default =
@@ -21,8 +23,9 @@
 #' among sets of sampling sites selected. Random is abbreviated as "R" in labels.
 #'
 #' @usage
-#' plot_DI(DI_selected_sites, selection_type = "summary",
-#'         values = TRUE, col = heat.colors(12, rev = TRUE),
+#' plot_DI(DI_selected_sites, selection_type = "selections",
+#'         selection_number = 1, values = TRUE,
+#'         col = heat.colors(12, rev = TRUE),
 #'         xlab = "", ylab = "")
 #'
 #' @export
@@ -42,8 +45,9 @@
 #' # plotting
 #' plot_DI(DI_sel)
 
-plot_DI <- function(DI_selected_sites, selection_type = "summary",
-                    values = TRUE, col = heat.colors(12, rev = TRUE),
+plot_DI <- function(DI_selected_sites, selection_type = "selections",
+                    selection_number = 1, values = TRUE,
+                    col = heat.colors(12, rev = TRUE),
                     xlab = "", ylab = "") {
 
   # Initial tests
@@ -52,16 +56,17 @@ plot_DI <- function(DI_selected_sites, selection_type = "summary",
   }
   if (!selection_type %in% c("selections", "random", "E", "G", "EG")) {
     stop("Argument 'selection_type' is not valid, options are: 'selections'', 'random', 'E', 'G', or 'EG'.")
-  } else {
-    if (selection_type == "selections") {
-      selection_type <- paste0("DI_", selection_type)
-    } else {
-      selection_type <- paste0("DI_selected_sites_", selection_type)
-    }
   }
 
  # Preparing data for plotting
-  mat <- data.matrix(DI_selected_sites[[selection_type]])
+  if (selection_type == "selections") {
+    selection_type <- paste0("DI_", selection_type)
+    mat <- data.matrix(DI_selected_sites[[selection_type]])
+  } else {
+    selection_type <- paste0("DI_selected_sites_", selection_type)
+    mat <- data.matrix(DI_selected_sites[[selection_type]][[selection_number]])
+  }
+
   cnam <- colnames(mat)
   cnam <- gsub("_", " ", gsub("random", "R", cnam))
   mat <- apply(mat, 2, rev)

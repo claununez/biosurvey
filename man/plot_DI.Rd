@@ -4,8 +4,9 @@
 \alias{plot_DI}
 \title{Plotting dissimilarity indices withing and among sets of selected sites}
 \usage{
-plot_DI(DI_selected_sites, selection_type = "summary",
-        values = TRUE, col = heat.colors(12, rev = TRUE),
+plot_DI(DI_selected_sites, selection_type = "selections",
+        selection_number = 1, values = TRUE,
+        col = heat.colors(12, rev = TRUE),
         xlab = "", ylab = "")
 }
 \arguments{
@@ -15,6 +16,9 @@ plot_DI(DI_selected_sites, selection_type = "summary",
 \item{selection_type}{type of selection to be considered when creating DI
 matrix plot. Options are: "selections", "random", "E", "G", and "EG".
 The default, "selections", plots a comparison among all selection types.}
+
+\item{selection_number}{(numeric) number of selection to be plotted.
+Default = 1. Ignored if \code{selection_type} = "selections".}
 
 \item{values}{(logical) whether or not to add values of dissimilarity.
 Default = TRUE.}
