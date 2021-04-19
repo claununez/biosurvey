@@ -38,7 +38,7 @@ titles according to names of elements in \code{SAC_selected_sites}.}
 "\code{specaccum}".}
 }
 \value{
-A plot of species "\code{specaccum}" objects. Multiple panels will be plotted
+A plot of "\code{specaccum}" objects. Multiple panels will be plotted
 if \code{SAC_selected_sites} list contains more than one element.
 }
 \description{
