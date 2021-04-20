@@ -30,6 +30,7 @@
 #'
 #' @export
 #' @importFrom graphics image axis text box
+#' @importFrom grDevices heat.colors
 #'
 #' @examples
 #' # data
