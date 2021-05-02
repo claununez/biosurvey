@@ -53,9 +53,7 @@ print.master_matrix <- function(x, ...) {
 print.master_selection <- function(x, ...) {
   if (missing(x)) {"Argument 'x' is missing"}
 
-  nc <- ncol(x)
-  nc <- ifelse(nc > 6, 6, nc)
-  print(structure(x[1:nc], class = "master_matrix"))
+  print(structure(x[1:6], class = "master_matrix"))
 
   cat("\nselected_sites_random:\n")
   if (!is.null(x$selected_sites_random)) {
