@@ -139,6 +139,9 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   }
 
   if (clsdata == "character") {
+    if (dir.exists(data) == FALSE) {
+      stop("Directory defined in 'data' not found")
+    }
     if (is.null(format)) {
       stop("Argument 'format' must be defined if class of 'data' is character")
     }
