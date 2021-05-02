@@ -12,6 +12,8 @@
 #' @rdname print
 
 print.master_matrix <- function(x, ...) {
+  if (missing(x)) {"Argument 'x' is missing"}
+
   cat("data_matrix:\n")
   print(head(x$data_matrix))
   cat("...\n")
@@ -49,8 +51,11 @@ print.master_matrix <- function(x, ...) {
 #' @rdname print
 
 print.master_selection <- function(x, ...) {
+  if (missing(x)) {"Argument 'x' is missing"}
 
-  print(structure(x[1:6], class = "master_matrix"))
+  nc <- ncol(x)
+  nc <- ifelse(nc > 6, 6, nc)
+  print(structure(x[1:nc], class = "master_matrix"))
 
   cat("\nselected_sites_random:\n")
   if (!is.null(x$selected_sites_random)) {
@@ -95,6 +100,8 @@ print.master_selection <- function(x, ...) {
 #' @rdname print
 
 print.base_PAM <- function(x, ...) {
+  if (missing(x)) {"Argument 'x' is missing"}
+
   cat("PAM:\n")
   print(x$PAM)
 
@@ -145,7 +152,9 @@ print.base_PAM <- function(x, ...) {
 
     cat("\n  Cov_mat_sites_composition:\n")
     if (!is.null(x$PAM_indices$Cov_mat_sites_composition)) {
-      print(head(x$PAM_indices$Cov_mat_sites_composition[, 1:6]))
+      nc <- ncol(x$PAM_indices$Cov_mat_sites_composition)
+      nc <- ifelse(nc > 6, 6, nc)
+      print(head(x$PAM_indices$Cov_mat_sites_composition[, 1:nc]))
       cat("...\n")
     } else {
       cat("  Empty\n")
@@ -153,7 +162,9 @@ print.base_PAM <- function(x, ...) {
 
     cat("\n  Cov_mat_species_ranges\n")
     if (!is.null(x$PAM_indices$Cov_mat_species_ranges)) {
-      print(head(x$PAM_indices$Cov_mat_species_ranges[, 1:6]))
+      nc <- ncol(x$PAM_indices$Cov_mat_species_ranges)
+      nc <- ifelse(nc > 6, 6, nc)
+      print(head(x$PAM_indices$Cov_mat_species_ranges[, 1:nc]))
       cat("...\n")
     } else {
       cat("  Empty\n")
@@ -169,13 +180,16 @@ print.base_PAM <- function(x, ...) {
 #' @rdname print
 
 print.PAM_subset <- function(x, ...) {
+  if (missing(x)) {"Argument 'x' is missing"}
 
   print(structure(x[1:2], class = "base_PAM"))
 
   cat("\n\nPAM_selected_sites_random:\n")
   if (!is.null(x$PAM_selected_sites_random)) {
     cat("First of", length(x$PAM_selected_sites_random), "element(s).\n")
-    print(head(x$PAM_selected_sites_random[[1]][, 1:6]))
+    nc <- ncol(x$PAM_selected_sites_random[[1]])
+    nc <- ifelse(nc > 6, 6, nc)
+    print(head(x$PAM_selected_sites_random[[1]][, 1:nc]))
     cat("...\n")
   } else {
     cat("Empty\n")
@@ -184,7 +198,9 @@ print.PAM_subset <- function(x, ...) {
   cat("\nPAM_selected_sites_G:\n")
   if (!is.null(x$PAM_selected_sites_G)) {
     cat("First of", length(x$PAM_selected_sites_G), "element(s).\n")
-    print(head(x$PAM_selected_sites_G[[1]][, 1:6]))
+    nc <- ncol(x$PAM_selected_sites_G[[1]])
+    nc <- ifelse(nc > 6, 6, nc)
+    print(head(x$PAM_selected_sites_G[[1]][, 1:nc]))
     cat("...\n")
   } else {
     cat("Empty\n")
@@ -193,7 +209,9 @@ print.PAM_subset <- function(x, ...) {
   cat("\nPAM_selected_sites_E:\n")
   if (!is.null(x$PAM_selected_sites_E)) {
     cat("First of", length(x$PAM_selected_sites_E), "element(s).\n")
-    print(head(x$PAM_selected_sites_E[[1]][, 1:6]))
+    nc <- ncol(x$PAM_selected_sites_E[[1]])
+    nc <- ifelse(nc > 6, 6, nc)
+    print(head(x$PAM_selected_sites_E[[1]][, 1:nc]))
     cat("...\n")
   } else {
     cat("Empty\n")
@@ -202,7 +220,9 @@ print.PAM_subset <- function(x, ...) {
   cat("\nPAM_selected_sites_EG:\n")
   if (!is.null(x$PAM_selected_sites_EG)) {
     cat("First of", length(x$PAM_selected_sites_EG), "element(s).\n")
-    print(head(x$PAM_selected_sites_EG[[1]][, 1:6]))
+    nc <- ncol(x$PAM_selected_sites_EG[[1]])
+    nc <- ifelse(nc > 6, 6, nc)
+    print(head(x$PAM_selected_sites_EG[[1]][, 1:nc]))
     cat("...\n")
   } else {
     cat("Empty\n")
@@ -214,6 +234,7 @@ print.PAM_subset <- function(x, ...) {
 #' @rdname print
 
 print.PAM_CS <- function(x, ...) {
+  if (missing(x)) {"Argument 'x' is missing"}
 
   cat("Species:  ", x$Species)
   cat("\nSites_cells:  ", x$Sites_cells)
@@ -241,7 +262,9 @@ print.PAM_CS <- function(x, ...) {
 
   cat("\nRandomized_DF:\n")
   if (!all(is.na(c(x$Randomized_DF)))) {
-    print(head(x$Randomized_DF[, 1:6]))
+    nc <- ncol(x$Randomized_DF)
+    nc <- ifelse(nc > 6, 6, nc)
+    print(head(x$Randomized_DF[, 1:nc]))
     cat("...\n")
   } else {
     cat("Empty\n")
@@ -267,6 +290,7 @@ print.PAM_CS <- function(x, ...) {
 #' @rdname summary
 
 summary.master_matrix <- function(object, ...) {
+  if (missing(object)) {"Argument 'object' is missing"}
 
   cat("\n                     Summary of a master_matrix object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -290,6 +314,7 @@ summary.master_matrix <- function(object, ...) {
 #' @rdname summary
 
 summary.master_selection <- function(object, nrow = 6, ncol = 2, ...) {
+  if (missing(object)) {"Argument 'object' is missing"}
 
   cat("\n                  Summary of a master_selection object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -338,6 +363,7 @@ summary.master_selection <- function(object, nrow = 6, ncol = 2, ...) {
 #' @rdname summary
 
 summary.base_PAM <- function(object, ...) {
+  if (missing(object)) {"Argument 'object' is missing"}
 
   cat("\n                      Summary of a base_PAM object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -354,6 +380,7 @@ summary.base_PAM <- function(object, ...) {
 #' @rdname summary
 
 summary.PAM_subset <- function(object, ...) {
+  if (missing(object)) {"Argument 'object' is missing"}
 
   cat("\n                      Summary of a PAM_subset object\n")
   cat("---------------------------------------------------------------------------\n\n")
@@ -382,6 +409,7 @@ summary.PAM_subset <- function(object, ...) {
 #' @rdname summary
 
 summary.PAM_CS <- function(object, ...) {
+  if (missing(object)) {"Argument 'object' is missing"}
 
   cat("\n                     Summary of a PAM_CS object\n")
   cat("---------------------------------------------------------------------------\n\n")
