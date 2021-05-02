@@ -171,7 +171,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   clsm <- class(master)[1]
   if (clsm %in% c("master_matrix", "master_selection")) {
     if (clsm == "master_selection") {
-      if (!is.null(master$selected_sites_random) & force == FALSE) {
+      if (!is.null(master$selected_sites_EG) & force == FALSE) {
         stop("'master' already contains a selection of this type, use 'force' = TRUE to replace it")
       }
     }

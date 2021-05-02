@@ -110,7 +110,7 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
   clsm <- class(master)[1]
   if (clsm %in% c("master_matrix", "master_selection")) {
     if (clsm == "master_selection") {
-      if (!is.null(master$selected_sites_random) & force == FALSE) {
+      if (!is.null(master$selected_sites_G) & force == FALSE) {
         stop("'master' already contains a selection of this type, use 'force' = TRUE to replace it")
       }
     }
