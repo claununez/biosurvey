@@ -554,9 +554,14 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                                 }
 
                                 ## Preparing data
-                                sp <- sp::over(spdf_grid, rs)[, 1]
-                                sppm <- na.omit(data.frame(ID, Species = sp))
-                                sppm$Species <- spnames[i]
+                                sppm <- sp::over(spdf_grid, rs)
+                                if (nrow(na.omit(sppm)) > 0) {
+                                  sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
+                                  sppm$Species <- spnames[i]
+                                } else {
+                                  sppm <- na.omit(data.frame(ID = NA, Species = NA))
+                                }
+
                                 return(sppm)
 
                               } else {
@@ -600,8 +605,14 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
         }
 
         ## Preparing data
-        sppm <- na.omit(data.frame(ID, Species = sp::over(spdf_grid, rs)[, 1]))
-        sppm$Species <- spnames[x]
+        sppm <- sp::over(spdf_grid, rs)
+        if (nrow(na.omit(sppm)) > 0) {
+          sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
+          sppm$Species <- spnames[x]
+        } else {
+          sppm <- na.omit(data.frame(ID = NA, Species = NA))
+        }
+
         sps[[x]] <- sppm
 
       } else {
