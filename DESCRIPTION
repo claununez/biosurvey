@@ -1,7 +1,7 @@
 Package: biosurvey
 Type: Package
 Title: Tools for Biological Survey Planning
-Version: 0.0.53
+Version: 0.0.54
 Authors@R: c(
     person("Claudia", "Nuñez-Penichet", email = "claununez199o@gmail.com", 
     role = c("aut","cre"), comment = c(ORCID = "0000-0001-7442-8593")),
@@ -18,7 +18,7 @@ Authors@R: c(
     person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "aut", 
     comment = c(ORCID = "0000-0003-1557-8596")))
 Maintainer: Claudia Nuñez-Penichet <claununez199o@gmail.com>
-Date: 2021-02-13
+Date: 2021-05-02
 Description: A collection of tools that allow users to plan systems of sampling 
     sites increasing the efficiency of biodiversity monitoring by considering the 
     relationship between environmental and geographic conditions in a region. 
