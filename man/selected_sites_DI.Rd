@@ -5,7 +5,7 @@
 \title{Dissimilarity indices from PAM_subset}
 \usage{
 selected_sites_DI(PAM_subset, selection_type = "all", method = "jaccard",
-                  ...)
+                  verbose = TRUE, ...)
 }
 \arguments{
 \item{PAM_subset}{object of class PAM_subset obtained using the function
@@ -18,6 +18,9 @@ types present in \code{PAM_subset}.}
 
 \item{method}{(character) dissimilarity index to be passed to function
 \code{\link[vegan]{vegdist}}. Default = "jaccard". See details.}
+
+\item{verbose}{(logical) whether or not to print messages about the process.
+Default = TRUE.}
 
 \item{...}{other arguments to be passed to function
 \code{\link[vegan]{vegdist}}.}
