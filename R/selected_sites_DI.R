@@ -13,6 +13,8 @@
 #' types present in \code{PAM_subset}.
 #' @param method (character) dissimilarity index to be passed to function
 #' \code{\link[vegan]{vegdist}}. Default = "jaccard". See details.
+#' @param verbose (logical) whether or not to print messages about the process.
+#' Default = TRUE.
 #' @param ... other arguments to be passed to function
 #' \code{\link[vegan]{vegdist}}.
 #'
@@ -32,7 +34,7 @@
 #'
 #' @usage
 #' selected_sites_DI(PAM_subset, selection_type = "all", method = "jaccard",
-#'                   ...)
+#'                   verbose = TRUE, ...)
 #'
 #' @export
 #' @importFrom vegan vegdist
@@ -50,7 +52,7 @@
 #' DI_sel <- selected_sites_DI(sub_pam_all)
 
 selected_sites_DI <- function(PAM_subset, selection_type = "all",
-                              method = "jaccard", ...) {
+                              method = "jaccard", verbose = TRUE, ...) {
 
   # Initial tests
   if (missing(PAM_subset)) {
@@ -85,14 +87,20 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
   }
 
   # Dissimilarity calculation
+  if (verbose == TRUE) {
+    message("Running analysis...")
+  }
   ## Random
   if ("PAM_selected_sites_random" %in% selection_type &
       !is.null(PAM_subset$PAM_selected_sites_random)) {
+    if (verbose == TRUE) {
+      message("Random selection")
+    }
     rsel <- PAM_subset$PAM_selected_sites_random
-    diss$DI_selected_sites_random  <- lapply(rsel, function(x) {
-      comat <- x[, icol:fcol]
-      rownames(comat) <- paste0("Site_" , 1:nrow(comat))
-      vegan::vegdist(comat, method = method, ...)
+    diss$DI_selected_sites_random <- dis_loop(rsel, icol, fcol, method, verbose,
+                                              ...)
+    diss$cluster_random <- lapply(diss$DI_selected_sites_random, function(x) {
+      stats::hclust(x)
     })
     sums <- lapply(rsel, function(x) {colSums(x[, icol:fcol]) > 0})
     sums <- do.call(rbind, sums) * 1
@@ -103,11 +111,14 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
   ## G
   if ("PAM_selected_sites_G" %in% selection_type &
       !is.null(PAM_subset$PAM_selected_sites_G)) {
+    if (verbose == TRUE) {
+      message("G selection")
+    }
     rsel <- PAM_subset$PAM_selected_sites_G
-    diss$DI_selected_sites_G  <- lapply(rsel, function(x) {
-      comat <- x[, icol:fcol]
-      rownames(comat) <- paste0("Site_" , 1:nrow(comat))
-      vegan::vegdist(comat, method = method, ...)
+    diss$DI_selected_sites_G  <- dis_loop(rsel, icol, fcol, method, verbose,
+                                          ...)
+    diss$cluster_G <- lapply(diss$DI_selected_sites_G, function(x) {
+      stats::hclust(x)
     })
     sums <- lapply(rsel, function(x) {colSums(x[, icol:fcol]) > 0})
     sums <- do.call(rbind, sums) * 1
@@ -118,11 +129,14 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
   ## E
   if ("PAM_selected_sites_E" %in% selection_type &
       !is.null(PAM_subset$PAM_selected_sites_E)) {
+    if (verbose == TRUE) {
+      message("E selection")
+    }
     rsel <- PAM_subset$PAM_selected_sites_E
-    diss$DI_selected_sites_E  <- lapply(rsel, function(x) {
-      comat <- x[, icol:fcol]
-      rownames(comat) <- paste0("Site_" , 1:nrow(comat))
-      vegan::vegdist(comat, method = method, ...)
+    diss$DI_selected_sites_E  <- dis_loop(rsel, icol, fcol, method, verbose,
+                                          ...)
+    diss$cluster_E <- lapply(diss$DI_selected_sites_E, function(x) {
+      stats::hclust(x)
     })
     sums <- lapply(rsel, function(x) {colSums(x[, icol:fcol]) > 0})
     sums <- do.call(rbind, sums) * 1
@@ -133,11 +147,14 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
   ## EG
   if ("PAM_selected_sites_EG" %in% selection_type &
       !is.null(PAM_subset$PAM_selected_sites_EG)) {
+    if (verbose == TRUE) {
+      message("EG selection")
+    }
     rsel <- PAM_subset$PAM_selected_sites_EG
-    diss$DI_selected_sites_EG  <- lapply(rsel, function(x) {
-      comat <- x[, icol:fcol]
-      rownames(comat) <- paste0("Site_" , 1:nrow(comat))
-      vegan::vegdist(comat, method = method, ...)
+    diss$DI_selected_sites_EG  <- dis_loop(rsel, icol, fcol, method, verbose,
+                                           ...)
+    diss$cluster_EG <- lapply(diss$DI_selected_sites_EG, function(x) {
+      stats::hclust(x)
     })
     sums <- lapply(rsel, function(x) {colSums(x[, icol:fcol]) > 0})
     sums <- do.call(rbind, sums) * 1
@@ -146,7 +163,20 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
   }
 
   # dissimilarity among selections
+  if (verbose == TRUE) {
+    message("Summary of all selections")
+  }
+
   diss$all_selections <- do.call(rbind, dise)
+
+  toex <- which(apply(diss$all_selections, 1, sum) == 0)
+  if (length(toex) > 0) {
+    if (verbose == TRUE) {
+      message("\tOne or more sites were excluded due to lack of species data:\n\t",
+              paste(names(toex), collapse = ", "))
+    }
+    diss$all_selections <- diss$all_selections[-toex, ]
+  }
 
   ## computing dissimilarities
   diss$DI_selections <- vegan::vegdist(diss$all_selections, method = method,
@@ -159,3 +189,40 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
 }
 
 
+#' Helper to calculate dissimilarities in loop
+#' @param site_spp_list list of presence absence matrices for a set of sites or
+#' cells of a grid.
+#' @param icol number of column where the species list (other columns) starts.
+#' @param fcol number of column where the species list (other columns) ends.
+#' @param method (character) dissimilarity index to be passed to function
+#' \code{\link[vegan]{vegdist}}. Default = "jaccard". See details.
+#' @param verbose (logical) whether or not to print messages about the process.
+#' Default = TRUE.
+#' @param ... other arguments to be passed to function
+#' \code{\link[vegan]{vegdist}}.
+#'
+#' @return A list of results from \code{\link[vegan]{vegdist}}.
+#' @usage
+#' dis_loop(site_spp_list, icol, fcol, method = "jaccard", ...)
+#'
+#' @export
+#' @importFrom vegan vegdist
+
+dis_loop <- function(site_spp_list, icol, fcol, method = "jaccard",
+                     verbose = TRUE, ...) {
+  if (missing(site_spp_list)) {stop("Argument 'site_spp_list' is missing")}
+
+  lapply(site_spp_list, function(x) {
+    comat <- x[, icol:fcol]
+    rownames(comat) <- paste0("Site_" , 1:nrow(comat))
+    toex <- which(apply(comat, 1, sum) == 0)
+    if (length(toex) > 0) {
+      if (verbose == TRUE) {
+        message("\tOne or more sites were excluded due to lack of species data:\n\t",
+                paste(names(toex), collapse = ", "))
+      }
+      comat <- comat[-toex, ]
+    }
+    vegan::vegdist(comat, method = method, ...)
+  })
+}
