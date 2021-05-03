@@ -244,11 +244,8 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
       message("Clipping PAM to region of interest")
     }
     grid_r_pol <- raster::intersect(grid_r_pol, master_matrix[[where]])
-    #fc <- suppressWarnings(as.numeric(substring(coltk, 1, 1)))
-    #coltk <- sapply(1:length(fc), function(x) {
-    #  ifelse(is.numeric(fc[x]) & !is.na(fc[x]), paste0("X", coltk[x]), coltk[x])
-    #})
     coltk <- make.names(coltk)
+    coltk <- intersect(coltk, colnames(grid_r_pol@data))
     grid_r_pol@data <- grid_r_pol@data[, coltk]
   }
 
