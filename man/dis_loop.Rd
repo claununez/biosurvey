@@ -4,7 +4,7 @@
 \alias{dis_loop}
 \title{Helper to calculate dissimilarities in loop}
 \usage{
-dis_loop(site_spp_list, icol, fcol, method = "jaccard", ...)
+dis_loop(site_spp_list, icol, fcol, method = "jaccard", verbose = TRUE, ...)
 }
 \arguments{
 \item{site_spp_list}{list of presence absence matrices for a set of sites or

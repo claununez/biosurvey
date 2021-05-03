@@ -203,7 +203,7 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
 #'
 #' @return A list of results from \code{\link[vegan]{vegdist}}.
 #' @usage
-#' dis_loop(site_spp_list, icol, fcol, method = "jaccard", ...)
+#' dis_loop(site_spp_list, icol, fcol, method = "jaccard", verbose = TRUE, ...)
 #'
 #' @export
 #' @importFrom vegan vegdist
