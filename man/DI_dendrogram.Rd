@@ -2,15 +2,23 @@
 % Please edit documentation in R/DI_plot_helpers.R
 \name{DI_dendrogram}
 \alias{DI_dendrogram}
-\title{Plot dissimilarities among sets of selected sites as a dendrogram}
+\title{Plot dissimilarities withing and among sets of selected sites as a dendrogram}
 \usage{
-DI_dendrogram(DI_selected_sites, labels = NULL, xlab = "",
+DI_dendrogram(DI_selected_sites, selection_type = "selections",
+              selection_number = 1, labels = NULL, xlab = "",
               ylab = "Distance", main = "Cluster dendrogram",
               sub = "", ...)
 }
 \arguments{
 \item{DI_selected_sites}{list of results obtained with function
 \code{\link{selected_sites_DI}}.}
+
+\item{selection_type}{type of selection to be considered when creating DI
+matrix plot. Options are: "selections", "random", "E", "G", and "EG".
+The default, "selections", plots a comparison among all selection types.}
+
+\item{selection_number}{(numeric) number of selection to be plotted.
+Default = 1. Ignored if \code{selection_type} = "selections".}
 
 \item{labels}{(character) vector of labels for the tips of the tree.
 The default, NULL, uses names of sets of selected sites. If labels = FALSE
@@ -32,7 +40,7 @@ the x axis.}
 A dendrogram plot of a "\code{hclust}" object.
 }
 \description{
-Plot dissimilarities among sets of selected sites as a dendrogram
+Plot dissimilarities withing and among sets of selected sites as a dendrogram
 }
 \examples{
 # Data

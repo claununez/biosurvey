@@ -90,10 +90,15 @@ plot_DI <- function(DI_selected_sites, selection_type = "selections",
 
 
 
-#' Plot dissimilarities among sets of selected sites as a dendrogram
+#' Plot dissimilarities withing and among sets of selected sites as a dendrogram
 #'
 #' @param DI_selected_sites list of results obtained with function
 #' \code{\link{selected_sites_DI}}.
+#' @param selection_type type of selection to be considered when creating DI
+#' matrix plot. Options are: "selections", "random", "E", "G", and "EG".
+#' The default, "selections", plots a comparison among all selection types.
+#' @param selection_number (numeric) number of selection to be plotted.
+#' Default = 1. Ignored if \code{selection_type} = "selections".
 #' @param labels (character) vector of labels for the tips of the tree.
 #' The default, NULL, uses names of sets of selected sites. If labels = FALSE
 #' no tip labels are plotted.
@@ -109,7 +114,8 @@ plot_DI <- function(DI_selected_sites, selection_type = "selections",
 #' A dendrogram plot of a "\code{hclust}" object.
 #'
 #' @usage
-#' DI_dendrogram(DI_selected_sites, labels = NULL, xlab = "",
+#' DI_dendrogram(DI_selected_sites, selection_type = "selections",
+#'               selection_number = 1, labels = NULL, xlab = "",
 #'               ylab = "Distance", main = "Cluster dendrogram",
 #'               sub = "", ...)
 #'
@@ -130,7 +136,8 @@ plot_DI <- function(DI_selected_sites, selection_type = "selections",
 #' # Plot
 #' DI_dendrogram(DI_sel)
 
-DI_dendrogram <- function(DI_selected_sites, labels = NULL,
+DI_dendrogram <- function(DI_selected_sites, selection_type = "selections",
+                          selection_number = 1, labels = NULL,
                           xlab = "", ylab = "Distance",
                           main = "Cluster dendrogram", sub = "", ...) {
 
@@ -138,12 +145,23 @@ DI_dendrogram <- function(DI_selected_sites, labels = NULL,
   if (missing(DI_selected_sites)) {
     stop("Argument 'DI_selected_sites' must be defined.")
   }
+  if (!selection_type %in% c("selections", "random", "E", "G", "EG")) {
+    stop("Argument 'selection_type' is not valid, options are: 'selections'', 'random', 'E', 'G', or 'EG'.")
+  }
+
+  # Preparing data for plotting
+  stype <- paste0("cluster_", selection_type)
+  if (selection_type == "selections") {
+    csel <- DI_selected_sites[[stype]]
+  } else {
+    csel <- DI_selected_sites[[stype]][[selection_number]]
+  }
 
   # Plot
   if (is.null(labels)) {
-    labels <- gsub("_", " ", DI_selected_sites$cluster_selections$labels)
+    labels <- gsub("_", " ", csel$labels)
   }
 
-  plot(DI_selected_sites$cluster_selections, labels = labels,
-       ylab = ylab, xlab = xlab, main = main, las = 1, sub = sub, ...)
+  plot(csel, labels = labels, ylab = ylab, xlab = xlab, main = main,
+       sub = sub, ...)
 }
