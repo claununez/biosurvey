@@ -1,6 +1,6 @@
 #' Biodiversity indices derived from PAM
 #'
-#' @description calculates a set of biodiversity indices using values contained
+#' @description Calculates a set of biodiversity indices using values contained
 #' in a presence-absence matrix.
 #'
 #' @param PAM matrix, data.frame, or base_PAM object containing information on

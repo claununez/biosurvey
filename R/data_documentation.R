@@ -5,7 +5,7 @@
 #'
 #' @format A list of 6 elements:
 #' \describe{
-#'   \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
+#'   \item{data_matrix}{data.frame with 6276 rows and 10 columns}
 #'   \item{preselected_sites}{NULL}
 #'   \item{region}{object of class SpatialPolygons*}
 #'   \item{mask}{NULL}
@@ -27,8 +27,8 @@
 #'
 #' @format A list of 6 elements:
 #' \describe{
-#'   \item{data_matrix}{data frame wiht 6276 rows and 10 columns}
-#'   \item{preselected_sites}{data frame with 5 rows and 11 columns}
+#'   \item{data_matrix}{data.frame with 6276 rows and 10 columns}
+#'   \item{preselected_sites}{data.frame with 5 rows and 11 columns}
 #'   \item{region}{object of class SpatialPolygons*}
 #'   \item{mask}{NULL}
 #'   \item{raster_base}{object of class SpatialPolygonsDataFrame}
@@ -44,7 +44,7 @@
 
 #' Example of a data.frame of preselected sites
 #'
-#' @description a data.frame with 5 rows and three columns: "Site", "Longitude",
+#' @description A data.frame with 5 rows and three columns: "Site", "Longitude",
 #' and "Latitude".
 #'
 #' @format data.frame:
@@ -67,7 +67,7 @@
 #'
 #' @format SpatialPolygonsDataFrame:
 #' \describe{
-#'   \item{data}{data.frame wiht 1 row and 11 columns}
+#'   \item{data}{data.frame with 1 row and 11 columns}
 #'   \item{polygons}{SpatialPolygons}
 #'   \item{proj4string}{object of class CRS}
 #' }
@@ -81,7 +81,7 @@
 
 #' Example of a data.frame of species' found in distinct positions
 #'
-#' @description a data.frame with 590 rows and two columns: "ID" and "Species".
+#' @description A data.frame with 590 rows and two columns: "ID" and "Species".
 #' It is the output of the function \code{\link{spdf_2data}}.
 #'
 #' @format data.frame:
@@ -103,7 +103,7 @@
 #'
 #' @format data.frame:
 #' \describe{
-#'   \item{data}{data.frame wiht 25 rows and 1 column}
+#'   \item{data}{data.frame with 25 rows and 1 column}
 #'   \item{polygons}{SpatialPolygons}
 #'   \item{proj4string}{object of class CRS}
 #' }
@@ -120,7 +120,7 @@
 #' An object of class RasterStack containing information about suitable and
 #' unsuitable conditions for five species.
 #'
-#' @format A RasterStack with 109 rows, 182 columns, 19838 cells, and 5 layers:
+#' @format RasterStack with 109 rows, 182 columns, 19838 cells, and 5 layers:
 #' \describe{
 #'   \item{RasterLayer}{suitable (1) and unsuitable (0) conditions}
 #' }
@@ -158,7 +158,7 @@ NULL
 
 #' Occurrence records for the species Parides gundlachianus
 #'
-#' @description A dataset containing geographic coordinates of a Cuban
+#' @description Dataset containing geographic coordinates of a Cuban
 #' butterfly.
 #'
 #' @format A data.frame with 19 rows and 3 columns.
@@ -197,7 +197,7 @@ NULL
 #'
 #' @format A list of 10 elements:
 #' \describe{
-#'   \item{data_matrix}{data.frame wiht 6276 rows and 10 columns}
+#'   \item{data_matrix}{data.frame with 6276 rows and 10 columns}
 #'   \item{preselected_sites}{NULL}
 #'   \item{region}{object of class SpatialPolygons*}
 #'   \item{mask}{NULL}
@@ -223,7 +223,7 @@ NULL
 #'
 #' @format A list of 2 elements:
 #' \describe{
-#'   \item{PAM}{SpatialPolygonsDataFrame wiht 306 features}
+#'   \item{PAM}{SpatialPolygonsDataFrame with 306 features}
 #'   \item{PAM_indices}{a list of 11 elements}
 #' }
 #'

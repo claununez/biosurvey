@@ -1,10 +1,10 @@
 #' Plot of PAM indices in geography
 #'
-#' @param PAM an object of class base_PAM.
+#' @param PAM object of class base_PAM.
 #' @param index (character) code for the index to be plotted. Options are: "RI"
 #' (Richness), "RIN" (Richness normalized), "DF" (Dispersion field), or "MCC"
 #' (Mean composition covariance). Default = "RI".
-#' @param master_selection a master_selection object derived from functions
+#' @param master_selection master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
 #' @param region_border (logical) whether to add region border to the plot.
@@ -53,10 +53,10 @@
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
-#' # data
+#' # Data
 #' data("b_pam", package = "biosurvey")
 #'
-#' # plotting
+#' # Plotting
 #' plot_PAM_geo(b_pam, index = "RI")
 
 plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
@@ -90,7 +90,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
     precon <- sel_args$arguments$use_preselected_sites
   }
 
-  # index selection
+  # Index selection
   inPAM_in <- names(PAM$PAM_indices)
 
   if (!index %in% inPAM_in) {
@@ -100,7 +100,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   g_indices <- names(PAM$PAM_indices)[-c(1, 3, 5, 7, 9:11)]
   names(g_indices) <- all_in
 
-  # color definition
+  # Color definition
   if (is.null(col_pal)) {
     col_pal <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
                                       "#41b6c4", "#1d91c0", "#225ea8", "#253494",
@@ -127,16 +127,16 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   n <- length(levels(ifactor))
   col <- col_pal(n)
 
-  # par settings
+  # Par settings
   opar <- par(no.readonly = TRUE)
   on.exit(par(opar))
 
-  # box to plot
+  # Box to plot
   boxpam <- t(PAM$PAM@bbox)
   boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
                                        proj4string = PAM$PAM@proj4string)
 
-  # plotting
+  # Plotting
   layout(matrix(2:1, 1, byrow = T), widths = c(10, 1.5))
   par(cex = cex, mar = rep(0, 4))
 
@@ -158,11 +158,11 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
       sp::plot(master_selection$mask, border = "gray50", add = TRUE)
     }
 
-    ## selected sites
+    ## Selected sites
     selected_data <- master_selection[[selection_type]][[selection_number]]
     points(selected_data[, gvars], pch = pch_sites, col = col_sites)
 
-    ## preselected sites
+    ## Preselected sites
     if (!is.null(master_selection$preselected_sites) & precon == TRUE) {
       points(master_selection$preselected_sites[, gvars], pch = pch_pre,
              col = col_pre)
@@ -176,7 +176,7 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 
 #' Plot new range-diversity diagram
 #'
-#' @param PAM_CS an object of class PAM_CS or a base_PAM object containing
+#' @param PAM_CS object of class PAM_CS or a base_PAM object containing
 #' a PAM_CS object as part of PAM_indices. These objects can be obtained using
 #' the function \code{\link{prepare_PAM_CS}}.
 #' @param add_significant (logical) whether to add statistically significant
@@ -201,24 +201,25 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' @param pch_random_values point symbol to be used for randomized values.
 #' Default = 1.
 #' @param main main title for the plot. Default = NULL.
-#' @param xlab label for the x axis. Default = NULL.
-#' @param ylab label for the y axis. Default = NULL.
+#' @param xlab label for the x-axis. Default = NULL.
+#' @param ylab label for the y-axis. Default = NULL.
 #' @param xlim x limits of the plot (x1, x2). The default, NULL, uses the range
 #' of normalized richness.
 #' @param ylim y limits of the plot. The default, NULL, uses the range of the
 #' normalized values of the dispersion field. The second limit is increased
 #' by adding the result of multiplying it by \code{ylim_expansion}, if
 #' \code{add_legend} = TRUE.
-#' @param ylim_expansion value used or expanding the \code{ylim}. Default = 0.25.
+#' @param ylim_expansion value used or expanding the \code{ylim}. Default =
+#' 0.25.
 #' @param las the style of axis labels; default = 1.
 #' See \code{\link[graphics]{par}}.
 #' @param add_legend (logical) whether to add a legend describing information
 #' relevant for interpreting the diagram. Default = TRUE.
 #'
 #' @return
-#' A range-diversity plot with values of normalized richness in the x axis,
+#' A range-diversity plot with values of normalized richness in the x-axis,
 #' and normalized values of the dispersion field index divided by number of
-#' species in the y axis.
+#' species in the y-axis.
 #'
 #' @usage
 #' plot_PAM_CS(PAM_CS, add_significant = FALSE,
@@ -235,13 +236,13 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
 #' @importFrom graphics legend polygon
 #'
 #' @examples
-#' # data
+#' # Data
 #' data("b_pam", package = "biosurvey")
 #'
-#' # preparing data for CS diagram
+#' # Preparing data for CS diagram
 #' pcs <- prepare_PAM_CS(PAM = b_pam)
 #'
-#' # plot
+#' # Plot
 #' plot_PAM_CS(pcs)
 
 plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
@@ -258,7 +259,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
     stop("Class of 'PAM_CS' is not supported, see function's help.")
   }
 
-  # preparing data
+  # Preparing data
   if (class(PAM_CS)[1] == "base_PAM") {
     bp <- PAM_CS$PAM
     PAM <- PAM_CS$PAM_indices$CS_diagram
@@ -273,12 +274,12 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
   fists <- PAM$Dispersion_field_normalized / s
   betty <- PAM$Beta_W
 
-  # prepare vertex of plot limits
+  # Prepare vertex of plot limits
   vx <- PAM$Theoretical_boundaries$x
   vy <- PAM$Theoretical_boundaries$y
   sper <- round(PAM$Spearman_cor, 3)
 
-  # plot elements
+  # Plot elements
   if (is.null(main)) {
     main <- "Range-diversity plot"
   }
@@ -296,7 +297,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
     ylim <- range(vy) + c(0, range(vy)[2] * add)
   }
 
-  # plot
+  # Plot
   plot(alfas, fists, col = col_all, pch = pch_all, xlim = xlim, ylim = ylim,
        xlab = xlab, ylab = ylab, main = main, las = las)
   polygon(vx, vy, border = "#474747")
@@ -309,7 +310,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
                                              .(sper)))))
   }
 
-  # randomized values
+  # Randomized values
   if (add_random_values == TRUE) {
     if (!all(is.na(PAM$Randomized_DF))) {
       for (i in 1:ncol(PAM$Randomized_DF)) {
@@ -322,7 +323,7 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
     }
   }
 
-  # significant values
+  # Significant values
   if (add_significant == TRUE) {
     if (!all(is.na(PAM$S_significance_id))) {
       sig_vals <- cbind(alfas, fists)[PAM$S_significance_id == 1, ]

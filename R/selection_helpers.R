@@ -1,16 +1,16 @@
 #' Helps in thinning points either in geographic or environmental space
 #'
-#' @description point thinning based on user-defined distances in geographic or
+#' @description Point thinning based on user-defined distances in geographic or
 #' environmental space.
 #'
-#' @param data a matrix or a data.frame that contains at least two columns.
-#' @param x_column (character) the name of the X-axis.
-#' @param y_column (character) the name of the Y-axis.
+#' @param data matrix or data.frame that contains at least two columns.
+#' @param x_column (character) the name of the x-axis.
+#' @param y_column (character) the name of the y-axis.
 #' @param thinning_distance (numeric) distance for thinning. Units must be
-#' selected according to the space, kilometers (km) for geographic and euclidean
-#' distances for environmental space.
-#' @param space (character) space in which the thinning will be performed. There
-#' are two options available: "G", if it will be in geographic space, and
+#' selected according to the space, kilometers (km) for geographic and
+#' euclidean distances for environmental space.
+#' @param space (character) space in which the thinning will be performed.
+#' There are two options available: "G", if it will be in geographic space, and
 #' "E", if it will be in environmental space.
 #' @param max_n_samples (numeric) maximum number of samples to chose with most
 #' points included. Default = 1.
@@ -32,11 +32,11 @@
 #' @importFrom spatstat.geom ppp closepairs
 #'
 #' @examples
-#' # data
+#' # Data
 #' data("m_matrix", package = "biosurvey")
 #' data1 <- m_matrix$data_matrix
 #'
-#' # thinning the points
+#' # Thinning the points
 #' thin <- point_thinning(data1, x_column = "Longitude", y_column = "Latitude",
 #'                        thinning_distance = 200, space = "G",
 #'                        max_n_samples = 1, replicates = 5, set_seed = 1)
@@ -138,11 +138,11 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 
 #' Detection of the closest points to the centroid of a cloud of points
 #'
-#' @param data a matrix or a data.frame that contains at least two columns.
-#' @param x_column (character) the name of the X-axis.
-#' @param y_column (character) the name of the Y-axis.
-#' @param space (character) space in which the thinning will be performed. There
-#' are two options available: "G", if it will be in geographic space, and
+#' @param data matrix or data.frame that contains at least two columns.
+#' @param x_column (character) the name of the x-axis.
+#' @param y_column (character) the name of the y-axis.
+#' @param space (character) space in which the thinning will be performed.
+#' There are two options available: "G", if it will be in geographic space, and
 #' "E", if it will be in environmental space.
 #' @param n (numeric) number of points that are close to the centroid to be
 #' detected. Default = 1.

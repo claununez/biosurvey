@@ -1,7 +1,7 @@
 #' Helper to create objects to detect points to close to preselected sites
 #'
-#' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' @param master master_matrix object derived from function
+#' \code{\link{prepare_master_matrix}} or master_selection object derived
 #' from functions \code{\link{random_selection}},
 #' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
 #' @param expected_points (numeric) number of survey points (sites) to be
@@ -10,9 +10,9 @@
 #' are two options available: "G", if it will be in geographic space, and
 #' "E", if it will be in environmental space.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis). Default = NULL.
+#' variable (x-axis). Default = NULL.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis). Default = NULL.
+#' variable (y-axis). Default = NULL.
 #' @param use_blocks (logical) whether or not to use block centroids instead of
 #' all points when \code{space} = "E". Default = FALSE.
 #' @param verbose (logical) whether or not to print messages about the process.

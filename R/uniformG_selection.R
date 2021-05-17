@@ -1,10 +1,10 @@
 #' Selection of survey sites maximizing uniformity in geography
 #'
-#' @description selection of sites to be sampled in a survey, with the goal of
+#' @description Selection of sites to be sampled in a survey, with the goal of
 #' maximizing uniformity of points in geographic space.
 #'
-#' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' @param master master_matrix object derived from function
+#' \code{\link{prepare_master_matrix}} or master_selection object derived
 #' from functions \code{\link{random_selection}},
 #' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
 #' @param expected_points (numeric) number of survey points (sites) to be
@@ -38,8 +38,8 @@
 #' with this method in \code{master}.
 #'
 #' @return
-#' A \code{\link{master_selection}} object (S3) with an additional element called
-#' selected_sites_G containing one or more sets of selected sites.
+#' A \code{\link{master_selection}} object (S3) with an additional element
+#' called selected_sites_G containing one or more sets of selected sites.
 #'
 #' @details
 #' Survey sites are selected searching for maximum geographic distances among

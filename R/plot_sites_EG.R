@@ -1,23 +1,23 @@
 #' Representation of sites selected to be surveyed
 #'
-#' @description plots representing sites (all and selected for survey) in
+#' @description Plots representing sites (all and selected for survey) in
 #' environmental and/or geographic space.
 #'
 #' @aliases plot_sites_EG plot_sites_E plot_sites_G
 #'
-#' @param master_selection a master_selection object derived from functions
+#' @param master_selection master_selection object derived from functions
 #' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
-#' @param selection_type (character) Type of selection depending on the function
+#' @param selection_type (character) type of selection depending on the function
 #' used to select sites. The options available are "random"
 #' (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
 #' "E" (\code{\link{uniformE_selection}}), and "EG"
 #' (\code{\link{EG_selection}}).
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis) to be plotted in environmental space. Default = NULL,
+#' variable (x-axis) to be plotted in environmental space. Default = NULL,
 #' required when \code{selection_type} = "random" or "G".
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis) to be plotted in environmental space. It must be different
+#' variable (y-axis) to be plotted in environmental space. It must be different
 #' from the first one. Default = NULL, required when \code{selection_type} =
 #' "random" or "G".
 #' @param selection_number (numeric) number of selection to be plotted.
@@ -91,7 +91,7 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
                           cex_all = 0.7, cex_sites = 1, cex_pre = 1,
                           pch_all = 16, pch_sites = 16, pch_pre = 16,
                           add_main = TRUE) {
-  # initial tests
+  # Initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
   }
@@ -99,12 +99,12 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
     stop("Object defined in 'master_selection' is not valid, see function's help.")
   }
 
-  ## par settings
+  ## Par settings
   opar <- par(no.readonly = TRUE)
   on.exit(par(opar))
 
-  # plot
-  ## main-layout
+  # Plot
+  ## Main-layout
   if (add_main == TRUE) {
     layout(matrix(1:4, 2, byrow = T), widths = c(10, 10), heights = c(1, 10))
     par(mar = rep(0, 4), cex = 0.7)
@@ -122,12 +122,12 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
     par(mar = c(3.5, 3.5, 0.5, 1), cex = 0.7)
   }
 
-  ## environmental space
+  ## Environmental space
   plot_sites_E(master_selection, selection_type, variable_1, variable_2,
                selection_number, col_all, col_sites, col_pre, cex_all,
                cex_sites, cex_pre, pch_all, pch_sites, pch_pre)
 
-  ## geographic space
+  ## Geographic space
   par(mar = rep(0.5, 4))
   plot_sites_G(master_selection, selection_type, selection_number,
                region_border, mask_border, col_all, col_sites, col_pre,
@@ -152,7 +152,7 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
                          cex_all = 0.7, cex_sites = 1, cex_pre = 1,
                          pch_all = 16, pch_sites = 16, pch_pre = 16,
                          main = "") {
-  # initial tests
+  # Initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
   }
@@ -189,10 +189,10 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
   # Where to visualize data
   where <- ifelse(!is.null(master_selection$mask), "mask", "region")
 
-  # preparing data
+  # Preparing data
   evars <- c(variable_1, variable_2)
 
-  # colors
+  # Colors
   if (is.null(col_all) & is.null(col_sites) & is.null(col_pre)) {
     col_all <- "#E1E1E1"
     col_sites <- "#3B22CB"
@@ -209,19 +209,19 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
     }
   }
 
-  # plot
-  ## environmental space
+  # Plot
+  ## Environmental space
   plot(master_selection$data_matrix[, evars], col = col_all, pch = pch_all,
        cex = cex_all, bty = "l", xlab = "", ylab = "", main = main)
   title(xlab = variable_1, line = 2.3, cex.lab = 1.1)
   title(ylab = variable_2, line = 2.3, cex.lab = 1.1)
 
-  ## selected sites
+  ## Selected sites
   selected_data <- master_selection[[selection_type]][[selection_number]]
   points(selected_data[, evars], pch = pch_sites, cex = cex_sites,
          col = col_sites)
 
-  ## preselected sites
+  ## Preselected sites
   precon <- sel_args$arguments$use_preselected_sites
   if (!is.null(master_selection$preselected_sites) & precon == TRUE) {
     points(master_selection$preselected_sites[, evars], pch = pch_pre,
@@ -245,7 +245,7 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
                          col_all = NULL, col_sites = NULL, col_pre = NULL,
                          cex_all = 0.7, cex_sites = 1, cex_pre = 1,
                          pch_all = 16, pch_sites = 16, pch_pre = 16) {
-  # initial tests
+  # Initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
   }
@@ -267,10 +267,10 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
     }
   }
 
-  # preparing data
+  # Preparing data
   gvars <- c("Longitude", "Latitude")
 
-  # colors
+  # Colors
   if (is.null(col_all) & is.null(col_sites) & is.null(col_pre)) {
     col_all <- "#E1E1E1"
     col_sites <- "#3B22CB"
@@ -287,20 +287,20 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
     }
   }
 
-  # plot
-  ## box to plot
+  # Plot
+  ## Box to plot
   boxpam <- t(master_selection$region@bbox)
   crsm <- master_selection$region@proj4string
   boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
                                        proj4string = crsm)
 
-  ## the plot
+  ## The plot
   sp::plot(boxpam, col = NA)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
 
-  ## region
+  ## Region
   if (region_border == TRUE) {
     sp::plot(master_selection$region, border = "gray50", add = TRUE)
   }
@@ -308,12 +308,12 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
     sp::plot(master_selection$mask, border = "gray50", add = TRUE)
   }
 
-  ## selected sites
+  ## Selected sites
   selected_data <- master_selection[[selection_type]][[selection_number]]
   points(selected_data[, gvars], pch = pch_sites, cex = cex_sites,
          col = col_sites)
 
-  ## preselected sites
+  ## Preselected sites
   precon <- sel_args$arguments$use_preselected_sites
   if (!is.null(master_selection$preselected_sites) & precon == TRUE) {
     points(master_selection$preselected_sites[, gvars], pch = pch_pre,

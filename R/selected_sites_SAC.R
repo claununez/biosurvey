@@ -1,6 +1,6 @@
 #' Species accumulation curves from PAM_subset
 #'
-#' @description creates species accumulation curves for each set of selected
+#' @description Creates species accumulation curves for each set of selected
 #' sites contained in elements of \code{PAM_subset} that contain information of
 #' species incidence (presence-absence).
 #'

@@ -2,19 +2,19 @@
 #' considering geographic structure
 #'
 #' @description Selection of sites to be sampled in a survey, with the goal of
-#' maximizing uniformity of points in environment, but considering geographic
-#' patterns of data. Sets of points that are environmentally similar and have a
-#' disjoint pattern in geography, are selected twice (two survey sites are
-#' placed so they consider the biggest geographic clusters).
+#' maximizing uniformity of points in the environment, but considering
+#' geographic patterns of data. Sets of points that are environmentally similar
+#' and have a disjoint pattern in geography, are selected twice (two survey
+#' sites are placed so they consider the biggest geographic clusters).
 #'
-#' @param master a master_matrix object derived from the function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from
+#' @param master master_matrix object derived from the function
+#' \code{\link{prepare_master_matrix}} or master_selection object derived from
 #' functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis).
+#' variable (x-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis).
+#' variable (y-axis).
 #' @param n_blocks (numeric) number of blocks to be selected to be used as the
 #' base for further explorations. Default = NULL.
 #' @param guess_distances (logical) whether or not to use internal algorithm
@@ -27,10 +27,10 @@
 #' @param increase (numeric) initial value to be added to or subtracted from
 #' \code{initial_distance} until reaching the number of \code{expected_points}.
 #' Default = NULL.
-#' @param max_n_samplings (numeric) maximum number of samples to be chosen after
-#' performing all thinning \code{replicates}. Default = 1.
-#' @param replicates (numeric) number of thinning replicates performed to select
-#' blocks uniformly. Default = 10.
+#' @param max_n_samplings (numeric) maximum number of samples to be chosen
+#' after performing all thinning \code{replicates}. Default = 1.
+#' @param replicates (numeric) number of thinning replicates performed to
+#' select blocks uniformly. Default = 10.
 #' @param use_preselected_sites (logical) whether to use sites that have been
 #' defined as part of the selected sites previous any selection. Object in
 #' \code{master} must contain the site(s) preselected in and element of name
@@ -68,21 +68,21 @@
 #' Two important steps are needed before using this function: 1) exploring data
 #' in environmental and geographic spaces, and 2) performing a regionalization
 #' of the environmental space. Exploring the data can be done using the function
-#' \code{\link{explore_data_EG}}. This step is optional but strongly recommended,
-#' as important decisions that need to be taken depend on the configuration
+#' \code{\link{explore_data_EG}}. This step is optional but strongly
+#' recommended, as important decisions that need to be taken depend on the
 #' of the data in the two spaces. A regionalization of the environmental space
-#' of the region of interest helps in defining important parts of your region
-#' that should be considered to select sites. This can be done using the
-#' function \code{\link{make_blocks}}. Later the regions created in
+#' configuration of the region of interest helps in defining important parts of
+#' your region that should be considered to select sites. This can be done
+#' using the function \code{\link{make_blocks}}. Later the regions created in
 #' environmental space will be used for selecting one or more sampling sites per
 #' block depending on the geographic pattern of such environmental combinations.
 #'
 #' The process of survey-site selection with this function is the most complex
 #' among all functions in this package. The complexity derives from the aim of
-#' the function, which is to select sites that sample appropriately environmental
-#' combinations in the region of interest (environmental space), but
-#' considering the geographic patterns of such environmental regions (geographic
-#' space).
+#' the function, which is to select sites that sample appropriately
+#' environmental combinations in the region of interest (environmental space),
+#' but considering the geographic patterns of such environmental regions
+#' (geographic space).
 #'
 #' In this approach, the first step is to select candidate blocks (from the
 #' ones obtained with \code{\link{make_blocks}}) that are uniformly distributed
@@ -229,26 +229,26 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     }
   }
 
-  # running
+  # Running
   if (verbose == TRUE) {
     message("Preparing data for analysis")
   }
 
   if (use_preselected_sites == TRUE) {
-    # using preselected sites to create mask and define distance
+    # Using preselected sites to create mask and define distance
     tst <- preselected_dist_mask(master, expected_points = n_blocks,
                                  space = "E", variable_1 = variable_1,
                                  variable_2 = variable_2, use_blocks = TRUE,
                                  verbose = verbose)
 
-    # excluding points in close blocks from analysis
+    # Excluding points in close blocks from analysis
     cents <- closest_to_centroid(master$data_matrix, variable_1, variable_2,
                                  space = "E", n = 1, id_column = "Block")
     data <- sp::SpatialPointsDataFrame(cents[, c(variable_1, variable_2)], cents,
                                        proj4string = sp::CRS("+init=epsg:4326"))
     bqs <- data[is.na(sp::over(data, tst$mask)$ID), ]@data$Block
 
-    ## preparing temporal master matrix to be used in new selection
+    ## Preparing temporal master matrix to be used in new selection
     data <- master$data_matrix
     data <- data[data$Block %in% bqs, ]
     tmm <- new_master_matrix(data_matrix = data, region = master$region,
@@ -259,7 +259,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     n_blocks <- n_blocks - length(unique(pre$Block))
   }
 
-  #  creating rule for block selection
+  #  Creating rule for block selection
   if (verbose == TRUE) {
     message("Selecting relevant environmental blocks, please wait...")
   }
@@ -277,20 +277,20 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     unique(rule[rule$Selected_blocks == 1, "Block"])
   })
 
-  ## keeping only unique sets
+  ## Keeping only unique sets
   cd <- sapply(rules, function(x) {paste0(sort(x), collapse = "_")})
 
   rules <- rules[which(!duplicated(cd))]
 
-  # defining columns with coordinates
+  # Defining columns with coordinates
   g_cols <- c("Longitude", "Latitude")
 
-  # finding sites
+  # Finding sites
   if (verbose == TRUE) {
     message("Running algorithm for selecting sites, please wait...")
   }
   all_sites <- lapply(1:length(rules), function(x) {
-    ## measuring distances
+    ## Measuring distances
     distsp <- lapply(rules[[x]], function(y) {
       block_data <- master$data_matrix[master$data_matrix[, "Block"] == y,
                                          g_cols]
@@ -305,14 +305,14 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     })
     names(distsp) <- rules[[x]]
 
-    ## unimodal tests and splitting data according to results
+    ## Unimodal tests and splitting data according to results
     dpp <- unimodal_test(distsp)
 
     unimp <- dpp[which(dpp$p_alue > 0.05), ]
     mmodp <- dpp[which(dpp$p_alue <= 0.05), ]
     nmodp <- dpp[which(is.na(dpp$p_alue)), ]
 
-    ## analysis with no mode (very few points)
+    ## Analysis with no mode (very few points)
     if (nrow(nmodp) > 0) {
       unselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"]
                                                 %in% nmodp[, "Block"], ],
@@ -324,7 +324,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
       unselp <- as.data.frame(unselp)
     }
 
-    ## analysis with unimodal
+    ## Analysis with unimodal
     if (nrow(unimp) > 0) {
       ueselp <- point_sample(master$data_matrix[master$data_matrix[, "Block"]
                                                 %in%  unimp[, "Block"], ],
@@ -336,7 +336,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
       ueselp <- as.data.frame(na.omit(ueselp))
     }
 
-    ## analysis with multimodal
+    ## Analysis with multimodal
     if (nrow(mmodp) > 0) {
       distsp <- distsp[as.character(mmodp$Block)]
       meselp <- point_sample_cluster(master$data_matrix[master$data_matrix[, "Block"]
@@ -356,7 +356,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
       message("    Process ", x, " of ", length(rules))
     }
 
-    ## combining all results
+    ## Combining all results
     if (use_preselected_sites == TRUE) {
       rbind(pre[, -1], unselp[, colnames(unselp) != "Selected_blocks"],
             ueselp[, colnames(ueselp) != "Selected_blocks"],
@@ -368,11 +368,11 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
     }
   })
 
-  # keeping the most numerous ones
+  # Keeping the most numerous ones
   lns <- sapply(all_sites, nrow)
   all_sites <- all_sites[which(lns == max(lns))]
 
-  ## excluding duplicates
+  ## Excluding duplicates
   cd <- sapply(all_sites, function(x) {
     y <- x[order(x[, variable_1], x[, variable_2]), ]
     paste0(paste0(y[, variable_1], y[, variable_2]), collapse = "_")
@@ -380,7 +380,7 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
   all_sites <- all_sites[which(!duplicated(cd))]
 
-  # results to be returned
+  # Results to be returned
   nsel <- ifelse(length(all_sites) < max_n_samplings, length(all_sites),
                  max_n_samplings)
 
@@ -401,10 +401,10 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
 
 
   # Preparing and returning results
-  ## naming and returning
+  ## Naming and returning
   names(all_sites) <- paste0("selection_", 1:length(all_sites))
 
-  ## arguments as attributes
+  ## Arguments as attributes
   other_args <- list(arguments = list(variable_1 = variable_1,
                                       variable_2 = variable_2,
                                       n_blocks = n_blocks,

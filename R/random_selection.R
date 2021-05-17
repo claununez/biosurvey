@@ -1,10 +1,10 @@
 #' Random selection of survey sites
 #'
-#' @description random selection of sites to be sampled in a survey. Sites are
+#' @description Random selection of sites to be sampled in a survey. Sites are
 #' selected from a set of points provided in \code{master}.
 #'
-#' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}}, or a master_selection object derived
+#' @param master master_matrix object derived from function
+#' \code{\link{prepare_master_matrix}}, or master_selection object derived
 #' from functions \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.
 #' @param n_sites (numeric) number of sites to be selected from
@@ -27,8 +27,8 @@
 #' with this method in \code{master}.
 #'
 #' @return
-#' A \code{\link{master_selection}} object (S3) with an additional element called
-#' selected_sites_random containing one or more sets of selected sites.
+#' A \code{\link{master_selection}} object (S3) with an additional element
+#' called selected_sites_random containing one or more sets of selected sites.
 #'
 #' @details
 #' Survey sites are selected randomly from the entire set of points provided in

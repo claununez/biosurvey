@@ -1,6 +1,6 @@
 #' Plotting dissimilarity indices withing and among sets of selected sites
 #'
-#' @description creates matrix-like plots of dissimilarities found among
+#' @description Creates matrix-like plots of dissimilarities found among
 #' communities of species in distinct sites selected or sets of sites selected
 #' for sampling.
 #'
@@ -33,17 +33,17 @@
 #' @importFrom grDevices heat.colors
 #'
 #' @examples
-#' # data
+#' # Data
 #' data("b_pam", package = "biosurvey")
 #' data("m_selection", package = "biosurvey")
 #'
-#' # subsetting base PAM according to selections
+#' # Subsetting base PAM according to selections
 #' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
 #'
 #' # Calculating dissimilarities
 #' DI_sel <- selected_sites_DI(sub_pam_all)
 #'
-#' # plotting
+#' # Plotting
 #' plot_DI(DI_sel)
 
 plot_DI <- function(DI_selected_sites, selection_type = "selections",
@@ -102,11 +102,11 @@ plot_DI <- function(DI_selected_sites, selection_type = "selections",
 #' @param labels (character) vector of labels for the tips of the tree.
 #' The default, NULL, uses names of sets of selected sites. If labels = FALSE
 #' no tip labels are plotted.
-#' @param xlab (character) label for x axis of plot. Default = "".
-#' @param ylab (character) label for y axis of plot. Default = "Distance".
+#' @param xlab (character) label for x-axis of plot. Default = "".
+#' @param ylab (character) label for y-axis of plot. Default = "Distance".
 #' @param main (character) title for the plot. Default = "Cluster dendrogram".
 #' @param sub (character) subtitle for the plot. Plotted below the label of
-#' the x axis.
+#' the x-axis.
 #' @param ... other arguments to be passed to plot method for objects of class
 #' "\code{hclust}". See more details in \code{\link[stats]{hclust}}.
 #'

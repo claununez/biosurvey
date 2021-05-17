@@ -1,16 +1,16 @@
 #' Selection of survey sites maximizing uniformity in environmental space
 #'
-#' @description selection of sites to be sampled in a survey, with the goal of
+#' @description Selection of sites to be sampled in a survey, with the goal of
 #' maximizing uniformity of points in environmental space.
 #'
-#' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' @param master master_matrix object derived from function
+#' \code{\link{prepare_master_matrix}} or master_selection object derived
 #' from functions \code{\link{random_selection}},
 #' \code{\link{uniformG_selection}}, or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis).
+#' variable (x-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis).
+#' variable (y-axis).
 #' @param selection_from (character) set of points to perform the selection
 #' from. Two options are available, "all_points" or "block_centroids". The
 #' first option picks the points from all points in the environmental cloud,
@@ -27,8 +27,8 @@
 #' @param increase (numeric) initial value to be added to or subtracted from
 #' \code{initial_distance} until reaching the number of \code{expected_points}.
 #' Default = NULL.
-#' @param max_n_samplings (numeric) maximum number of samples to be chosen after
-#' performing all thinning \code{replicates}. Default = 1.
+#' @param max_n_samplings (numeric) maximum number of samples to be chosen
+#' after performing all thinning \code{replicates}. Default = 1.
 #' @param replicates (numeric) number of thinning replicates. Default = 10.
 #' @param use_preselected_sites (logical) whether to use sites that have been
 #' defined as part of the selected sites previous any selection. Object in

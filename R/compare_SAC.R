@@ -18,18 +18,19 @@
 #' \code{element_1}; default = "blue".
 #' @param col_mean2 (character) color for mean value of curve in
 #' \code{element_2}; default = "gray15".
-#' @param col_CI1 (character) color for confidence interval region for the curve
-#' in \code{element_1}; default = "lightblue".
-#' @param col_CI2 (character) color for confidence interval region for the curve
-#' in \code{element_2}; default = "gray65".
+#' @param col_CI1 (character) color for confidence interval region for the
+#' curve in \code{element_1}; default = "lightblue".
+#' @param col_CI2 (character) color for confidence interval region for the
+#' curve in \code{element_2}; default = "gray65".
 #' @param lty1 type of line for \code{element_1}. See lty in \code{\link{par}}.
 #' @param lty2 type of line for \code{element_2}. See lty in \code{\link{par}}.
 #' @param alpha_mean (numeric) alpha level for line representing the mean,
 #' values from 0 to 1; default = 0.9. Values close to 0 increase transparency.
 #' @param alpha_CI (numeric) alpha level for the region representing the
 #' confidence interval; default = 0.3.
-#' @param xlab (character) label for x axis of plot; default = "Number of sites".
-#' @param ylab (character) label for y axis of plot; default = "Species".
+#' @param xlab (character) label for x-axis of plot; default = "Number of
+#' sites".
+#' @param ylab (character) label for y-axis of plot; default = "Species".
 #' @param line_for_multiple (logical) whether to plot SACs only as lines when
 #' multiple objects are in one or more of the internal lists in
 #' \code{SAC_selected_sites}. Default = TRUE.

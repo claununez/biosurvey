@@ -1,6 +1,6 @@
 #' Dissimilarity indices from PAM_subset
 #'
-#' @description computes dissimilarity indices for each set of selected
+#' @description Computes dissimilarity indices for each set of selected
 #' sites contained in elements of \code{PAM_subset} that contain information of
 #' species incidence (presence-absence). Calculations are done also among sets
 #' of selected sites.
@@ -162,7 +162,7 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
     dise$EG <- sums
   }
 
-  # dissimilarity among selections
+  # Dissimilarity among selections
   if (verbose == TRUE) {
     message("Summary of all selections")
   }
@@ -178,11 +178,11 @@ selected_sites_DI <- function(PAM_subset, selection_type = "all",
     diss$all_selections <- diss$all_selections[-toex, ]
   }
 
-  ## computing dissimilarities
+  ## Computing dissimilarities
   diss$DI_selections <- vegan::vegdist(diss$all_selections, method = method,
                                        ...)
 
-  ## clustering according to dissimilarities
+  ## Clustering according to dissimilarities
   diss$cluster_selections <- stats::hclust(diss$DI_selections)
 
   return(diss)

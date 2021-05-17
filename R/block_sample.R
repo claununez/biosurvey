@@ -1,30 +1,30 @@
 #' Selection of blocks in environmental space
 #'
-#' @description select a user defined number of blocks in environmental space
-#' to be used in further analysis in order to define sampling sites for a survey
-#' system.
+#' @description Select a user defined number of blocks in environmental space
+#' to be used in further analysis in order to define sampling sites for a
+#' survey system.
 #'
-#' @param master a master_matrix object derived from the function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived from
-#' functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
-#' or \code{\link{uniformE_selection}}.
+#' @param master master_matrix object derived from the function
+#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' from functions \code{\link{random_selection}},
+#' \code{\link{uniformG_selection}}, or \code{\link{uniformE_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis).
+#' variable (x-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis) to be used to create blocks (must be different from the
+#' variable (y-axis) to be used to create blocks (must be different from the
 #' first one).
 #' @param expected_blocks (numeric) number of blocks to be selected.
 #' @param selection_type (character) type of selection. Two options are
 #' available: "uniform" and "random". Default = "uniform".
-#' @param replicates (numeric) number of thinning replicates performed to select
-#' blocks uniformly. Default = 10.
+#' @param replicates (numeric) number of thinning replicates performed to
+#' select blocks uniformly. Default = 10.
 #' @param set_seed (numeric) integer value to specify a initial seed.
 #' Default = 1.
 #'
 #' @details
 #' When blocks in \code{master} were defined using the option "equal_points"
-#' (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could result
-#' in blocks with high density per area being overlooked.
+#' (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could
+#' result in blocks with high density per area being overlooked.
 #'
 #' @return
 #' An S3 object of class master_matrix or master_selection, containing the same
@@ -61,7 +61,7 @@
 block_sample <- function(master, variable_1, variable_2, expected_blocks,
                          selection_type = "uniform", replicates = 10,
                          set_seed = 1) {
-  # initial tests
+  # Initial tests
   if (missing(master)) {
     stop("Argument 'master' needs to be defined.")
   }
@@ -91,9 +91,9 @@ block_sample <- function(master, variable_1, variable_2, expected_blocks,
     stop("Argument 'selection_type' is not valid, see function's help.")
   }
 
-  # block selection
+  # Block selection
   if (selection_type[1] == "uniform") {
-    ## searching for uniformity in E space
+    ## Searching for uniformity in E space
     pairs_sel <- uniformE_selection(master, variable_1, variable_2,
                                     selection_from = "block_centroids",
                                     expected_blocks, max_n_samplings = 1,
@@ -102,12 +102,12 @@ block_sample <- function(master, variable_1, variable_2, expected_blocks,
                                     set_seed = set_seed, verbose = FALSE)
     pairs_sel <- pairs_sel$selected_sites_E$selection_1$Block
   } else {
-    ## randomly
+    ## Randomly
     pairs_sel <- sample(unique(master$data_matrix$Block),
                         expected_blocks)
   }
 
-  # preparing results
+  # Preparing results
   pairs_sel <- ifelse(master$data_matrix$Block %in% pairs_sel, 1, 0)
   master$data_matrix$Selected_blocks <- pairs_sel
 

@@ -1,16 +1,16 @@
 #' Representation of environmental blocks in geography and environment
 #'
-#' @description creates a two-panel plot representing environmental blocks
+#' @description Creates a two-panel plot representing environmental blocks
 #' (all or selected) in both spaces, environmental and geographic.
 #'
-#' @param master a master_matrix object derived from function
-#' \code{\link{prepare_master_matrix}} or a master_selection object derived
+#' @param master master_matrix object derived from function
+#' \code{\link{prepare_master_matrix}} or master_selection object derived
 #' from functions \code{\link{uniformG_selection}},
 #' \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis) used to create blocks.
+#' variable (x-axis) used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis) used to create blocks (must be different from the
+#' variable (y-axis) used to create blocks (must be different from the
 #' first one).
 #' @param region_border (logical) whether to add region border to the plot.
 #' Default = TRUE.
@@ -98,7 +98,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
                            col_all = NULL, col_selected = NULL, col_ID = NULL,
                            cex_all = 0.7, cex_selected = 1, cex_ID = 1,
                            pch_all = 16, pch_selected = 16, add_main = TRUE) {
-  # initial tests
+  # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
   }
@@ -112,12 +112,12 @@ plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
     stop("Object defined in 'master' is not valid, see function's help.")
   }
 
-  ## par settings
+  ## Par settings
   opar <- par(no.readonly = TRUE)
   on.exit(par(opar))
 
-  # plot
-  ## main-layout
+  # Plot
+  ## Main-layout
   if (add_main == TRUE) {
     layout(matrix(1:4, 2, byrow = T), widths = c(10, 10), heights = c(1, 10))
     par(mar = rep(0, 4), cex = 0.7)
@@ -135,12 +135,12 @@ plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
     par(mar = c(3.5, 3.5, 0.5, 1), cex = 0.7)
   }
 
-  ## environmental space
+  ## Environmental space
   plot_blocks_E(master, variable_1, variable_2, which, block_ID, col_all,
                 col_selected, col_ID, cex_all, cex_selected, cex_ID,
                 pch_all, pch_selected)
 
-  ## geographic space
+  ## Geographic space
   par(mar = rep(0.5, 4))
   plot_blocks_G(master, region_border, mask_border, which, block_ID, col_all,
                 col_selected, col_ID, cex_all, cex_selected, cex_ID, pch_all,
@@ -162,7 +162,7 @@ plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
                           col_ID = NULL, cex_all = 0.7, cex_selected = 1,
                           cex_ID = 1, pch_all = 16, pch_selected = 16,
                           main = "") {
-  # initial tests
+  # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
   }
@@ -188,13 +188,13 @@ plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
     }
   }
 
-  # preparing data
+  # Preparing data
   ublocks <- unique(master$data_matrix$Block)
   nblocks <- length(ublocks)
 
   evars <- c(variable_1, variable_2)
 
-  # colors
+  # Colors
   col_pal <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
                                     "#41b6c4", "#1d91c0", "#225ea8", "#253494",
                                     "#081d58")))
@@ -224,13 +224,13 @@ plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
     }
   }
 
-  ## plot
+  ## Plot
   plot(master$data_matrix[, evars], col = col_all, pch = pch_all, cex = cex_all,
        bty = "l", xlab = "", ylab = "", main = main)
   title(xlab = variable_1, line = 2.3, cex.lab = 1.1)
   title(ylab = variable_2, line = 2.3, cex.lab = 1.1)
 
-  ## selected blocks
+  ## Selected blocks
   if (which == "selected") {
     sel <- which(master$data_matrix$Selected_blocks == 1)
     selected_data <- master$data_matrix[sel, ]
@@ -238,7 +238,7 @@ plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
            col = col_selected)
   }
 
-  ## add block ID
+  ## Add block ID
   if (block_ID == TRUE) {
     cents <- lapply(ublocks, function(x) {
       cen <- apply(master$data_matrix[master$data_matrix$Block == x, evars],
@@ -263,7 +263,7 @@ plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
                           col_selected = NULL, col_ID = NULL, cex_all = 0.7,
                           cex_selected = 1, cex_ID = 1, pch_all = 16,
                           pch_selected = 16) {
-  # initial tests
+  # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
   }
@@ -283,13 +283,13 @@ plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
     }
   }
 
-  # preparing data
+  # Preparing data
   ublocks <- unique(master$data_matrix$Block)
   nblocks <- length(ublocks)
 
   gvars <- c("Longitude", "Latitude")
 
-  # colors
+  # Colors
   col_pal <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
                                     "#41b6c4", "#1d91c0", "#225ea8", "#253494",
                                     "#081d58")))
@@ -319,12 +319,12 @@ plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
     }
   }
 
-  ## box to plot
+  ## Box to plot
   boxpam <- t(master$region@bbox)
   boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
                                        proj4string = master$region@proj4string)
 
-  ## plot
+  ## Plot
   sp::plot(boxpam, col = NA)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
@@ -339,7 +339,7 @@ plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
     sp::plot(master$mask, border = "gray50", add = TRUE)
   }
 
-  ## selected blocks
+  ## Selected blocks
   if (which == "selected") {
     sel <- which(master$data_matrix$Selected_blocks == 1)
     selected_data <- master$data_matrix[sel, ]

@@ -1,6 +1,6 @@
 #' Presence-absence matrix (PAM) linked to a spatial grid
 #'
-#' @description prepares a presence-absence matrix (PAM) in which all sites
+#' @description Prepares a presence-absence matrix (PAM) in which all sites
 #' of interest (rows) will have a value for presence or absence of a species
 #' of interest (columns). Initial points of interest will be represented by an
 #' ID, and longitude and latitude coordinates. The PAM will be linked to a
@@ -20,8 +20,8 @@
 #' partially overlapped with the geographic region of interest contained in
 #' \code{master_matrix}. Default = TRUE.
 #' @param clip_grid (logical) whether to clip the spatial grid using the region
-#' of interest. Clipping improves visualization but depending on how complex the
-#' region of interest is it could take time to perform this task.
+#' of interest. Clipping improves visualization but depending on how complex
+#' the region of interest is it could take time to perform this task.
 #' @param indices (character) code for indices to be calculated. Basic indices
 #' are calculated all the time, other indices need to be specified. Options are:
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
@@ -36,10 +36,10 @@
 #'
 #' @details
 #' Objects of class "master_matrix" or "master_selection" can be obtained from
-#' functions \code{\link{prepare_master_matrix}}, \code{\link{random_selection}},
-#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
-#' \code{uniformEG_selection}. The element region or mask if this last is not
-#' NULL is used to prepare the spatial grid.
+#' functions \code{\link{prepare_master_matrix}},
+#' \code{\link{random_selection}}, \code{\link{uniformG_selection}},
+#' \code{\link{uniformE_selection}}, or \code{uniformEG_selection}. The element
+#' region or mask if this last is not NULL is used to prepare the spatial grid.
 #'
 #' Geographic projection of objects or coordinates involved must be WGS84
 #' (EPSG:4326).
@@ -47,7 +47,8 @@
 #' Description of objects to be used as \code{data}:
 #' - character.- name of directory containing raster, shapefiles, geopackage,
 #' or geojson files representing species geographic ranges. Each file must be
-#' named as the species that it represents. All files must be in an only format.
+#' named as the species that it represents. All files must be in the same
+#' format.
 #' If files are in raster format, "GTiff" and "ascii" are acceptable extensions;
 #' values in each layer must be 1 (presence) and 0 (absence).
 #' - data.frame.- a table containing  three columns. Columns must be in the
@@ -60,11 +61,11 @@
 #' which range it represents, and values in each RasterLayer must be 1
 #' (presence) and 0 (absence).
 #' - SpatialPolygonsDataFrame.- object representing species' geographic ranges.
-#' The data.frame associated with the object must contain a column
-#' named "Species" to distinguish among features representing each species range.
+#' The data.frame associated with the object must contain a column named
+#' "Species" to distinguish among features representing each species range.
 #' - SpatialPointsDataFrame.- object of spatial points where each record of a
-#' species must be a point. The associated data.frame must contain the following
-#' columns (in that order): Longitude, Latitude, Species.
+#' species must be a point. The associated data.frame must contain the
+#' following columns (in that order): Longitude, Latitude, Species.
 #'
 #' A list of codes and indices that can be calculated is described below. For
 #' further details on the way calculations are performed and the meaning of the
@@ -179,7 +180,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
                           n_cores = n_cores)
     }
 
-    ## from files stored in a directory
+    ## From files stored in a directory
     if (clsdata == "character") {
       if (!format %in% c("shp", "gpkg", "geojson")) {
         data <- files_2data(path = data, format = format, parallel = parallel,

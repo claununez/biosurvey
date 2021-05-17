@@ -32,7 +32,7 @@ match_rformat <- function(format) {
 
 #' Project spatial points from geographic coordinates
 #'
-#' @param data a matrix or a data.frame that contains at least two columns, one
+#' @param data matrix or data.frame that contains at least two columns, one
 #' with longitude information and the other with latitude information.
 #' @param longitude (character) the name of the column that contains the
 #' longitude information.

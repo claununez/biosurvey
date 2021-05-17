@@ -1,20 +1,20 @@
 #' Creates a block-like regionalization of environmental space
 #'
-#' @description divides a two-dimensional cloud of points in blocks according to
-#' a user-defined number of rows and columns. This is applied to the element
+#' @description Divides a two-dimensional cloud of points in blocks according
+#' to a user-defined number of rows and columns. This is applied to the element
 #' master_matrix and, if not NULL, to preselected_sites.
 #'
 #' @param master_matrix object derived from function
 #' \code{\link{prepare_master_matrix}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis) to be used to create blocks.
+#' variable (x-axis) to be used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis) to be used to create blocks (must be different from the
+#' variable (y-axis) to be used to create blocks (must be different from the
 #' first one).
 #' @param n_cols (numeric) number of columns of a grid used to creates blocks
 #' and split the bi-dimensional space.
 #' @param n_rows (numeric) number of rows of a grid used to creates blocks and
-#' split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.
+#' split the bi-dimensional space. If NULL, the default, \code{n_rows = n_cols}.
 #' @param block_type (character) type of blocks to be use for dividing
 #' the bi-dimensional space. Two options are available: "equal_area" and
 #' "equal_points". Default = "equal_area".
@@ -122,12 +122,12 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
   }
 
   # Returning results
-  ## matches data back in order
+  ## Matches data back in order
   all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ]
   master_matrix$data_matrix <- all_cls
 
   if (!is.null(master_matrix$preselected_sites)) {
-    ## matches preselected data back in order
+    ## Matches preselected data back in order
     prese <- prese[match(idpre, paste(prese[, 2], prese[, 3])), ]
     master_matrix$preselected_sites <- prese
   }
@@ -139,24 +139,24 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 
 #' Helper to assign block numbers to data according to variables and limits
 #'
-#' @param data a matrix or a data frame that contains at least four columns:
+#' @param data matrix or data.frame that contains at least four columns:
 #' "Longitude" and "Latitude" to represent geographic position, and two other
 #' columns to represent the variables of the 2D environmental space.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X axis) to be used to create blocks.
+#' variable (x-axis) to be used to create blocks.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y axis) to be used to create blocks (must be different from the
+#' variable (y-axis) to be used to create blocks (must be different from the
 #' first one).
 #' @param n_cols (numeric) number of columns of a grid used to create blocks
 #' and split the bi-dimensional space.
 #' @param n_rows (numeric) number of rows of a grid used to create blocks and
-#' split the bi-dimensional space. If NULL, the default, \code{n_cols = n_rows}.
+#' split the bi-dimensional space. If NULL, the default, \code{n_rows = n_cols}.
 #' @param xlb (numeric) vector of values of extremes for all blocks considering
 #' \code{variable_1}.
 #' @param ylb (numeric) vector of values of extremes for all blocks considering
-#' \code{variable_2}. Needed when \code{block_type} = "equal area".
+#' \code{variable_2}. Needed when \code{block_type} = "equal_area".
 #' Default = NULL.
-#' @param block_type (character) type of blocks to be use for dividing
+#' @param block_type (character) type of blocks to be used for dividing
 #' the bi-dimensional space. Two options are available: "equal_area" and
 #' "equal_points". Default = "equal_area".
 #'
@@ -170,12 +170,12 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 #' assign_blocks(data, variable_1, variable_2, n_cols, n_rows = NULL,
 #'               xlb, ylb = NULL, block_type = "equal_area")
 #' @examples
-#' # data
+#' # Data
 #' dat <- matrix(runif(800), ncol = 4)
 #' xlims <- quantile(dat[, 3])
 #' ylims <- quantile(dat[, 4])
 #'
-#' # assigning blocks
+#' # Assigning blocks
 #' datb <- assign_blocks(dat, variable_1 = 3, variable_2 = 4, n_cols = 10,
 #'                       xlb = xlims, ylb = ylims, block_type = "equal_area")
 
@@ -209,11 +209,11 @@ assign_blocks <- function(data, variable_1, variable_2, n_cols,
   }
 
 
-  # assigning blocks
+  # Assigning blocks
   if (block_type == "equal_area") {
-    ## blocks of equal area
+    ## Blocks of equal area
     all_cls <- lapply(1:(length(xlb) - 1), function(x) {
-      ## x axis
+      ## x-axis
       if(x == 1){
         x1 <- data[, variable_1] >= xlb[x]
       } else {
@@ -224,7 +224,7 @@ assign_blocks <- function(data, variable_1, variable_2, n_cols,
         pd <- data[xid, ]
         pd <- cbind(pd, NA)
         if (nrow(pd) > 0) {
-          ## y axis
+          ## y-axis
           for (y in 1:(length(ylb) - 1)) {
             if(y == 1) {
               y1 <- pd[, variable_2] >= ylb[y]
@@ -247,9 +247,9 @@ assign_blocks <- function(data, variable_1, variable_2, n_cols,
     colnames(all_cls)[ncol(all_cls)] <- "Block"
     all_cls <- all_cls[order(all_cls[, "Block"]), ]
   } else {
-    ## blocks with equal number of points
+    ## Blocks with equal number of points
     all_cls <- lapply(1:(length(xlb) - 1), function(x) {
-      ## x axis
+      ## x-axis
       q1 <- quantile(data[, variable_1], xlb[x])
       x1 <- ifelse(x == 1, q1, (q1 + 0.000000000000001))
       x2 <- quantile(data[, variable_1], xlb[(x + 1)])
@@ -264,7 +264,7 @@ assign_blocks <- function(data, variable_1, variable_2, n_cols,
         } else {
           ylb <- xlb
         }
-        ## y axis
+        ## y-axis
         for (y in 1:(length(ylb) - 1)) {
           qy1 <- quantile(pd[, variable_2], ylb[y])
           y1 <- ifelse(y == 1, qy1, (qy1 + 0.000000000000001))

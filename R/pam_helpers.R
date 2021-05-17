@@ -1,6 +1,6 @@
 #' Creates grid for a given geographic region
 #'
-#' @description divides the region of interest in a grid of a specific cell size.
+#' @description Divides the region of interest in a grid of a specific cell size.
 #'
 #' @param region SpatialPolygonsDataFrame of the region of interest. Object must
 #' be unprojected, World Geodetic System (WGS84).
@@ -110,7 +110,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 
 #' Creates a data.frame of species' references from RasterStack
 #'
-#' @description creates a data.frame of species' references that contains
+#' @description Creates a data.frame of species' references that contains
 #' longitude, latitude, and species name, using a RasterStack or a RasterBrick
 #' as input.
 #'
@@ -167,7 +167,7 @@ stack_2data <- function(species_layers) {
 
 #' Creates a data.frame of species' references from SpatialPolygonsDataFrame
 #'
-#' @description creates a data.frame of species' references that contains
+#' @description Creates a data.frame of species' references that contains
 #' identifiers of portion and species name, using a SpatialPolygonsDataFrame as
 #' input.
 #'
@@ -285,7 +285,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 
 #' Creates a data.frame of species' references from a list of raster layers
 #'
-#' @description creates a data.frame of species' references that contains
+#' @description Creates a data.frame of species' references that contains
 #' longitude, latitude, and species name, using a list of raster layers as
 #' input. Useful when raster layers have distinct extent or resolution.
 #'
@@ -412,7 +412,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 
 #' Creates a data.frame of species' references from files in a directory
 #'
-#' @description creates a data.frame of species' references that contains
+#' @description Creates a data.frame of species' references that contains
 #' longitude, latitude, and species name, from a character.
 #'
 #' @param path (character) full path name of directory containing raster,
@@ -644,10 +644,10 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 
 #' Creates presence-absence matrix from a data.frame
 #'
-#' @description creates a presence-absence matrix (PAM) from a data.frame that
+#' @description Creates a presence-absence matrix (PAM) from a data.frame that
 #' contains species names and identifiers of positions where species are found.
 #'
-#' @param data data.frame of species' found in distinct positions (defined by
+#' @param data data.frame of species found in distinct positions (defined by
 #' identifiers). Must include at least two columns: "ID" and "Species".
 #' @param ID_column (character) name of the column containing identifiers.
 #' @param species_column (character) name of the column containing species

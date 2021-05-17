@@ -1,13 +1,13 @@
 #' Subset PAM according to selected sites
 #'
-#' @description subsets of a base_PAM object according to survey sites
+#' @description Subsets of a base_PAM object according to survey sites
 #' contained in a master_selection object.
 #'
 #' @param base_PAM object of class base_PAM obtained using the function
 #' \code{\link{prepare_base_PAM}}.
 #' @param master_selection object of class master_selection. This object can be
 #' obtained using the functions: \code{\link{random_selection}},
-#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, and
+#' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
 #' \code{\link{EG_selection}}.
 #' @param selection_type type of selection to be considered to subset
 #' \code{base_PAM}. Options are: "all", "random", "E", "G", and "EG". The

@@ -1,17 +1,17 @@
 #' Sample points from a 2D environmental space
 #'
-#' @description sample one or more points from a two dimensional environmental
+#' @description Sample one or more points from a two dimensional environmental
 #' space according to a selection rule and with the possibility of having
 #' distinct sets of points to be sampled independently.
 #'
-#' @param data a matrix or a data.frame that contains at least four columns:
+#' @param data matrix or data.frame that contains at least four columns:
 #' "Longitude" and "Latitude" to represent geographic position, and two other
 #' columns to represent the variables of the 2D environmental space.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis).
+#' variable (x-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis). Must be different from the first one.
-#' @param n (numeric) number of points to be selected. If \code{id_column}is
+#' variable (y-axis). Must be different from the first one.
+#' @param n (numeric) number of points to be selected. If \code{id_column} is
 #' defined this argument indicates the number of points per set. Default = 1.
 #' @param select_point (character) how or which point will be selected. Three
 #' options are available: "random", "E_centroid", and "G_centroid". E_ or G_
@@ -105,7 +105,7 @@ point_sample <- function(data, variable_1, variable_2, n = 1,
 
 #' Unimodality test for list of one or multiple sets of values
 #'
-#' @description test of unimodality based in Hartigans' dip statistic D.
+#' @description Test of unimodality based in Hartigans' dip statistic D.
 #' Calculations of the statistic and p-value are done as in
 #' \code{\link[diptest]{dip.test}}.
 #'
@@ -163,10 +163,10 @@ unimodal_test <- function(values_list, MC_replicates= 1000) {
 
 #' Find modes in a multimodal distribution
 #'
-#' @description find modes in a multimodal distribution of values based on the
+#' @description Find modes in a multimodal distribution of values based on the
 #' density of such values.
 #'
-#' @param density an object of class density obtained using the function
+#' @param density object of class density obtained using the function
 #' \code{\link{density}}.
 #'
 #' @return
@@ -222,19 +222,19 @@ find_modes <- function(density) {
 
 #' Detection of clusters in 2D spaces
 #'
-#' @description finds clusters of data in two dimensions based on distinct
+#' @description Finds clusters of data in two dimensions based on distinct
 #' methods.
 #'
-#' @param data a matrix or a data frame that contains at least two columns.
-#' @param x_column (character) the name of the X-axis.
-#' @param y_column (character) the name of the Y-axis.
-#' @param space (character) space in which the thinning will be performed. There
-#' are two options available: "G", if it will be in the geographic space, and
-#' "E", if it will be on the environmental space.
+#' @param data matrix or data.frame that contains at least two columns.
+#' @param x_column (character) the name of the x-axis.
+#' @param y_column (character) the name of the y-axis.
+#' @param space (character) space in which the thinning will be performed.
+#' There are two options available: "G", if it will be in the geographic space,
+#' and "E", if it will be on the environmental space.
 #' @param cluster_method (character) name of the method to be used for detecting
 #' clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".
-#' @param split_distance (numeric) distance in meters (if \code{space} = "G") or
-#' euclidean distance (if \code{space} = "E") to identify clusters if
+#' @param split_distance (numeric) distance in meters (if \code{space} = "G")
+#' or euclidean distance (if \code{space} = "E") to identify clusters if
 #' \code{cluster_method} = "hierarchical".
 #' @param n_k_means (numeric) number of clusters to be identified when using the
 #' "k-means" in \code{cluster_method}.
@@ -248,9 +248,10 @@ find_modes <- function(density) {
 #' better than the other depending on the pattern of the data.
 #'
 #' The k-means method tends to performs better when data are spatially grouped
-#' (spherically) and clusters are of a similar size. The hierarchical clustering
-#' algorithm usually takes more time than the k-means method. Both methods make
-#' assumptions and they may work well on some data sets, and fail on others.
+#' (spherically) and clusters are of a similar size. The hierarchical
+#' clustering algorithm usually takes more time than the k-means method. Both
+#' methods make assumptions and they may work well on some data sets, and fail
+#' on others.
 #'
 #' @usage
 #' find_clusters(data, x_column, y_column, space,
@@ -344,20 +345,20 @@ find_clusters <- function(data, x_column, y_column, space,
 #' Sample points from a 2D environmental space potentially disjoint in
 #' geography
 #'
-#' @description sample one or more points from a two dimensional environmental
+#' @description Sample one or more points from a two dimensional environmental
 #' space according to a selection rule and with the possibility of having
 #' distinct sets of points to be sampled independently. Points to be sampled
 #' can be disjoint in geographic space and when that happens two points are
 #' selected considering the most numerous clusters.
 #'
-#' @param data a matrix or a data.frame that contains at least four columns:
+#' @param data matrix or data.frame that contains at least four columns:
 #' "Longitude" and "Latitude" to represent geographic position, and two other
 #' columns to represent the variables of the 2D environmental space.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (X-axis).
+#' variable (x-axis).
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (Y-axis). Must be different from the first one.
-#' @param n (numeric) number of points to be selected. If \code{id_column}is
+#' variable (y-axis). Must be different from the first one.
+#' @param n (numeric) number of points to be selected. If \code{id_column} is
 #' defined this argument indicates the number of points per set. Default = 1.
 #' @param distance_list list of vectors of geographic distances among all
 #' points. If \code{id_column} is not defined, only one element in the list is
