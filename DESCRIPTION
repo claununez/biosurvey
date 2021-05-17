@@ -1,7 +1,7 @@
 Package: biosurvey
 Type: Package
 Title: Tools for Biological Survey Planning
-Version: 0.0.55
+Version: 0.0.57
 Authors@R: c(
     person("Claudia", "Nuñez-Penichet", email = "claununez199o@gmail.com", 
     role = c("aut","cre"), comment = c(ORCID = "0000-0001-7442-8593")),
@@ -18,28 +18,20 @@ Authors@R: c(
     person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "aut", 
     comment = c(ORCID = "0000-0003-1557-8596")))
 Maintainer: Claudia Nuñez-Penichet <claununez199o@gmail.com>
-Date: 2021-05-03
+Date: 2021-05-16
 Description: A collection of tools that allow users to plan systems of sampling 
-    sites increasing the efficiency of biodiversity monitoring by considering the 
-    relationship between environmental and geographic conditions in a region. 
-    Three main modules are included: 1) Data preparation; 2) Selection of sets 
-    of sites for biodiversity sampling; and, 3) Tools for testing efficiency of 
-    distinct sets of sampling sites. Data are prepared in ways that avoid the need 
-    for more data in posterior analyses, and allow concentrating in critical 
-    methodological decisions to select sampling sites. Various algorithms for 
-    selecting sampling sites are available, and options for considering 
-    pre-selected sites (known to be important for biodiversity monitoring) are 
-    included. Visualization is a critical component in this set of tools and most
-    of the results obtained can be plotted to help to understand their implications. 
-    The options for selecting sampling sites included here differ from other 
-    implementations in that they consider the environmental and geographic 
+    sites increasing the efficiency of biodiversity monitoring by considering  
+    the relationship between environmental and geographic conditions in a  
+    region. The options for selecting sampling sites included here differ from 
+    other implementations in that they consider the environmental and geographic 
     conditions of a region to suggest sampling sites that could increase the 
     efficiency of efforts dedicated to monitoring biodiversity. The methods 
     proposed here are new in the sense that they combine various criteria and 
     points previously made in related literature; some of the theoretical and 
     methodological bases considered are described in:
     Arita et al. (2011) <doi:10.1111/j.1466-8238.2011.00662.x>,
-    Soberón and Cavner (2015) <doi:10.17161/bi.v10i0.4801>.
+    Soberón and Cavner (2015) <doi:10.17161/bi.v10i0.4801>, and Soberon et al. 
+    (2021).
 URL: https://github.com/claununez/biosurvey
 BugReports: https://github.com/claununez/biosurvey/issues
 Imports:
