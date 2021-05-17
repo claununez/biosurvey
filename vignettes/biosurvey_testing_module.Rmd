@@ -155,6 +155,63 @@ knitr::include_graphics("vignette_img/V4_f4.png")
 
 <br>
 
+#### Dissimilarity indices for sampling sites using subsets of base_PAM
+
+The next line of code will compute dissimilarity indices for sets of selected sites contained in the elements of sub_pam_all, which have information of species incidence (presence-absence). Calculations are done also among sets of selected sites.
+
+```{r, eval=FALSE, echo=TRUE}
+# calculating dissimilarities
+DI_sel <- selected_sites_DI(PAM_subset = sub_pam_all, selection_type = "all", method = "jaccard")
+
+```
+
+The results can be visualized in a matrix-like plots. In this type of representation, warmer colors represent higher dissimilarities.
+
+```{r, eval=FALSE, echo=TRUE}
+# plots derived from dissimilarity calculations (matrix-like)
+plot_DI(DI_sel)
+
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f5.png")
+```
+
+The dissimilarities among sets of selected sites can also be plotted as a dendrogram. The y-axis is representing how different the sets are based on distances.
+
+```{r, eval=FALSE, echo=TRUE}
+# plots derived from dissimilarity calculations (dendrogram)
+DI_dendrogram(DI_sel)
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f6.png")
+```
+
+The previous plots compared sets of selected sites obtained with different approaches of selection. These functions can be used to visualize the results of a specific type of selection. For example, to explore how similar are the sites selected by sampling uniformly in geographic space with a matrix-like plot we can use:
+
+```{r, eval=FALSE, echo=TRUE}
+# matrix-like plot derived from dissimilarity calculations for uniform in G selection
+plot_DI(DI_sel, selection_type = "G")
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f7.png")
+```
+
+Another example is included on the next line of code. Here the similarity of sites selected considering a uniform sampling in the environmental space is represented as a dendrogram.
+
+```{r, eval=FALSE, echo=TRUE}
+# dendrogram plot derived from dissimilarity calculations for uniform in E selection
+DI_dendrogram(DI_sel, selection_type = "E")
+```
+
+```{r, fig.height=6, fig.width=6}
+knitr::include_graphics("vignette_img/V4_f8.png")
+```
+
+<br>
+
 #### Biodiversity indices and selected sites
 
 These plots will give us an idea of how rich or unique are the sites selected in terms of the species in the PAM.
@@ -167,7 +224,7 @@ plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "random")
 ```
 
 ```{r, fig.height=6, fig.width=6}
-knitr::include_graphics("vignette_img/V4_f5.png")
+knitr::include_graphics("vignette_img/V4_f9.png")
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -176,7 +233,7 @@ plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "G")
 ```
 
 ```{r, fig.height=6, fig.width=6}
-knitr::include_graphics("vignette_img/V4_f6.png")
+knitr::include_graphics("vignette_img/V4_f10.png")
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -186,7 +243,7 @@ plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "E")
 ```
 
 ```{r, fig.height=6, fig.width=6}
-knitr::include_graphics("vignette_img/V4_f7.png")
+knitr::include_graphics("vignette_img/V4_f11.png")
 ```
 
 <br>
@@ -199,7 +256,7 @@ plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_typ
 ```
 
 ```{r, fig.height=6, fig.width=6}
-knitr::include_graphics("vignette_img/V4_f8.png")
+knitr::include_graphics("vignette_img/V4_f12.png")
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -208,7 +265,7 @@ plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_typ
 ```
 
 ```{r, fig.height=6, fig.width=6}
-knitr::include_graphics("vignette_img/V4_f9.png")
+knitr::include_graphics("vignette_img/V4_f13.png")
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -218,5 +275,5 @@ plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_typ
 ```
 
 ```{r, fig.height=6, fig.width=6}
-knitr::include_graphics("vignette_img/V4_f10.png")
+knitr::include_graphics("vignette_img/V4_f14.png")
 ```
