@@ -22,7 +22,7 @@ A data.frame of species geographic records derived from values of presence
 in each layer from the list of raster layers.
 }
 \description{
-creates a data.frame of species' references that contains
+Creates a data.frame of species' references that contains
 longitude, latitude, and species name, using a list of raster layers as
 input. Useful when raster layers have distinct extent or resolution.
 }

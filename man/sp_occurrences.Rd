@@ -19,7 +19,7 @@ A data.frame with 19 rows and 3 columns.
 sp_occurrences
 }
 \description{
-A dataset containing geographic coordinates of a Cuban
+Dataset containing geographic coordinates of a Cuban
 butterfly.
 }
 \examples{

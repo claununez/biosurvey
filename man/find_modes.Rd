@@ -7,7 +7,7 @@
 find_modes(density)
 }
 \arguments{
-\item{density}{an object of class density obtained using the function
+\item{density}{object of class density obtained using the function
 \code{\link{density}}.}
 }
 \value{
@@ -15,7 +15,7 @@ A data.frame containing the values corresponding to the modes and the
 density for those particular values.
 }
 \description{
-find modes in a multimodal distribution of values based on the
+Find modes in a multimodal distribution of values based on the
 density of such values.
 }
 \examples{

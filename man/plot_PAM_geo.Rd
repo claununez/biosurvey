@@ -11,13 +11,13 @@ plot_PAM_geo(PAM, index = "RI", master_selection = NULL,
              col_pre = NULL, pch_sites = 16, pch_pre = 16,cex = 0.9)
 }
 \arguments{
-\item{PAM}{an object of class base_PAM.}
+\item{PAM}{object of class base_PAM.}
 
 \item{index}{(character) code for the index to be plotted. Options are: "RI"
 (Richness), "RIN" (Richness normalized), "DF" (Dispersion field), or "MCC"
 (Mean composition covariance). Default = "RI".}
 
-\item{master_selection}{a master_selection object derived from functions
+\item{master_selection}{master_selection object derived from functions
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
@@ -67,9 +67,9 @@ A plot of \code{index} represented in geography. Selected sites are added if
 Plot of PAM indices in geography
 }
 \examples{
-# data
+# Data
 data("b_pam", package = "biosurvey")
 
-# plotting
+# Plotting
 plot_PAM_geo(b_pam, index = "RI")
 }

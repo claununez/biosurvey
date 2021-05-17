@@ -7,14 +7,14 @@
 closest_to_centroid(data, x_column, y_column, space, n = 1, id_column = NULL)
 }
 \arguments{
-\item{data}{a matrix or a data.frame that contains at least two columns.}
+\item{data}{matrix or data.frame that contains at least two columns.}
 
-\item{x_column}{(character) the name of the X-axis.}
+\item{x_column}{(character) the name of the x-axis.}
 
-\item{y_column}{(character) the name of the Y-axis.}
+\item{y_column}{(character) the name of the y-axis.}
 
-\item{space}{(character) space in which the thinning will be performed. There
-are two options available: "G", if it will be in geographic space, and
+\item{space}{(character) space in which the thinning will be performed.
+There are two options available: "G", if it will be in geographic space, and
 "E", if it will be in environmental space.}
 
 \item{n}{(numeric) number of points that are close to the centroid to be

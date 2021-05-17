@@ -7,8 +7,8 @@
 \format{
 A list of 6 elements:
 \describe{
-\item{data_matrix}{data frame wiht 6276 rows and 10 columns}
-\item{preselected_sites}{data frame with 5 rows and 11 columns}
+\item{data_matrix}{data.frame with 6276 rows and 10 columns}
+\item{preselected_sites}{data.frame with 5 rows and 11 columns}
 \item{region}{object of class SpatialPolygons*}
 \item{mask}{NULL}
 \item{raster_base}{object of class SpatialPolygonsDataFrame}

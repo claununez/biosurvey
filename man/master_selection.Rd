@@ -11,11 +11,11 @@ new_master_selection(data_matrix, preselected_sites = NULL, region,
                      selected_sites_E = NULL, selected_sites_EG = NULL)
 }
 \arguments{
-\item{data_matrix}{a date frame with information about geographic location of
+\item{data_matrix}{date.frame with information about geographic location of
 raster cells, initial environmental data, and if available, the first two
 principal components derived from an analysis done with environmental values.}
 
-\item{preselected_sites}{data frame containing sites that must be included
+\item{preselected_sites}{data.frame containing sites that must be included
 in posterior selections of sites for the survey system. Columns must be:
 "Sites", "Longitude", "Latitude", in that order. Default = NULL.}
 
@@ -32,13 +32,13 @@ values from raster layers used. Default = NULL.}
 \item{selected_sites_random}{data.frame with the sites selected randomly.
 Default = NULL.}
 
-\item{selected_sites_G}{data frame with the sites selected based on
+\item{selected_sites_G}{data.frame with the sites selected based on
 geographic distances. Default = NULL.}
 
-\item{selected_sites_E}{data frame with the sites selected based on
+\item{selected_sites_E}{data.frame with the sites selected based on
 environmental distances. Default = NULL.}
 
-\item{selected_sites_EG}{data frame with the sites selected based on
+\item{selected_sites_EG}{data.frame with the sites selected based on
 environmental and geographic considerations. Default = NULL.}
 }
 \value{

@@ -14,16 +14,16 @@ EG_selection(master, variable_1, variable_2, n_blocks,
              verbose = TRUE, force = FALSE)
 }
 \arguments{
-\item{master}{a master_matrix object derived from the function
-\code{\link{prepare_master_matrix}} or a master_selection object derived from
+\item{master}{master_matrix object derived from the function
+\code{\link{prepare_master_matrix}} or master_selection object derived from
 functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 or \code{\link{uniformE_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X-axis).}
+variable (x-axis).}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y-axis).}
+variable (y-axis).}
 
 \item{n_blocks}{(numeric) number of blocks to be selected to be used as the
 base for further explorations. Default = NULL.}
@@ -41,11 +41,11 @@ process of thinning and detection of remaining blocks. See details in
 \code{initial_distance} until reaching the number of \code{expected_points}.
 Default = NULL.}
 
-\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
-performing all thinning \code{replicates}. Default = 1.}
+\item{max_n_samplings}{(numeric) maximum number of samples to be chosen
+after performing all thinning \code{replicates}. Default = 1.}
 
-\item{replicates}{(numeric) number of thinning replicates performed to select
-blocks uniformly. Default = 10.}
+\item{replicates}{(numeric) number of thinning replicates performed to
+select blocks uniformly. Default = 10.}
 
 \item{use_preselected_sites}{(logical) whether to use sites that have been
 defined as part of the selected sites previous any selection. Object in
@@ -89,30 +89,30 @@ selected_sites_EG containing one or more sets of selected sites depending on
 }
 \description{
 Selection of sites to be sampled in a survey, with the goal of
-maximizing uniformity of points in environment, but considering geographic
-patterns of data. Sets of points that are environmentally similar and have a
-disjoint pattern in geography, are selected twice (two survey sites are
-placed so they consider the biggest geographic clusters).
+maximizing uniformity of points in the environment, but considering
+geographic patterns of data. Sets of points that are environmentally similar
+and have a disjoint pattern in geography, are selected twice (two survey
+sites are placed so they consider the biggest geographic clusters).
 }
 \details{
 Two important steps are needed before using this function: 1) exploring data
 in environmental and geographic spaces, and 2) performing a regionalization
 of the environmental space. Exploring the data can be done using the function
-\code{\link{explore_data_EG}}. This step is optional but strongly recommended,
-as important decisions that need to be taken depend on the configuration
+\code{\link{explore_data_EG}}. This step is optional but strongly
+recommended, as important decisions that need to be taken depend on the
 of the data in the two spaces. A regionalization of the environmental space
-of the region of interest helps in defining important parts of your region
-that should be considered to select sites. This can be done using the
-function \code{\link{make_blocks}}. Later the regions created in
+configuration of the region of interest helps in defining important parts of
+your region that should be considered to select sites. This can be done
+using the function \code{\link{make_blocks}}. Later the regions created in
 environmental space will be used for selecting one or more sampling sites per
 block depending on the geographic pattern of such environmental combinations.
 
 The process of survey-site selection with this function is the most complex
 among all functions in this package. The complexity derives from the aim of
-the function, which is to select sites that sample appropriately environmental
-combinations in the region of interest (environmental space), but
-considering the geographic patterns of such environmental regions (geographic
-space).
+the function, which is to select sites that sample appropriately
+environmental combinations in the region of interest (environmental space),
+but considering the geographic patterns of such environmental regions
+(geographic space).
 
 In this approach, the first step is to select candidate blocks (from the
 ones obtained with \code{\link{make_blocks}}) that are uniformly distributed

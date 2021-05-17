@@ -26,22 +26,22 @@ plot_sites_G(master_selection, selection_type, selection_number = 1,
              pch_pre = 16)
 }
 \arguments{
-\item{master_selection}{a master_selection object derived from functions
+\item{master_selection}{master_selection object derived from functions
 \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
-\item{selection_type}{(character) Type of selection depending on the function
+\item{selection_type}{(character) type of selection depending on the function
 used to select sites. The options available are "random"
 (\code{\link{random_selection}}), "G" (\code{\link{uniformG_selection}}),
 "E" (\code{\link{uniformE_selection}}), and "EG"
 (\code{\link{EG_selection}}).}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X-axis) to be plotted in environmental space. Default = NULL,
+variable (x-axis) to be plotted in environmental space. Default = NULL,
 required when \code{selection_type} = "random" or "G".}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y-axis) to be plotted in environmental space. It must be different
+variable (y-axis) to be plotted in environmental space. It must be different
 from the first one. Default = NULL, required when \code{selection_type} =
 "random" or "G".}
 
@@ -99,7 +99,7 @@ They are show in both spaces, geographic and environmental.
 \code{plot_sites_G} returns a plot of selected sites in geographic space.
 }
 \description{
-plots representing sites (all and selected for survey) in
+Plots representing sites (all and selected for survey) in
 environmental and/or geographic space.
 }
 \examples{

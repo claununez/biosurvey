@@ -18,8 +18,8 @@ rows and species in the columns. See details.}
 \item{exclude_column}{(optional) name or numeric index of columns to be
 excluded. Default = NULL.}
 
-\item{id_column}{(optional) name or numeric index of column containing the ID
-of sites-cells of the PAM. Default = NULL.}
+\item{id_column}{(optional) name or numeric index of column containing the
+ID of sites-cells of the PAM. Default = NULL.}
 
 \item{significance_test}{(logical) whether to perform a test to detect
 sites-cells that are statistically significant (i.e., the pattern detected
@@ -47,12 +47,12 @@ TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
 An S3 object of class \code{\link{PAM_CS}} if \code{PAM} is a matrix or
-data.frame, otherwise, an object of class \code{\link{base_PAM}} that contains
-the \code{\link{PAM_CS}} object as a part of \code{PAM_indices}.
+data.frame, otherwise, an object of class \code{\link{base_PAM}} that
+contains the \code{\link{PAM_CS}} object as a part of \code{PAM_indices}.
 
-Significant vales are presented as a vector in which 0 means non-significant,
-and 1 and 2 represent significant values below and above confidence limits of
-random expectations, respectively.
+Significant values are presented as a vector in which 0 means
+non-significant, and 1 and 2 represent significant values below and above
+confidence limits of random expectations, respectively.
 }
 \description{
 Preparation of data and details to create range-diversity

@@ -24,14 +24,14 @@ Default = 1. Ignored if \code{selection_type} = "selections".}
 The default, NULL, uses names of sets of selected sites. If labels = FALSE
 no tip labels are plotted.}
 
-\item{xlab}{(character) label for x axis of plot. Default = "".}
+\item{xlab}{(character) label for x-axis of plot. Default = "".}
 
-\item{ylab}{(character) label for y axis of plot. Default = "Distance".}
+\item{ylab}{(character) label for y-axis of plot. Default = "Distance".}
 
 \item{main}{(character) title for the plot. Default = "Cluster dendrogram".}
 
 \item{sub}{(character) subtitle for the plot. Plotted below the label of
-the x axis.}
+the x-axis.}
 
 \item{...}{other arguments to be passed to plot method for objects of class
 "\code{hclust}". See more details in \code{\link[stats]{hclust}}.}

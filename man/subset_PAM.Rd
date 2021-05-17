@@ -12,7 +12,7 @@ subset_PAM(base_PAM, master_selection, selection_type = "all")
 
 \item{master_selection}{object of class master_selection. This object can be
 obtained using the functions: \code{\link{random_selection}},
-\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, and
+\code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
 \code{\link{EG_selection}}.}
 
 \item{selection_type}{type of selection to be considered to subset
@@ -25,7 +25,7 @@ An object of class \code{\link{PAM_subset}} containing the original
 \code{selection_type}.
 }
 \description{
-subsets of a base_PAM object according to survey sites
+Subsets of a base_PAM object according to survey sites
 contained in a master_selection object.
 }
 \examples{

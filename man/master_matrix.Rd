@@ -9,11 +9,11 @@ new_master_matrix(data_matrix, preselected_sites = NULL, region,
                   mask = NULL, raster_base, PCA_results = NULL)
 }
 \arguments{
-\item{data_matrix}{a date frame with information about geographic location of
+\item{data_matrix}{date.frame with information about geographic location of
 raster cells, initial environmental data, and if available, the first two
 principal components derived from an analysis done with environmental values.}
 
-\item{preselected_sites}{data frame containing sites that must be included
+\item{preselected_sites}{data.frame containing sites that must be included
 in posterior selections of sites for the survey system. Columns must be:
 "Sites", "Longitude", "Latitude", in that order. Default = NULL.}
 
@@ -21,7 +21,7 @@ in posterior selections of sites for the survey system. Columns must be:
 
 \item{mask}{SpatialPolygons* object used. Default = NULL.}
 
-\item{raster_base}{a SpatialPolygonsDataFrame representing the grid of the
+\item{raster_base}{SpatialPolygonsDataFrame representing the grid of the
 raster layers used, which will be used for plotting purposes.}
 
 \item{PCA_results}{results of principal component analysis performed with

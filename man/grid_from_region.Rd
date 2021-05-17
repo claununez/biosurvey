@@ -21,7 +21,7 @@ Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
 is related to a specific ID and longitude and latitude coordinates.
 }
 \description{
-divides the region of interest in a grid of a specific cell size.
+Divides the region of interest in a grid of a specific cell size.
 }
 \examples{
 # Data

@@ -8,16 +8,16 @@ block_sample(master, variable_1, variable_2, expected_blocks,
              selection_type = "uniform", replicates = 10, set_seed = 1)
 }
 \arguments{
-\item{master}{a master_matrix object derived from the function
-\code{\link{prepare_master_matrix}} or a master_selection object derived from
-functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
-or \code{\link{uniformE_selection}}.}
+\item{master}{master_matrix object derived from the function
+\code{\link{prepare_master_matrix}} or a master_selection object derived
+from functions \code{\link{random_selection}},
+\code{\link{uniformG_selection}}, or \code{\link{uniformE_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X-axis).}
+variable (x-axis).}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y-axis) to be used to create blocks (must be different from the
+variable (y-axis) to be used to create blocks (must be different from the
 first one).}
 
 \item{expected_blocks}{(numeric) number of blocks to be selected.}
@@ -25,8 +25,8 @@ first one).}
 \item{selection_type}{(character) type of selection. Two options are
 available: "uniform" and "random". Default = "uniform".}
 
-\item{replicates}{(numeric) number of thinning replicates performed to select
-blocks uniformly. Default = 10.}
+\item{replicates}{(numeric) number of thinning replicates performed to
+select blocks uniformly. Default = 10.}
 
 \item{set_seed}{(numeric) integer value to specify a initial seed.
 Default = 1.}
@@ -38,14 +38,14 @@ master_matrix data.frame containing a binary code for selected (1) and
 non-selected (0) blocks.
 }
 \description{
-select a user defined number of blocks in environmental space
-to be used in further analysis in order to define sampling sites for a survey
-system.
+Select a user defined number of blocks in environmental space
+to be used in further analysis in order to define sampling sites for a
+survey system.
 }
 \details{
 When blocks in \code{master} were defined using the option "equal_points"
-(see \code{\link{make_blocks}}), "uniform" \code{selection_type} could result
-in blocks with high density per area being overlooked.
+(see \code{\link{make_blocks}}), "uniform" \code{selection_type} could
+result in blocks with high density per area being overlooked.
 }
 \examples{
 # Data

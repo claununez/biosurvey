@@ -12,8 +12,8 @@ uniformG_selection(master, expected_points, guess_distances = TRUE,
                    verbose = TRUE, force = FALSE)
 }
 \arguments{
-\item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived
+\item{master}{master_matrix object derived from function
+\code{\link{prepare_master_matrix}} or master_selection object derived
 from functions \code{\link{random_selection}},
 \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
@@ -58,11 +58,11 @@ Default = TRUE.}
 with this method in \code{master}.}
 }
 \value{
-A \code{\link{master_selection}} object (S3) with an additional element called
-selected_sites_G containing one or more sets of selected sites.
+A \code{\link{master_selection}} object (S3) with an additional element
+called selected_sites_G containing one or more sets of selected sites.
 }
 \description{
-selection of sites to be sampled in a survey, with the goal of
+Selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in geographic space.
 }
 \details{

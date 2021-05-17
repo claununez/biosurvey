@@ -13,16 +13,16 @@ uniformE_selection(master, variable_1, variable_2,
                    verbose = TRUE, force = FALSE)
 }
 \arguments{
-\item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived
+\item{master}{master_matrix object derived from function
+\code{\link{prepare_master_matrix}} or master_selection object derived
 from functions \code{\link{random_selection}},
 \code{\link{uniformG_selection}}, or \code{\link{EG_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X-axis).}
+variable (x-axis).}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y-axis).}
+variable (y-axis).}
 
 \item{selection_from}{(character) set of points to perform the selection
 from. Two options are available, "all_points" or "block_centroids". The
@@ -45,8 +45,8 @@ process of thinning and detection of remaining points. Default = NULL.}
 \code{initial_distance} until reaching the number of \code{expected_points}.
 Default = NULL.}
 
-\item{max_n_samplings}{(numeric) maximum number of samples to be chosen after
-performing all thinning \code{replicates}. Default = 1.}
+\item{max_n_samplings}{(numeric) maximum number of samples to be chosen
+after performing all thinning \code{replicates}. Default = 1.}
 
 \item{replicates}{(numeric) number of thinning replicates. Default = 10.}
 
@@ -75,7 +75,7 @@ A \code{\link{master_selection}} object (S3) with an additional element called
 selected_sites_E containing one or more sets of selected sites.
 }
 \description{
-selection of sites to be sampled in a survey, with the goal of
+Selection of sites to be sampled in a survey, with the goal of
 maximizing uniformity of points in environmental space.
 }
 \details{

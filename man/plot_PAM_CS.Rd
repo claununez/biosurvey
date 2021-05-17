@@ -15,7 +15,7 @@ plot_PAM_CS(PAM_CS, add_significant = FALSE,
             ylim_expansion = 0.25, las = 1, add_legend = TRUE)
 }
 \arguments{
-\item{PAM_CS}{an object of class PAM_CS or a base_PAM object containing
+\item{PAM_CS}{object of class PAM_CS or a base_PAM object containing
 a PAM_CS object as part of PAM_indices. These objects can be obtained using
 the function \code{\link{prepare_PAM_CS}}.}
 
@@ -52,9 +52,9 @@ Default = 1.}
 
 \item{main}{main title for the plot. Default = NULL.}
 
-\item{xlab}{label for the x axis. Default = NULL.}
+\item{xlab}{label for the x-axis. Default = NULL.}
 
-\item{ylab}{label for the y axis. Default = NULL.}
+\item{ylab}{label for the y-axis. Default = NULL.}
 
 \item{xlim}{x limits of the plot (x1, x2). The default, NULL, uses the range
 of normalized richness.}
@@ -64,7 +64,8 @@ normalized values of the dispersion field. The second limit is increased
 by adding the result of multiplying it by \code{ylim_expansion}, if
 \code{add_legend} = TRUE.}
 
-\item{ylim_expansion}{value used or expanding the \code{ylim}. Default = 0.25.}
+\item{ylim_expansion}{value used or expanding the \code{ylim}. Default =
+0.25.}
 
 \item{las}{the style of axis labels; default = 1.
 See \code{\link[graphics]{par}}.}
@@ -73,20 +74,20 @@ See \code{\link[graphics]{par}}.}
 relevant for interpreting the diagram. Default = TRUE.}
 }
 \value{
-A range-diversity plot with values of normalized richness in the x axis,
+A range-diversity plot with values of normalized richness in the x-axis,
 and normalized values of the dispersion field index divided by number of
-species in the y axis.
+species in the y-axis.
 }
 \description{
 Plot new range-diversity diagram
 }
 \examples{
-# data
+# Data
 data("b_pam", package = "biosurvey")
 
-# preparing data for CS diagram
+# Preparing data for CS diagram
 pcs <- prepare_PAM_CS(PAM = b_pam)
 
-# plot
+# Plot
 plot_PAM_CS(pcs)
 }

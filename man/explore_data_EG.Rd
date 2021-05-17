@@ -9,16 +9,16 @@ explore_data_EG(master, variable_1, variable_2, region_border = TRUE,
                 col_variable2 = NULL, col_points = NULL, col_density = NULL)
 }
 \arguments{
-\item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived from
+\item{master}{master_matrix object derived from function
+\code{\link{prepare_master_matrix}} or master_selection object derived from
 functions \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}
 or \code{\link{EG_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X-axis) to be explored.}
+variable (x-axis) to be explored.}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y-axis) to be explored (must be different from the first one).}
+variable (y-axis) to be explored (must be different from the first one).}
 
 \item{region_border}{(logical) whether to add region border to the plot.
 Default = TRUE.}
@@ -40,7 +40,7 @@ NULL, uses a color blind friendly palette similar to viridis.}
 uses the 25th color of the default palette for \code{col_variable1} with an
 alpha of 0.6.}
 
-\item{col_density}{a color palette to represent representation density of
+\item{col_density}{color palette to represent representation density of
 points in environmental space. This palette can be defined using functions
 like \code{\link{heat.colors}}, or one generated using functions like
 \code{\link{colorRampPalette}}. The default, NULL, uses a color blind

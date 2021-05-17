@@ -7,7 +7,7 @@
 \format{
 A list of 2 elements:
 \describe{
-\item{PAM}{SpatialPolygonsDataFrame wiht 306 features}
+\item{PAM}{SpatialPolygonsDataFrame with 306 features}
 \item{PAM_indices}{a list of 11 elements}
 }
 }

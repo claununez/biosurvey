@@ -16,7 +16,7 @@ data.frame:
 preselected
 }
 \description{
-a data.frame with 5 rows and three columns: "Site", "Longitude",
+A data.frame with 5 rows and three columns: "Site", "Longitude",
 and "Latitude".
 }
 \examples{

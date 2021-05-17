@@ -37,7 +37,7 @@ selected sites.
 }
 }
 \description{
-computes dissimilarity indices for each set of selected
+Computes dissimilarity indices for each set of selected
 sites contained in elements of \code{PAM_subset} that contain information of
 species incidence (presence-absence). Calculations are done also among sets
 of selected sites.

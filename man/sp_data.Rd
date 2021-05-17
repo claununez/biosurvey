@@ -15,7 +15,7 @@ data.frame:
 sp_data
 }
 \description{
-a data.frame with 590 rows and two columns: "ID" and "Species".
+A data.frame with 590 rows and two columns: "ID" and "Species".
 It is the output of the function \code{\link{spdf_2data}}.
 }
 \examples{

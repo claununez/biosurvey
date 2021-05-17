@@ -26,7 +26,7 @@ base_PAM object, a base_PAM object will be returned and the list described
 above will be appended to the element PAM_indices in such an element.
 }
 \description{
-calculates a set of biodiversity indices using values contained
+Calculates a set of biodiversity indices using values contained
 in a presence-absence matrix.
 }
 \details{

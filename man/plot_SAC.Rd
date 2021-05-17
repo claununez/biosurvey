@@ -23,9 +23,10 @@ values from 0 to 1. Default = 0.7. Values close to 0 increase transparency.}
 \item{alpha_CI}{(numeric) alpha level for the region representing the
 confidence interval. Default = 0.2.}
 
-\item{xlab}{(character) label for x axis of plot. Default = "Number of sites".}
+\item{xlab}{(character) label for x-axis of plot. Default = "Number of
+sites".}
 
-\item{ylab}{(character) label for y axis of plot. Default = "Species".}
+\item{ylab}{(character) label for y-axis of plot. Default = "Species".}
 
 \item{line_for_multiple}{(logical) whether to plot SACs only as lines when
 multiple objects are in one or more of the internal lists in
@@ -42,20 +43,20 @@ A plot of "\code{specaccum}" objects. Multiple panels will be plotted
 if \code{SAC_selected_sites} list contains more than one element.
 }
 \description{
-creates species accumulation curve plots (one or multiple
+Creates species accumulation curve plots (one or multiple
 panels) from information contained in lists obtained with the function
 \code{\link{selected_sites_SAC}}.
 }
 \examples{
-# data
+# Data
 data("b_pam", package = "biosurvey")
 data("m_selection", package = "biosurvey")
 
-# subsetting base PAM according to selections
+# Subsetting base PAM according to selections
 sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
 
 SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")
 
-# plotting
+# Plotting
 plot_SAC(SACs)
 }

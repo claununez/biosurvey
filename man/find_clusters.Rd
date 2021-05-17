@@ -9,15 +9,15 @@ find_clusters(data, x_column, y_column, space,
               split_distance = NULL)
 }
 \arguments{
-\item{data}{a matrix or a data frame that contains at least two columns.}
+\item{data}{matrix or data.frame that contains at least two columns.}
 
-\item{x_column}{(character) the name of the X-axis.}
+\item{x_column}{(character) the name of the x-axis.}
 
-\item{y_column}{(character) the name of the Y-axis.}
+\item{y_column}{(character) the name of the y-axis.}
 
-\item{space}{(character) space in which the thinning will be performed. There
-are two options available: "G", if it will be in the geographic space, and
-"E", if it will be on the environmental space.}
+\item{space}{(character) space in which the thinning will be performed.
+There are two options available: "G", if it will be in the geographic space,
+and "E", if it will be on the environmental space.}
 
 \item{cluster_method}{(character) name of the method to be used for detecting
 clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".}
@@ -25,8 +25,8 @@ clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".}
 \item{n_k_means}{(numeric) number of clusters to be identified when using the
 "k-means" in \code{cluster_method}.}
 
-\item{split_distance}{(numeric) distance in meters (if \code{space} = "G") or
-euclidean distance (if \code{space} = "E") to identify clusters if
+\item{split_distance}{(numeric) distance in meters (if \code{space} = "G")
+or euclidean distance (if \code{space} = "E") to identify clusters if
 \code{cluster_method} = "hierarchical".}
 }
 \value{
@@ -34,7 +34,7 @@ A data frame containing \code{data} and an additional column defining
 clusters.
 }
 \description{
-finds clusters of data in two dimensions based on distinct
+Finds clusters of data in two dimensions based on distinct
 methods.
 }
 \details{
@@ -42,9 +42,10 @@ Clustering methods make distinct assumptions and one of them may perform
 better than the other depending on the pattern of the data.
 
 The k-means method tends to performs better when data are spatially grouped
-(spherically) and clusters are of a similar size. The hierarchical clustering
-algorithm usually takes more time than the k-means method. Both methods make
-assumptions and they may work well on some data sets, and fail on others.
+(spherically) and clusters are of a similar size. The hierarchical
+clustering algorithm usually takes more time than the k-means method. Both
+methods make assumptions and they may work well on some data sets, and fail
+on others.
 }
 \examples{
 # Data

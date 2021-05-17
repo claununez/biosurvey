@@ -5,8 +5,8 @@
 \alias{biosurvey}
 \title{biosurvey: Tools for Biological Survey Planning}
 \description{
-biosurvey is a collection of tools that allow users to plan systems of
-sampling sites increasing the efficiency of biodiversity monitoring by
+biosurvey is a collection of tools that allow users to plan sampling sites.
+The methods presented increase the efficiency of biodiversity monitoring by
 considering the relationship between environmental and geographic conditions
 in a region.
 }

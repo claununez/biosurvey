@@ -9,8 +9,8 @@ preselected_dist_mask(master, expected_points, space, variable_1 = NULL,
                       verbose = TRUE)
 }
 \arguments{
-\item{master}{a master_matrix object derived from function
-\code{\link{prepare_master_matrix}} or a master_selection object derived
+\item{master}{master_matrix object derived from function
+\code{\link{prepare_master_matrix}} or master_selection object derived
 from functions \code{\link{random_selection}},
 \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
@@ -22,10 +22,10 @@ are two options available: "G", if it will be in geographic space, and
 "E", if it will be in environmental space.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (X-axis). Default = NULL.}
+variable (x-axis). Default = NULL.}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (Y-axis). Default = NULL.}
+variable (y-axis). Default = NULL.}
 
 \item{use_blocks}{(logical) whether or not to use block centroids instead of
 all points when \code{space} = "E". Default = FALSE.}

@@ -27,7 +27,7 @@ for all sets of selected sites according to option defined in
 \code{selection_type}.
 }
 \description{
-creates species accumulation curves for each set of selected
+Creates species accumulation curves for each set of selected
 sites contained in elements of \code{PAM_subset} that contain information of
 species incidence (presence-absence).
 }

@@ -25,7 +25,7 @@ A data.frame of species' found in distinct positions (defined with
 identifiers); includes two columns: "ID" and "Species".
 }
 \description{
-creates a data.frame of species' references that contains
+Creates a data.frame of species' references that contains
 identifiers of portion and species name, using a SpatialPolygonsDataFrame as
 input.
 }

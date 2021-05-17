@@ -35,7 +35,7 @@ positions (defined with identifiers); includes two columns: "ID" and
 "Species".
 }
 \description{
-creates a data.frame of species' references that contains
+Creates a data.frame of species' references that contains
 longitude, latitude, and species name, from a character.
 }
 \examples{

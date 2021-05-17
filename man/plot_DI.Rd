@@ -35,21 +35,21 @@ A plot of a matrix of dissimilarities among sites selected for sampling, or
 among sets of sampling sites selected. Random is abbreviated as "R" in labels.
 }
 \description{
-creates matrix-like plots of dissimilarities found among
+Creates matrix-like plots of dissimilarities found among
 communities of species in distinct sites selected or sets of sites selected
 for sampling.
 }
 \examples{
-# data
+# Data
 data("b_pam", package = "biosurvey")
 data("m_selection", package = "biosurvey")
 
-# subsetting base PAM according to selections
+# Subsetting base PAM according to selections
 sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
 
 # Calculating dissimilarities
 DI_sel <- selected_sites_DI(sub_pam_all)
 
-# plotting
+# Plotting
 plot_DI(DI_sel)
 }
