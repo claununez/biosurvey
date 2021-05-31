@@ -149,7 +149,7 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
 #' @name base_PAM
 #'
 #' @param PAM SpatialPolygonsDataFrame object associated with information about
-#' species presence and absence in a geographic grid.
+#' presence and absence of species in a geographic grid.
 #' @param PAM_indices list of indices derived from a PAM. Default = NULL.
 #'
 #' @export

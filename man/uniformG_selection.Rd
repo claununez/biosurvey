@@ -21,7 +21,7 @@ from functions \code{\link{random_selection}},
 selected.}
 
 \item{guess_distances}{(logical) whether or not to use internal algorithm
-to automatically select \code{initial_distance} and \code{increase}. Default
+to select automatically \code{initial_distance} and \code{increase}. Default
 = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be
 defined.}
 
@@ -48,7 +48,7 @@ median distance-based filter based on which sets of sampling sites will be
 selected. The default, NULL, does not apply such a filter. Options are:
 "max" and "min".}
 
-\item{set_seed}{(numeric) integer value to specify a initial seed.
+\item{set_seed}{(numeric) integer value to specify an initial seed.
 Default = 1.}
 
 \item{verbose}{(logical) whether or not to print messages about the process.
@@ -81,12 +81,12 @@ explorations can be done using the function \code{\link{explore_data_EG}}.
 
 If \code{use_preselected_sites} = TRUE and such sites are included as an
 element in the object in \code{master}, the approach for selecting uniform
-sites in geography is different than what was described above. User
-preselected sites will always be part of the sites selected. Other points
-are selected based on an algorithm that searches for sites that are
+sites in geography is different than what was described above.
+User-preselected sites will always be part of the sites selected. Other
+points are selected based on an algorithm that searches for sites that are
 uniformly distributed in geographic space but at a distance from preselected
 sites that helps in maintaining uniformity. Note that preselected sites will
-not be processed, therefore, uniformity of such points cannot be warrantied.
+not be processed; therefore, uniformity of such points cannot be warrantied.
 
 As multiple sets could result from selection when the
 \code{use_preselected_sites} is set as FALSE, the argument of the function
@@ -94,7 +94,7 @@ As multiple sets could result from selection when the
 the maximum ("max") or minimum ("min") median distance among selected sites.
 The option "max" will increase the geographic distance among sampling sites,
 which could be desirable if the goal is to cover the region of interest more
-broadly. The other option "min", could be used in cases when the goal is to
+broadly. The other option, "min", could be used in cases when the goal is to
 reduce resources and time needed to sample such sites.
 }
 \examples{

@@ -32,7 +32,7 @@ the bi-dimensional space. Two options are available: "equal_area" and
 An S3 object of class master_matrix, containing the same elements found in a
 master_matrix object, with an additional column on the master_matrix
 data.frame containing block identifiers. If the element preselected_sites is
-not NULL in master_matrix blocks are also assigned to this sites.
+not NULL in master_matrix, blocks are also assigned to this sites.
 }
 \description{
 Divides a two-dimensional cloud of points in blocks according

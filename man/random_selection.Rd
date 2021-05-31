@@ -21,7 +21,7 @@ from functions \code{\link{uniformG_selection}},
 turn into multiple options for a process of survey planning. Default = 1.}
 
 \item{use_preselected_sites}{(logical) whether to use sites that have been
-defined as part of the selected sites previous any selection. Object in
+defined as part of the selected sites previous to any selection. Object in
 \code{master} must contain the site(s) preselected in and element of name
 "preselected_sites" for this argument to be effective. Default = TRUE.}
 
@@ -54,17 +54,17 @@ are selected randomly, sites that have environmental conditions that are
 common in the region of interest will be sampled more that other sites that
 present condition that are not as common.
 
-To see how common or rare are distinct environments in the region of interest
-the function \code{\link{explore_data_EG}} can be used. Common environmental
-conditions are those that are present in areas of higher density in one of
-the plots obtained with \code{\link{explore_data_EG}}.
+To see how common or rare are distinct environments in the region of
+interest, the function \code{\link{explore_data_EG}} can be used. Common
+environmental conditions are those that are present in areas of higher
+density in one of the plots obtained with \code{\link{explore_data_EG}}.
 
 As multiple sets could result from selection, the argument of the function
 \code{median_distance_filter} could be used to select the set of sites with
 the maximum ("max") or minimum ("min") median distance among selected sites.
 Option "max" will increase the geographic distance among sampling sites,
 which could be desirable if the goal is to cover the region of interest more
-broadly. The other option "min", could be used in cases when the goal is to
+broadly. The other option, "min", could be used in cases when the goal is to
 reduce resources and time needed to sample such sites.
 }
 \examples{

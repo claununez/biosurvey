@@ -23,8 +23,8 @@ only areas with natural vegetation cover). Default = NULL.}
 in posterior selections of sites for the survey system. Columns must be:
 "Sites", "Longitude", "Latitude", in that order.}
 
-\item{do_pca}{(logical) whether or not to perform a Principal Component
-Analysis. Default = FALSE.}
+\item{do_pca}{(logical) whether or not to perform a principal component
+analysis. Default = FALSE.}
 
 \item{center}{(logical) whether or not to center variables. Argument to be
 passed to the function \code{\link[stats]{prcomp}}. Default = TRUE.}

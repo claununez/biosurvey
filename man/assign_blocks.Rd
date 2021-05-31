@@ -34,7 +34,9 @@ Default = NULL.}
 
 \item{block_type}{(character) type of blocks to be used for dividing
 the bi-dimensional space. Two options are available: "equal_area" and
-"equal_points". Default = "equal_area".}
+"equal_points". Default = "equal_area". Note that this option has important
+association regarding full representation of the extreme values of
+environmental variables across the study region.}
 }
 \value{
 Original element defined in \code{data} plus a new column named "Block"

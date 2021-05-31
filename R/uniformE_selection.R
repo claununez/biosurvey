@@ -22,7 +22,7 @@
 #' to automatically select \code{initial_distance} and \code{increase}. Default
 #' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be
 #' defined.
-#' @param initial_distance (numeric) euclidean distance to be used for a first
+#' @param initial_distance (numeric) Euclidean distance to be used for a first
 #' process of thinning and detection of remaining points. Default = NULL.
 #' @param increase (numeric) initial value to be added to or subtracted from
 #' \code{initial_distance} until reaching the number of \code{expected_points}.
@@ -67,17 +67,17 @@
 #' If \code{use_preselected_sites} = TRUE and such sites are included as an
 #' element in the object in \code{master}, the approach for selecting uniform
 #' sites in environmental space is different than what was described above.
-#' User preselected sites will always be part of the sites selected. Other
+#' User-preselected sites will always be part of the sites selected. Other
 #' points are selected based on an algorithm that searches for sites that are
 #' uniformly distributed in environmental space but at a distance from
 #' preselected sites that helps in maintaining uniformity. Note that
-#' preselected sites will not be processed, therefore, uniformity of such points
+#' preselected sites will not be processed; therefore, uniformity of such points
 #' cannot be warrantied. As multiple sets could result from selection, the
 #' argument of the function \code{median_distance_filter} could be used to
 #' select the set of sites with the maximum ("max") or minimum ("min") median
 #' distance among selected sites. Option "max" will increase the geographic
 #' distance among sampling sites, which could be desirable if the goal is to
-#' cover the region of interest more broadly. The other option "min", could be
+#' cover the region of interest more broadly. The other option, "min", could be
 #' used in cases when the goal is to reduce resources and time needed to sample
 #' such sites.
 #'

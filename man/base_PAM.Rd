@@ -9,7 +9,7 @@ new_base_PAM(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL)
 }
 \arguments{
 \item{PAM}{SpatialPolygonsDataFrame object associated with information about
-species presence and absence in a geographic grid.}
+presence and absence of species in a geographic grid.}
 
 \item{PAM_indices}{list of indices derived from a PAM. Default = NULL.}
 }

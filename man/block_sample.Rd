@@ -38,12 +38,11 @@ master_matrix data.frame containing a binary code for selected (1) and
 non-selected (0) blocks.
 }
 \description{
-Select a user defined number of blocks in environmental space
-to be used in further analysis in order to define sampling sites for a
-survey system.
+Select a user-defined number of blocks in environmental space
+to be used in further analysis to define sampling sites for a survey system.
 }
 \details{
-When blocks in \code{master} were defined using the option "equal_points"
+When blocks in \code{master} are defined using the option "equal_points"
 (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could
 result in blocks with high density per area being overlooked.
 }

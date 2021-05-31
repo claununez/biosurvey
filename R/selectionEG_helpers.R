@@ -230,11 +230,11 @@ find_modes <- function(density) {
 #' @param y_column (character) the name of the y-axis.
 #' @param space (character) space in which the thinning will be performed.
 #' There are two options available: "G", if it will be in the geographic space,
-#' and "E", if it will be on the environmental space.
+#' and "E", if it will be in the environmental space.
 #' @param cluster_method (character) name of the method to be used for detecting
 #' clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".
 #' @param split_distance (numeric) distance in meters (if \code{space} = "G")
-#' or euclidean distance (if \code{space} = "E") to identify clusters if
+#' or Euclidean distance (if \code{space} = "E") to identify clusters if
 #' \code{cluster_method} = "hierarchical".
 #' @param n_k_means (numeric) number of clusters to be identified when using the
 #' "k-means" in \code{cluster_method}.
@@ -247,10 +247,10 @@ find_modes <- function(density) {
 #' Clustering methods make distinct assumptions and one of them may perform
 #' better than the other depending on the pattern of the data.
 #'
-#' The k-means method tends to performs better when data are spatially grouped
+#' The k-means method tends to perform better when data are grouped spatially
 #' (spherically) and clusters are of a similar size. The hierarchical
 #' clustering algorithm usually takes more time than the k-means method. Both
-#' methods make assumptions and they may work well on some data sets, and fail
+#' methods make assumptions and may work well on some data sets but fail
 #' on others.
 #'
 #' @usage
@@ -345,7 +345,7 @@ find_clusters <- function(data, x_column, y_column, space,
 #' Sample points from a 2D environmental space potentially disjoint in
 #' geography
 #'
-#' @description Sample one or more points from a two dimensional environmental
+#' @description Sample one or more points from a two-dimensional environmental
 #' space according to a selection rule and with the possibility of having
 #' distinct sets of points to be sampled independently. Points to be sampled
 #' can be disjoint in geographic space and when that happens two points are
@@ -363,7 +363,7 @@ find_clusters <- function(data, x_column, y_column, space,
 #' @param distance_list list of vectors of geographic distances among all
 #' points. If \code{id_column} is not defined, only one element in the list is
 #' needed, otherwise, \code{distance_list} must contain as many elements as
-#' unique IDs in \code{id_column}. In the later case, the names in
+#' unique IDs in \code{id_column}. In the latter case, the names in
 #' \code{distance_list} must match the IDs in \code{id_column}.
 #' @param n (numeric) number of points that are close to the centroid to be
 #' detected. Default = 1.

@@ -7,8 +7,8 @@
 #' in a region.
 #'
 #' @details
-#' Three main modules are included: 1) Data preparation; 2) Selection of sets
-#' of sites for biodiversity sampling; and, 3) Tools for testing efficiency of
+#' Three main modules are included: 1) data preparation, 2) selection of sets
+#' of sites for biodiversity sampling, and 3) tools for testing efficiency of
 #' distinct sets of sampling sites. Data are prepared in ways that avoid the
 #' need for more data in posterior analyses, and allow concentrating in critical
 #' methodological decisions to select sampling sites. Various algorithms for

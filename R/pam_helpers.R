@@ -168,7 +168,7 @@ stack_2data <- function(species_layers) {
 #' Creates a data.frame of species' references from SpatialPolygonsDataFrame
 #'
 #' @description Creates a data.frame of species' references that contains
-#' identifiers of portion and species name, using a SpatialPolygonsDataFrame as
+#' identifiers of position and species name, using a SpatialPolygonsDataFrame as
 #' input.
 #'
 #' @param spdf_object SpatialPolygonsDataFrame representing species' geographic

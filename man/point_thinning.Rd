@@ -16,7 +16,7 @@ point_thinning(data, x_column, y_column, thinning_distance, space,
 
 \item{thinning_distance}{(numeric) distance for thinning. Units must be
 selected according to the space, kilometers (km) for geographic and
-euclidean distances for environmental space.}
+Euclidean distances for environmental space.}
 
 \item{space}{(character) space in which the thinning will be performed.
 There are two options available: "G", if it will be in geographic space, and

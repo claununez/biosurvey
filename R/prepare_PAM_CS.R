@@ -4,15 +4,15 @@
 #' plots.
 #'
 #' @param PAM matrix, data.frame, or base_PAM object containing information on
-#' species presence and absence for a set of sites. Sites are organized in the
-#' rows and species in the columns. See details.
+#' presence and absence of species for a set of sites. Sites are organized in
+#' the rows and species in the columns. See details.
 #' @param exclude_column (optional) name or numeric index of columns to be
 #' excluded. Default = NULL.
 #' @param id_column (optional) name or numeric index of column containing the
-#' ID of sites-cells of the PAM. Default = NULL.
+#' ID of sites (cells of the PAM). Default = NULL.
 #' @param significance_test (logical) whether to perform a test to detect
-#' sites-cells that are statistically significant (i.e., the pattern detected
-#' can be distinguished o random expectations). Default = FALSE.
+#' sites (cells) that are statistically significant (i.e., the pattern detected
+#' can be distinguished from random expectations). Default = FALSE.
 #' @param randomization_iterations (numeric) number of iterations for the
 #' randomization test used to calculate statistical significance. Default = 100.
 #' @param CL (numeric) confidence limit to detect statistically significant

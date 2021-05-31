@@ -1,8 +1,7 @@
 #' Selection of blocks in environmental space
 #'
-#' @description Select a user defined number of blocks in environmental space
-#' to be used in further analysis in order to define sampling sites for a
-#' survey system.
+#' @description Select a user-defined number of blocks in environmental space
+#' to be used in further analysis to define sampling sites for a survey system.
 #'
 #' @param master master_matrix object derived from the function
 #' \code{\link{prepare_master_matrix}} or a master_selection object derived
@@ -22,7 +21,7 @@
 #' Default = 1.
 #'
 #' @details
-#' When blocks in \code{master} were defined using the option "equal_points"
+#' When blocks in \code{master} are defined using the option "equal_points"
 #' (see \code{\link{make_blocks}}), "uniform" \code{selection_type} could
 #' result in blocks with high density per area being overlooked.
 #'

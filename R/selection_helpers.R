@@ -8,7 +8,7 @@
 #' @param y_column (character) the name of the y-axis.
 #' @param thinning_distance (numeric) distance for thinning. Units must be
 #' selected according to the space, kilometers (km) for geographic and
-#' euclidean distances for environmental space.
+#' Euclidean distances for environmental space.
 #' @param space (character) space in which the thinning will be performed.
 #' There are two options available: "G", if it will be in geographic space, and
 #' "E", if it will be in environmental space.

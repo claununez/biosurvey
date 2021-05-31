@@ -17,7 +17,7 @@ find_clusters(data, x_column, y_column, space,
 
 \item{space}{(character) space in which the thinning will be performed.
 There are two options available: "G", if it will be in the geographic space,
-and "E", if it will be on the environmental space.}
+and "E", if it will be in the environmental space.}
 
 \item{cluster_method}{(character) name of the method to be used for detecting
 clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".}
@@ -26,7 +26,7 @@ clusters. Options are "hierarchical" and "k-means"; default = "hierarchical".}
 "k-means" in \code{cluster_method}.}
 
 \item{split_distance}{(numeric) distance in meters (if \code{space} = "G")
-or euclidean distance (if \code{space} = "E") to identify clusters if
+or Euclidean distance (if \code{space} = "E") to identify clusters if
 \code{cluster_method} = "hierarchical".}
 }
 \value{
@@ -41,10 +41,10 @@ methods.
 Clustering methods make distinct assumptions and one of them may perform
 better than the other depending on the pattern of the data.
 
-The k-means method tends to performs better when data are spatially grouped
+The k-means method tends to perform better when data are grouped spatially
 (spherically) and clusters are of a similar size. The hierarchical
 clustering algorithm usually takes more time than the k-means method. Both
-methods make assumptions and they may work well on some data sets, and fail
+methods make assumptions and may work well on some data sets but fail
 on others.
 }
 \examples{

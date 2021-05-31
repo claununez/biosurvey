@@ -28,7 +28,7 @@
 #' An S3 object of class master_matrix, containing the same elements found in a
 #' master_matrix object, with an additional column on the master_matrix
 #' data.frame containing block identifiers. If the element preselected_sites is
-#' not NULL in master_matrix blocks are also assigned to this sites.
+#' not NULL in master_matrix, blocks are also assigned to this sites.
 #'
 #' @usage
 #' make_blocks(master_matrix, variable_1, variable_2, n_cols, n_rows = NULL,
@@ -158,7 +158,9 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
 #' Default = NULL.
 #' @param block_type (character) type of blocks to be used for dividing
 #' the bi-dimensional space. Two options are available: "equal_area" and
-#' "equal_points". Default = "equal_area".
+#' "equal_points". Default = "equal_area". Note that this option has important
+#' association regarding full representation of the extreme values of
+#' environmental variables across the study region.
 #'
 #' @return
 #' Original element defined in \code{data} plus a new column named "Block"

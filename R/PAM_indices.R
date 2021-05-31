@@ -7,7 +7,7 @@
 #' species presence and absence for a set of sites. Sites are organized in the
 #' rows and species in the columns. See details.
 #' @param indices (character) code for indices to be calculated. Basic indices
-#' are calculated all the time, other indices need to be specified. Options are:
+#' are calculated all the time; other indices need to be specified. Options are:
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
 #' "CMSC", "CMSR", "MCC", and "MRC". Default = "all". See details.
 #' @param exclude_column (optional) name or numeric index of columns to be
@@ -20,13 +20,13 @@
 #' above will be appended to the element PAM_indices in such an element.
 #'
 #' @details
-#' Description of the codes of all indices to be calculated is presented in the
-#' table below. If \code{indices} = "basic", only basic indices are calculated.
-#' However, basic indices are calculated in all cases not matter the code(s)
-#' defined in \code{indices}. Some indices require previous calculations of
-#' other indices, in such cases, all indices required are added to the final
+#' Descriptions of the codes of all indices to be calculated are presented in
+#' the table below. If \code{indices} = "basic", only basic indices are
+#' calculated. However, basic indices are calculated in all cases not matter the
+#' code(s) defined in \code{indices}. Some indices require previous calculations
+#' of other indices, in such cases, all indices required are added to the final
 #' list. For further details on the way calculations are performed and the
-#' meaning of the indices see Soberon and Cavner (2015)
+#' meaning of the indices see Soberón and Cavner (2015)
 #' \doi{https://doi.org/10.17161/bi.v10i0.4801}.
 #'
 #' |Code  |Index                                    |Calculation                     |

@@ -23,7 +23,7 @@ variable (y-axis). Must be different from the first one.}
 \item{distance_list}{list of vectors of geographic distances among all
 points. If \code{id_column} is not defined, only one element in the list is
 needed, otherwise, \code{distance_list} must contain as many elements as
-unique IDs in \code{id_column}. In the later case, the names in
+unique IDs in \code{id_column}. In the latter case, the names in
 \code{distance_list} must match the IDs in \code{id_column}.}
 
 \item{n}{(numeric) number of points that are close to the centroid to be
@@ -46,7 +46,7 @@ A data.frame containing \code{n} rows corresponding to the point or points
 that were sampled.
 }
 \description{
-Sample one or more points from a two dimensional environmental
+Sample one or more points from a two-dimensional environmental
 space according to a selection rule and with the possibility of having
 distinct sets of points to be sampled independently. Points to be sampled
 can be disjoint in geographic space and when that happens two points are

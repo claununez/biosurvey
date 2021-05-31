@@ -13,8 +13,8 @@
 #' @param preselected_sites data.frame containing sites that must be included
 #' in posterior selections of sites for the survey system. Columns must be:
 #' "Sites", "Longitude", "Latitude", in that order.
-#' @param do_pca (logical) whether or not to perform a Principal Component
-#' Analysis. Default = FALSE.
+#' @param do_pca (logical) whether or not to perform a principal component
+#' analysis. Default = FALSE.
 #' @param center (logical) whether or not to center variables. Argument to be
 #' passed to the function \code{\link[stats]{prcomp}}. Default = TRUE.
 #' @param scale (logical) whether or not to scale the variables. Recommended

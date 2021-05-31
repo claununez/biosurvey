@@ -21,7 +21,7 @@
 #' to automatically select \code{initial_distance} and \code{increase}. Default
 #' = TRUE. If FALSE, \code{initial_distance} and \code{increase} must be
 #' defined.
-#' @param initial_distance (numeric) euclidean distance to be used for a first
+#' @param initial_distance (numeric) Euclidean distance to be used for a first
 #' process of thinning and detection of remaining blocks. See details in
 #' \code{\link{point_thinning}}. Default = NULL.
 #' @param increase (numeric) initial value to be added to or subtracted from
@@ -73,7 +73,7 @@
 #' of the data in the two spaces. A regionalization of the environmental space
 #' configuration of the region of interest helps in defining important parts of
 #' your region that should be considered to select sites. This can be done
-#' using the function \code{\link{make_blocks}}. Later the regions created in
+#' using the function \code{\link{make_blocks}}. Later, the regions created in
 #' environmental space will be used for selecting one or more sampling sites per
 #' block depending on the geographic pattern of such environmental combinations.
 #'
@@ -97,7 +97,7 @@
 #' If \code{use_preselected_sites} is TRUE and such sites are included as an
 #' element in the object in \code{master}, the approach for selecting sites in
 #' environmental space considering geographic patterns is a little  different.
-#' User preselected sites will always be part of the sites selected. Other points
+#' User-preselected sites will always be part of the sites selected. Other points
 #' are selected based on an algorithm that searches for sites that are uniformly
 #' distributed in environmental space but at a distance from preselected sites
 #' that helps in maintaining uniformity among environmental blocks selected.
@@ -109,7 +109,7 @@
 #' the maximum ("max") or minimum ("min") median distance among selected sites.
 #' Option "max" will increase the geographic distance among sampling sites,
 #' which could be desirable if the goal is to cover the region of interest more
-#' broadly. The other option "min", could be used in cases when the goal is to
+#' broadly. The other option, "min", could be used in cases when the goal is to
 #' reduce resources and time needed to sample such sites.
 #'
 #' @seealso

@@ -26,7 +26,7 @@ identifiers); includes two columns: "ID" and "Species".
 }
 \description{
 Creates a data.frame of species' references that contains
-identifiers of portion and species name, using a SpatialPolygonsDataFrame as
+identifiers of position and species name, using a SpatialPolygonsDataFrame as
 input.
 }
 \examples{
