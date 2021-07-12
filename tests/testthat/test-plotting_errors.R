@@ -85,3 +85,31 @@ test_that("Errors plot_PAM_geo", {
   testthat::expect_error(plot_PAM_geo(b_pam, index = "ZXY"))
 })
 #----
+
+
+#----
+context("Plot PAM CS diagram")
+
+test_that("Errors plot_PAM_CS", {
+  testthat::expect_error(plot_PAM_CS())
+})
+#----
+
+
+#----
+context ("Matrix-like plot of dissimilarities indices")
+
+test_that("Errors plot_DI", {
+  testthat::expect_error(plot_DI())
+  testthat::expect_error(plot_DI(DI_selected_sites, selection_type = "i"))
+})
+#----
+
+
+context ("Dendograme plot of dissimilarities indices")
+
+test_that("Errors DI_dendrogram", {
+  testthat::expect_error(DI_dendrogram())
+  testthat::expect_error(DI_dendrogram(DI_selected_sites, selection_type = "i"))
+})
+#----
