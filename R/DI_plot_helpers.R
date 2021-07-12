@@ -56,7 +56,7 @@ plot_DI <- function(DI_selected_sites, selection_type = "selections",
     stop("Argument 'DI_selected_sites' must be defined.")
   }
   if (!selection_type %in% c("selections", "random", "E", "G", "EG")) {
-    stop("Argument 'selection_type' is not valid, options are: 'selections'', 'random', 'E', 'G', or 'EG'.")
+    stop("Argument 'selection_type' is not valid, options are: 'selections', 'random', 'E', 'G', or 'EG'.")
   }
 
  # Preparing data for plotting

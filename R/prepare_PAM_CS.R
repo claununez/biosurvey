@@ -82,7 +82,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
   }
   cpam <- class(PAM)[1]
   if (!cpam %in% c("base_PAM", "matrix", "data.frame")) {
-    stop("Argument 'PAM' must be of class 'base_PAM' or 'matrix'.")
+    stop("Argument 'PAM' must be of class 'base_PAM', 'matrix', or 'data.frame'.")
   }
 
   # Preparing data
