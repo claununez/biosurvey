@@ -133,6 +133,14 @@ explore_data_EG <- function(master, variable_1, variable_2,
   xlim <- range(master$data_matrix[, variable_1])
   ylim  <- range(master$data_matrix[, variable_2])
 
+  # Box to plot
+  boxpam <- t(master$region@bbox)
+  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
+                                       proj4string = master$region@proj4string)
+
+  # to fill cells
+  to_fill <- !is.na(master$raster_base[])
+
   # Plot
   layout(matrix(1:15, 3, byrow = T), widths = c(1, 10, 2, 10, 2),
                    heights = c(10, 1.2, 10))
@@ -143,8 +151,11 @@ explore_data_EG <- function(master, variable_1, variable_2,
   text(0.5, 0.5, "Geographic space", cex = 1.2, srt = 90)
 
   ### Variable 1
-  vf <- as.factor(master$data_matrix[, variable_1])
-  sp::plot(master$raster_base, col = col_variable1[vf], border = NA)
+  #vf <- as.factor(master$data_matrix[, variable_1])
+  #sp::plot(master$raster_base, col = col_variable1[vf], border = NA)
+  master$raster_base[to_fill] <- master$data_matrix[, variable_1]
+  sp::plot(boxpam, col = NA)
+  raster::image(master$raster_base, col = col_variable1, add = TRUE)
 
   if(region_border == TRUE) {
     sp::plot(master$region, border = "gray50", add = TRUE)
@@ -157,8 +168,11 @@ explore_data_EG <- function(master, variable_1, variable_2,
   bar_legend(xlim, col = col_variable1, title = variable_1)
 
   ### Variable 2
-  vf <- as.factor(master$data_matrix[, variable_2])
-  sp::plot(master$raster_base, col = col_variable2[vf], border = NA)
+  #vf <- as.factor(master$data_matrix[, variable_2])
+  #sp::plot(master$raster_base, col = col_variable2[vf], border = NA)
+  master$raster_base[to_fill] <- master$data_matrix[, variable_2]
+  sp::plot(boxpam, col = NA)
+  raster::image(master$raster_base, col = col_variable2, add = TRUE)
 
   if(region_border == TRUE) {
     sp::plot(master$region, border = "gray50", add = TRUE)
