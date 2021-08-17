@@ -151,17 +151,22 @@ plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
 #' @rdname plot_blocks_EG
 #' @export
 #' @param main (character) the main title for the plot.
+#' @param xlab (character) label for the x axis. The default, NULL, uses
+#' variable_1.
+#' @param ylab (character) label for the y axis. The default, NULL, uses
+#' variable_2.
 #' @usage
 #' plot_blocks_E(master, variable_1, variable_2, which = "all",
 #'               block_ID = FALSE, col_all = NULL, col_selected = NULL,
 #'               col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-#'               cex_ID = 1, pch_all = 16, pch_selected = 16, main = "")
+#'               cex_ID = 1, pch_all = 16, pch_selected = 16,
+#'               main = "", xlab = NULL, ylab = NULL)
 
 plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
                           block_ID = FALSE, col_all = NULL, col_selected = NULL,
                           col_ID = NULL, cex_all = 0.7, cex_selected = 1,
                           cex_ID = 1, pch_all = 16, pch_selected = 16,
-                          main = "") {
+                          main = "", xlab = NULL, ylab = NULL) {
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
@@ -224,11 +229,19 @@ plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
     }
   }
 
+  # labels
+  if (is.null(xlab)) {
+    xlab <- variable_1
+  }
+  if (is.null(ylab)) {
+    ylab <- variable_2
+  }
+
   ## Plot
   plot(master$data_matrix[, evars], col = col_all, pch = pch_all, cex = cex_all,
        bty = "l", xlab = "", ylab = "", main = main)
-  title(xlab = variable_1, line = 2.3, cex.lab = 1.1)
-  title(ylab = variable_2, line = 2.3, cex.lab = 1.1)
+  title(xlab = xlab, line = 2.3, cex.lab = 1.1)
+  title(ylab = ylab, line = 2.3, cex.lab = 1.1)
 
   ## Selected blocks
   if (which == "selected") {

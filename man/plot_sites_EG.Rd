@@ -17,7 +17,7 @@ plot_sites_E(master_selection, selection_type, variable_1 = NULL,
              variable_2 = NULL, selection_number = 1, col_all = NULL,
              col_sites = NULL, col_pre = NULL, cex_all = 0.7,
              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-             pch_pre = 16, main = "")
+             pch_pre = 16, main = "", xlab = NULL, ylab = NULL)
 
 plot_sites_G(master_selection, selection_type, selection_number = 1,
              region_border = TRUE, mask_border = FALSE, col_all = NULL,
@@ -89,6 +89,12 @@ Default = TRUE. Titles added are "Environmental space" and "Geographic
 space".}
 
 \item{main}{(character) the main title for the plot.}
+
+\item{xlab}{(character) label for the x axis. The default, NULL, uses
+variable_1.}
+
+\item{ylab}{(character) label for the y axis. The default, NULL, uses
+variable_2.}
 }
 \value{
 \code{plot_sites_EG} returns a two-panel plot showing the selected sites.
