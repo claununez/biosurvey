@@ -50,7 +50,7 @@
 #' @importFrom sp plot
 #' @importFrom raster image
 #' @importFrom graphics image layout par plot.new rasterImage text title box points
-#' @importFrom grDevices as.raster
+#' @importFrom grDevices as.raster col2rgb rgb
 #'
 #' @examples
 #' # Data
