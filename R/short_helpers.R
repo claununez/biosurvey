@@ -86,7 +86,6 @@ wgs84_2aed_laea <- function (data, longitude, latitude, which = "ED") {
 
 
 # Create a bar legend to be used in plotting functions
-
 bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0,
                         label_x = 0.7, labels_y = c(0.2, 0.85)) {
   # Initial tests
@@ -112,9 +111,11 @@ bar_legend <- function (value_range, col, alpha = 1, title = NULL, round = 0,
 
 
 # Make colors transparent at distinct levels
-
-make_alpha <- function(col, alpha = 1) {
-  rgb <- farver::decode_colour(col, alpha = TRUE)
-  rgb[, 4] <- alpha
-  farver::encode_colour(rgb, alpha)
+make_alpha <- function(col, alpha = 1, names = NULL) {
+  rgb_col <- col2rgb(col)
+  t_col <- rgb(rgb_col[1, ], rgb_col[2, ], rgb_col[3, ],
+               alpha = (alpha * 100) * 255 / 100,
+               names = names, maxColorValue = 255)
+  return(t_col)
 }
+

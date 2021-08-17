@@ -51,7 +51,6 @@
 #' @importFrom raster image
 #' @importFrom graphics image layout par plot.new rasterImage text title box points
 #' @importFrom grDevices as.raster
-#' @importFrom farver encode_colour decode_colour
 #'
 #' @examples
 #' # Data
@@ -135,18 +134,9 @@ explore_data_EG <- function(master, variable_1, variable_2,
   ylim  <- range(master$data_matrix[, variable_2])
 
   # Plot
-  layout(matrix(1:20, 4, byrow = T), widths = c(1, 10, 2, 10, 2),
-                   heights = c(1, 10, 1.2, 10))
+  layout(matrix(1:15, 3, byrow = T), widths = c(1, 10, 2, 10, 2),
+                   heights = c(10, 1.2, 10))
   par(cex = 0.7, mar = rep(0, 4))
-
-  ## Titles
-  plot.new()
-  plot.new()
-  text(0.5, 0.5, variable_1, cex = 1.2)
-  plot.new()
-  plot.new()
-  text(0.5, 0.5, variable_2, cex = 1.2)
-  plot.new()
 
   ## Geographic space
   plot.new()
@@ -183,10 +173,10 @@ explore_data_EG <- function(master, variable_1, variable_2,
   ## Titles
   plot.new()
   plot.new()
-  text(0.5, 0.5, "Point cloud", cex = 1.2)
+  text(0.55, 0.5, "Point cloud", cex = 1.2)
   plot.new()
   plot.new()
-  text(0.5, 0.5, "Point density", cex = 1.2)
+  text(0.55, 0.5, "Point density", cex = 1.2)
   plot.new()
 
   ## Environmental space
@@ -196,8 +186,8 @@ explore_data_EG <- function(master, variable_1, variable_2,
   par(mar = c(3.5, 3.5, 0.5, 0.5))
   plot(master$data_matrix[, c(variable_1, variable_2)], col = col_points,
        bty = "l", xlab = "", ylab = "")
-  title(xlab = variable_1, line = 2.4, cex.lab = 1.1)
-  title(ylab = variable_2, line = 2.4, cex.lab = 1.1)
+  title(xlab = variable_1, line = 2.1, cex.lab = 1.1)
+  title(ylab = variable_2, line = 2.1, cex.lab = 1.1)
 
   par(mar = rep(0, 4))
   plot.new()
@@ -206,7 +196,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   plot(xlim, ylim, type = "n", bty = "l", xlab = "", ylab = "")
   image(mx2kd$eval.points[[1]], mx2kd$eval.points[[2]],
                   z = mx2kd$estimate, col = col_density, add = TRUE)
-  title(xlab = variable_1, line = 2.4, cex.lab = 1.1)
+  title(xlab = variable_1, line = 2.1, cex.lab = 1.1)
 
   par(mar = rep(0, 4))
   plot.new()

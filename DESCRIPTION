@@ -37,7 +37,6 @@ BugReports: https://github.com/claununez/biosurvey/issues
 Imports:
     diptest (>= 0.75),
     doParallel (>= 1.0),
-    farver (>= 2.0),
     foreach (>= 1.5),
     graphics,
     grDevices,
