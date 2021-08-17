@@ -52,8 +52,8 @@ new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
   if (!mclass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "NULL")) {
     stop("'mask' must be of class 'SpatialPolygons' or 'SpatialPolygonsDataFrame', or NULL.")
   }
-  if (!raclass %in% c("SpatialPolygonsDataFrame")) {
-    stop("'raster_base' must be of class 'SpatialPolygonsDataFrame'.")
+  if (!raclass %in% c("RasterLayer")) {
+    stop("'raster_base' must be of class 'RasterLayer'.")
   }
   if (!pcaclass %in% c("prcomp", "NULL")) {
     stop("'PCA_results' must be of class 'prcomp', or NULL.")
