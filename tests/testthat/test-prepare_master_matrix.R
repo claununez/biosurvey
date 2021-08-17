@@ -30,7 +30,7 @@ test_that("Correct creation of master_matrix", {
   testthat::expect_null(m_matrix$PCA_results)
   testthat::expect_s3_class(m_matrix1$PCA_results, "prcomp")
   testthat::expect_s4_class(m_matrix$region, "SpatialPolygonsDataFrame")
-  testthat::expect_s4_class(m_matrix$raster_base, "SpatialPolygonsDataFrame")
+  testthat::expect_s4_class(m_matrix$raster_base, "RasterLayer")
   testthat::expect_length(m_matrix, 6)
   testthat::expect_equal(cnam, anames)
   testthat::expect_equal(inams, enams)
