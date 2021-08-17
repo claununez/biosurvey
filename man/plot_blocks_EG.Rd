@@ -15,7 +15,8 @@ plot_blocks_EG(master, variable_1, variable_2, region_border = TRUE,
 plot_blocks_E(master, variable_1, variable_2, which = "all",
               block_ID = FALSE, col_all = NULL, col_selected = NULL,
               col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-              cex_ID = 1, pch_all = 16, pch_selected = 16, main = "")
+              cex_ID = 1, pch_all = 16, pch_selected = 16,
+              main = "", xlab = NULL, ylab = NULL)
 
 plot_blocks_G(master, region_border = TRUE, mask_border = FALSE,
               which = "all", block_ID = FALSE, col_all = NULL,
@@ -80,6 +81,12 @@ Default = TRUE. Titles added are "Environmental space" and "Geographic
 space".}
 
 \item{main}{(character) the main title for the plot.}
+
+\item{xlab}{(character) label for the x axis. The default, NULL, uses
+variable_1.}
+
+\item{ylab}{(character) label for the y axis. The default, NULL, uses
+variable_2.}
 }
 \value{
 A two-panel plot showing all the blocks of the region of interest and the

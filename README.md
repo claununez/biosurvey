@@ -106,19 +106,21 @@ specific version of one or more of the packages to be installed. If any
 of the packages gives an error when updating, please install it alone
 using install.packages(), then try re-installing biosurvey again.
 
-    # Installing and loading packages
-    if(!require(remotes)){
-      install.packages("remotes")
-    }
+``` r
+# Installing and loading packages
+if(!require(remotes)){
+  install.packages("remotes")
+}
 
-    # To install the package use
-    remotes::install_github("claununez/biosurvey")
+# To install the package use
+remotes::install_github("claununez/biosurvey")
 
-    # To install the package and its vignettes use   
-    remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
+# To install the package and its vignettes use   
+remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
 
-    # Load biosurvey
-    library(biosurvey)
+# Load biosurvey
+library(biosurvey)
+```
 
 <br>
 
@@ -126,30 +128,36 @@ using install.packages(), then try re-installing biosurvey again.
 
 To check all functions in the package use:
 
-    help(biosurvey)
+``` r
+help(biosurvey)
+```
 
 <br>
 
 If the package was installed with its vignettes you can see all options
 with:
 
-    vignette(package = "biosurvey")
+``` r
+vignette(package = "biosurvey")
+```
 
 <br>
 
 To check each vignette you can use:
 
-    # For a guide on how to prepare data for analysis
-    vignette("biosurvey_preparing_data")
+``` r
+# For a guide on how to prepare data for analysis
+vignette("biosurvey_preparing_data")
 
-    # For a guide on how to select sampling sites
-    vignette("biosurvey_selecting_sites")
+# For a guide on how to select sampling sites
+vignette("biosurvey_selecting_sites")
 
-    # For a guide on how to select sampling sites when some sites have been preselected
-    vignette("biosurvey_selection_with_preselected_sites")
+# For a guide on how to select sampling sites when some sites have been preselected
+vignette("biosurvey_selection_with_preselected_sites")
 
-    # For a guide on how to use the testing module
-    vignette("biosurvey_testing_module")
+# For a guide on how to use the testing module
+vignette("biosurvey_testing_module")
+```
 
 <br>
 

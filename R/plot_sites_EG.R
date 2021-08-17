@@ -139,19 +139,23 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
 #' @rdname plot_sites_EG
 #' @export
 #' @param main (character) the main title for the plot.
+#' @param xlab (character) label for the x axis. The default, NULL, uses
+#' variable_1.
+#' @param ylab (character) label for the y axis. The default, NULL, uses
+#' variable_2.
 #' @usage
 #' plot_sites_E(master_selection, selection_type, variable_1 = NULL,
 #'              variable_2 = NULL, selection_number = 1, col_all = NULL,
 #'              col_sites = NULL, col_pre = NULL, cex_all = 0.7,
 #'              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-#'              pch_pre = 16, main = "")
+#'              pch_pre = 16, main = "", xlab = NULL, ylab = NULL)
 
 plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
                          variable_2 = NULL, selection_number = 1,
                          col_all = NULL, col_sites = NULL, col_pre = NULL,
                          cex_all = 0.7, cex_sites = 1, cex_pre = 1,
                          pch_all = 16, pch_sites = 16, pch_pre = 16,
-                         main = "") {
+                         main = "", xlab = NULL, ylab = NULL) {
   # Initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
@@ -209,12 +213,20 @@ plot_sites_E <- function(master_selection, selection_type, variable_1 = NULL,
     }
   }
 
+  # labels
+  if (is.null(xlab)) {
+    xlab <- variable_1
+  }
+  if (is.null(ylab)) {
+    ylab <- variable_2
+  }
+
   # Plot
   ## Environmental space
   plot(master_selection$data_matrix[, evars], col = col_all, pch = pch_all,
        cex = cex_all, bty = "l", xlab = "", ylab = "", main = main)
-  title(xlab = variable_1, line = 2.3, cex.lab = 1.1)
-  title(ylab = variable_2, line = 2.3, cex.lab = 1.1)
+  title(xlab = xlab, line = 2.3, cex.lab = 1.1)
+  title(ylab = ylab, line = 2.3, cex.lab = 1.1)
 
   ## Selected sites
   selected_data <- master_selection[[selection_type]][[selection_number]]

@@ -11,7 +11,7 @@ A list of 10 elements:
 \item{preselected_sites}{NULL}
 \item{region}{object of class SpatialPolygons*}
 \item{mask}{NULL}
-\item{raster_base}{object of class SpatialPolygonsDataFrame}
+\item{raster_base}{object of class RasterLayer}
 \item{PCA_results}{list of length 5}
 \item{selected_sites_random}{list with one data.frame}
 \item{selected_sites_G}{list with one data.frame}

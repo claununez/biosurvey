@@ -50,8 +50,7 @@
 #' @importFrom sp plot
 #' @importFrom raster image
 #' @importFrom graphics image layout par plot.new rasterImage text title box points
-#' @importFrom grDevices as.raster
-#' @importFrom farver encode_colour decode_colour
+#' @importFrom grDevices as.raster col2rgb rgb
 #'
 #' @examples
 #' # Data
@@ -134,27 +133,29 @@ explore_data_EG <- function(master, variable_1, variable_2,
   xlim <- range(master$data_matrix[, variable_1])
   ylim  <- range(master$data_matrix[, variable_2])
 
-  # Plot
-  layout(matrix(1:20, 4, byrow = T), widths = c(1, 10, 2, 10, 2),
-                   heights = c(1, 10, 1.2, 10))
-  par(cex = 0.7, mar = rep(0, 4))
+  # Box to plot
+  boxpam <- t(master$region@bbox)
+  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
+                                       proj4string = master$region@proj4string)
 
-  ## Titles
-  plot.new()
-  plot.new()
-  text(0.5, 0.5, variable_1, cex = 1.2)
-  plot.new()
-  plot.new()
-  text(0.5, 0.5, variable_2, cex = 1.2)
-  plot.new()
+  # to fill cells
+  to_fill <- !is.na(master$raster_base[])
+
+  # Plot
+  layout(matrix(1:15, 3, byrow = T), widths = c(1, 10, 2, 10, 2),
+                   heights = c(10, 1.2, 10))
+  par(cex = 0.7, mar = rep(0, 4))
 
   ## Geographic space
   plot.new()
   text(0.5, 0.5, "Geographic space", cex = 1.2, srt = 90)
 
   ### Variable 1
-  vf <- as.factor(master$data_matrix[, variable_1])
-  sp::plot(master$raster_base, col = col_variable1[vf], border = NA)
+  #vf <- as.factor(master$data_matrix[, variable_1])
+  #sp::plot(master$raster_base, col = col_variable1[vf], border = NA)
+  master$raster_base[to_fill] <- master$data_matrix[, variable_1]
+  sp::plot(boxpam, col = NA)
+  raster::image(master$raster_base, col = col_variable1, add = TRUE)
 
   if(region_border == TRUE) {
     sp::plot(master$region, border = "gray50", add = TRUE)
@@ -167,8 +168,11 @@ explore_data_EG <- function(master, variable_1, variable_2,
   bar_legend(xlim, col = col_variable1, title = variable_1)
 
   ### Variable 2
-  vf <- as.factor(master$data_matrix[, variable_2])
-  sp::plot(master$raster_base, col = col_variable2[vf], border = NA)
+  #vf <- as.factor(master$data_matrix[, variable_2])
+  #sp::plot(master$raster_base, col = col_variable2[vf], border = NA)
+  master$raster_base[to_fill] <- master$data_matrix[, variable_2]
+  sp::plot(boxpam, col = NA)
+  raster::image(master$raster_base, col = col_variable2, add = TRUE)
 
   if(region_border == TRUE) {
     sp::plot(master$region, border = "gray50", add = TRUE)
@@ -183,10 +187,10 @@ explore_data_EG <- function(master, variable_1, variable_2,
   ## Titles
   plot.new()
   plot.new()
-  text(0.5, 0.5, "Point cloud", cex = 1.2)
+  text(0.55, 0.5, "Point cloud", cex = 1.2)
   plot.new()
   plot.new()
-  text(0.5, 0.5, "Point density", cex = 1.2)
+  text(0.55, 0.5, "Point density", cex = 1.2)
   plot.new()
 
   ## Environmental space
@@ -196,8 +200,8 @@ explore_data_EG <- function(master, variable_1, variable_2,
   par(mar = c(3.5, 3.5, 0.5, 0.5))
   plot(master$data_matrix[, c(variable_1, variable_2)], col = col_points,
        bty = "l", xlab = "", ylab = "")
-  title(xlab = variable_1, line = 2.4, cex.lab = 1.1)
-  title(ylab = variable_2, line = 2.4, cex.lab = 1.1)
+  title(xlab = variable_1, line = 2.1, cex.lab = 1.1)
+  title(ylab = variable_2, line = 2.1, cex.lab = 1.1)
 
   par(mar = rep(0, 4))
   plot.new()
@@ -206,7 +210,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
   plot(xlim, ylim, type = "n", bty = "l", xlab = "", ylab = "")
   image(mx2kd$eval.points[[1]], mx2kd$eval.points[[2]],
                   z = mx2kd$estimate, col = col_density, add = TRUE)
-  title(xlab = variable_1, line = 2.4, cex.lab = 1.1)
+  title(xlab = variable_1, line = 2.1, cex.lab = 1.1)
 
   par(mar = rep(0, 4))
   plot.new()

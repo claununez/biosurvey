@@ -9,7 +9,7 @@
 #'   \item{preselected_sites}{NULL}
 #'   \item{region}{object of class SpatialPolygons*}
 #'   \item{mask}{NULL}
-#'   \item{raster_base}{object of class SpatialPolygonsDataFrame}
+#'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #' }
 #'
@@ -31,7 +31,7 @@
 #'   \item{preselected_sites}{data.frame with 5 rows and 11 columns}
 #'   \item{region}{object of class SpatialPolygons*}
 #'   \item{mask}{NULL}
-#'   \item{raster_base}{object of class SpatialPolygonsDataFrame}
+#'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #' }
 #'
@@ -201,7 +201,7 @@ NULL
 #'   \item{preselected_sites}{NULL}
 #'   \item{region}{object of class SpatialPolygons*}
 #'   \item{mask}{NULL}
-#'   \item{raster_base}{object of class SpatialPolygonsDataFrame}
+#'   \item{raster_base}{object of class RasterLayer}
 #'   \item{PCA_results}{list of length 5}
 #'   \item{selected_sites_random}{list with one data.frame}
 #'   \item{selected_sites_G}{list with one data.frame}
