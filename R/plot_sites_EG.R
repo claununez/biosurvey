@@ -128,7 +128,7 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
                cex_sites, cex_pre, pch_all, pch_sites, pch_pre)
 
   ## Geographic space
-  par(mar = rep(0.5, 4))
+  par(mar = c(3.5, rep(0.5, 3)))
   plot_sites_G(master_selection, selection_type, selection_number,
                region_border, mask_border, col_all, col_sites, col_pre,
                cex_all, cex_sites, cex_pre, pch_all, pch_sites, pch_pre)
