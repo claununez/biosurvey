@@ -64,7 +64,7 @@
 #' @usage
 #' plot_PAM_CS(PAM_CS, add_significant = FALSE,
 #'             add_random_values = FALSE, col_all = "#CACACA",
-#'             col_significant_low = "#000000",
+#'             col_significant_low = "#6D6D6D",
 #'             col_significant_high = "#000000",
 #'             col_random_values = "#D2D2D2", pch_all = 1,
 #'             pch_significant_low = 16, pch_significant_high = 16,
@@ -189,6 +189,8 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
 #' A matrix or data.frame containing the columns longitude and latitude (in that
 #' order) corresponding to the points in \code{PAM_CS$S_significance_id}.
 #' Default = NULL
+#' @param border color for cell borders of the PAM grid. The default, NULL, does
+#' not plot any border.
 #' @usage
 #' plot_PAM_CS_geo(PAM_CS, xy_coordinates = NULL, col_all = "#CACACA",
 #'                 col_significant_low = "#6D6D6D",
