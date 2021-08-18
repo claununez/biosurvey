@@ -77,6 +77,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
                            keep_randomizations = FALSE, parallel = FALSE,
                            n_cores = NULL) {
 
+  # Initial tests
   if (missing(PAM)) {
     stop("Argument 'PAM' is missing.")
   }
