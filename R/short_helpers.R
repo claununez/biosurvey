@@ -119,6 +119,8 @@ wgs84_2aed_laea <- function (data, longitude, latitude, which = "ED") {
 #' @return
 #' A bar legend for a plot.
 #'
+#' @export
+#'
 #' @importFrom grDevices as.raster
 #' @importFrom graphics rasterImage polygon
 #'
