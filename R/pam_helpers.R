@@ -239,7 +239,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
         utils::flush.console()
-        Sys.sleep(0.1)
+        Sys.sleep(1)
         rbind(...)
       }
     }
@@ -265,7 +265,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
     sps <- list()
 
     for (x in 1:length(spnames)) {
-      Sys.sleep(0.1)
+      Sys.sleep(1)
       utils::setTxtProgressBar(pb, x)
 
       # Preparing data
@@ -358,7 +358,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
         utils::flush.console()
-        Sys.sleep(0.1)
+        Sys.sleep(1)
         rbind(...)
       }
     }
@@ -388,7 +388,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
     sps <- list()
 
     for (x in 1:length(raster_list)) {
-      Sys.sleep(0.1)
+      Sys.sleep(1)
       utils::setTxtProgressBar(pb, x)
 
       # Raster to matrix
@@ -522,7 +522,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
         utils::flush.console()
-        Sys.sleep(0.1)
+        Sys.sleep(1)
         rbind(...)
       }
     }
@@ -587,7 +587,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
     sps <- list()
 
     for (x in 1:length(spnames)) {
-      Sys.sleep(0.1)
+      Sys.sleep(1)
       utils::setTxtProgressBar(pb, x)
 
       if (format %in% c("shp", "gpkg", "geojson")) {

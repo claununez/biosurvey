@@ -77,6 +77,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
                            keep_randomizations = FALSE, parallel = FALSE,
                            n_cores = NULL) {
 
+  # Initial tests
   if (missing(PAM)) {
     stop("Argument 'PAM' is missing.")
   }
@@ -155,7 +156,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
           count <<- count + length(list(...)) - 1
           utils::setTxtProgressBar(pb, count)
           utils::flush.console()
-          Sys.sleep(0.1)
+          Sys.sleep(1)
           cbind(...)
         }
       }
@@ -184,7 +185,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
       alea <- matrix(0, nrow = n, ncol = reps)
 
       for (x in 1:reps) {
-        Sys.sleep(0.1)
+        Sys.sleep(1)
         utils::setTxtProgressBar(pb, x)
 
         mt3 <- picante::randomizeMatrix(mtt, null.model = "independentswap",
