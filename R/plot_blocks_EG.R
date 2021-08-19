@@ -141,7 +141,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
                 pch_all, pch_selected)
 
   ## Geographic space
-  par(mar = rep(0.5, 4))
+  par(mar = c(3.5, rep(0.5, 3)))
   plot_blocks_G(master, region_border, mask_border, which, block_ID, col_all,
                 col_selected, col_ID, cex_all, cex_selected, cex_ID, pch_all,
                 pch_selected)
