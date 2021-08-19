@@ -93,12 +93,8 @@ explore_data_EG <- function(master, variable_1, variable_2,
 
   # Colors
   ## Palettes
-  col_pal1 <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
-                                     "#41b6c4", "#1d91c0", "#225ea8", "#253494",
-                                     "#081d58")))
-  col_pal2 <- colorRampPalette(rev(c("#fff7f3", "#fde0dd", "#fcc5c0", "#fa9fb5",
-                                     "#f768a1", "#dd3497", "#ae017e", "#7a0177",
-                                     "#49006a")))
+  col_pal1 <- purplow
+  col_pal2 <- darkros
 
   if (is.null(col_variable1) & is.null(col_variable2) & is.null(col_points) &
       is.null(col_density)) {

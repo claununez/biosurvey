@@ -200,9 +200,7 @@ plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
   evars <- c(variable_1, variable_2)
 
   # Colors
-  col_pal <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
-                                    "#41b6c4", "#1d91c0", "#225ea8", "#253494",
-                                    "#081d58")))
+  col_pal <- purplow
 
   if (is.null(col_all) & is.null(col_selected) & is.null(col_ID)) {
     if (which == "all") {
@@ -303,9 +301,7 @@ plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
   gvars <- c("Longitude", "Latitude")
 
   # Colors
-  col_pal <- colorRampPalette(rev(c("#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
-                                    "#41b6c4", "#1d91c0", "#225ea8", "#253494",
-                                    "#081d58")))
+  col_pal <- purplow
 
   if (is.null(col_all) & is.null(col_selected) & is.null(col_ID)) {
     if (which == "all") {
