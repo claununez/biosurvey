@@ -1,22 +1,24 @@
 Package: biosurvey
 Type: Package
 Title: Tools for Biological Survey Planning
-Version: 0.0.61
+Version: 0.0.62
 Authors@R: c(
     person("Claudia", "Nuñez-Penichet", email = "claununez199o@gmail.com", 
     role = c("aut","cre"), comment = c(ORCID = "0000-0001-7442-8593")),
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = "aut",
     comment = c(ORCID = "0000-0002-2611-1767")),
-    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut",
-    comment = c(ORCID = "0000-0003-0243-2379")),
     person("Jorge", "Soberón", email = "jsoberon@ku.edu", role = "aut",
     comment = c(ORCID = "0000-0003-2160-4148")),
+    person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "aut", 
+    comment = c(ORCID = "0000-0003-1557-8596")),
     person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut",
     comment = c(ORCID = "0000-0002-7893-8774")),
     person("Vijay", "Barve", email = "vijay.barve@gmail.com", role = "aut",
     comment = c(ORCID = "0000-0002-4852-2567")),
-    person("Tomer", "Gueta", email = "tomer.gu@gmail.com", role = "aut", 
-    comment = c(ORCID = "0000-0003-1557-8596")))
+    person("Adolfo G.", "Navarro-Sigüenza", email = "adolfon@ciencias.unam.mx", 
+    role = "aut", comment = c(ORCID = "0000-0003-2652-7719")),
+    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut",
+    comment = c(ORCID = "0000-0003-0243-2379")))
 Maintainer: Claudia Nuñez-Penichet <claununez199o@gmail.com>
 Date: 2021-08-19
 Description: A collection of tools that allows users to plan systems of sampling 
