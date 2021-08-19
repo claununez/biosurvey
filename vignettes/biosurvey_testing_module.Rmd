@@ -1,6 +1,6 @@
 ---
 title: "biosurvey: Testing efficiency of selected sites"
-author: "Claudia Nunez-Penichet, Marlon E. Cobos, A. Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer Gueta"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{biosurvey: Testing efficiency of selected sites}
@@ -32,8 +32,9 @@ data("species_data", package = "biosurvey")
 b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix, 
                           cell_size = 50)
 #> Preparing spatial grid
-#> Preparing PAM from 'data'
+#> Preprocessing 'data'
 #> |======================================================================| 100%
+#> Preparing PAM from information
 #> Calculating PAM indices
 
 summary(b_pam)
@@ -221,6 +222,13 @@ Let's start with species richness:
 ```{r, eval=FALSE, echo=TRUE}
 # random selection
 plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "random")
+
+# adding a legend for better interpretations
+## this color palette is the same used by default in plots (purplow)
+colpal <- purplow(7) 
+labs <- range(b_pam$PAM_indices$Richness)
+
+legend_bar("bottomleft", col = colpal, title = "Richness", labels = labs)
 ```
 
 ```{r, fig.height=6, fig.width=6}
@@ -230,6 +238,9 @@ knitr::include_graphics("vignette_img/V4_f9.png")
 ```{r, eval=FALSE, echo=TRUE}
 # G selection
 plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "G")
+
+# adding the legend 
+legend_bar("bottomleft", col = colpal, title = "Richness", labels = labs)
 ```
 
 ```{r, fig.height=6, fig.width=6}
@@ -240,6 +251,8 @@ knitr::include_graphics("vignette_img/V4_f10.png")
 # E selection
 plot_PAM_geo(b_pam, master_selection = m_selection, selection_type = "E")
 
+# adding the legend 
+legend_bar("bottomleft", col = colpal, title = "Richness", labels = labs)
 ```
 
 ```{r, fig.height=6, fig.width=6}
@@ -251,8 +264,16 @@ knitr::include_graphics("vignette_img/V4_f11.png")
 The next index represents how unique is the set of species in each cell in the PAM. Having the selected sites on top of this map helps to assess how well or sites will be sampling interesting areas in the region of interest.
 
 ```{r, eval=FALSE, echo=TRUE}
-# random selection
-plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "random")
+# random selection (using another palette)
+plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, 
+             selection_type = "random", col_pal = greeple)
+
+# adding the appropriate legend 
+colpal1 <- greeple(10)
+labs1 <- range(b_pam$PAM_indices$Mean_composition_covariance)
+
+legend_bar("bottomleft", col = colpal1, title = "Mean comp-covar", 
+           labels = labs1, digits = 2)
 ```
 
 ```{r, fig.height=6, fig.width=6}
@@ -261,7 +282,12 @@ knitr::include_graphics("vignette_img/V4_f12.png")
 
 ```{r, eval=FALSE, echo=TRUE}
 # G selection
-plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "G")
+plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, 
+             selection_type = "G", col_pal = greeple)
+
+# adding the legend
+legend_bar("bottomleft", col = colpal1, title = "Mean comp-covar", 
+           labels = labs1, digits = 2)
 ```
 
 ```{r, fig.height=6, fig.width=6}
@@ -270,8 +296,12 @@ knitr::include_graphics("vignette_img/V4_f13.png")
 
 ```{r, eval=FALSE, echo=TRUE}
 # E selection
-plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, selection_type = "E")
+plot_PAM_geo(b_pam, index = "MCC", master_selection = m_selection, 
+             selection_type = "E", col_pal = greeple)
 
+# adding the legend
+legend_bar("bottomleft", col = colpal1, title = "Mean comp-covar", 
+           labels = labs1, digits = 2)
 ```
 
 ```{r, fig.height=6, fig.width=6}

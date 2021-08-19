@@ -8,6 +8,11 @@ biosurvey: Tools for Biological Survey Planning
 -   [biosurvey functions and
     vignettes](#biosurvey-functions-and-vignettes)
 -   [Workflow description](#workflow-description)
+    -   [Data preparation](#data-preparation)
+    -   [Selection of sites for biodiversity
+        inventory](#selection-of-sites-for-biodiversity-inventory)
+    -   [Evaluation of sampling site
+        effectiveness](#evaluation-of-sampling-site-effectiveness)
 
 <!-- badges: start -->
 
@@ -32,9 +37,9 @@ Student: *Claudia Nuñez-Penichet*
 
 GSoC Mentors: *Narayani Barve, Vijay Barve, Tomer Gueta*
 
-Complete list of authors: *Claudia Nunez-Penichet, Marlon E. Cobos, A.
-Townsend Peterson, Jorge Soberon, Narayani Barve, Vijay Barve, Tomer
-Gueta*
+Complete list of authors: *Claudia Nunez-Penichet, Marlon E. Cobos,
+Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G.
+Navarro-Siguenza, A. Townsend Peterson*
 
 Motivation:
 
@@ -74,7 +79,7 @@ general descriptions of how to use it.
 
 ## Package description
 
-The biosurvey R package implements multiple tools to allow users to
+The **biosurvey** R package implements multiple tools to allow users to
 select sampling sites increasing efficiency of biodiversity survey
 systems by considering the relationship of environmental and geographic
 conditions in a region. Three main modules are included: 1) Data
@@ -97,14 +102,14 @@ monitoring biodiversity.
 
 ## Installing the package
 
-biosurvey is in a GitHub repository and can be installed and/or loaded
-using the code below (make sure to have Internet connection). If you
-have any problem during installation, restart R session, close other
+**biosurvey** is in a GitHub repository and can be installed and/or
+loaded using the code below (make sure to have Internet connection). If
+you have any problem during installation, restart R session, close other
 RStudio sessions you may have open, and try again. If during the
 installation you are asked to update packages, do so if you don’t need a
 specific version of one or more of the packages to be installed. If any
 of the packages gives an error when updating, please install it alone
-using install.packages(), then try re-installing biosurvey again.
+using install.packages(), then try re-installing **biosurvey** again.
 
 ``` r
 # Installing and loading packages
@@ -163,13 +168,18 @@ vignette("biosurvey_testing_module")
 
 ## Workflow description
 
-To use biosurvey efficiently the first thing to do is to prepare an
+### Data preparation
+
+To use **biosurvey** efficiently the first thing to do is to prepare an
 object containing all information to be used in following analyses. This
-can be done using the function `preapare_master_matrix`. After that
-recommend intermediate steps are: exploring the data using the function
+can be done using the function `preapare_master_matrix`. After that,
+recommended steps are: exploring the data using the function
 `explore_data_EG` and creating blocks of points in environmental space
-using `make_blocks`. Then, distinct functions can be used to select
-sampling sites:
+using `make_blocks`.
+
+### Selection of sites for biodiversity inventory
+
+Then, distinct functions can be used to select sampling sites:
 
 -   `random_selection`.- Random selection of sites to be sampled in a
     survey.
@@ -188,11 +198,13 @@ preselected sites which will be inserted as part of the selection,
 trying to maintaining the properties of each algorithm. See also how
 your selected sites look like with the function `plot_sites_EG`.
 
-After selection of sampling sites and if enough data are available,
-functions from the testing module can be used to explore which of the
-sets of sites selected could be better to monitor biodiversity more
-efficiently. Explore the following functions to explore your data and
-how well your selected sites perform in representing the exiting
+### Evaluation of sampling site effectiveness
+
+After the selection of sampling sites, and, if enough high-quality data
+are available, functions from the testing module of this package can be
+used to explore which of the sets of sites selected could be better.
+Explore the following functions to prepare your data, and assess how
+well your selected sites perform in representing the exiting
 biodiversity:
 
 -   `prepare_base_PAM`.- Prepares a presence-absence matrix (PAM) in
@@ -210,3 +222,11 @@ biodiversity:
 -   `compare_SAC`.- Creates comparative plots of two species
     accumulation curves from information contained in lists obtained
     with the function `selected_sites_SAC`.
+-   `selected_sites_DI`.- Computes dissimilarity indices among sites
+    selected and among sets of selected sites, based on the communities
+    of species represented in such units.
+-   `plot_DI`.- Creates matrix-like plots of dissimilarities found among
+    communities of species in distinct sites selected or sets of sites
+    selected
+-   `DI_dendrogram`.- Plot dissimilarities withing and among sets of
+    selected sites as a dendrogram.
