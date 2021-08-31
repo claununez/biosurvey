@@ -155,8 +155,8 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
         function(...) {
           count <<- count + length(list(...)) - 1
           utils::setTxtProgressBar(pb, count)
+          Sys.sleep(0.1)
           utils::flush.console()
-          Sys.sleep(1)
           cbind(...)
         }
       }
@@ -185,7 +185,7 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
       alea <- matrix(0, nrow = n, ncol = reps)
 
       for (x in 1:reps) {
-        Sys.sleep(1)
+        Sys.sleep(0.1)
         utils::setTxtProgressBar(pb, x)
 
         mt3 <- picante::randomizeMatrix(mtt, null.model = "independentswap",

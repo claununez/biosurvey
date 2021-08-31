@@ -4,7 +4,7 @@
 \alias{uniformE_selection}
 \title{Selection of survey sites maximizing uniformity in environmental space}
 \usage{
-uniformE_selection(master, variable_1, variable_2,
+uniformE_selection(master, variable_1 = NULL, variable_2 = NULL,
                    selection_from = "all_points", expected_points,
                    guess_distances = TRUE, initial_distance = NULL,
                    increase = NULL, max_n_samplings = 1,
@@ -19,10 +19,14 @@ from functions \code{\link{random_selection}},
 \code{\link{uniformG_selection}}, or \code{\link{EG_selection}}.}
 
 \item{variable_1}{(character or numeric) name or position of the first
-variable (x-axis).}
+variable (x-axis). If the function \code{\link{make_blocks}} was used in a
+previous step, the default, NULL, will use the same two variables, otherwise
+this argument must be defined.}
 
 \item{variable_2}{(character or numeric) name or position of the second
-variable (y-axis).}
+variable (y-axis). If the function \code{\link{make_blocks}} was used in a
+previous step, the default, NULL, will use the same two variables, otherwise
+this argument must be defined.}
 
 \item{selection_from}{(character) set of points to perform the selection
 from. Two options are available, "all_points" or "block_centroids". The
@@ -71,7 +75,7 @@ Default = TRUE.}
 with this method in \code{master}.}
 }
 \value{
-A \code{\link{master_selection}} object (S3) with an additional element called
+A \code{\link{master_selection}} object (S3) with an element called
 selected_sites_E containing one or more sets of selected sites.
 }
 \description{
@@ -122,9 +126,9 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 colnames(m_blocks$data_matrix)
 
 # Selecting sites uniformly in E space
-selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
-                                 variable_2 = "PC2",
-                                 selection_from = "block_centroids",
+# because the make_blocks function was used, the same two variables will be
+# used by default.
+selectionE <- uniformE_selection(m_blocks, selection_from = "block_centroids",
                                  expected_points = 15, max_n_samplings = 1,
                                  replicates = 5, set_seed = 1)
 }

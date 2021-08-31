@@ -8,9 +8,13 @@
 #' from functions \code{\link{random_selection}},
 #' \code{\link{uniformG_selection}}, or \code{\link{EG_selection}}.
 #' @param variable_1 (character or numeric) name or position of the first
-#' variable (x-axis).
+#' variable (x-axis). If the function \code{\link{make_blocks}} was used in a
+#' previous step, the default, NULL, will use the same two variables, otherwise
+#' this argument must be defined.
 #' @param variable_2 (character or numeric) name or position of the second
-#' variable (y-axis).
+#' variable (y-axis). If the function \code{\link{make_blocks}} was used in a
+#' previous step, the default, NULL, will use the same two variables, otherwise
+#' this argument must be defined.
 #' @param selection_from (character) set of points to perform the selection
 #' from. Two options are available, "all_points" or "block_centroids". The
 #' first option picks the points from all points in the environmental cloud,
@@ -47,7 +51,7 @@
 #' with this method in \code{master}.
 #'
 #' @return
-#' A \code{\link{master_selection}} object (S3) with an additional element called
+#' A \code{\link{master_selection}} object (S3) with an element called
 #' selected_sites_E containing one or more sets of selected sites.
 #'
 #' @details
@@ -87,7 +91,7 @@
 #' \code{\link{plot_sites_EG}}
 #'
 #' @usage
-#' uniformE_selection(master, variable_1, variable_2,
+#' uniformE_selection(master, variable_1 = NULL, variable_2 = NULL,
 #'                    selection_from = "all_points", expected_points,
 #'                    guess_distances = TRUE, initial_distance = NULL,
 #'                    increase = NULL, max_n_samplings = 1,
@@ -110,13 +114,13 @@
 #' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E space
-#' selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
-#'                                  variable_2 = "PC2",
-#'                                  selection_from = "block_centroids",
+#' # because the make_blocks function was used, the same two variables will be
+#' # used by default.
+#' selectionE <- uniformE_selection(m_blocks, selection_from = "block_centroids",
 #'                                  expected_points = 15, max_n_samplings = 1,
 #'                                  replicates = 5, set_seed = 1)
 
-uniformE_selection <- function(master, variable_1, variable_2,
+uniformE_selection <- function(master, variable_1 = NULL, variable_2 = NULL,
                                selection_from = "all_points", expected_points,
                                guess_distances = TRUE, initial_distance = NULL,
                                increase = NULL, max_n_samplings = 1,
@@ -137,11 +141,18 @@ uniformE_selection <- function(master, variable_1, variable_2,
   } else {
     stop("Argument 'master' must be of class 'master_matrix' or 'master_selection'")
   }
-  if (missing(variable_1)) {
-    stop("Argument 'variable_1' is not defined.")
-  }
-  if (missing(variable_2)) {
-    stop("Argument 'variable_2' is not defined.")
+  if (is.null(master$data_matrix$Block)) {
+    if (is.null(variable_1)) {
+      stop("Argument 'variable_1' is not defined")
+    }
+    if (is.null(variable_2)) {
+      stop("Argument 'variable_2' is not defined")
+    }
+  } else {
+    sel_args <- attributes(master$data_matrix)
+
+    variable_1 <- sel_args$arguments$variable_1
+    variable_2 <- sel_args$arguments$variable_2
   }
   coln <- colnames(master$data_matrix)
   if (!variable_1 %in% coln) {

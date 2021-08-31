@@ -6,17 +6,16 @@
 \alias{plot_blocks_G}
 \title{Representation of environmental blocks in geography and environment}
 \usage{
-plot_blocks_EG(master, variable_1, variable_2, region_border = TRUE,
-               mask_border = FALSE, which = "all", block_ID = FALSE,
-               col_all = NULL, col_selected = NULL, col_ID = NULL,
-               cex_all = 0.7, cex_selected = 1, cex_ID = 1,
-               pch_all = 16, pch_selected = 16, add_main = TRUE)
+plot_blocks_EG(master, region_border = TRUE, mask_border = FALSE,
+               which = "all", block_ID = FALSE, col_all = NULL,
+               col_selected = NULL, col_ID = NULL, cex_all = 0.7,
+               cex_selected = 1, cex_ID = 1, pch_all = 16,
+               pch_selected = 16, add_main = TRUE)
 
-plot_blocks_E(master, variable_1, variable_2, which = "all",
-              block_ID = FALSE, col_all = NULL, col_selected = NULL,
-              col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-              cex_ID = 1, pch_all = 16, pch_selected = 16,
-              main = "", xlab = NULL, ylab = NULL)
+plot_blocks_E(master, which = "all", block_ID = FALSE, col_all = NULL,
+              col_selected = NULL, col_ID = NULL, cex_all = 0.7,
+              cex_selected = 1, cex_ID = 1, pch_all = 16,
+              pch_selected = 16, main = "", xlab = NULL, ylab = NULL)
 
 plot_blocks_G(master, region_border = TRUE, mask_border = FALSE,
               which = "all", block_ID = FALSE, col_all = NULL,
@@ -27,14 +26,8 @@ plot_blocks_G(master, region_border = TRUE, mask_border = FALSE,
 \item{master}{master_matrix object derived from function
 \code{\link{prepare_master_matrix}} or master_selection object derived
 from functions \code{\link{uniformG_selection}},
-\code{\link{uniformE_selection}} or \code{\link{EG_selection}}.}
-
-\item{variable_1}{(character or numeric) name or position of the first
-variable (x-axis) used to create blocks.}
-
-\item{variable_2}{(character or numeric) name or position of the second
-variable (y-axis) used to create blocks (must be different from the
-first one).}
+\code{\link{uniformE_selection}} or \code{\link{EG_selection}}. Blocks must
+be defined, see \code{\link{make_blocks}}.}
 
 \item{region_border}{(logical) whether to add region border to the plot.
 Default = TRUE.}
@@ -89,13 +82,13 @@ variable_1.}
 variable_2.}
 }
 \value{
-A two-panel plot showing all the blocks of the region of interest and the
-blocks that were selected. They are show in both spaces, geographic and
+A plot showing all the blocks of the region of interest and, if asked, the
+blocks that were selected. They are show in both spaces, geographic and/or
 environmental.
 }
 \description{
-Creates a two-panel plot representing environmental blocks
-(all or selected) in both spaces, environmental and geographic.
+Creates a plot representing environmental blocks
+(all or selected) in both spaces, environmental and/or geographic.
 }
 \details{
 Defining colors in \code{col_all} depends on what is chosen in \code{which}.
@@ -114,9 +107,8 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
                         block_type = "equal_area")
 
-plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-               block_ID = TRUE)
-plot_blocks_E(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2")
+plot_blocks_EG(master = m_blocks, block_ID = TRUE)
+plot_blocks_E(master = m_blocks)
 plot_blocks_G(master = m_blocks)
 
 # Defining your own colors
@@ -125,6 +117,5 @@ your_palette <- sample(heat.colors(n_blocks), n_blocks)
 block_factor <- as.factor(m_blocks$data_matrix$Block)
 your_colors <- your_palette[block_factor]
 
-plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-               block_ID = TRUE, col_all = your_colors)
+plot_blocks_EG(master = m_blocks, block_ID = TRUE, col_all = your_colors)
 }

@@ -1,17 +1,13 @@
 #' Representation of environmental blocks in geography and environment
 #'
-#' @description Creates a two-panel plot representing environmental blocks
-#' (all or selected) in both spaces, environmental and geographic.
+#' @description Creates a plot representing environmental blocks
+#' (all or selected) in both spaces, environmental and/or geographic.
 #'
 #' @param master master_matrix object derived from function
 #' \code{\link{prepare_master_matrix}} or master_selection object derived
 #' from functions \code{\link{uniformG_selection}},
-#' \code{\link{uniformE_selection}} or \code{\link{EG_selection}}.
-#' @param variable_1 (character or numeric) name or position of the first
-#' variable (x-axis) used to create blocks.
-#' @param variable_2 (character or numeric) name or position of the second
-#' variable (y-axis) used to create blocks (must be different from the
-#' first one).
+#' \code{\link{uniformE_selection}} or \code{\link{EG_selection}}. Blocks must
+#' be defined, see \code{\link{make_blocks}}.
 #' @param region_border (logical) whether to add region border to the plot.
 #' Default = TRUE.
 #' @param mask_border (logical) whether to add mask border to the plot. Ignored
@@ -53,16 +49,16 @@
 #' one, so the selected blocks can be easily identified. See examples.
 #'
 #' @return
-#' A two-panel plot showing all the blocks of the region of interest and the
-#' blocks that were selected. They are show in both spaces, geographic and
+#' A plot showing all the blocks of the region of interest and, if asked, the
+#' blocks that were selected. They are show in both spaces, geographic and/or
 #' environmental.
 #'
 #' @usage
-#' plot_blocks_EG(master, variable_1, variable_2, region_border = TRUE,
-#'                mask_border = FALSE, which = "all", block_ID = FALSE,
-#'                col_all = NULL, col_selected = NULL, col_ID = NULL,
-#'                cex_all = 0.7, cex_selected = 1, cex_ID = 1,
-#'                pch_all = 16, pch_selected = 16, add_main = TRUE)
+#' plot_blocks_EG(master, region_border = TRUE, mask_border = FALSE,
+#'                which = "all", block_ID = FALSE, col_all = NULL,
+#'                col_selected = NULL, col_ID = NULL, cex_all = 0.7,
+#'                cex_selected = 1, cex_ID = 1, pch_all = 16,
+#'                pch_selected = 16, add_main = TRUE)
 #'
 #' @export
 #' @importFrom maps map
@@ -78,9 +74,8 @@
 #'                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
 #'                         block_type = "equal_area")
 #'
-#' plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-#'                block_ID = TRUE)
-#' plot_blocks_E(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2")
+#' plot_blocks_EG(master = m_blocks, block_ID = TRUE)
+#' plot_blocks_E(master = m_blocks)
 #' plot_blocks_G(master = m_blocks)
 #'
 #' # Defining your own colors
@@ -89,24 +84,17 @@
 #' block_factor <- as.factor(m_blocks$data_matrix$Block)
 #' your_colors <- your_palette[block_factor]
 #'
-#' plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-#'                block_ID = TRUE, col_all = your_colors)
+#' plot_blocks_EG(master = m_blocks, block_ID = TRUE, col_all = your_colors)
 
 
-plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
-                           mask_border = FALSE,  which = "all", block_ID = FALSE,
+plot_blocks_EG <- function(master, region_border = TRUE, mask_border = FALSE,
+                           which = "all", block_ID = FALSE,
                            col_all = NULL, col_selected = NULL, col_ID = NULL,
                            cex_all = 0.7, cex_selected = 1, cex_ID = 1,
                            pch_all = 16, pch_selected = 16, add_main = TRUE) {
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
-  }
-  if (missing(variable_1)) {
-    stop("Argument 'variable_1' is required to produce the plot.")
-  }
-  if (missing(variable_2)) {
-    stop("Argument 'variable_2' is required to produce the plot.")
   }
   if (!class(master)[1] %in% c("master_matrix", "master_selection")) {
     stop("Object defined in 'master' is not valid, see function's help.")
@@ -136,7 +124,7 @@ plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
   }
 
   ## Environmental space
-  plot_blocks_E(master, variable_1, variable_2, which, block_ID, col_all,
+  plot_blocks_E(master, which, block_ID, col_all,
                 col_selected, col_ID, cex_all, cex_selected, cex_ID,
                 pch_all, pch_selected)
 
@@ -156,14 +144,13 @@ plot_blocks_EG <- function(master, variable_1, variable_2, region_border = TRUE,
 #' @param ylab (character) label for the y axis. The default, NULL, uses
 #' variable_2.
 #' @usage
-#' plot_blocks_E(master, variable_1, variable_2, which = "all",
-#'               block_ID = FALSE, col_all = NULL, col_selected = NULL,
-#'               col_ID = NULL, cex_all = 0.7, cex_selected = 1,
-#'               cex_ID = 1, pch_all = 16, pch_selected = 16,
-#'               main = "", xlab = NULL, ylab = NULL)
+#' plot_blocks_E(master, which = "all", block_ID = FALSE, col_all = NULL,
+#'               col_selected = NULL, col_ID = NULL, cex_all = 0.7,
+#'               cex_selected = 1, cex_ID = 1, pch_all = 16,
+#'               pch_selected = 16, main = "", xlab = NULL, ylab = NULL)
 
-plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
-                          block_ID = FALSE, col_all = NULL, col_selected = NULL,
+plot_blocks_E <- function(master, which = "all", block_ID = FALSE,
+                          col_all = NULL, col_selected = NULL,
                           col_ID = NULL, cex_all = 0.7, cex_selected = 1,
                           cex_ID = 1, pch_all = 16, pch_selected = 16,
                           main = "", xlab = NULL, ylab = NULL) {
@@ -171,14 +158,24 @@ plot_blocks_E <- function(master, variable_1, variable_2, which = "all",
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
   }
-  if (missing(variable_1)) {
-    stop("Argument 'variable_1' is required to produce the plot.")
-  }
-  if (missing(variable_2)) {
-    stop("Argument 'variable_2' is required to produce the plot.")
-  }
   if (!class(master)[1] %in% c("master_matrix", "master_selection")) {
     stop("Object defined in 'master' is not valid, see function's help.")
+  }
+  if (is.null(master$data_matrix$Block)) {
+    stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
+  } else {
+    sel_args <- attributes(master$data_matrix)
+
+    variable_1 <- sel_args$arguments$variable_1
+    variable_2 <- sel_args$arguments$variable_2
+
+    coln <- colnames(master$data_matrix)
+    if (!variable_1 %in% coln) {
+      stop(variable_1, " is not one o the columns in 'master$data_matrix'.")
+    }
+    if (!variable_2 %in% coln) {
+      stop(variable_2, " is not one o the columns in 'master$data_matrix'.")
+    }
   }
   if (!which %in% c("all", "selected")) {
     stop("Argument 'which' is not valid, options are 'all' or 'selected'.")

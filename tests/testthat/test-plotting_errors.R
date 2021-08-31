@@ -20,10 +20,6 @@ test_that("Errors plot_blocks_EG", {
                           block_type = "equal_area")
 
   testthat::expect_error(plot_blocks_EG())
-  testthat::expect_error(plot_blocks_EG(master = m_matrix, variable_1 = "PC1",
-                                        variable_2 = "PC2"))
-  testthat::expect_error(plot_blocks_EG(master = m_blocks, variable_1 = "PC1"))
-  testthat::expect_error(plot_blocks_EG(master = m_blocks, variable_2 = "PC2"))
 })
 #----
 
@@ -35,9 +31,7 @@ test_that("Errors plot_sites_EG", {
   m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                           variable_2 = "PC2", n_cols = 10, n_rows = 10,
                           block_type = "equal_area")
-  selectionE <- uniformE_selection(m_blocks, variable_1 = "PC1",
-                                   variable_2 = "PC2",
-                                   selection_from = "block_centroids",
+  selectionE <- uniformE_selection(m_blocks, selection_from = "block_centroids",
                                    expected_points = 20, max_n_samplings = 1,
                                    replicates = 5)
 

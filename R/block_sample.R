@@ -7,11 +7,6 @@
 #' \code{\link{prepare_master_matrix}} or a master_selection object derived
 #' from functions \code{\link{random_selection}},
 #' \code{\link{uniformG_selection}}, or \code{\link{uniformE_selection}}.
-#' @param variable_1 (character or numeric) name or position of the first
-#' variable (x-axis).
-#' @param variable_2 (character or numeric) name or position of the second
-#' variable (y-axis) to be used to create blocks (must be different from the
-#' first one).
 #' @param expected_blocks (numeric) number of blocks to be selected.
 #' @param selection_type (character) type of selection. Two options are
 #' available: "uniform" and "random". Default = "uniform".
@@ -32,8 +27,8 @@
 #' non-selected (0) blocks.
 #'
 #' @usage
-#' block_sample(master, variable_1, variable_2, expected_blocks,
-#'              selection_type = "uniform", replicates = 10, set_seed = 1)
+#' block_sample(master, expected_blocks, selection_type = "uniform",
+#'              replicates = 10, set_seed = 1)
 #'
 #' @export
 #'
@@ -51,15 +46,14 @@
 #' summary(m_blocks$data_matrix[, c("PC1", "PC2")])
 #'
 #' # Selecting blocks uniformly in E space
-#' block_sel <- block_sample(m_blocks, variable_1 = "PC1", variable_2  = "PC2",
-#'                           expected_blocks = 10, selection_type = "uniform")
+#' block_sel <- block_sample(m_blocks, expected_blocks = 10,
+#'                           selection_type = "uniform")
 #'
 #' head(block_sel$data_matrix)
 
 
-block_sample <- function(master, variable_1, variable_2, expected_blocks,
-                         selection_type = "uniform", replicates = 10,
-                         set_seed = 1) {
+block_sample <- function(master, expected_blocks, selection_type = "uniform",
+                         replicates = 10, set_seed = 1) {
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' needs to be defined.")
@@ -69,19 +63,19 @@ block_sample <- function(master, variable_1, variable_2, expected_blocks,
   }
   if (is.null(master$data_matrix$Block)) {
     stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
-  }
-  if (missing(variable_1)) {
-    stop("Argument 'variable_1' needs to be defined.")
-  }
-  if (missing(variable_2)) {
-    stop("Argument 'variable_2' needs to be defined.")
-  }
-  coln <- colnames(master$data_matrix)
-  if (!variable_1 %in% coln) {
-    stop(variable_1, " is not one o the columns in 'master$data_matrix'.")
-  }
-  if (!variable_2 %in% coln) {
-    stop(variable_2, " is not one o the columns in 'master$data_matrix'.")
+  } else {
+    sel_args <- attributes(master$data_matrix)
+
+    variable_1 <- sel_args$arguments$variable_1
+    variable_2 <- sel_args$arguments$variable_2
+
+    coln <- colnames(master$data_matrix)
+    if (!variable_1 %in% coln) {
+      stop(variable_1, " is not one o the columns in 'master$data_matrix'.")
+    }
+    if (!variable_2 %in% coln) {
+      stop(variable_2, " is not one o the columns in 'master$data_matrix'.")
+    }
   }
   if (missing(expected_blocks)) {
     stop("Argument 'expected_blocks' needs to be defined.")

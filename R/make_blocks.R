@@ -74,6 +74,9 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
     stop(variable_2, " is not one o the columns in 'master_matrix$data_matrix'.")
   }
 
+  other_args <- list(arguments = list(variable_1 = variable_1,
+                                      variable_2 = variable_2))
+
   # Preparing data
   data <- master_matrix$data_matrix
   id <- paste(data[, 1], data[, 2])
@@ -122,8 +125,10 @@ make_blocks <- function(master_matrix, variable_1, variable_2, n_cols,
   }
 
   # Returning results
-  ## Matches data back in order
+  ## Matches data back in order and adds attributes
   all_cls <- all_cls[match(id, paste(all_cls[, 1], all_cls[, 2])), ]
+  attributes(all_cls) <- c(attributes(all_cls), other_args)
+
   master_matrix$data_matrix <- all_cls
 
   if (!is.null(master_matrix$preselected_sites)) {

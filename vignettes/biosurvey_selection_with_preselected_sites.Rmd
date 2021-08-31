@@ -117,8 +117,7 @@ Let's check how the blocked environment looks like in environmental and geograph
 
 ```{r plot_blocks_EG, eval=FALSE, echo=TRUE}
 # plotting all blocks
-plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-               block_ID = TRUE)
+plot_blocks_EG(master = m_blocks, block_ID = TRUE)
 ```
 
 ```{r, fig.height=4, fig.width=6}
@@ -139,8 +138,7 @@ The goal of this type of selection is maximizing uniformity of points in environ
 
 ```{r EG_selection, eval=FALSE, echo=TRUE}
 # Selecting sites uniformly in E and G spaces
-EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-                       n_blocks = 20)
+EG_sel <- EG_selection(master = m_blocks, n_blocks = 20)
 #> Preparing data for analysis
 #> Running distance optimization, please wait...
 #> Selecting relevant environmental blocks, please wait...
@@ -385,8 +383,7 @@ With the following lines of code you can select sampling sites that are uniforml
 
 ```{r uniformE_selection, eval=FALSE, echo=TRUE}
 # Selecting sites uniformly in E space
-EG_r_G_E_selection <- uniformE_selection(EG_r_G_selection, variable_1 = "PC1", 
-                                         variable_2 = "PC2", expected_points = 26)
+EG_r_G_E_selection <- uniformE_selection(EG_r_G_selection, expected_points = 26)
 #> Running distance optimization, please wait...
 #> Running algorithm for selecting sites, please wait...
 #>     Distance  0.81  resulted in  35  points

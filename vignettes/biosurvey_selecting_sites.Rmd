@@ -34,8 +34,7 @@ The goal of this type of selection is maximizing uniformity of points in environ
 
 ```{r EG_selection, eval=FALSE, echo=TRUE}
 # Selecting sites uniformly in E and G spaces
-EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-                       n_blocks = 10)
+EG_sel <- EG_selection(master = m_blocks, n_blocks = 10)
 #> Element 'preselected_sites' in 'master' is NULL, setting
 #> 'use_preselected_sites' = FALSE
 #> Preparing data for analysis
@@ -147,8 +146,7 @@ With the following lines of code you can select sampling sites that are uniforml
 
 ```{r uniformE_selection_blocks, eval=FALSE, echo=TRUE}
 # Selecting sites uniformly in E space
-EG_r_G_E_selection <- uniformE_selection(EG_r_G_selection, variable_1 = "PC1", 
-                                         variable_2 = "PC2", expected_points = 15, 
+EG_r_G_E_selection <- uniformE_selection(EG_r_G_selection, expected_points = 15, 
                                          max_n_samplings = 1, replicates = 5)
 #> Element 'preselected_sites' in 'master' is NULL, setting
 #> 'use_preselected_sites' = FALSE
