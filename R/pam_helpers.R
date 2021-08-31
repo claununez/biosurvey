@@ -238,8 +238,8 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
       function(...) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
+        Sys.sleep(0.1)
         utils::flush.console()
-        Sys.sleep(1)
         rbind(...)
       }
     }
@@ -265,13 +265,14 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
     sps <- list()
 
     for (x in 1:length(spnames)) {
-      Sys.sleep(1)
+      Sys.sleep(0.1)
       utils::setTxtProgressBar(pb, x)
 
       # Preparing data
       sp <- sp::over(spdf_grid, spdf_object[spnames == spnames[x], ])
       sps[[x]] <- na.omit(data.frame(ID, sp))
     }
+    close(pb)
 
     sps <- do.call(rbind, sps)
   }
@@ -357,8 +358,8 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
       function(...) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
+        Sys.sleep(0.1)
         utils::flush.console()
-        Sys.sleep(1)
         rbind(...)
       }
     }
@@ -388,7 +389,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
     sps <- list()
 
     for (x in 1:length(raster_list)) {
-      Sys.sleep(1)
+      Sys.sleep(0.1)
       utils::setTxtProgressBar(pb, x)
 
       # Raster to matrix
@@ -399,6 +400,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
       cond <- sppm[, 3] == 1
       sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spname)
     }
+    close(pb)
 
     sps <- do.call(rbind, sps)
   }
@@ -521,8 +523,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
       function(...) {
         count <<- count + length(list(...)) - 1
         utils::setTxtProgressBar(pb, count)
+        Sys.sleep(0.1)
         utils::flush.console()
-        Sys.sleep(1)
         rbind(...)
       }
     }
@@ -587,7 +589,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
     sps <- list()
 
     for (x in 1:length(spnames)) {
-      Sys.sleep(1)
+      Sys.sleep(0.1)
       utils::setTxtProgressBar(pb, x)
 
       if (format %in% c("shp", "gpkg", "geojson")) {
@@ -627,6 +629,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
         sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spnames[x])
       }
     }
+    close(pb)
 
     sps <- do.call(rbind, sps)
   }
