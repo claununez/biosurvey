@@ -27,7 +27,7 @@
 #' with this method in \code{master}.
 #'
 #' @return
-#' A \code{\link{master_selection}} object (S3) with an additional element
+#' A \code{\link{master_selection}} object (S3) with an element
 #' called selected_sites_random containing one or more sets of selected sites.
 #'
 #' @details

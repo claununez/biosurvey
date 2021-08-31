@@ -58,7 +58,7 @@ Default = TRUE.}
 with this method in \code{master}.}
 }
 \value{
-A \code{\link{master_selection}} object (S3) with an additional element
+A \code{\link{master_selection}} object (S3) with an element
 called selected_sites_G containing one or more sets of selected sites.
 }
 \description{
