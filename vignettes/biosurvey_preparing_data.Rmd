@@ -19,21 +19,23 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", echo = FALSE)
 
 ### Description of data needed for analysis
 
-The main goal of **biosurvey** is to help users to identify sites for biodiversity surveys. This package contain tools that use environmental and geographic information to promote the selection of sites that could allow a better sampling of species in a region. The types of data needed to perform analysis are:
+The main goal of **biosurvey** is to help users to identify sites for biodiversity inventory. This package contains tools that use environmental and geographic information to promote the selection of sites that could allow a better sampling of species in a region. The data needed to perform analyses are:
 
-- Spatial polygons (e.g., shapefiles) representing the region(s) of interest.
-- Raster layers (e.g., GeoTiff, ASCII, and BIL) representing the environmental variables of interest.
-- Spatial coordinates, spatial polygons, or raster layers representing species distribution ranges (optional, only used for tests).
+- *Environmental variables*.- These variables must be in raster format (e.g., GTiff, BIL, ASCII). To load these variables to your R environment, you can use the function `stack` from the package `raster`. 
+- *Region of interest*.- As your analyses will be focused on a region, a spatial polygon of such an area is needed. Common formats in which your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To load this information to your R environment you can use the function `readOGR` from the `rgdal` package.
 
-The types of data mentioned above can be load in **R** using tools from packages like **raster**, **sp**, and **rgdal**. The classes of objects that you will need for using **biosurvey** are: 
+Additionally, other data can be used to make sampling site selection more effective. The functions that help to prepare the data for analysis also allow users to include:
 
-- **RasterLayer**
-- **RasterStack**
-- **SpatialPolygonsDataFrame**
-- **SpatialPolygonsDataFrame**
-- Other basic objects from **R**, like **matrix**, **data.frame**, and **list**. 
+- *Sites selected a priori*.- A data.frame of sites that researchers consider important to be included in any set of localities to be sampled. These site(s) will be included (by force) in any of the results obtained in later analyses. Using these sites represents a good opportunity to consider areas that are well known and should be included to monitor biodiversity changes in a region.
+- *A mask to restrict analyses to smaller areas*.- A spatial polygon that reduces the region of interest to areas that are considered to be more relevant for analysis can be considered. Some examples of how to define these masks include areas with natural vegetation, areas that are accessible, regions with particular vegetation cover types, etc. This mask is usually in the same format that the *Region of interest*.
 
-The geographic projection of objects or coordinates involved in analyses must be WGS84 (EPSG:4326). Environmental and geographic information is all that is needed to select biodiversity survey sites (sampling sites). Information about species distribution is not required, but if it exists and is reliable, can be used to test the effectiveness of the sampling sites selected based on what is known about species richness in the region of interest.
+If enough, good-quality data on species distributions are available, analyses of the effectiveness of sampling sites can be performed. The data used to prepare information to perform such analyses can be of different types:
+
+- Spatial polygons of species distributions
+- Raster layers defining suitable and unsuitable areas
+- Geographic points of species occurrences
+
+The geographic projection of objects or coordinates involved in analyses must be WGS84 (EPSG:4326). Environmental and geographic information is all what is needed to select biodiversity survey sites (sampling sites). Information about species distribution is not required, but if it exists and is reliable, it can be used to test the effectiveness of the sampling sites selected based on what is known about species richness in the region of interest.
 
 <br>
 
@@ -219,8 +221,7 @@ Let's check how the blocked environment looks like in environmental and geograph
 
 ```{r plot_blocks_EG, eval=FALSE, echo=TRUE}
 # plotting all blocks
-plot_blocks_EG(master = m_blocks, variable_1 = "PC1", variable_2 = "PC2",
-               block_ID = TRUE)
+plot_blocks_EG(master = m_blocks, block_ID = TRUE)
 
 ```
 

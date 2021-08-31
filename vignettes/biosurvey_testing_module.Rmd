@@ -14,7 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", echo = FALSE)
 
 ### Description
 
-Before we start, we would like to clarify that the examples used here are for demonstration purposes only. The functions in the testing module of this package are intended to use when appropriate data is available. This is, a considerable amount of data, of good quality, is needed to produce a presence-absence matrix to have a good representation of biodiversity in a region. For these reasons, we recommend to use these functions with caution and only when appropriate.
+Before we start, we would like to clarify that the examples used here are for demonstration purposes only. The functions in the testing module of this package are intended to use when appropriate data is available. This is, a considerable amount of good-quality data is needed to produce a presence-absence matrix and have a good representation of biodiversity in a region. For these reasons, we recommend to use these functions with caution and only when appropriate.
 
 <br>
 
