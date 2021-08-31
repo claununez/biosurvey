@@ -4,8 +4,7 @@ test_that("Correct EG master_selection", {
   m_blocks <- make_blocks(m_matrix_pre, variable_1 = "PC1",
                           variable_2 = "PC2", n_cols = 10, n_rows = 10,
                           block_type = "equal_area")
-  selection <- EG_selection(master = m_blocks, variable_1 = "PC1",
-                            variable_2 = "PC2", n_blocks = 6, replicates = 1,
+  selection <- EG_selection(master = m_blocks, n_blocks = 6, replicates = 1,
                             max_n_samplings = 1, select_point = "E_centroid",
                             cluster_method = "hierarchical",
                             sample_for_distance = 100)
@@ -34,31 +33,16 @@ test_that("Errors and messages EG selection", {
   m_blocks <- make_blocks(m_matrix_pre, variable_1 = "PC1",
                           variable_2 = "PC2", n_cols = 10, n_rows = 10,
                           block_type = "equal_area")
-  selection <- EG_selection(master = m_blocks, variable_1 = "PC1",
-                            variable_2 = "PC2", n_blocks = 6, replicates = 1,
+  selection <- EG_selection(master = m_blocks, n_blocks = 6, replicates = 1,
                             max_n_samplings = 1, select_point = "E_centroid",
                             cluster_method = "hierarchical",
                             sample_for_distance = 100)
-  testthat::expect_message(EG_selection(master = m_blocks, variable_1 = "PC1",
-                                        variable_2 = "PC2", n_blocks = 6,
+  testthat::expect_message(EG_selection(master = m_blocks, n_blocks = 6,
                                         replicates = 1, max_n_samplings = 1,
                                         select_point = "E_centroid",
                                         cluster_method = "hierarchical",
                                         sample_for_distance = 100))
-  testthat::expect_error(EG_selection(master = m_blocks, variable_1 = "PC1",
-                                      n_blocks = 6,
-                                      replicates = 1, max_n_samplings = 1,
-                                      select_point = "E_centroid",
-                                      cluster_method = "hierarchical",
-                                      sample_for_distance = 100))
   testthat::expect_error(EG_selection(master = m_blocks,
-                                      variable_2 = "PC2", n_blocks = 6,
-                                      replicates = 1, max_n_samplings = 1,
-                                      select_point = "E_centroid",
-                                      cluster_method = "hierarchical",
-                                      sample_for_distance = 100))
-  testthat::expect_error(EG_selection(master = m_blocks, variable_1 = "PC1",
-                                      variable_2 = "PC2",
                                       replicates = 1, max_n_samplings = 1,
                                       select_point = "E_centroid",
                                       cluster_method = "hierarchical",

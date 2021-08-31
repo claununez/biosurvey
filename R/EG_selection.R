@@ -11,10 +11,6 @@
 #' \code{\link{prepare_master_matrix}} or master_selection object derived from
 #' functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 #' or \code{\link{uniformE_selection}}.
-#' @param variable_1 (character or numeric) name or position of the first
-#' variable (x-axis).
-#' @param variable_2 (character or numeric) name or position of the second
-#' variable (y-axis).
 #' @param n_blocks (numeric) number of blocks to be selected to be used as the
 #' base for further explorations. Default = NULL.
 #' @param guess_distances (logical) whether or not to use internal algorithm
@@ -118,8 +114,7 @@
 #' \code{\link{plot_sites_EG}}
 #'
 #' @usage
-#' EG_selection(master, variable_1, variable_2, n_blocks,
-#'              guess_distances = TRUE, initial_distance = NULL,
+#' EG_selection(master, n_blocks, guess_distances = TRUE, initial_distance = NULL,
 #'              increase = NULL, max_n_samplings = 1, replicates = 10,
 #'              use_preselected_sites = TRUE, select_point = "E_centroid",
 #'              cluster_method = "hierarchical", median_distance_filter = NULL,
@@ -141,8 +136,7 @@
 #' colnames(m_blocks$data_matrix)
 #'
 #' # Selecting sites uniformly in E and G spaces
-#' EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1",
-#'                        variable_2 = "PC2", n_blocks = 10,
+#' EG_sel <- EG_selection(master = m_blocks, n_blocks = 10,
 #'                        initial_distance = 1.5, increase = 0.1,
 #'                        replicates = 1, max_n_samplings = 1,
 #'                        select_point = "E_centroid",
@@ -154,9 +148,9 @@
 #' }
 
 
-EG_selection <- function(master, variable_1, variable_2, n_blocks,
-                         guess_distances = TRUE, initial_distance = NULL,
-                         increase = NULL, max_n_samplings = 1, replicates = 10,
+EG_selection <- function(master, n_blocks, guess_distances = TRUE,
+                         initial_distance = NULL, increase = NULL,
+                         max_n_samplings = 1, replicates = 10,
                          use_preselected_sites = TRUE,
                          select_point = "E_centroid",
                          cluster_method = "hierarchical",
@@ -178,21 +172,21 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   } else {
     stop("Argument 'master' must be of class 'master_matrix' or 'master_selection'")
   }
-  if (missing(variable_1)) {
-    stop("Argument 'variable_1' must be defined.")
-  }
-  if (missing(variable_2)) {
-    stop("Argument 'variable_2' must be defined.")
-  }
-  coln <- colnames(master$data_matrix)
-  if (!variable_1 %in% coln) {
-    stop(variable_1, " is not one o the columns in 'master$data_matrix'.")
-  }
-  if (!variable_2 %in% coln) {
-    stop(variable_2, " is not one o the columns in 'master$data_matrix'.")
-  }
   if (is.null(master$data_matrix$Block)) {
     stop("Blocks are not defined in data_matrix, see function 'make_blocks'.")
+  } else {
+    sel_args <- attributes(master$data_matrix)
+
+    variable_1 <- sel_args$arguments$variable_1
+    variable_2 <- sel_args$arguments$variable_2
+
+    coln <- colnames(master$data_matrix)
+    if (!variable_1 %in% coln) {
+      stop(variable_1, " is not one o the columns in 'master$data_matrix'.")
+    }
+    if (!variable_2 %in% coln) {
+      stop(variable_2, " is not one o the columns in 'master$data_matrix'.")
+    }
   }
   if (missing(n_blocks)) {
     stop("Argument 'n_blocks' must be defined.")
@@ -266,11 +260,11 @@ EG_selection <- function(master, variable_1, variable_2, n_blocks,
   rules <- lapply(1:replicates, function(x) {
     ss <- set_seed + x - 1
     if (use_preselected_sites == TRUE) {
-      rule <- block_sample(tmm, variable_1, variable_2, n_blocks,
+      rule <- block_sample(tmm, n_blocks,
                            selection_type = "uniform", replicates = 1,
                            set_seed = ss)$data_matrix
     } else {
-      rule <- block_sample(master, variable_1, variable_2, n_blocks,
+      rule <- block_sample(master, n_blocks,
                            selection_type = "uniform", replicates = 1,
                            set_seed = ss)$data_matrix
     }

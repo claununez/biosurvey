@@ -4,8 +4,8 @@ test_that("Correct selection of blocks", {
   m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                           variable_2 = "PC2", n_cols = 10, n_rows = 10,
                           block_type = "equal_area")
-  block_sel <- block_sample(m_blocks, variable_1 = "PC1", variable_2  = "PC2",
-                            expected_blocks = 10, selection_type = "uniform")
+  block_sel <- block_sample(m_blocks, expected_blocks = 10,
+                            selection_type = "uniform")
 
   cnam <- names(block_sel)
   inams <- colnames(block_sel$data_matrix)
@@ -29,8 +29,5 @@ test_that("Errors block_sample", {
                           block_type = "equal_area")
   testthat::expect_error(block_sample())
   testthat::expect_error(block_sample(m_blocks))
-  testthat::expect_error(block_sample(m_blocks, variable_1 = "PC1"))
-  testthat::expect_error(block_sample(m_blocks, variable_1 = "PC1",
-                                     variable_2 = "PC2"))
 })
 #----

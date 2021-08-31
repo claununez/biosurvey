@@ -5,8 +5,7 @@
 \title{Selection of survey sites maximizing uniformity in environmental space
 considering geographic structure}
 \usage{
-EG_selection(master, variable_1, variable_2, n_blocks,
-             guess_distances = TRUE, initial_distance = NULL,
+EG_selection(master, n_blocks, guess_distances = TRUE, initial_distance = NULL,
              increase = NULL, max_n_samplings = 1, replicates = 10,
              use_preselected_sites = TRUE, select_point = "E_centroid",
              cluster_method = "hierarchical", median_distance_filter = NULL,
@@ -18,12 +17,6 @@ EG_selection(master, variable_1, variable_2, n_blocks,
 \code{\link{prepare_master_matrix}} or master_selection object derived from
 functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 or \code{\link{uniformE_selection}}.}
-
-\item{variable_1}{(character or numeric) name or position of the first
-variable (x-axis).}
-
-\item{variable_2}{(character or numeric) name or position of the second
-variable (y-axis).}
 
 \item{n_blocks}{(numeric) number of blocks to be selected to be used as the
 base for further explorations. Default = NULL.}
@@ -155,8 +148,7 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
 colnames(m_blocks$data_matrix)
 
 # Selecting sites uniformly in E and G spaces
-EG_sel <- EG_selection(master = m_blocks, variable_1 = "PC1",
-                       variable_2 = "PC2", n_blocks = 10,
+EG_sel <- EG_selection(master = m_blocks, n_blocks = 10,
                        initial_distance = 1.5, increase = 0.1,
                        replicates = 1, max_n_samplings = 1,
                        select_point = "E_centroid",
