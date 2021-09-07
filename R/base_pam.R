@@ -86,7 +86,7 @@
 #' |DF    |Dispersion field                         |Needs to be defined             |
 #' |SCC   |Shared community composition             |Needs to be defined             |
 #' |WRN   |Wright-Reeves nestedness                 |Needs to be defined, BW, and DF |
-#' |SRC   |Stone-Roberts Cscore                     |Needs to be defined and DF      |
+#' |SRC   |Stone-Roberts C-score                     |Needs to be defined and DF      |
 #' |CMSC  |Covariance matrix sites-composition      |Needs to be defined, DF, and BW |
 #' |CMSR  |Covariance matrix species-ranges         |Needs to be defined, SCC, and BW|
 #' |MCC   |Mean composition covariance              |Calculated with CMSC            |

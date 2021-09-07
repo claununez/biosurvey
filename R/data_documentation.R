@@ -142,7 +142,7 @@ NULL
 #' @format A RasterStack with 109 rows, 190 columns, 20710 cells, and 6 layers:
 #' \describe{
 #'   \item{Temperature}{temperature, in degrees Celsius times 10.}
-#'   \item{Precipitation}{precipitation, in milimeters.}
+#'   \item{Precipitation}{precipitation, in millimeters.}
 #' }
 #'
 #' @source \url{https://www.worldclim.org/data/index.html}

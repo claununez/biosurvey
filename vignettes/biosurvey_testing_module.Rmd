@@ -76,7 +76,7 @@ b_pam <- PAM_indices(PAM = b_pam)
 
 ### Using base_PAM to check efficiency of sampling site approaches
 
-#### Subsetting the PAM according to selected dites
+#### Subsetting the PAM according to selected sites
 
 Example of a **master_selection** object obtained using three types of selection (random, uniform in G, and uniform in E).
 
@@ -106,7 +106,7 @@ SACs <- selected_sites_SAC(PAM_subset = sub_pam_all, selection_type = "all")
 
 <br>
 
-#### Checking how much biosiversity is sampled using distinct sampling sites
+#### Checking how much biodiversity is sampled using distinct sampling sites
 
 Plots of species accumulation curves, for sites selected based on distinct methods, are used to detect which ones perform better or worse in representing the biodiversity in the region of interest.
 
