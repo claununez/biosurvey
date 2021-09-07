@@ -116,7 +116,7 @@ indices see Soberon and Cavner (2015)
    DF \tab Dispersion field \tab Needs to be defined \cr
    SCC \tab Shared community composition \tab Needs to be defined \cr
    WRN \tab Wright-Reeves nestedness \tab Needs to be defined, BW, and DF \cr
-   SRC \tab Stone-Roberts Cscore \tab Needs to be defined and DF \cr
+   SRC \tab Stone-Roberts C-score \tab Needs to be defined and DF \cr
    CMSC \tab Covariance matrix sites-composition \tab Needs to be defined, DF, and BW \cr
    CMSR \tab Covariance matrix species-ranges \tab Needs to be defined, SCC, and BW \cr
    MCC \tab Mean composition covariance \tab Calculated with CMSC \cr
