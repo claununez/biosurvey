@@ -27,7 +27,7 @@ status](https://github.com/claununez/biosurvey/workflows/R-CMD-check/badge.svg)]
 <br>
 <hr>
 
-<img src='README_files/biosurveyfinal.png' align="right" height="200" /></a>
+<img src='man/figures/biosurveyfinal.png' align="right" height="200" /></a>
 
 **This repository is for the project “Biological Survey Planning
 Considering Hutchinson’s Duality” developed during the program GSoC 2020
@@ -57,7 +57,7 @@ dedicated to inventor biodiversity.
 
 <div class="figure">
 
-<img src="README_files/simple_wf.png" alt="Figure 1. Schematic view of the workflow to use biosurvey. Details on the workflow below." width="2372" />
+<img src="man/figures/simple_wf.png" alt="Figure 1. Schematic view of the workflow to use biosurvey. Details on the workflow below." width="2372" />
 <p class="caption">
 Figure 1. Schematic view of the workflow to use biosurvey. Details on
 the workflow below.
@@ -78,21 +78,19 @@ specific version of one or more of the packages to be installed. If any
 of the packages gives an error when updating, please install it alone
 using install.packages(), then try installing **biosurvey** again.
 
-``` r
-# Installing and loading packages
-if(!require(remotes)){
-  install.packages("remotes")
-}
+    # Installing and loading packages
+    if(!require(remotes)){
+      install.packages("remotes")
+    }
 
-# To install the package use
-remotes::install_github("claununez/biosurvey")
+    # To install the package use
+    remotes::install_github("claununez/biosurvey")
 
-# To install the package and its vignettes use (if needed use: force = TRUE)  
-remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
+    # To install the package and its vignettes use (if needed use: force = TRUE)  
+    remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
 
-# Load biosurvey
-library(biosurvey)
-```
+    # Load biosurvey
+    library(biosurvey)
 
 <br>
 
@@ -100,36 +98,30 @@ library(biosurvey)
 
 To check all functions in the package use:
 
-``` r
-help(biosurvey)
-```
+    help(biosurvey)
 
 <br>
 
 If the package was installed with its vignettes you can see all options
 with:
 
-``` r
-vignette(package = "biosurvey")
-```
+    vignette(package = "biosurvey")
 
 <br>
 
 To check vignettes you can use:
 
-``` r
-# For a guide on how to prepare data for analysis
-vignette("biosurvey_preparing_data")
+    # For a guide on how to prepare data for analysis
+    vignette("biosurvey_preparing_data")
 
-# For a guide on how to select sampling sites
-vignette("biosurvey_selecting_sites")
+    # For a guide on how to select sampling sites
+    vignette("biosurvey_selecting_sites")
 
-# For a guide on how to select sampling sites when some sites have been preselected
-vignette("biosurvey_selection_with_preselected_sites")
+    # For a guide on how to select sampling sites when some sites have been preselected
+    vignette("biosurvey_selection_with_preselected_sites")
 
-# For a guide on how to use the testing module
-vignette("biosurvey_testing_module")
-```
+    # For a guide on how to use the testing module
+    vignette("biosurvey_testing_module")
 
 <br>
 
@@ -141,7 +133,7 @@ As shown in Fig. 1, to use **biosurvey** and select sites for
 biodiversity inventory you need:
 
 -   *Environmental variables*.- These variables must be in raster format
-    (e.g., GTiff, bil, ascii). To load these variables to your R
+    (e.g., GTiff, BIL, ASCII). To load these variables to your R
     environment, you can use the function `stack` from the package
     `raster`.
 -   *Region of interest*.- As your analyses will be focused on a region,

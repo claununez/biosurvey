@@ -20,7 +20,7 @@ opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 <br>
 <hr>
 
-<img src='README_files/biosurveyfinal.png' align="right" height="200" /></a>
+<img src='man/figures/biosurveyfinal.png' align="right" height="200" /></a>
 
 **This repository is for the project "Biological Survey Planning Considering Hutchinson’s Duality" developed during the program GSoC 2020 (see details at the end).**
 
@@ -31,7 +31,7 @@ opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 The **biosurvey** R package implements multiple tools to select sampling sites for biodiversity inventory, increasing effectiveness by considering the relationship of environmental and geographic conditions in a region. The functions are grouped in three main modules: 1) Data preparation; 2) Selection of sampling sites; and, 3) Tools for testing effectiveness (Fig. 1). Data are prepared in ways that avoid the need for more data in posterior analyses and allow users to focus on critical methodological decisions to select sampling sites. Various algorithms for selecting sampling sites are available, and options for considering pre-selected sites (known to be important for biodiversity monitoring) are included. Visualization is a critical component in this set of tools and most of the results obtained can be plotted to help users to understand their implications. The options for selecting sampling sites included here differ from other implementations in that they consider the environmental and geographic structure of a region to suggest sampling sites that could increase the effectiveness of efforts dedicated to inventor biodiversity.
 
 ```{r fig1, fig.height=4, fig.width=6, fig.cap="Figure 1. Schematic view of the workflow to use biosurvey. Details on the workflow below.", echo=FALSE}
-knitr::include_graphics("README_files/simple_wf.png")
+knitr::include_graphics("man/figures/simple_wf.png")
 ```
 
 <br>
