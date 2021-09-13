@@ -39,11 +39,27 @@ Creates a data.frame of species' references that contains
 longitude, latitude, and species name, from a character.
 }
 \examples{
-# example of how to define arguments, check argument descriptions above
+\donttest{
+# Data for examples
+data("mx", package = "biosurvey")
+data("species_data", package = "biosurvey")
 
-\dontrun{
-# Using folder with rasters in GeoTiff format
-sp_data <- files_2data(path = "Folder_with_rasters", format = "GTiff")
-summary(sp_data)
+# Saving species data in a temporal directory
+tdir <- file.path(tempdir(), "testbio")
+dir.create(tdir)
+
+namessp <- paste0("species_", 1:length(species_data))
+
+
+for (i in 1:length(species_data)) {
+  rgdal::writeOGR(species_data[i, ], dsn = tdir, layer = namessp[i],
+                  driver = "ESRI Shapefile")
+}
+
+# Preparing grid for analysis
+grid_reg <- grid_from_region(region = mx, cell_size = 100)
+
+# Running analysis with data from directory
+sp_data <- files_2data(path = tdir, format = "shp", spdf_grid = grid_reg)
 }
 }
