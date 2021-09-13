@@ -11,7 +11,7 @@
 \alias{print.base_PAM}
 \alias{print.PAM_subset}
 \alias{print.PAM_CS}
-\title{Print a short version of elements in master objects}
+\title{Print a short version of elements in master and base objects}
 \usage{
 \method{print}{master_matrix}(x, ...)
 
@@ -30,6 +30,9 @@ PAM_subset.}
 \item{...}{further arguments to be passed to or from other methods. Ignored
 in these functions.}
 }
+\value{
+A short description of objects in the console.
+}
 \description{
-Print a short version of elements in master objects
+Print a short version of elements in master and base objects
 }

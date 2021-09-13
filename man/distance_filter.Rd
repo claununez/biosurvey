@@ -12,8 +12,10 @@ distance_filter(site_list, median_distance_filter = "max")
 
 \item{median_distance_filter}{(character) optional argument to define a
 median distance-based filter based on which sets of sampling sites will be
-selected. The default, NULL, does not apply such a filter. Options are:
-"max" and "min".}
+selected. Default = "max". Options are:"max" and "min".}
+}
+\value{
+A list of sets of selected sites according to \code{median_distance_filter}.
 }
 \description{
 Helper to filter sets of sites by median distance among all points

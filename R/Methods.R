@@ -1,4 +1,4 @@
-#' Print a short version of elements in master objects
+#' Print a short version of elements in master and base objects
 #' @name print
 #' @aliases print,master_matrix-method print,master_selection-method
 #' @aliases print,base_PAM-method print,PAM_subset-method
@@ -9,6 +9,7 @@
 #' @export
 #' @importFrom methods new
 #' @importFrom utils head
+#' @return A short description of objects in the console.
 #' @rdname print
 
 print.master_matrix <- function(x, ...) {

@@ -287,11 +287,13 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
 #' "Longitude" and "Latitude" are needed for distance calculation.
 #' @param median_distance_filter (character) optional argument to define a
 #' median distance-based filter based on which sets of sampling sites will be
-#' selected. The default, NULL, does not apply such a filter. Options are:
-#' "max" and "min".
+#' selected. Default = "max". Options are:"max" and "min".
 #'
 #' @export
 #' @importFrom stats median
+#'
+#' @return
+#' A list of sets of selected sites according to \code{median_distance_filter}.
 #'
 #' @examples
 #' # Data
