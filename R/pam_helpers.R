@@ -751,7 +751,7 @@ selected_sites_PAM <- function(selected_sites, base_PAM) {
     stop("Argument 'base_PAM' must be defined.")
   }
 
-  WGS84 <- sp::CRS("+init=epsg:4326")
+  WGS84 <- base_PAM$PAM@proj4string
 
   # Matching sites with PAM IDs
   ls <- lapply(selected_sites, function(x) {
