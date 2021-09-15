@@ -223,6 +223,9 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
     stop("'spdf_object' and 'spdf_grid' must be of class 'SpatialPolygonsDataFrame'")
   }
 
+  # Fixing projections
+  spdf_object <- sp::spTransform(spdf_object, spdf_grid@proj4string)
+
   # Names to be matched
   ID <- spdf_grid@data$ID
   spnames <- as.character(spdf_object@data$Species)
@@ -570,6 +573,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                                                          verbose = FALSE)
                                   }
                                 }
+                                ## Fixing projections
+                                rs <- sp::spTransform(rs, spdf_grid@proj4string)
 
                                 ## Preparing data
                                 sppm <- sp::over(spdf_grid, rs)
@@ -621,6 +626,9 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
                                  verbose = FALSE)
           }
         }
+
+        ## Fixing projections
+        rs <- sp::spTransform(rs, spdf_grid@proj4string)
 
         ## Preparing data
         sppm <- sp::over(spdf_grid, rs)
