@@ -38,9 +38,18 @@ knitr::include_graphics("man/figures/simple_wf.png")
 
 ## Installing the package
 
-**biosurvey** is in a GitHub repository and can be installed and/or loaded using the code below (make sure to have Internet connection). If you have any problem during installation, restart R session, close other RStudio sessions you may have open, and try again. If during the installation you are asked to update packages, do so if you don't need a specific version of one or more of the packages to be installed. If any of the packages gives an error when updating, please install it alone using install.packages(), then try installing **biosurvey** again.
+Note: Internet connection is required to install the package.
+
+To install the latest release of **biosurvey** use the following line of code:
 
 ```{r installation, eval=FALSE}
+# Installing from CRAN
+install.packages("biosurvey")
+```
+
+The development version of **biosurvey** can be installed using the code below. 
+
+```{r installation1, eval=FALSE}
 # Installing and loading packages
 if(!require(remotes)){
   install.packages("remotes")
@@ -51,7 +60,11 @@ remotes::install_github("claununez/biosurvey")
 
 # To install the package and its vignettes use (if needed use: force = TRUE)  
 remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
+```
 
+If you have any problems during installation, restart R session, close other RStudio sessions you may have open, and try again. If during the installation you are asked to update packages, do so if you don't need a specific version of one or more of the packages to be installed. If any of the packages gives an error when updating, please install it alone using install.packages(), then try installing **biosurvey** again.
+
+```{r loading, eval=FALSE}
 # Load biosurvey
 library(biosurvey)
 ```
@@ -160,6 +173,6 @@ Given the increasing intensity of threats to biodiversity in the world, one of t
 
 ### Status of the project
 
-At the moment we have completed the three main modules of the package. We have made  modifications to the original list of products, which have helped us to improve the package functionality. The package is fully functional and almost ready for submission to CRAN. 
+At the moment we have completed the three main modules of the package. We have made  modifications to the original list of products, which have helped us to improve the package functionality. The package is fully functional and available on CRAN. 
 
 All commits made can be seen at the <a href="https://github.com/claununez/biosurvey/commits/master" target="_blank">complete list of commits</a>.
