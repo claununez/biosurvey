@@ -1,1 +1,57 @@
 destination: docs
+
+reference:
+- title: Package description
+  contents:
+  - biosurvey
+
+- title: Data preparation
+  contents:
+  - prepare_master_matrix
+  - prepare_base_PAM
+  - make_blocks
+  - prepare_PAM_CS
+
+- title: Sampling site selection
+  contents:
+  - EG_selection
+  - random_selection
+  - uniformE_selection
+  - uniformG_selection
+
+- title: Effectiveness tests
+  contents:
+  - subset_PAM
+  - selected_sites_DI
+  - selected_sites_SAC
+
+- title: Visualization and plotting
+  contents:
+  - compare_SAC
+  - DI_dendrogram
+  - explore_data_EG
+  - legend_bar
+  - plot_blocks_EG
+  - plot_DI
+  - plot_PAM_CS
+  - plot_PAM_geo
+  - plot_SAC
+  - plot_sites_EG
+  - purplow
+
+- title: Data included
+  contents:
+  - b_pam
+  - dist_list
+  - mx
+  - m_matrix
+  - m_matrix_pre
+  - m_selection
+  - preselected
+  - species_data
+  - sp_data
+  - sp_layers
+  - sp_occurrences
+  - variables
+
+
