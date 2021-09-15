@@ -3,7 +3,8 @@ This is the first submission of version 0.1.1. In this version I have made
 the following changes:
 
 * Changed the way projections are assigned to grid in base_PAM and other spatial
-objects. All projections will that of the region of interest in master objects.
+objects. All projections will use that of the region of interest in master
+objects. These changes will solved ERRORS detected in Solaris.
 
 ## Test environments
 * local windows 10 R-release 
