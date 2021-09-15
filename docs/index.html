@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">biosurvey</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -145,43 +145,47 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
 <div id="installing-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-the-package" class="anchor"></a>Installing the package</h2>
-<p><strong>biosurvey</strong> is in a GitHub repository and can be installed and/or loaded using the code below (make sure to have Internet connection). If you have any problem during installation, restart R session, close other RStudio sessions you may have open, and try again. If during the installation you are asked to update packages, do so if you don’t need a specific version of one or more of the packages to be installed. If any of the packages gives an error when updating, please install it alone using install.packages(), then try installing <strong>biosurvey</strong> again.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># Installing and loading packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(remotes)){</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="kw">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>}</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co"># To install the package use</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"claununez/biosurvey"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="co"># To install the package and its vignettes use (if needed use: force = TRUE)  </span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"claununez/biosurvey"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="co"># Load biosurvey</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a><span class="kw">library</span>(biosurvey)</span></code></pre></div>
+<p>Note: Internet connection is required to install the package.</p>
+<p>To install the latest release of <strong>biosurvey</strong> use the following line of code:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># Installing from CRAN</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">"biosurvey"</span>)</span></code></pre></div>
+<p>The development version of <strong>biosurvey</strong> can be installed using the code below.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co"># Installing and loading packages</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(remotes)){</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  <span class="kw">install.packages</span>(<span class="st">"remotes"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="co"># To install the package use</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"claununez/biosurvey"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="co"># To install the package and its vignettes use (if needed use: force = TRUE)  </span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"claununez/biosurvey"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>If you have any problems during installation, restart R session, close other RStudio sessions you may have open, and try again. If during the installation you are asked to update packages, do so if you don’t need a specific version of one or more of the packages to be installed. If any of the packages gives an error when updating, please install it alone using install.packages(), then try installing <strong>biosurvey</strong> again.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co"># Load biosurvey</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="kw">library</span>(biosurvey)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="biosurvey-functions-and-vignettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#biosurvey-functions-and-vignettes" class="anchor"></a>biosurvey functions and vignettes</h2>
 <p>To check all functions in the package use:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">help</span>(biosurvey)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">help</span>(biosurvey)</span></code></pre></div>
 <p><br></p>
 <p>If the package was installed with its vignettes you can see all options with:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="dt">package =</span> <span class="st">"biosurvey"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="dt">package =</span> <span class="st">"biosurvey"</span>)</span></code></pre></div>
 <p><br></p>
 <p>To check vignettes you can use:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co"># For a guide on how to prepare data for analysis</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_preparing_data"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="co"># For a guide on how to select sampling sites</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_selecting_sites"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a><span class="co"># For a guide on how to select sampling sites when some sites have been preselected</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_selection_with_preselected_sites"</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a><span class="co"># For a guide on how to use the testing module</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_testing_module"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co"># For a guide on how to prepare data for analysis</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_preparing_data"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co"># For a guide on how to select sampling sites</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_selecting_sites"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="co"># For a guide on how to select sampling sites when some sites have been preselected</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_selection_with_preselected_sites"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="co"># For a guide on how to use the testing module</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_testing_module"</span>)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="workflow-description" class="section level2">
@@ -272,7 +276,7 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
 <div id="status-of-the-project" class="section level3">
 <h3 class="hasAnchor">
 <a href="#status-of-the-project" class="anchor"></a>Status of the project</h3>
-<p>At the moment we have completed the three main modules of the package. We have made modifications to the original list of products, which have helped us to improve the package functionality. The package is fully functional and almost ready for submission to CRAN.</p>
+<p>At the moment we have completed the three main modules of the package. We have made modifications to the original list of products, which have helped us to improve the package functionality. The package is fully functional and available on CRAN.</p>
 <p>All commits made can be seen at the <a href="https://github.com/claununez/biosurvey/commits/master" target="_blank">complete list of commits</a>.</p>
 </div>
 </div>
@@ -283,6 +287,8 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=biosurvey">https://​cloud.r-project.org/​package=biosurvey</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/claununez/biosurvey/">https://​github.com/​claununez/​biosurvey/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/claununez/biosurvey/issues">https://​github.com/​claununez/​biosurvey/​issues</a>
