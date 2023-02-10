@@ -222,8 +222,10 @@ uniformE_selection <- function(master, variable_1 = NULL, variable_2 = NULL,
 
   # Selection depending on option of user points
   if (use_preselected_sites == TRUE) {
+    n_total <- expected_points + nrow(master$preselected_sites)
+
     # Using preselected sites to create mask and define distance
-    tst <- preselected_dist_mask(master, expected_points = expected_points,
+    tst <- preselected_dist_mask(master, expected_points = n_total,
                                  space = "E", variable_1 = variable_1,
                                  variable_2 = variable_2, use_blocks = useb,
                                  verbose = verbose)
