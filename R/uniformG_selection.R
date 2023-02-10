@@ -159,8 +159,10 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
 
   # Selection depending on option of user points
   if (use_preselected_sites == TRUE) {
+    n_total <- expected_points + nrow(master$preselected_sites)
+
     # Using preselected sites to create mask and define distance
-    tst <- preselected_dist_mask(master, expected_points = expected_points,
+    tst <- preselected_dist_mask(master, expected_points = n_total,
                                  space = "G", verbose = verbose)
 
     # Excluding close points from analysis

@@ -229,8 +229,10 @@ EG_selection <- function(master, n_blocks, guess_distances = TRUE,
   }
 
   if (use_preselected_sites == TRUE) {
+    n_total <- n_blocks + nrow(master$preselected_sites)
+
     # Using preselected sites to create mask and define distance
-    tst <- preselected_dist_mask(master, expected_points = n_blocks,
+    tst <- preselected_dist_mask(master, expected_points = n_total,
                                  space = "E", variable_1 = variable_1,
                                  variable_2 = variable_2, use_blocks = TRUE,
                                  verbose = verbose)
