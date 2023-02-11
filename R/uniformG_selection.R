@@ -7,7 +7,7 @@
 #' \code{\link{prepare_master_matrix}} or master_selection object derived
 #' from functions \code{\link{random_selection}},
 #' \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.
-#' @param expected_points (numeric) number of survey points (sites) to be
+#' @param expected_points (numeric) total number of survey points (sites) to be
 #' selected.
 #' @param guess_distances (logical) whether or not to use internal algorithm
 #' to select automatically \code{initial_distance} and \code{increase}. Default
@@ -159,10 +159,8 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
 
   # Selection depending on option of user points
   if (use_preselected_sites == TRUE) {
-    n_total <- expected_points + nrow(master$preselected_sites)
-
     # Using preselected sites to create mask and define distance
-    tst <- preselected_dist_mask(master, expected_points = n_total,
+    tst <- preselected_dist_mask(master, expected_points = expected_points,
                                  space = "G", verbose = verbose)
 
     # Excluding close points from analysis

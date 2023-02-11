@@ -20,7 +20,7 @@
 #' first option picks the points from all points in the environmental cloud,
 #' and the second one selects points only from centroids of environmental
 #' blocks. See \code{\link{make_blocks}}. Default = "all_points".
-#' @param expected_points (numeric) number of survey points (sites) to be
+#' @param expected_points (numeric) total number of survey points (sites) to be
 #' selected.
 #' @param guess_distances (logical) whether or not to use internal algorithm
 #' to automatically select \code{initial_distance} and \code{increase}. Default
@@ -222,10 +222,8 @@ uniformE_selection <- function(master, variable_1 = NULL, variable_2 = NULL,
 
   # Selection depending on option of user points
   if (use_preselected_sites == TRUE) {
-    n_total <- expected_points + nrow(master$preselected_sites)
-
     # Using preselected sites to create mask and define distance
-    tst <- preselected_dist_mask(master, expected_points = n_total,
+    tst <- preselected_dist_mask(master, expected_points = expected_points,
                                  space = "E", variable_1 = variable_1,
                                  variable_2 = variable_2, use_blocks = useb,
                                  verbose = verbose)
