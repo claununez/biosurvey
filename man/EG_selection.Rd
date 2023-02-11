@@ -19,7 +19,8 @@ functions \code{\link{random_selection}}, \code{\link{uniformG_selection}},
 or \code{\link{uniformE_selection}}.}
 
 \item{n_blocks}{(numeric) number of blocks to be selected to be used as the
-base for further explorations. Default = NULL.}
+base for further explorations. If preselected sites are used, this number must
+be larger than the number of unique blocks already represented by such sites.}
 
 \item{guess_distances}{(logical) whether or not to use internal algorithm
 to automatically select \code{initial_distance} and \code{increase}. Default

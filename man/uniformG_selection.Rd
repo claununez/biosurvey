@@ -17,7 +17,7 @@ uniformG_selection(master, expected_points, guess_distances = TRUE,
 from functions \code{\link{random_selection}},
 \code{\link{uniformE_selection}}, or \code{\link{EG_selection}}.}
 
-\item{expected_points}{(numeric) number of survey points (sites) to be
+\item{expected_points}{(numeric) total number of survey points (sites) to be
 selected.}
 
 \item{guess_distances}{(logical) whether or not to use internal algorithm

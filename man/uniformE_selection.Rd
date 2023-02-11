@@ -34,7 +34,7 @@ first option picks the points from all points in the environmental cloud,
 and the second one selects points only from centroids of environmental
 blocks. See \code{\link{make_blocks}}. Default = "all_points".}
 
-\item{expected_points}{(numeric) number of survey points (sites) to be
+\item{expected_points}{(numeric) total number of survey points (sites) to be
 selected.}
 
 \item{guess_distances}{(logical) whether or not to use internal algorithm
