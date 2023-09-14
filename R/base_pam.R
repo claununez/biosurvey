@@ -220,7 +220,9 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
       sp_points <- data
     }
     sp_points <- data.frame(ID = terra::extract(methods::as(sp_points, "SpatialPoints"),
-                                                grid_r_pol[, "ID"]),
+
+                            grid_r_pol[, "ID"]),
+
                             Species = sp_points@data[, 3])
   }
 
