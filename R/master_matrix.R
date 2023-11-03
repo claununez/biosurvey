@@ -4,10 +4,10 @@
 #' further analyses. This object will contain geographic and environmental
 #' information that will be used to characterize the region of interest.
 #'
-#' @param region SpatialPolygons* of the region of interest; for instance,
+#' @param region SpatVector of the region of interest; for instance,
 #' a country, another type of administrative are, or a protected area.
-#' @param variables RasterStack or RasterBrick of environmental variables.
-#' @param mask (optional) SpatialPolygons* object to mask \code{variables} and
+#' @param variables SpatRaster of environmental variables.
+#' @param mask (optional) SpatVector object to mask \code{variables} and
 #' reduce \code{region} to an area that is more relevant for analysis (e.g.,
 #' only areas with natural vegetation cover). Default = NULL.
 #' @param preselected_sites data.frame containing sites that must be included
@@ -31,11 +31,11 @@
 #' - data_matrix: a date.frame with information about geographic location of
 #' raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 #' the first two principal components derived from original data.
-#' - region: a SpatialPolygons* representing the region of interest.
-#' - mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
+#' - region: a SpatVector representing the region of interest.
+#' - mask: SpatVector object used. NULL if \code{mask} was not defined.
 #' - preselected_sites: sites defined by used. NULL if \code{preselected_sites}
 #' was not defined.
-#' - raster_base: a RasterLayer representing the raster masked to region or
+#' - raster_base: a SpatRaster representing the raster masked to region or
 #' mask, which will be used for plotting purposes.
 #' - PCA_results: if \code{do_pca} is TRUE, other results from principal
 #' component analysis. If FALSE, PCA_results element of the object is NULL.
@@ -61,13 +61,13 @@
 #'                       variables_in_matrix = NULL, verbose = TRUE)
 #'
 #' @export
-#' @importFrom raster mask crop rasterToPoints intersect
+#' @importFrom terra crop as.data.frame
 #' @importFrom stats prcomp predict
 #'
 #' @examples
 #' # Data
 #' data("mx", package = "biosurvey")
-#' variables <- raster::stack(system.file("extdata/variables.tif",
+#' variables <- terra::rast(system.file("extdata/variables.tif",
 #'                                        package = "biosurvey"))
 #'
 #' # Create master matrix object
@@ -83,32 +83,30 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
   if (missing(region)) {
     stop("Argument 'region' must be defined")
   }
-  if (!class(region)[1] %in% c("SpatialPolygons", "SpatialPolygonsDataFrame")) {
-    stop("'region' must be of class SpatialPolygons*")
+  if (!class(region)[1] == "SpatVector") {
+    stop("'region' must be of class SpatVector")
   }
   if (missing(variables)) {
     stop("Argument 'variables' must be defined")
   }
-  if (!class(variables)[1] %in% c("RasterStack", "RasterBrick")) {
-    stop("'variables' must be of class RasterStack or RasterBrick")
+  if (!class(variables)[1] == "SpatRaster") {
+    stop("'variables' must be of class SpatRaster")
   }
   if (!is.null(mask)) {
-    if (!class(mask)[1] %in% c("SpatialPolygons", "SpatialPolygonsDataFrame")) {
-      stop("'mask' must be of class SpatialPolygons*")
+    if (!class(mask)[1] == "SpatVector") {
+      stop("'mask' must be of class SpatVector")
     }
 
-    # Intersection of region and mask to avoid complications
-    #mask <- raster::intersect(region, mask)
-  }
+}
 
   # Mask variables to polygons (region of interest)
   if (verbose == TRUE) {
     message("Processing raster layers, please wait...")
   }
   if (!is.null(mask)) {
-    variables <- raster::mask(raster::crop(variables, mask), mask)
+    variables <- terra::crop(variables, mask, mask = TRUE)
   } else {
-    variables <- raster::mask(raster::crop(variables, region), region)
+    variables <- terra::crop(variables, region, mask = TRUE)
   }
 
   # Adding user defined points
@@ -130,7 +128,7 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
   #b_raster <- as(b_raster,"SpatialPolygonsDataFrame")
 
   # Raster to matrix
-  variables <- raster::rasterToPoints(variables)
+  variables <- terra::as.data.frame(variables, xy = TRUE)
   colnames(variables)[1:2] <- c("Longitude", "Latitude")
 
   # Selecting variables for the matrix

@@ -9,9 +9,9 @@
 #' @param preselected_sites data.frame containing sites that must be included
 #' in posterior selections of sites for the survey system. Columns must be:
 #' "Sites", "Longitude", "Latitude", in that order. Default = NULL.
-#' @param region SpatialPolygons* object representing the region of interest.
-#' @param mask SpatialPolygons* object used. Default = NULL.
-#' @param raster_base SpatialPolygonsDataFrame representing the grid of the
+#' @param region SpatVector object representing the region of interest.
+#' @param mask SpatVector object used. Default = NULL.
+#' @param raster_base SpatRaster representing the grid of the
 #' raster layers used, which will be used for plotting purposes.
 #' @param PCA_results results of principal component analysis performed with
 #' values from raster layers used. Default = NULL.
@@ -46,14 +46,14 @@ new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
   if (!preclass %in% c("data.frame", "NULL")){
     stop("'preselected_sites' must be of class 'data.frame', or NULL.")
   }
-  if (!reclass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame")) {
-    stop("'region' must be of class 'SpatialPolygons' or 'SpatialPolygonsDataFrame'.")
+  if (!reclass == "SpatVector") {
+    stop("'region' must be of class 'SpatVector'.")
   }
-  if (!mclass %in% c("SpatialPolygons", "SpatialPolygonsDataFrame", "NULL")) {
-    stop("'mask' must be of class 'SpatialPolygons' or 'SpatialPolygonsDataFrame', or NULL.")
+  if (!mclass %in% c("SpatVector", "NULL")) {
+    stop("'mask' must be of class 'SpatVector' or NULL.")
   }
-  if (!raclass %in% c("RasterLayer")) {
-    stop("'raster_base' must be of class 'RasterLayer'.")
+  if (!raclass == "SpatRaster") {
+    stop("'raster_base' must be of class 'SpatRaster'.")
   }
   if (!pcaclass %in% c("prcomp", "NULL")) {
     stop("'PCA_results' must be of class 'prcomp', or NULL.")
