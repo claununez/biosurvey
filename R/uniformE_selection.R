@@ -20,7 +20,7 @@
 #' first option picks the points from all points in the environmental cloud,
 #' and the second one selects points only from centroids of environmental
 #' blocks. See \code{\link{make_blocks}}. Default = "all_points".
-#' @param expected_points (numeric) number of survey points (sites) to be
+#' @param expected_points (numeric) total number of survey points (sites) to be
 #' selected.
 #' @param guess_distances (logical) whether or not to use internal algorithm
 #' to automatically select \code{initial_distance} and \code{increase}. Default

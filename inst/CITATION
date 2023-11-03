@@ -1,0 +1,29 @@
+itHeader("To cite biosurvey in publications use:")
+
+citEntry(entry = "Article",
+        title        = "Selection of sampling sites for biodiversity inventory: Effects of environmental and geographical considerations",
+        author       = personList(
+                            as.person("Claudia Nuñez-Penichet"),
+                            as.person("Marlon E. Cobos"),
+                            as.person("Jorge Soberón"),
+                            as.person("Tomer Gueta"),
+                            as.person("Narayani Barve"),
+                            as.person("Vijay Barve"),
+                            as.person("Adolfo G. Navarro-Sigüenza"),
+                            as.person("A. Townsend Peterson")),
+        journal      = "Methods in Ecology and Evolution",
+        year         = "2022",
+        month        = "apr",
+        volume       = "00",
+        number       = "",
+        pages        = "1-13"
+        publisher    = "British Ecological Society",
+        url          = "https://doi.org/10.1111/2041-210X.13869",
+        doi          = "10.1111/2041-210X.13869",
+
+        textVersion  =
+        paste("Nuñez-Penichet, C., Cobos, M.E., Soberón, J., Gueta, T., Barve, N., Barve, V., Navarro-Sigüenza, A.G., Peterson, A.T. (2022)",
+            "Selection of sampling sites for biodiversity inventory: Effects of environmental and geographical considerations.",
+            "Methods in Ecology and Evolution, 00:1-13.",
+            "https://doi.org/10.1111/2041-210X.13869")
+        )

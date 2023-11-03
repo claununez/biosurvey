@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">biosurvey</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -145,43 +145,55 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
 <div id="installing-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-the-package" class="anchor"></a>Installing the package</h2>
-<p><strong>biosurvey</strong> is in a GitHub repository and can be installed and/or loaded using the code below (make sure to have Internet connection). If you have any problem during installation, restart R session, close other RStudio sessions you may have open, and try again. If during the installation you are asked to update packages, do so if you don’t need a specific version of one or more of the packages to be installed. If any of the packages gives an error when updating, please install it alone using install.packages(), then try installing <strong>biosurvey</strong> again.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># Installing and loading packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(remotes)){</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="kw">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>}</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co"># To install the package use</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"claununez/biosurvey"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="co"># To install the package and its vignettes use (if needed use: force = TRUE)  </span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"claununez/biosurvey"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="co"># Load biosurvey</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a><span class="kw">library</span>(biosurvey)</span></code></pre></div>
+<p>Note: Internet connection is required to install the package.</p>
+<p>To install the latest release of <strong>biosurvey</strong> use the following line of code:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Installing from CRAN</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"biosurvey"</span><span class="op">)</span></code></pre></div>
+<p><br></p>
+<p>The development version of <strong>biosurvey</strong> can be installed using the code below.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Installing and loading packages</span>
+<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co"># To install the package use</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"claununez/biosurvey"</span><span class="op">)</span>
+
+<span class="co"># To install the package and its vignettes use (if needed use: force = TRUE)  </span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"claununez/biosurvey"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p><br></p>
+<p>If you have any problems during installation of the development version from GitHub, restart R session, close other RStudio sessions you may have open, and try again. If during the installation you are asked to update packages, do so if you don’t need a specific version of one or more of the packages to be installed. If any of the packages give an error when updating, please install it alone using <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>, then try installing <strong>biosurvey</strong> again.</p>
+<p><br></p>
+<p>To load the package use:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Load biosurvey</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/claununez/biosurvey">biosurvey</a></span><span class="op">)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="biosurvey-functions-and-vignettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#biosurvey-functions-and-vignettes" class="anchor"></a>biosurvey functions and vignettes</h2>
 <p>To check all functions in the package use:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">help</span>(biosurvey)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span><span class="va">biosurvey</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 <p>If the package was installed with its vignettes you can see all options with:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="dt">package =</span> <span class="st">"biosurvey"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"biosurvey"</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 <p>To check vignettes you can use:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co"># For a guide on how to prepare data for analysis</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_preparing_data"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="co"># For a guide on how to select sampling sites</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_selecting_sites"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a><span class="co"># For a guide on how to select sampling sites when some sites have been preselected</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_selection_with_preselected_sites"</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a><span class="co"># For a guide on how to use the testing module</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a><span class="kw">vignette</span>(<span class="st">"biosurvey_testing_module"</span>)</span></code></pre></div>
+<ul>
+<li>
+<code><a href="articles/biosurvey_preparing_data.html">vignette("biosurvey_preparing_data")</a></code>.- For a guide on how to prepare data for analysis.</li>
+<li>
+<code><a href="articles/biosurvey_selecting_sites.html">vignette("biosurvey_selecting_sites")</a></code>.- For a guide on how to select sampling sites.</li>
+<li>
+<code><a href="articles/biosurvey_selection_with_preselected_sites.html">vignette("biosurvey_selection_with_preselected_sites")</a></code>.- For a guide on how to select sampling sites when some sites have been preselected.</li>
+<li>
+<code><a href="articles/biosurvey_testing_module.html">vignette("biosurvey_testing_module")</a></code>.- For a guide on how to use the testing module.</li>
+</ul>
 <p><br></p>
 </div>
 <div id="workflow-description" class="section level2">
@@ -210,11 +222,13 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
 <li>Raster layers defining suitable and unsuitable areas</li>
 <li>Geographic points of species occurrences</li>
 </ul>
+<p><br></p>
 </div>
 <div id="data-preparation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-preparation" class="anchor"></a>Data preparation</h3>
-<p>To use <strong>biosurvey</strong> efficiently the first thing to do is to prepare an object containing all information to be used in following analyses. This can be done using the function <code>prepare_master_matrix</code>. After that, the function <code>make_blocks</code> can be used to partition the environmental space of the region of interest. To explore how your data looks like, the functions <code>explore_data_EG</code> and <code>plot_blocks_EG</code> can be used.</p>
+<p>To use <strong>biosurvey</strong> efficiently the first thing to do is to prepare an object containing all information to be used in following analyses. This can be done using the function <code><a href="reference/prepare_master_matrix.html">prepare_master_matrix()</a></code>. After that, the function <code><a href="reference/make_blocks.html">make_blocks()</a></code> can be used to partition the environmental space of the region of interest. To explore how your data looks like, the functions <code><a href="reference/explore_data_EG.html">explore_data_EG()</a></code> and <code><a href="reference/plot_blocks_EG.html">plot_blocks_EG()</a></code> can be used.</p>
+<p><br></p>
 </div>
 <div id="selection-of-sites-for-biodiversity-inventory" class="section level3">
 <h3 class="hasAnchor">
@@ -222,15 +236,16 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
 <p>After preparing data, distinct functions can be used to select sampling sites:</p>
 <ul>
 <li>
-<code>random_selection</code>.- Random selection of sites to be sampled in a survey.</li>
+<code><a href="reference/random_selection.html">random_selection()</a></code>.- Random selection of sites to be sampled in a survey.</li>
 <li>
-<code>uniformG_selection</code>.- Selection of sites with the goal of maximizing uniformity of points in geographic space.</li>
+<code><a href="reference/uniformG_selection.html">uniformG_selection()</a></code>.- Selection of sites with the goal of maximizing uniformity of points in geographic space.</li>
 <li>
-<code>uniformE_selection</code>.- Selection of sites with the goal of maximizing uniformity of points in environmental space.</li>
+<code><a href="reference/uniformE_selection.html">uniformE_selection()</a></code>.- Selection of sites with the goal of maximizing uniformity of points in environmental space.</li>
 <li>
-<code>EG_seletion</code>.- Selection of sites with the goal of maximizing uniformity of points in environment, but considering geographic patterns of data.</li>
+<code><a href="reference/EG_selection.html">EG_selection()</a></code>.- Selection of sites with the goal of maximizing uniformity of points in environment, but considering geographic patterns of data.</li>
 </ul>
-<p>See also how your selected sites look like with the functions <code>plot_sites_EG</code>, <code>plot_sites_E</code>, and <code>plot_sites_G</code>.</p>
+<p>See also how your selected sites look like with the functions <code><a href="reference/plot_sites_EG.html">plot_sites_EG()</a></code>, <code><a href="reference/plot_sites_EG.html">plot_sites_E()</a></code>, and <code><a href="reference/plot_sites_EG.html">plot_sites_G()</a></code>.</p>
+<p><br></p>
 </div>
 <div id="evaluation-of-sampling-site-effectiveness" class="section level3">
 <h3 class="hasAnchor">
@@ -238,27 +253,27 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
 <p>After the selection of sampling sites, and, if enough high-quality data are available, functions from the testing module of this package can be used to explore which sets of sites selected could be better. Explore the following functions to prepare your data, and assess how well your selected sites perform in representing the exiting biodiversity:</p>
 <ul>
 <li>
-<code>prepare_base_PAM</code>.- Prepares a presence-absence matrix (PAM) from species distributional data; all sites (rows) will have a value for presence or absence of species (columns).</li>
+<code><a href="reference/prepare_base_PAM.html">prepare_base_PAM()</a></code>.- Prepares a presence-absence matrix (PAM) from species distributional data; all sites (rows) will have a value for presence or absence of species (columns).</li>
 <li>
-<code>PAM_indices</code>.- Calculates a set of biodiversity indices using values contained in the presence-absence matrix.</li>
+<code><a href="reference/PAM_indices.html">PAM_indices()</a></code>.- Calculates a set of biodiversity indices using values contained in the presence-absence matrix.</li>
 <li>
-<code>plot_PAM_geo</code>.- Plot of PAM indices in geography.</li>
+<code><a href="reference/plot_PAM_geo.html">plot_PAM_geo()</a></code>.- Plot of PAM indices in geography.</li>
 <li>
-<code>subset_PAM</code>.- Subsets a base_PAM object according to sites selected previously that are contained in a master_selection object.</li>
+<code><a href="reference/subset_PAM.html">subset_PAM()</a></code>.- Subsets a base_PAM object according to sites selected previously that are contained in a master_selection object.</li>
 <li>
-<code>selected_sites_SAC</code>.- Creates species accumulation curves for each set of selected sites contained in elements of PAM_subset.</li>
+<code><a href="reference/selected_sites_SAC.html">selected_sites_SAC()</a></code>.- Creates species accumulation curves for each set of selected sites contained in elements of PAM_subset.</li>
 <li>
-<code>plot_SAC</code>.- Creates species accumulation curve plots for selected sites.</li>
+<code><a href="reference/plot_SAC.html">plot_SAC()</a></code>.- Creates species accumulation curve plots for selected sites.</li>
 <li>
-<code>compare_SAC</code>.- Creates comparative plots of two species accumulation curves from information contained in lists obtained with the function <code>selected_sites_SAC</code>.</li>
+<code><a href="reference/compare_SAC.html">compare_SAC()</a></code>.- Creates comparative plots of two species accumulation curves from information contained in lists obtained with the function <code><a href="reference/selected_sites_SAC.html">selected_sites_SAC()</a></code>.</li>
 <li>
-<code>selected_sites_DI</code>.- Computes dissimilarity indices among sites selected and among sets of selected sites, based on the communities of species represented in such units.</li>
+<code><a href="reference/selected_sites_DI.html">selected_sites_DI()</a></code>.- Computes dissimilarity indices among sites selected and among sets of selected sites, based on the communities of species represented in such units.</li>
 <li>
-<code>plot_DI</code>.- Creates matrix-like plots of dissimilarities found among communities of species in distinct sites selected or sets of sites selected.</li>
+<code><a href="reference/plot_DI.html">plot_DI()</a></code>.- Creates matrix-like plots of dissimilarities found among communities of species in distinct sites selected or sets of sites selected.</li>
 <li>
-<code>DI_dendrogram</code>.- Plot dissimilarities withing and among sets of selected sites as a dendrogram.</li>
+<code><a href="reference/DI_dendrogram.html">DI_dendrogram()</a></code>.- Plot dissimilarities withing and among sets of selected sites as a dendrogram.</li>
 </ul>
-<p><br></p>
+<br><hr>
 </div>
 </div>
 <div id="gsoc-project-description" class="section level2">
@@ -272,7 +287,7 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
 <div id="status-of-the-project" class="section level3">
 <h3 class="hasAnchor">
 <a href="#status-of-the-project" class="anchor"></a>Status of the project</h3>
-<p>At the moment we have completed the three main modules of the package. We have made modifications to the original list of products, which have helped us to improve the package functionality. The package is fully functional and almost ready for submission to CRAN.</p>
+<p>At the moment we have completed the three main modules of the package. We have made modifications to the original list of products, which have helped us to improve the package functionality. The package is fully functional and available on CRAN.</p>
 <p>All commits made can be seen at the <a href="https://github.com/claununez/biosurvey/commits/master" target="_blank">complete list of commits</a>.</p>
 </div>
 </div>
@@ -283,6 +298,8 @@ Figure 1. Schematic view of the workflow to use biosurvey. Details on the workfl
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=biosurvey">https://​cloud.r-project.org/​package=biosurvey</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/claununez/biosurvey/">https://​github.com/​claununez/​biosurvey/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/claununez/biosurvey/issues">https://​github.com/​claununez/​biosurvey/​issues</a>

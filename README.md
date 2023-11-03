@@ -69,28 +69,52 @@ the workflow below.
 
 ## Installing the package
 
-**biosurvey** is in a GitHub repository and can be installed and/or
-loaded using the code below (make sure to have Internet connection). If
-you have any problem during installation, restart R session, close other
-RStudio sessions you may have open, and try again. If during the
-installation you are asked to update packages, do so if you don’t need a
-specific version of one or more of the packages to be installed. If any
-of the packages gives an error when updating, please install it alone
-using install.packages(), then try installing **biosurvey** again.
+Note: Internet connection is required to install the package.
 
-    # Installing and loading packages
-    if(!require(remotes)){
-      install.packages("remotes")
-    }
+To install the latest release of **biosurvey** use the following line of
+code:
 
-    # To install the package use
-    remotes::install_github("claununez/biosurvey")
+``` r
+# Installing from CRAN
+install.packages("biosurvey")
+```
 
-    # To install the package and its vignettes use (if needed use: force = TRUE)  
-    remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
+<br>
 
-    # Load biosurvey
-    library(biosurvey)
+The development version of **biosurvey** can be installed using the code
+below.
+
+``` r
+# Installing and loading packages
+if(!require(remotes)){
+  install.packages("remotes")
+}
+
+# To install the package use
+remotes::install_github("claununez/biosurvey")
+
+# To install the package and its vignettes use (if needed use: force = TRUE)  
+remotes::install_github("claununez/biosurvey", build_vignettes = TRUE)
+```
+
+<br>
+
+If you have any problems during installation of the development version
+from GitHub, restart R session, close other RStudio sessions you may
+have open, and try again. If during the installation you are asked to
+update packages, do so if you don’t need a specific version of one or
+more of the packages to be installed. If any of the packages give an
+error when updating, please install it alone using `install.packages()`,
+then try installing **biosurvey** again.
+
+<br>
+
+To load the package use:
+
+``` r
+# Load biosurvey
+library(biosurvey)
+```
 
 <br>
 
@@ -98,30 +122,32 @@ using install.packages(), then try installing **biosurvey** again.
 
 To check all functions in the package use:
 
-    help(biosurvey)
+``` r
+help(biosurvey)
+```
 
 <br>
 
 If the package was installed with its vignettes you can see all options
 with:
 
-    vignette(package = "biosurvey")
+``` r
+vignette(package = "biosurvey")
+```
 
 <br>
 
 To check vignettes you can use:
 
-    # For a guide on how to prepare data for analysis
-    vignette("biosurvey_preparing_data")
-
-    # For a guide on how to select sampling sites
-    vignette("biosurvey_selecting_sites")
-
-    # For a guide on how to select sampling sites when some sites have been preselected
-    vignette("biosurvey_selection_with_preselected_sites")
-
-    # For a guide on how to use the testing module
-    vignette("biosurvey_testing_module")
+-   `vignette("biosurvey_preparing_data")`.- For a guide on how to
+    prepare data for analysis.
+-   `vignette("biosurvey_selecting_sites")`.- For a guide on how to
+    select sampling sites.
+-   `vignette("biosurvey_selection_with_preselected_sites")`.- For a
+    guide on how to select sampling sites when some sites have been
+    preselected.
+-   `vignette("biosurvey_testing_module")`.- For a guide on how to use
+    the testing module.
 
 <br>
 
@@ -169,32 +195,38 @@ different types:
 -   Raster layers defining suitable and unsuitable areas
 -   Geographic points of species occurrences
 
+<br>
+
 ### Data preparation
 
 To use **biosurvey** efficiently the first thing to do is to prepare an
 object containing all information to be used in following analyses. This
-can be done using the function `prepare_master_matrix`. After that, the
-function `make_blocks` can be used to partition the environmental space
-of the region of interest. To explore how your data looks like, the
-functions `explore_data_EG` and `plot_blocks_EG` can be used.
+can be done using the function `prepare_master_matrix()`. After that,
+the function `make_blocks()` can be used to partition the environmental
+space of the region of interest. To explore how your data looks like,
+the functions `explore_data_EG()` and `plot_blocks_EG()` can be used.
+
+<br>
 
 ### Selection of sites for biodiversity inventory
 
 After preparing data, distinct functions can be used to select sampling
 sites:
 
--   `random_selection`.- Random selection of sites to be sampled in a
+-   `random_selection()`.- Random selection of sites to be sampled in a
     survey.
--   `uniformG_selection`.- Selection of sites with the goal of
+-   `uniformG_selection()`.- Selection of sites with the goal of
     maximizing uniformity of points in geographic space.
--   `uniformE_selection`.- Selection of sites with the goal of
+-   `uniformE_selection()`.- Selection of sites with the goal of
     maximizing uniformity of points in environmental space.
--   `EG_seletion`.- Selection of sites with the goal of maximizing
+-   `EG_selection()`.- Selection of sites with the goal of maximizing
     uniformity of points in environment, but considering geographic
     patterns of data.
 
 See also how your selected sites look like with the functions
-`plot_sites_EG`, `plot_sites_E`, and `plot_sites_G`.
+`plot_sites_EG()`, `plot_sites_E()`, and `plot_sites_G()`.
+
+<br>
 
 ### Evaluation of sampling site effectiveness
 
@@ -204,32 +236,33 @@ used to explore which sets of sites selected could be better. Explore
 the following functions to prepare your data, and assess how well your
 selected sites perform in representing the exiting biodiversity:
 
--   `prepare_base_PAM`.- Prepares a presence-absence matrix (PAM) from
+-   `prepare_base_PAM()`.- Prepares a presence-absence matrix (PAM) from
     species distributional data; all sites (rows) will have a value for
     presence or absence of species (columns).
--   `PAM_indices`.- Calculates a set of biodiversity indices using
+-   `PAM_indices()`.- Calculates a set of biodiversity indices using
     values contained in the presence-absence matrix.
--   `plot_PAM_geo`.- Plot of PAM indices in geography.
--   `subset_PAM`.- Subsets a base\_PAM object according to sites
+-   `plot_PAM_geo()`.- Plot of PAM indices in geography.
+-   `subset_PAM()`.- Subsets a base\_PAM object according to sites
     selected previously that are contained in a master\_selection
     object.
--   `selected_sites_SAC`.- Creates species accumulation curves for each
-    set of selected sites contained in elements of PAM\_subset.
--   `plot_SAC`.- Creates species accumulation curve plots for selected
+-   `selected_sites_SAC()`.- Creates species accumulation curves for
+    each set of selected sites contained in elements of PAM\_subset.
+-   `plot_SAC()`.- Creates species accumulation curve plots for selected
     sites.
--   `compare_SAC`.- Creates comparative plots of two species
+-   `compare_SAC()`.- Creates comparative plots of two species
     accumulation curves from information contained in lists obtained
-    with the function `selected_sites_SAC`.
--   `selected_sites_DI`.- Computes dissimilarity indices among sites
+    with the function `selected_sites_SAC()`.
+-   `selected_sites_DI()`.- Computes dissimilarity indices among sites
     selected and among sets of selected sites, based on the communities
     of species represented in such units.
--   `plot_DI`.- Creates matrix-like plots of dissimilarities found among
-    communities of species in distinct sites selected or sets of sites
-    selected.
--   `DI_dendrogram`.- Plot dissimilarities withing and among sets of
+-   `plot_DI()`.- Creates matrix-like plots of dissimilarities found
+    among communities of species in distinct sites selected or sets of
+    sites selected.
+-   `DI_dendrogram()`.- Plot dissimilarities withing and among sets of
     selected sites as a dendrogram.
 
 <br>
+<hr>
 
 ## GSoC project description
 
@@ -266,7 +299,7 @@ survey systems that allow sampling of most of its biodiversity.
 At the moment we have completed the three main modules of the package.
 We have made modifications to the original list of products, which have
 helped us to improve the package functionality. The package is fully
-functional and almost ready for submission to CRAN.
+functional and available on CRAN.
 
 All commits made can be seen at the
 <a href="https://github.com/claununez/biosurvey/commits/master" target="_blank">complete

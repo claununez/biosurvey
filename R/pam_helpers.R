@@ -543,6 +543,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
     ## Processing
     sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
                             .combine = fpc(length(spnames))) %dopar% {
+
                               if (format %in% c("shp", "gpkg")) {
                                 rs <- terra::vect(file.path(path, mlist[i]))
                                 ## Fixing projections
@@ -589,6 +590,9 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
         rs <- terra::vect(file.path(path, mlist[0]))
         ## Fixing projections
         rs <- terra::project(rs, terra::crs(spdf_grid))
+
+        ## Fixing projections
+        rs <- sp::spTransform(rs, spdf_grid@proj4string)
 
         ## Preparing data
         sppm <- terra::extract(rs, spdf_grid)[, -1] #Check
