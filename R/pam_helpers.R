@@ -111,10 +111,12 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #' Creates a data.frame of species' references from RasterStack
 #'
 #' @description Creates a data.frame of species' references that contains
-#' longitude, latitude, and species name, using a RasterStack or a RasterBrick
-#' as input.
+#' longitude, latitude, and species name, using a SpatRaster as input.
 #'
-#' @param species_layers RasterStack or RasterBrick object. Each layer must be
+#' @usage
+#' stack_2data(species_layers)
+#'
+#' @param species_layers SpatRaster object. Each layer must be
 #' named as the species that it represents, and values in each layer must be
 #' 1 (presence) and 0 (absence).
 #'
@@ -122,16 +124,13 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #' A data.frame of species geographic records derived from values of presence
 #' in each layer from the RasterStack.
 #'
-#' @usage
-#' stack_2data(species_layers)
-#'
 #' @export
-#' @importFrom raster rasterToPoints
+#' @importFrom terra as.data.frame
 #'
 #' @examples
 #' # Data
-#' rsp <- raster::stack(system.file("extdata/sp_layers.tif",
-#'                                  package = "biosurvey"))
+#' rsp <- terra::rast(system.file("extdata/sp_layers.tif",
+#'                                 package = "biosurvey"))
 #' names(rsp) <- paste0("Species_", 1:5)
 #'
 #' # Species data from RasterStack
@@ -143,12 +142,12 @@ stack_2data <- function(species_layers) {
   if (missing(species_layers)) {
     stop("Argument 'species_layers' must be defined")
   }
-  if (class(species_layers)[1] != "RasterStack") {
-    stop("'species_layers' must be of class 'RasterStack'")
+  if (class(species_layers)[1] != "SpatRaster") {
+    stop("'species_layers' must be of class 'SpatRaster'")
   }
 
   # Stack to matrix
-  sppm <- raster::rasterToPoints(species_layers)
+  sppm <- terra::as.data.frame(species_layers, xy = TRUE)
   spnames <- colnames(sppm)[-c(1, 2)]
 
   # Preparing data
@@ -447,9 +446,9 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 #'
 #' @export
-#' @importFrom rgdal readOGR
+#' @importFrom terra vect
 #' @importFrom sp over
-#' @importFrom raster raster rasterToPoints
+#' @importFrom terra rast as.data.frame
 #' @importFrom stats na.omit
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel detectCores makeCluster stopCluster
@@ -490,41 +489,30 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
   if (missing(format)) {
     stop("Argument 'format' must be defined")
   }
-  if (!format %in% c("shp", "gpkg", "geojson", "GTiff", "ascii")) {
+  if (!format %in% c("shp", "gpkg", "GTiff", "ascii")) {
     stop(paste("'format'", format, "is not supported, see function's help"))
   }
 
-  # Finding files according to format
-  if (format %in% c("shp", "gpkg", "geojson")) {
-    if (is.null(spdf_grid)) {
-      stop("Argument 'spdf_grid' must be defined if 'format' is shp, gpkg, or geojson")
-    }
-    # Names to be matched
-    ID <- spdf_grid@data$ID
+  if (is.null(spdf_grid)) {
+    stop("Argument 'spdf_grid' must be defined if 'format' is shp or gpkg")
+  }
+  # Names to be matched
+  ID <- spdf_grid@data$ID
 
-    if (format == "shp") {
-      patt <- ".shp$"
-      subs <- ".shp"
-      mlist <- gsub(subs, "", list.files(path = path, pattern = patt))
-      spnames <- mlist
-    } else {
-      if (format == "gpkg") {
-        patt <- ".gpkg$"
-        subs <- ".gpkg"
-        mlist <- list.files(path = path, pattern = patt)
-        spnames <- gsub(subs, "", mlist)
-      } else {
-        patt <- ".geojson$"
-        subs <- ".geojson"
-        mlist <- list.files(path = path, pattern = patt)
-        spnames <- gsub(subs, "", mlist)
-      }
-    }
-  } else {
+  # Finding files according to format
+  if (format %in% c("shp", "gpkg")) {
+    #Get file path
+    patt <- paste0(".", format, "$")
+    subs <- paste0(".", format)
+    mlist <- list.files(path = path, pattern = patt)
+    spnames <- gsub(subs, "", mlist) }
+
+  if(format %in% c("GTiff", "ascii")) {
     subs <- match_rformat(format)
-    patt <- paste0(subs, "$")
-    mlist <- list.files(path = path, pattern = patt, full.names = TRUE)
-    spnames <- gsub(subs, "", list.files(path = path, pattern = patt))
+    patt <- subs
+    mlist <- list.files(path = path, pattern = ".tif", full.names = TRUE)
+    spnames <- gsub(paste0(subs, ".*"),
+                    "", list.files(path = path, pattern = patt))
   }
 
   if (length(mlist) == 0) {
@@ -555,29 +543,14 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
     ## Processing
     sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
                             .combine = fpc(length(spnames))) %dopar% {
-                              if (format %in% c("shp", "gpkg", "geojson")) {
-                                ## Reading data
-                                if (format == "shp") {
-                                  rs <- rgdal::readOGR(dsn = path,
-                                                       layer = mlist[i],
-                                                       verbose = FALSE)
-                                } else {
-                                  if (format == "gpkg") {
-                                    rs <- rgdal::readOGR(paste0(path, "/",
-                                                                mlist[i]),
-                                                         spnames[x],
-                                                         verbose = FALSE)
-                                  } else {
-                                    rs <- rgdal::readOGR(paste0(path, "/",
-                                                                mlist[i]),
-                                                         verbose = FALSE)
-                                  }
-                                }
+
+                              if (format %in% c("shp", "gpkg")) {
+                                rs <- terra::vect(file.path(path, mlist[i]))
                                 ## Fixing projections
-                                rs <- sp::spTransform(rs, spdf_grid@proj4string)
+                                rs <- terra::project(rs, terra::crs(spdf_grid))
 
                                 ## Preparing data
-                                sppm <- sp::over(spdf_grid, rs)
+                                sppm <- terra::extract(rs, spdf_grid)[, -1] #Check
                                 if (nrow(na.omit(sppm)) > 0) {
                                   sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
                                   sppm$Species <- spnames[i]
@@ -589,10 +562,10 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 
                               } else {
                                 ## Raster from file
-                                rs <- raster::raster(mlist[i])
+                                rs <- terra::rast(mlist[1])
 
                                 ## Raster to matrix
-                                sppm <- raster::rasterToPoints(rs)
+                                sppm <- terra::as.data.frame(rs, xy = TRUE)
 
                                 ## Preparing data
                                 cond <- sppm[, 3] == 1
@@ -613,25 +586,16 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
       Sys.sleep(0.1)
       utils::setTxtProgressBar(pb, x)
 
-      if (format %in% c("shp", "gpkg", "geojson")) {
-        ## Reading data
-        if (format == "shp") {
-          rs <- rgdal::readOGR(dsn = path, layer = mlist[x], verbose = FALSE)
-        } else {
-          if (format == "gpkg") {
-            rs <- rgdal::readOGR(paste0(path, "/", mlist[x]), spnames[x],
-                                 verbose = FALSE)
-          } else {
-            rs <- rgdal::readOGR(paste0(path, "/", mlist[x]),
-                                 verbose = FALSE)
-          }
-        }
+      if (format %in% c("shp", "gpkg")) {
+        rs <- terra::vect(file.path(path, mlist[0]))
+        ## Fixing projections
+        rs <- terra::project(rs, terra::crs(spdf_grid))
 
         ## Fixing projections
         rs <- sp::spTransform(rs, spdf_grid@proj4string)
 
         ## Preparing data
-        sppm <- sp::over(spdf_grid, rs)
+        sppm <- terra::extract(rs, spdf_grid)[, -1] #Check
         if (nrow(na.omit(sppm)) > 0) {
           sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
           sppm$Species <- spnames[x]
@@ -639,14 +603,14 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
           sppm <- na.omit(data.frame(ID = NA, Species = NA))
         }
 
-        sps[[x]] <- sppm
+        return(sppm)
 
       } else {
         ## Raster from file
-        rs <- raster::raster(mlist[x])
+        rs <- terra::rast(mlist[x])
 
         ## Raster to matrix
-        sppm <- raster::rasterToPoints(rs)
+        sppm <- terra::as.data.frame(rs, xy = TRUE)
 
         ## Preparing data
         cond <- sppm[, 3] == 1
@@ -658,7 +622,7 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
     sps <- do.call(rbind, sps)
   }
 
-  if (format %in% c("shp", "gpkg", "geojson")) {
+  if (format %in% c("shp", "gpkg")) {
     colnames(sps) <- c("ID", "Species")
   } else {
     colnames(sps) <- c("Longitude", "Latitude", "Species")
@@ -666,8 +630,6 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 
   return(sps)
 }
-
-
 
 #' Creates presence-absence matrix from a data.frame
 #'
