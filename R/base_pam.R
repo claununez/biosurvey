@@ -24,8 +24,8 @@
 #' the region of interest is it could take time to perform this task.
 #' @param indices (character) code for indices to be calculated. Basic indices
 #' are calculated all the time, other indices need to be specified. Options are:
-#' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-#' "CMSC", and "CMSR". Default = "basic". See details.
+#' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "DivF", "CC", "WRN",
+#' "SRC", "CMSC", and "CMSR". Default = "basic". See details.
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE. Not used if data is of class data.frame, RasterStack, or
 #' RasterBrick.
@@ -84,6 +84,7 @@
 #' |SCSC  |Schluter covariance sites-composition    |Needs to be defined and CMSC    |
 #' |SCSR  |Schluter covariance species-ranges       |Needs to be defined and CMSR    |
 #' |DF    |Dispersion field                         |Needs to be defined             |
+#' |DivF  |Diversity field                          |Needs to be defined             |
 #' |SCC   |Shared community composition             |Needs to be defined             |
 #' |WRN   |Wright-Reeves nestedness                 |Needs to be defined, BW, and DF |
 #' |SRC   |Stone-Roberts C-score                     |Needs to be defined and DF      |
@@ -199,6 +200,9 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
         sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data,
                                                 proj4string = sp::CRS("+init=epsg:4326"))
       }
+    } else if (clsdata %in% c("RasterStack", "RasterBrick")) {
+      sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data,
+                                              proj4string = sp::CRS("+init=epsg:4326"))
     }
   }
 

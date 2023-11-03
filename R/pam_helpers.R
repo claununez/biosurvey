@@ -143,7 +143,7 @@ stack_2data <- function(species_layers) {
   if (missing(species_layers)) {
     stop("Argument 'species_layers' must be defined")
   }
-  if (class(species_layers)[1] != "RasterStack") {
+  if (!class(species_layers)[1]  %in% c("RasterStack", "RasterBrick")) {
     stop("'species_layers' must be of class 'RasterStack'")
   }
 
@@ -809,6 +809,13 @@ refill_PAM_indices <- function(initial_index_list, new_index_list) {
     new_index_list$One_value_indices["Av_dispersion_field", ]
   )
 
+  index_list$One_value_indices["Av_diversity_field", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Av_diversity_field", ]) &
+      !is.na(initial_index_list$One_value_indices["Av_diversity_field", ]),
+    initial_index_list$One_value_indices["Av_diversity_field", ],
+    new_index_list$One_value_indices["Av_diversity_field", ]
+  )
+
   index_list$One_value_indices["Av_shared_community_composition", ] <- ifelse(
     is.na(new_index_list$One_value_indices["Av_shared_community_composition", ]) &
       !is.na(initial_index_list$One_value_indices["Av_shared_community_composition", ]),
@@ -869,6 +876,13 @@ refill_PAM_indices <- function(initial_index_list, new_index_list) {
     index_list$Dispersion_field <- initial_index_list$Dispersion_field
   } else {
     index_list$Dispersion_field <- new_index_list$Dispersion_field
+  }
+
+  if (all(is.na(new_index_list$Diversity_field)) &
+      any(!is.na(initial_index_list$Diversity_field))) {
+    index_list$Diversity_field <- initial_index_list$Diversity_field
+  } else {
+    index_list$Diversity_field <- new_index_list$Diversity_field
   }
 
   if (all(is.na(new_index_list$Shared_community_composition)) &
