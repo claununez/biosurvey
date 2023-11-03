@@ -6,9 +6,9 @@
 #' ID, and longitude and latitude coordinates. The PAM will be linked to a
 #' spatial grid.
 #'
-#' @param data species geographic ranges to be used to create a presence-absence
-#' matrix (PAM). This argument can be: character, data.frame, RasterStack,
-#' RasterBrick, list, SpatialPolygonsDataFrame, or SpatialPointsDataFrame. See
+#' @param data species geographic ranges to be used to create a presence-absence # Here are some changes
+#' matrix (PAM). This argument can be: character, data.frame, SpatRaster,
+#' list, or SpatVector. See
 #' details for a description of the characteristics of data for each option.
 #' @param format (character) if \code{data} is of class character, available
 #' options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
@@ -27,8 +27,8 @@
 #' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
 #' "CMSC", and "CMSR". Default = "basic". See details.
 #' @param parallel (logical) whether to perform analyses in parallel.
-#' Default = FALSE. Not used if data is of class data.frame, RasterStack, or
-#' RasterBrick.
+#' Default = FALSE. Not used if data is of class data.frame, or
+#' SpatRaster.                                                                  # Here's a change
 #' @param n_cores (numeric) number of cores to be used when \code{parallel} =
 #' TRUE. The default, NULL, uses available cores - 1.
 #' @param verbose (logical) whether or not to print messages about the process.
@@ -53,17 +53,17 @@
 #' values in each layer must be 1 (presence) and 0 (absence).
 #' - data.frame.- a table containing  three columns. Columns must be in the
 #' following order: Longitude, Latitude, Species.
-#' - RasterStack or RasterBrick.- Each layer must be named as the species which
+#' - SpatRaster.- Each layer must be named as the species which                 # Here's a change
 #' range it represents, and values in each layer must be 1 (presence) and 0
 #' (absence).
 #' - list.-  a list of RasterLayers that cannot be stacked because of extent or
 #' resolution differences. Each element of the list must be named as the species
 #' which range it represents, and values in each RasterLayer must be 1
 #' (presence) and 0 (absence).
-#' - SpatialPolygonsDataFrame.- object representing species' geographic ranges.
+#' - SpatVector.- object representing species' geographic ranges.               # Here's a change
 #' The data.frame associated with the object must contain a column named
 #' "Species" to distinguish among features representing each species range.
-#' - SpatialPointsDataFrame.- object of spatial points where each record of a
+#' - SpatVector.- object of spatial points where each record of a               # Here's a change
 #' species must be a point. The associated data.frame must contain the
 #' following columns (in that order): Longitude, Latitude, Species.
 #'
@@ -96,11 +96,11 @@
 #'
 #' @return
 #' A presence-absence matrix (PAM) of class \code{\link{base_PAM}} for the
-#' region of interest associated with a SpatialPolygonsDataFrame, as in a grid
+#' region of interest associated with a SpatVector, as in a grid                # Here's a change
 #' of \code{cell_size} resolution. Each grid cell is related to a specific ID
 #' and longitude and latitude coordinates. Presence (1) and absence (0) values
 #' for each species in every cell of the PAM are included as apart of the
-#' data.frame of the SpatialPolygonsDataFrame. PAM indices is returned with the
+#' data.frame of the SpatVector. PAM indices is returned with the               # Here's a change
 #' basic indices of biodiversity as default, but can be changed using the
 #' argument \code{indices}.
 #'
@@ -133,9 +133,8 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   # Initial tests
   clsdata <- class(data)[1]
 
-  if (!clsdata %in% c("RasterStack", "RasterBrick", "data.frame", "list",
-                      "SpatialPolygonsDataFrame", "SpatialPointsDataFrame",
-                      "character")) {
+  if (!clsdata %in% c("SpatRaster", "data.frame", "list",                       # Here are some changes
+                      "SpatVector", "character")) {
     stop("Argument 'data' is not valid, check function's help.")
   }
 
@@ -164,13 +163,13 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size,
                                  complete_cover)
 
-  # Prepare SpaptialPoints from different objects
+  # Prepare SpatVector from different objects                                    # There's a change
   if (verbose == TRUE) {
     message("Preprocessing 'data'")
   }
   if (clsdata != "data.frame") {
     ## From raster objects
-    if (clsdata %in% c("RasterStack", "RasterBrick")) {
+    if (clsdata %in% "SpatRaster") {                                             # There's a change
       data <- stack_2data(species_layers = data)
     }
 
@@ -188,25 +187,23 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
       }
     }
   } else {
-    sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data,
-                                            proj4string = sp::CRS("+init=epsg:4326"))
+    sp_points <- terra::vect(data[, 1:2], crs("EPSG:4326"))                     # Here's a change
   }
 
-  # SpatialPointsDataFrame from data if needed
-  if (!clsdata %in% c("SpatialPointsDataFrame", "SpatialPolygonsDataFrame")) {
+  # SpatialVector from data if needed
+  if (!clsdata %in% "SpatVector") {                                             # Here's a change
     if (clsdata == "character") {
       if (!format %in% c("shp", "gpkg", "geojson")) {
-        sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data,
-                                                proj4string = sp::CRS("+init=epsg:4326"))
+        sp_points <- terra::vect(data[, 1:2], crs("EPSG:4326"))                 # Here's a change
       }
     }
   }
 
   # Assign ID to points depending of type of data if needed
-  ## Direct step from SPDF or character data argument
-  if (clsdata %in% c("SpatialPolygonsDataFrame", "character")) {
-    if (clsdata == "SpatialPolygonsDataFrame") {
-      sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol,
+  ## Direct step from SpatVector or character data argument                     # Here's a change
+  if (clsdata %in% c("SpatVector", "character")) {
+    if (clsdata == "SpatVector") {
+      sp_points <- spdf_2data(spdf_object = data, spdf_grid = grid_r_pol,       # This helper needs a change
                               parallel = parallel, n_cores = n_cores)
     }
     if (clsdata == "character") {
@@ -218,12 +215,14 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
   }
 
   ## Merging with ID if any other object is defined in data
-  if (class(data)[1] %in% c("data.frame", "SpatialPointsDataFrame")) {
-    if (class(data)[1] %in% "SpatialPointsDataFrame") {
+  if (class(data)[1] %in% c("data.frame", "SpatVector")) {                      # There's a change
+    if (class(data)[1] %in% "SpatVector") {
       sp_points <- data
     }
-    sp_points <- data.frame(ID = sp::over(methods::as(sp_points, "SpatialPoints"),
-                                          grid_r_pol[, "ID"]),
+    sp_points <- data.frame(ID = terra::extract(methods::as(sp_points, "SpatialPoints"),
+
+                            grid_r_pol[, "ID"]),
+
                             Species = sp_points@data[, 3])
   }
 
@@ -244,9 +243,9 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     if (verbose == TRUE) {
       message("Clipping PAM to region of interest")
     }
-    grid_r_pol <- raster::intersect(grid_r_pol, master_matrix[[where]])
+    grid_r_pol <- terra::intersect(grid_r_pol, master_matrix[[where]])          # Here's a change
     coltk <- make.names(coltk)
-    coltk <- intersect(coltk, colnames(grid_r_pol@data))
+    coltk <- terra::intersect(coltk, colnames(grid_r_pol@data))                 # Here's a change
     grid_r_pol@data <- grid_r_pol@data[, coltk]
   }
 
