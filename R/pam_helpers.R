@@ -771,6 +771,13 @@ refill_PAM_indices <- function(initial_index_list, new_index_list) {
     new_index_list$One_value_indices["Av_dispersion_field", ]
   )
 
+  index_list$One_value_indices["Av_diversity_field", ] <- ifelse(
+    is.na(new_index_list$One_value_indices["Av_diversity_field", ]) &
+      !is.na(initial_index_list$One_value_indices["Av_diversity_field", ]),
+    initial_index_list$One_value_indices["Av_diversity_field", ],
+    new_index_list$One_value_indices["Av_diversity_field", ]
+  )
+
   index_list$One_value_indices["Av_shared_community_composition", ] <- ifelse(
     is.na(new_index_list$One_value_indices["Av_shared_community_composition", ]) &
       !is.na(initial_index_list$One_value_indices["Av_shared_community_composition", ]),
@@ -831,6 +838,13 @@ refill_PAM_indices <- function(initial_index_list, new_index_list) {
     index_list$Dispersion_field <- initial_index_list$Dispersion_field
   } else {
     index_list$Dispersion_field <- new_index_list$Dispersion_field
+  }
+
+  if (all(is.na(new_index_list$Diversity_field)) &
+      any(!is.na(initial_index_list$Diversity_field))) {
+    index_list$Diversity_field <- initial_index_list$Diversity_field
+  } else {
+    index_list$Diversity_field <- new_index_list$Diversity_field
   }
 
   if (all(is.na(new_index_list$Shared_community_composition)) &

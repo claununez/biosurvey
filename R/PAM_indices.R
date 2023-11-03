@@ -8,8 +8,8 @@
 #' rows and species in the columns. See details.
 #' @param indices (character) code for indices to be calculated. Basic indices
 #' are calculated all the time; other indices need to be specified. Options are:
-#' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-#' "CMSC", "CMSR", "MCC", and "MRC". Default = "all". See details.
+#' "all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "DivF", "CC", "WRN",
+#' "SRC", "CMSC", "CMSR", "MCC", and "MRC". Default = "all". See details.
 #' @param exclude_column (optional) name or numeric index of columns to be
 #' excluded. Default = NULL.
 #'
@@ -41,9 +41,10 @@
 #' |SCSC  |Schluter covariance sites-composition    |Needs to be defined and CMSC    |
 #' |SCSR  |Schluter covariance species-ranges       |Needs to be defined and CMSR    |
 #' |DF    |Dispersion field                         |Needs to be defined             |
+#' |DivF  |Diversity field                          |Needs to be defined             |
 #' |SCC   |Shared community composition             |Needs to be defined             |
 #' |WRN   |Wright-Reeves nestedness                 |Needs to be defined, BW, and DF |
-#' |SRC   |Stone-Roberts C-score                     |Needs to be defined and DF      |
+#' |SRC   |Stone-Roberts C-score                    |Needs to be defined and DF      |
 #' |CMSC  |Covariance matrix sites-composition      |Needs to be defined, DF, and BW |
 #' |CMSR  |Covariance matrix species-ranges         |Needs to be defined, SCC, and BW|
 #' |MCC   |Mean composition covariance              |Calculated with CMSC            |
@@ -73,8 +74,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     stop("Argument 'PAM' must be defined.")
   }
 
-  all_in <- c("all", "basic", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "SCC",
-              "WRN", "SRC", "CMSC", "CMSR", "MCC", "MRC")
+  all_in <- c("all", "basic", "AB", "BW", "BL", "SCSC", "SCSR", "DF", "DivF",
+              "SCC", "WRN", "SRC", "CMSC", "CMSR", "MCC", "MRC")
   if (any(!indices %in% all_in)) {
     stop("One or more elements defined in 'indices' is not valid, check function's help.")
   }
@@ -141,6 +142,19 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     names(d_field) <- rownames(PAM)
     ## Average
     av_dfield <- mean(d_field)
+  } else {
+    d_field <- NULL
+    av_dfield <- NA
+  }
+
+
+  # Diversity field
+  if (any(indices %in% c("all", "DivF"))) {
+    div_field <- c(t(rich) %*% PAM)
+    div_field <- (div_field - rang) / 2
+    names(div_field) <- colnames(PAM)
+    ## Average
+    av_divfield <- mean(div_field)
   } else {
     d_field <- NULL
     av_dfield <- NA
@@ -237,9 +251,10 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   }
 
   # Returning results
-  tab_in <- data.frame(Value = c(N, S, av_dfield, av_sccomp, BA, BW, BL,
-                                 VCS_cov, VRS_cov, Nc, Cs),
-                       row.names = c("Sites_Cells", "Species", "Av_dispersion_field",
+  tab_in <- data.frame(Value = c(N, S, av_dfield, av_divfield, av_sccomp, BA,
+                                 BW, BL, VCS_cov, VRS_cov, Nc, Cs),
+                       row.names = c("Sites_Cells", "Species",
+                                     "Av_dispersion_field", "Av_diversity_field",
                                      "Av_shared_community_composition",
                                      "Additive_Beta", "Beta_Whittaker",
                                      "Beta_Legendre", "Schluter_cov_sites_composition",
@@ -250,7 +265,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   # If base_PAM
   nil <- list(One_value_indices = tab_in, Richness = rich, Range = rang,
               Richness_normalized = richS, Range_normalized = rangN,
-              Dispersion_field = d_field, Shared_community_composition = sc_comp,
+              Dispersion_field = d_field, Diversity_field = div_field,
+              Shared_community_composition = sc_comp,
               Mean_composition_covariance = Ccov_mean,
               Mean_range_covariance = Rcov_mean,
               Cov_mat_sites_composition = CS_cov,

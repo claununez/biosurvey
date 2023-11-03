@@ -13,8 +13,8 @@ rows and species in the columns. See details.}
 
 \item{indices}{(character) code for indices to be calculated. Basic indices
 are calculated all the time; other indices need to be specified. Options are:
-"all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "CC", "WRN", "SRC",
-"CMSC", "CMSR", "MCC", and "MRC". Default = "all". See details.}
+"all", "basic, "AB", "BW", "BL", "SCSC", "SCSR", "DF", "DivF", "CC", "WRN",
+"SRC", "CMSC", "CMSR", "MCC", and "MRC". Default = "all". See details.}
 
 \item{exclude_column}{(optional) name or numeric index of columns to be
 excluded. Default = NULL.}
@@ -49,6 +49,7 @@ meaning of the indices see Soberón and Cavner (2015)
    SCSC \tab Schluter covariance sites-composition \tab Needs to be defined and CMSC \cr
    SCSR \tab Schluter covariance species-ranges \tab Needs to be defined and CMSR \cr
    DF \tab Dispersion field \tab Needs to be defined \cr
+   DivF \tab Diversity field \tab Needs to be defined \cr
    SCC \tab Shared community composition \tab Needs to be defined \cr
    WRN \tab Wright-Reeves nestedness \tab Needs to be defined, BW, and DF \cr
    SRC \tab Stone-Roberts C-score \tab Needs to be defined and DF \cr
