@@ -260,7 +260,7 @@ find_modes <- function(density) {
 #'
 #' @export
 #' @importFrom stats hclust cutree kmeans dist as.dist
-#' @importFrom raster pointDistance
+#' @importFrom terra distance
 #'
 #' @examples
 #' # Data
@@ -311,8 +311,8 @@ find_clusters <- function(data, x_column, y_column, space,
                                  method = "complete")
       } else {
         ## In G
-        cluster <- stats::hclust(as.dist(raster::pointDistance(data[, c(x_column, y_column)],
-                                                               lonlat = T)),
+        cluster <- stats::hclust(as.dist(
+          terra::distance(x = data[, c(x_column, y_column)], lonlat = TRUE)),
                                  method = "complete")
       }
 
