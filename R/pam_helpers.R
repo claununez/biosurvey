@@ -341,15 +341,15 @@ rlist_2data <- function(raster_list) {
 #' longitude, latitude, and species name, from a character.
 #'
 #' @param path (character) full path name of directory containing raster,
-#' shapefiles, geopackage, or GeoJSON files representing species geographic
+#' shapefiles or geopackage files representing species geographic
 #' ranges. Each file must be named as the species that it represents. All files
 #' must be in the same format. If files are raster layers, values in each layer
 #' must be 1 (presence, suitable) and 0 (absence, unsuitable).
 #' @param format (character) the format files found in \code{path}. Current
-#' available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
+#' available formats are: "shp", "gpkg", "GTiff", and "ascii".
 #' @param spdf_grid geographic grid for the region of interest (output of
-#' function \code{\link{grid_from_region}}). Used when format equals "shp",
-#' "gpkg", or "geojson". Default = NULL.
+#' function \code{\link{grid_from_region}}). Used when format equals "shp" or
+#' "gpkg". Default = NULL.
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
 #' @param n_cores (numeric) number of cores to be used when \code{parallel} =
@@ -415,29 +415,24 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
   }
 
   if (is.null(spdf_grid)) {
-    stop("Argument 'spdf_grid' must be defined if 'format' is shp or gpkg")
+    stop("Argument 'spdf_grid' must be defined if 'format' is 'shp' or 'gpkg'")
   }
-  # Names to be matched
-  ID <- spdf_grid@data$ID
+
+  # spdf_grid crs
+  crsg <- terra::crs(spdf_grid)
 
   # Finding files according to format
-  if (format %in% c("shp", "gpkg")) {
-    #Get file path
-    patt <- paste0(".", format, "$")
-    subs <- paste0(".", format)
-    mlist <- list.files(path = path, pattern = patt)
-    spnames <- gsub(subs, "", mlist) }
-
-  if(format %in% c("GTiff", "ascii")) {
-    subs <- match_rformat(format)
-    patt <- subs
-    mlist <- list.files(path = path, pattern = ".tif", full.names = TRUE)
-    spnames <- gsub(paste0(subs, ".*"),
-                    "", list.files(path = path, pattern = patt))
+  if (format %in% c("GTiff", "ascii")) {
+    format <- match_rformat(format)
   }
+  patt <- paste0(".", format, "$")
+
+  mlist <- list.files(path = path, pattern = patt, full.names = TRUE)
+  spnames <- gsub(patt, "", list.files(path = path, pattern = patt))
+
 
   if (length(mlist) == 0) {
-    stop(paste("No file was found in", path, "with the extension specified in 'format'"))
+    stop(paste("No files were found in", path, "with the extension specified in 'format'"))
   }
 
   if (parallel == TRUE) {
@@ -445,57 +440,55 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
     ## Progress combine (rbind) function
-    fpc <- function(iterator){
-      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
-      count <- 0
-      function(...) {
-        count <<- count + length(list(...)) - 1
-        utils::setTxtProgressBar(pb, count)
-        Sys.sleep(0.1)
-        utils::flush.console()
-        rbind(...)
-      }
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
+    progress <- function(n) {
+      utils::setTxtProgressBar(pb, n)
     }
+    opts <- list(progress = progress)
 
-    ## Start a cluster
-    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
-    doParallel::registerDoParallel(cl)
+    ## Make cluster
+    cl <- snow::makeSOCKcluster(n_cores)
+    doSNOW::registerDoSNOW(cl)
+
+    ## wrap vectors
+    spdf_grid <- terra::wrap(spdf_grid)
 
     ## Processing
-    sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
-                            .combine = fpc(length(spnames))) %dopar% {
+    sps <- foreach::foreach(
+      i = 1:length(spnames), .inorder = FALSE,
+      .combine = "rbind", .options.snow = opts
+    ) %dopar% {
+      if (format %in% c("shp", "gpkg")) {
+        rs <- terra::vect(mlist[i])
 
-                              if (format %in% c("shp", "gpkg")) {
-                                rs <- terra::vect(file.path(path, mlist[i]))
-                                ## Fixing projections
-                                rs <- terra::project(rs, terra::crs(spdf_grid))
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
+        }
 
-                                ## Preparing data
-                                sppm <- terra::extract(rs, spdf_grid)[, -1] #Check
-                                if (nrow(na.omit(sppm)) > 0) {
-                                  sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
-                                  sppm$Species <- spnames[i]
-                                } else {
-                                  sppm <- na.omit(data.frame(ID = NA, Species = NA))
-                                }
+        ID <- terra::unwrap(spdf_grid)[rs, ]$ID
 
-                                return(sppm)
+        if (length(ID) > 0) {
+          return(na.omit(data.frame(ID = ID, Species = spnames[i])))
+        } else {
+          return(na.omit(data.frame(ID = NA, Species = NA)))
+        }
 
-                              } else {
-                                ## Raster from file
-                                rs <- terra::rast(mlist[1])
+      } else {
+        rs <- terra::rast(mlist[x])
 
-                                ## Raster to matrix
-                                sppm <- terra::as.data.frame(rs, xy = TRUE)
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
+        }
 
-                                ## Preparing data
-                                cond <- sppm[, 3] == 1
-                                return(data.frame(sppm[cond, 1], sppm[cond, 2],
-                                                  spnames[i]))
-                              }
-                            }
+        # Raster to data.frame
+        sppm <- terra::as.data.frame(rs, xy = TRUE)
 
-    parallel::stopCluster(cl)
+        # Preparing data
+        return(data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x]))
+      }
+    }
+    snow::stopCluster(cl)
+
   } else {
     ## Progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
@@ -508,34 +501,32 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
       utils::setTxtProgressBar(pb, x)
 
       if (format %in% c("shp", "gpkg")) {
-        rs <- terra::vect(file.path(path, mlist[0]))
-        ## Fixing projections
-        rs <- terra::project(rs, terra::crs(spdf_grid))
+        rs <- terra::vect(mlist[x])
 
-        ## Fixing projections
-        rs <- sp::spTransform(rs, spdf_grid@proj4string)
-
-        ## Preparing data
-        sppm <- terra::extract(rs, spdf_grid)[, -1] #Check
-        if (nrow(na.omit(sppm)) > 0) {
-          sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
-          sppm$Species <- spnames[x]
-        } else {
-          sppm <- na.omit(data.frame(ID = NA, Species = NA))
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
         }
 
-        return(sppm)
+        ID <- spdf_grid[rs, ]$ID
+
+        if (length(ID) > 0) {
+          sps[[x]] <- na.omit(data.frame(ID, Species = spnames[x]))
+        } else {
+          sps[[x]] <- na.omit(data.frame(ID = NA, Species = NA))
+        }
 
       } else {
-        ## Raster from file
         rs <- terra::rast(mlist[x])
 
-        ## Raster to matrix
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
+        }
+
+        # Raster to data.frame
         sppm <- terra::as.data.frame(rs, xy = TRUE)
 
-        ## Preparing data
-        cond <- sppm[, 3] == 1
-        sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spnames[x])
+        # Preparing data
+        sps[[x]] <- data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x])
       }
     }
     close(pb)
