@@ -19,11 +19,11 @@ principal components derived from an analysis done with environmental values.}
 in posterior selections of sites for the survey system. Columns must be:
 "Sites", "Longitude", "Latitude", in that order. Default = NULL.}
 
-\item{region}{SpatialPolygons* object representing the region of interest.}
+\item{region}{SpatVector object representing the region of interest.}
 
-\item{mask}{SpatialPolygons* object used. Default = NULL.}
+\item{mask}{SpatVector object used. Default = NULL.}
 
-\item{raster_base}{a SpatialPolygonsDataFrame representing the grid of the
+\item{raster_base}{a SpatVector representing the grid of the
 raster layers used, which will be used for plotting purposes.}
 
 \item{PCA_results}{results of principal component analysis performed with

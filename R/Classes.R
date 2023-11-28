@@ -28,13 +28,13 @@
 new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
                               mask = NULL, raster_base, PCA_results = NULL) {
   if (missing(data_matrix)) {
-    stop("Argument 'data_matrix' must be defined")
+    stop("Argument 'data_matrix' must be defined.")
   }
   if (missing(region)) {
-    stop("Argument 'region' must be defined")
+    stop("Argument 'region' must be defined.")
   }
   if (missing(raster_base)) {
-    stop("Argument 'raster_base' must be defined")
+    stop("Argument 'raster_base' must be defined.")
   }
   stopifnot(is.data.frame(data_matrix))
   preclass <- class(preselected_sites)[1]
@@ -78,9 +78,9 @@ new_master_matrix <- function(data_matrix, preselected_sites = NULL, region,
 #' @param preselected_sites data.frame containing sites that must be included
 #' in posterior selections of sites for the survey system. Columns must be:
 #' "Sites", "Longitude", "Latitude", in that order. Default = NULL.
-#' @param region SpatialPolygons* object representing the region of interest.
-#' @param mask SpatialPolygons* object used. Default = NULL.
-#' @param raster_base a SpatialPolygonsDataFrame representing the grid of the
+#' @param region SpatVector object representing the region of interest.
+#' @param mask SpatVector object used. Default = NULL.
+#' @param raster_base a SpatVector representing the grid of the
 #' raster layers used, which will be used for plotting purposes.
 #' @param PCA_results results of principal component analysis performed with
 #' values from raster layers used. Default = NULL.
@@ -148,7 +148,7 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
 #'
 #' @name base_PAM
 #'
-#' @param PAM SpatialPolygonsDataFrame object associated with information about
+#' @param PAM SpatVector object associated with information about
 #' presence and absence of species in a geographic grid.
 #' @param PAM_indices list of indices derived from a PAM. Default = NULL.
 #'
@@ -158,15 +158,18 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
 #' An object of class \code{base_PAM}.
 #'
 #' @usage
-#' new_base_PAM(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL)
+#' new_base_PAM(PAM, PAM_indices = NULL)
 
-new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
-                         PAM_indices = NULL) {
+new_base_PAM <- function(PAM, PAM_indices = NULL) {
+  if (missing(PAM)) {
+    stop("Argument 'PAM' must be defined.")
+  }
+
   pclass <- class(PAM)[1]
   piclass <- class(PAM_indices)[1]
 
-  if (!pclass %in% c("SpatialPolygonsDataFrame")) {
-    stop("'PAM' must be of class 'list', or NULL.")
+  if (!pclass %in% c("SpatVector")) {
+    stop("'PAM' must be of class 'SpatVector'.")
   }
   if (!piclass %in% c("list", "NULL")) {
     stop("'PAM_indices' must be of class 'list', or NULL.")
@@ -182,7 +185,7 @@ new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
 #'
 #' @name PAM_subset
 #'
-#' @param PAM SpatialPolygonsDataFrame object associated to information about
+#' @param PAM SpatVector object associated to information about
 #' species presence and absence in a geographic grid.
 #' @param PAM_indices list of indices derived from a PAM. Default = NULL.
 #' @param PAM_selected_sites_random subset of \code{PAM} for sites derived from
@@ -200,22 +203,29 @@ new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
 #' An object of class \code{PAM_subset}.
 #'
 #' @usage
-#' new_PAM_subset(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL,
-#'                PAM_selected_sites_random = NULL, PAM_selected_sites_G = NULL,
-#'                PAM_selected_sites_E = NULL, PAM_selected_sites_EG = NULL)
+#' new_PAM_subset(PAM, PAM_indices = NULL, PAM_selected_sites_random = NULL,
+#'                PAM_selected_sites_G = NULL, PAM_selected_sites_E = NULL,
+#'                PAM_selected_sites_EG = NULL)
 
-new_PAM_subset <- function(PAM = new("SpatialPolygonsDataFrame"),
-                           PAM_indices = NULL, PAM_selected_sites_random = NULL,
+new_PAM_subset <- function(PAM, PAM_indices = NULL,
+                           PAM_selected_sites_random = NULL,
                            PAM_selected_sites_G = NULL,
                            PAM_selected_sites_E = NULL,
                            PAM_selected_sites_EG = NULL) {
 
+  if (missing(PAM)) {
+    stop("Argument 'PAM' must be defined.")
+  }
+
+  pclass <- class(PAM)[1]
   prclass <- class(PAM_selected_sites_random)[1]
   pgclass <- class(PAM_selected_sites_G)[1]
   peclass <- class(PAM_selected_sites_E)[1]
   pegclass <- class(PAM_selected_sites_EG)[1]
 
-
+  if (!pclass %in% c("SpatVector")) {
+    stop("'PAM' must be of class 'SpatVector'.")
+  }
   if (!prclass %in% c("list", "NULL")) {
     stop("'PAM_selected_sites_random' must be of class 'list', or NULL.")
   }

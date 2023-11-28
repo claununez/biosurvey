@@ -5,12 +5,12 @@
 \alias{new_PAM_subset}
 \title{Constructor of S3 objects of class PAM_subset}
 \usage{
-new_PAM_subset(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL,
-               PAM_selected_sites_random = NULL, PAM_selected_sites_G = NULL,
-               PAM_selected_sites_E = NULL, PAM_selected_sites_EG = NULL)
+new_PAM_subset(PAM, PAM_indices = NULL, PAM_selected_sites_random = NULL,
+               PAM_selected_sites_G = NULL, PAM_selected_sites_E = NULL,
+               PAM_selected_sites_EG = NULL)
 }
 \arguments{
-\item{PAM}{SpatialPolygonsDataFrame object associated to information about
+\item{PAM}{SpatVector object associated to information about
 species presence and absence in a geographic grid.}
 
 \item{PAM_indices}{list of indices derived from a PAM. Default = NULL.}
