@@ -148,7 +148,7 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
 #'
 #' @name base_PAM
 #'
-#' @param PAM SpatialPolygonsDataFrame object associated with information about
+#' @param PAM SpatVector object associated with information about
 #' presence and absence of species in a geographic grid.
 #' @param PAM_indices list of indices derived from a PAM. Default = NULL.
 #'
@@ -158,14 +158,14 @@ new_master_selection <- function(data_matrix, preselected_sites = NULL, region,
 #' An object of class \code{base_PAM}.
 #'
 #' @usage
-#' new_base_PAM(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL)
+#' new_base_PAM(PAM = new("SpatVector"), PAM_indices = NULL)
 
-new_base_PAM <- function(PAM = new("SpatialPolygonsDataFrame"),
+new_base_PAM <- function(PAM = new("SpatVector"),
                          PAM_indices = NULL) {
   pclass <- class(PAM)[1]
   piclass <- class(PAM_indices)[1]
 
-  if (!pclass %in% c("SpatialPolygonsDataFrame")) {
+  if (!pclass %in% c("SpatVector")) {
     stop("'PAM' must be of class 'list', or NULL.")
   }
   if (!piclass %in% c("list", "NULL")) {
