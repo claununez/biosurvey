@@ -164,9 +164,9 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
                                  space = "G", verbose = verbose)
 
     # Excluding close points from analysis
-    data <- sp::SpatialPointsDataFrame(data[, c(x_column, y_column)], data,
-                                        proj4string = sp::CRS("+init=epsg:4326"))
-    data <- data[is.na(sp::over(data, tst$mask)$ID), ]@data
+    data <- terra::vect(data, geom = c(x = x_column, y = y_column),
+                        crs = terra::crs("+init=epsg:4326"))
+    data <- terra::mask(data, tst$mask, inverse = TRUE)
 
     # Npre
     npre <- nrow(master$preselected_sites)
@@ -174,13 +174,18 @@ uniformG_selection <- function(master, expected_points, guess_distances = TRUE,
   }
 
   # Preparing selection variables
+  #Get data again in dataframe
+  data <- terra::as.data.frame(data, geom = "XY")
+  #Change xy to variables names
+  colnames(data)[colnames(data) %in% c("x", "y")] <- c("Longitude", "Latitude")
+
   ## Guessing distances
   if (guess_distances == TRUE) {
     if (use_preselected_sites == TRUE) {
       dist <- round(tst$distance, 2)
     } else {
       ext <- apply(data[, c(x_column, y_column)], 2, range)
-      mxdis <- raster::pointDistance(ext[1, ], ext[2, ], lonlat = TRUE)
+      mxdis <- terra::distance(ext, lonlat = TRUE)
       dist <- (mxdis / 1000) / expected_points
     }
     increase <- dist / 10

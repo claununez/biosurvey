@@ -99,6 +99,8 @@
 #'                    median_distance_filter = NULL, set_seed = 1,
 #'                    verbose = TRUE, force = FALSE)
 #'
+#' @importFrom terra vect mask as.data.frame crs
+#'
 #' @export
 #'
 #' @examples
@@ -229,9 +231,9 @@ uniformE_selection <- function(master, variable_1 = NULL, variable_2 = NULL,
                                  verbose = verbose)
 
     # Excluding close points from analysis
-    data <- sp::SpatialPointsDataFrame(data[, c(variable_1, variable_2)], data,
-                                       proj4string = sp::CRS("+init=epsg:4326"))
-    data <- data[is.na(sp::over(data, tst$mask)$ID), ]@data
+    data <- terra::vect(data, geom = c(x = variable_1, y = variable_2),
+                        crs = terra::crs("+init=epsg:4326"))
+    data <- terra::mask(data, tst$mask, inverse = TRUE)
 
     # Npre
     npre <- nrow(master$preselected_sites)
@@ -239,6 +241,11 @@ uniformE_selection <- function(master, variable_1 = NULL, variable_2 = NULL,
   }
 
   # Preparing selection variables
+  #Get data again in dataframe
+  data <- terra::as.data.frame(data, geom = "XY")
+  #Change xy to variables names
+  colnames(data)[colnames(data) %in% c("x", "y")] <- c(variable_1, variable_2)
+
   ## Guessing distances
   if (guess_distances == TRUE) {
     if (use_preselected_sites == TRUE) {

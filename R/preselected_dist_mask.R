@@ -20,7 +20,7 @@
 #'
 #' @return
 #' A list of two elements: the distance used to obtain \code{expected_points}
-#' and a SpatialPolygonsDataFrame object created from preselected_sites in
+#' and a SpatVector object created from preselected_sites in
 #' master.
 #'
 #' @usage
@@ -29,9 +29,7 @@
 #'                       verbose = TRUE)
 #'
 #' @export
-#' @importFrom raster pointDistance disaggregate
-#' @importFrom sp SpatialPolygonsDataFrame spTransform SpatialPointsDataFrame
-#' @importFrom rgeos gBuffer
+#' @importFrom terra distance buffer disagg project crs vect
 #' @importFrom stats dist
 #'
 #' @examples
@@ -97,9 +95,8 @@ preselected_dist_mask <- function(master, expected_points, space,
     x_column <- "Longitude"
     y_column <- "Latitude"
     gv <- c(x_column, y_column)
-
     ext <- apply(data[, gv], 2, range)
-    mxdis <- raster::pointDistance(ext[1, ], ext[2, ], lonlat = TRUE)
+    mxdis <- terra::distance(x = ext, lonlat = TRUE)
     dist <- (mxdis / 1000) / expected_points
     increase <- dist / 10
   } else {
@@ -154,24 +151,23 @@ preselected_dist_mask <- function(master, expected_points, space,
   # Distance determined, creating mask
   if (space == "G") {
     sppre <- wgs84_2aed_laea(pre, x_column, y_column)
-    maskp <- rgeos::gBuffer(sppre, width = dist * 1000, quadsegs = 100)
-    maskp <- raster::disaggregate(maskp)
-    maskp <- sp::SpatialPolygonsDataFrame(maskp, data.frame(ID = 1:length(maskp)),
-                                          match.ID = FALSE)
-    maskp <- sp::spTransform(maskp, sp::CRS("+init=epsg:4326"))
+    maskp <- terra::buffer(sppre, width = dist * 1000, quadsegs = 100)
+    maskp <- terra::disagg(maskp)
+    maskp$ID <- 1:length(maskp)
+    maskp <- terra::project(maskp, terra::crs("+init=epsg:4326"))
   } else {
     if (use_blocks == TRUE) {
       pre <- data.frame(data[data$Block %in% pre$Block, ])
     }
-    sppre <- sp::SpatialPointsDataFrame(pre[, c(x_column, y_column)], pre,
-                                        proj4string = sp::CRS("+init=epsg:4326"))
-    maskp <- suppressWarnings(rgeos::gBuffer(sppre, width = dist,
-                                             quadsegs = 100))
-    maskp <- raster::disaggregate(maskp)
-    maskp <- sp::SpatialPolygonsDataFrame(maskp, data.frame(ID = 1:length(maskp)),
-                                          match.ID = FALSE)
+    sppre <- terra::vect(pre, geom = c(x = variable_1, y = variable_2),
+                         crs = terra::crs("+init=epsg:4326"))
+    maskp <- suppressWarnings(terra::buffer(sppre, width = dist * 1000,
+                                            quadsegs = 100))
+    maskp <- terra::disagg(maskp)
+    maskp$ID <- 1:length(maskp)
   }
 
   # Returning results
   return(list(distance = dist, mask = maskp))
 }
+
