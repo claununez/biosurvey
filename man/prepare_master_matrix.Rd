@@ -10,12 +10,12 @@ prepare_master_matrix(region, variables, mask = NULL,
                       variables_in_matrix = NULL, verbose = TRUE)
 }
 \arguments{
-\item{region}{SpatialPolygons* of the region of interest; for instance,
+\item{region}{SpatVector of the region of interest; for instance,
 a country, another type of administrative are, or a protected area.}
 
-\item{variables}{RasterStack or RasterBrick of environmental variables.}
+\item{variables}{SpatRaster of environmental variables.}
 
-\item{mask}{(optional) SpatialPolygons* object to mask \code{variables} and
+\item{mask}{(optional) SpatVector object to mask \code{variables} and
 reduce \code{region} to an area that is more relevant for analysis (e.g.,
 only areas with natural vegetation cover). Default = NULL.}
 
@@ -46,11 +46,11 @@ elements:
 \item data_matrix: a date.frame with information about geographic location of
 raster cells, initial environmental data, and if \code{do_pca} is TRUE,
 the first two principal components derived from original data.
-\item region: a SpatialPolygons* representing the region of interest.
-\item mask: SpatialPolygons* object used. NULL if \code{mask} was not defined.
+\item region: a SpatVector representing the region of interest.
+\item mask: SpatVector object used. NULL if \code{mask} was not defined.
 \item preselected_sites: sites defined by used. NULL if \code{preselected_sites}
 was not defined.
-\item raster_base: a RasterLayer representing the raster masked to region or
+\item raster_base: a SpatRaster representing the raster masked to region or
 mask, which will be used for plotting purposes.
 \item PCA_results: if \code{do_pca} is TRUE, other results from principal
 component analysis. If FALSE, PCA_results element of the object is NULL.
@@ -78,7 +78,7 @@ records and their characteristics will be considered in further analyses.
 \examples{
 # Data
 data("mx", package = "biosurvey")
-variables <- raster::stack(system.file("extdata/variables.tif",
+variables <- terra::rast(system.file("extdata/variables.tif",
                                        package = "biosurvey"))
 
 # Create master matrix object

@@ -107,7 +107,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #'
 #' @return
 #' A data.frame of species geographic records derived from values of presence
-#' in each layer from the RasterStack.
+#' in each layer from the SpatRaster
 #'
 #' @export
 #' @importFrom terra as.data.frame
@@ -118,7 +118,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #'                                 package = "biosurvey"))
 #' names(rsp) <- paste0("Species_", 1:5)
 #'
-#' # Species data from RasterStack
+#' # Species data from SpatRaster
 #' sp_data <- stack_2data(species_layers = rsp)
 #' summary(sp_data)
 
@@ -176,13 +176,14 @@ stack_2data <- function(species_layers) {
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom terra crs project
 #' @importFrom stats na.omit
 #'
 #' @examples
 #' # Data
-#' data("species_data", package = "biosurvey")
+#' species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+#'                                         package = "biosurvey"))
 #' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
 #'
 #' # GRID
@@ -213,7 +214,6 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
   }
 
   # Names to be matched
-  ID <- spdf_grid$ID
   spnames <- as.character(spdf_object$Species)
 
   if (parallel == TRUE) {
@@ -221,25 +221,30 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
     ## Progress combine (rbind) function
-    pb <- utils::txtProgressBar(min = 1, max = iterations, style = 3)
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
     progress <- function(n) {
       utils::setTxtProgressBar(pb, n)
     }
     opts <- list(progress = progress)
 
-
     ## Make cluster
     cl <- snow::makeSOCKcluster(n_cores)
     doSNOW::registerDoSNOW(cl)
 
+    ## wrap vectors
+    spdf_grid <- terra::wrap(spdf_grid)
+    spdf_object <- terra::wrap(spdf_object)
+
     ## Processing
-    sps <- foreach::foreach(i = 1:length(spnames), .inorder = FALSE,
-                            .combine = "rbind", .options.snow = opts) %dopar% {
-                              sp <- sp::over(spdf_grid,
-                                             spdf_object[spnames == spnames[i], ])
-                              #sp <- terra::
-                              return(na.omit(data.frame(ID, sp)))
-                            }
+    sps <- foreach::foreach(
+      i = 1:length(spnames), .inorder = FALSE,
+      .combine = "rbind", .options.snow = opts
+    ) %dopar% {
+      ID <- terra::unwrap(spdf_grid)[
+        terra::unwrap(spdf_object)[spnames == spnames[i], ], ]
+
+      return(na.omit(data.frame(ID = ID$ID, Species = spnames[i])))
+    }
 
     snow::stopCluster(cl)
   } else {
@@ -254,17 +259,13 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
       utils::setTxtProgressBar(pb, x)
 
       # Preparing data
-      terra::as.data.frame(spdf_grid[spdf_object[spnames == spnames[x], ], ])$ID
-      sp <- terra::extract(spdf_grid, spdf_object[spnames == spnames[x], ])
-      sp <- sp::over(spdf_grid, spdf_object[spnames == spnames[x], ])
-      sps[[x]] <- na.omit(data.frame(ID, sp))
+      ID <- spdf_grid[spdf_object[spnames == spnames[x], ], ]$ID
+      sps[[x]] <- na.omit(data.frame(ID, Species = spnames[x]))
     }
     close(pb)
 
     sps <- do.call(rbind, sps)
   }
-
-  colnames(sps) <- c("ID", "Species")
 
   return(sps)
 }
@@ -277,32 +278,24 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #' longitude, latitude, and species name, using a list of raster layers as
 #' input. Useful when raster layers have distinct extent or resolution.
 #'
-#' @param raster_list list of RasterLayer objects. Each raster layer must be
+#' @param raster_list list of SpatRaster objects. Each raster layer must be
 #' named as the species that it represents, and values in each layer must be
 #' 1 (presence) and 0 (absence).
-#' @param parallel (logical) whether to perform analyses in parallel.
-#' Default = FALSE.
-#' @param n_cores (numeric) number of cores to be used when \code{parallel} =
-#' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
 #' A data.frame of species geographic records derived from values of presence
 #' in each layer from the list of raster layers.
 #'
 #' @usage
-#' rlist_2data(raster_list, parallel = FALSE, n_cores = NULL)
+#' rlist_2data(raster_list)
 #'
 #' @export
-#' @importFrom raster rasterToPoints
-#' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores makeCluster stopCluster
-#' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
+#' @importFrom terra as.data.frame
 #'
 #' @examples
 #' # Data
-#' rsp <- raster::stack(system.file("extdata/sp_layers.tif",
-#'                      package = "biosurvey"))
+#' rsp <- terra::rast(system.file("extdata/sp_layers.tif",
+#'                                package = "biosurvey"))
 #' names(rsp) <- paste0("Species_", 1:5)
 #'
 #' rlist <- lapply(1:5, function(x) {rsp[[x]]})
@@ -311,7 +304,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #' sp_data <- rlist_2data(raster_list = rlist)
 #' summary(sp_data)
 
-rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
+rlist_2data <- function(raster_list) {
   # Initial tests
   if (missing(raster_list)) {
     stop("Argument 'raster_list' must be defined")
@@ -319,78 +312,21 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
   if (!is.list(raster_list)) {
     stop("'raster_list' must be a list of raster layers")
   }
-  inclas <- sapply(raster_list, function(x) {class(x)[1] != "RasterLayer"})
+  inclas <- sapply(raster_list, function(x) {class(x)[1] != "SpatRaster"})
   if (any(inclas)) {
-    stop("All elements in 'raster_list' must be of class 'RasterLayer'")
+    stop("All elements in 'raster_list' must be of class 'SpatRaster'")
   }
 
   # Running in loop for all elements of list
-  sps <- lapply(1:length(raster_list), function(x) {
-    # Raster to matrix
-    sppm <- raster::rasterToPoints(raster_list[[x]])
-    spname <- names(raster_list[[x]])
+  sps <- lapply(raster_list, function(x) {
+    # Raster to data.frame
+    sppm <- terra::as.data.frame(x, xy = TRUE)
 
     # Preparing data
-    data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
+    data.frame(sppm[sppm[, 3] == 1, 1:2], names(x))
   })
 
-  if (parallel == TRUE) {
-    ## Preparing parallel running
-    n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
-
-    ## Progress combine (rbind) function
-    fpc <- function(iterator){
-      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
-      count <- 0
-      function(...) {
-        count <<- count + length(list(...)) - 1
-        utils::setTxtProgressBar(pb, count)
-        Sys.sleep(0.1)
-        utils::flush.console()
-        rbind(...)
-      }
-    }
-
-    ## Start a cluster
-    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
-    doParallel::registerDoParallel(cl)
-
-    ## Processing
-    sps <- foreach::foreach(i = 1:length(raster_list), .inorder = TRUE,
-                            .combine = fpc(length(raster_list))) %dopar% {
-                              # Raster to matrix
-                              sppm <- raster::rasterToPoints(raster_list[[i]])
-                              spname <- names(raster_list[[i]])
-
-                              # Preparing data
-                              cond <- sppm[, 3] == 1
-                              data.frame(sppm[cond, 1], sppm[cond, 2], spname)
-                            }
-
-    parallel::stopCluster(cl)
-  } else {
-    ## Progress bar
-    pb <- utils::txtProgressBar(min = 1, max = length(raster_list), style = 3)
-
-    # Running in loop for all elements of list
-    sps <- list()
-
-    for (x in 1:length(raster_list)) {
-      Sys.sleep(0.1)
-      utils::setTxtProgressBar(pb, x)
-
-      # Raster to matrix
-      sppm <- raster::rasterToPoints(raster_list[[x]])
-      spname <- names(raster_list[[x]])
-
-      # Preparing data
-      cond <- sppm[, 3] == 1
-      sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spname)
-    }
-    close(pb)
-
-    sps <- do.call(rbind, sps)
-  }
+  sps <- do.call(rbind, sps)
 
   colnames(sps) <- c("Longitude", "Latitude", "Species")
 
@@ -407,13 +343,13 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' @param path (character) full path name of directory containing raster,
 #' shapefiles, geopackage, or GeoJSON files representing species geographic
 #' ranges. Each file must be named as the species that it represents. All files
-#' must be in the same format. If files are raster, values in each layer must be
-#' 1 (presence) and 0 (absence).
+#' must be in the same format. If files are raster layers, values in each layer
+#' must be 1 (presence, suitable) and 0 (absence, unsuitable).
 #' @param format (character) the format files found in \code{path}. Current
 #' available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
 #' @param spdf_grid geographic grid for the region of interest (output of
-#' function \code{\link{grid_from_region}}). Used when format equals "shp" or
-#' "gpkg". Default = NULL.
+#' function \code{\link{grid_from_region}}). Used when format equals "shp",
+#' "gpkg", or "geojson". Default = NULL.
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
 #' @param n_cores (numeric) number of cores to be used when \code{parallel} =
@@ -438,7 +374,7 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @examples
 #' \donttest{
@@ -616,6 +552,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
   return(sps)
 }
 
+
+
 #' Creates presence-absence matrix from a data.frame
 #'
 #' @description Creates a presence-absence matrix (PAM) from a data.frame that
@@ -695,7 +633,7 @@ PAM_from_table <- function(data, ID_column, species_column) {
 #' additional columns.
 #'
 #' @export
-#' @importFrom sp CRS over SpatialPointsDataFrame
+#' @importFrom terra crs vect as.data.frame
 
 selected_sites_PAM <- function(selected_sites, base_PAM) {
   # Initial tests
@@ -706,13 +644,13 @@ selected_sites_PAM <- function(selected_sites, base_PAM) {
     stop("Argument 'base_PAM' must be defined.")
   }
 
-  WGS84 <- base_PAM$PAM@proj4string
+  WGS84 <- terra::crs(base_PAM$PAM)
 
   # Matching sites with PAM IDs
   ls <- lapply(selected_sites, function(x) {
-    xp <- sp::SpatialPointsDataFrame(x[, 1:2], x, proj4string = WGS84)
-    xid <- data.frame(sp::over(xp, base_PAM$PAM[, "ID"]), x)
-    pam <- base_PAM$PAM@data
+    xp <- terra::vect(x, geom = c("Longitude", "Latitude"), crs = WGS84)
+    xid <- data.frame(ID = base_PAM$PAM[xp, ]$ID, x)
+    pam <- terra::as.data.frame(terra::vect(base_PAM$PAM))
     colnames(pam)[2:3] <- c("Longitude_PAM", "Latitude_PAM")
     colnames(xid)[2:3] <- c("Longitude_master", "Latitude_master")
     merge(xid, pam, by = "ID")
@@ -720,6 +658,8 @@ selected_sites_PAM <- function(selected_sites, base_PAM) {
   names(ls) <- names(selected_sites)
   return(ls)
 }
+
+
 
 
 #' Helper to refill a list of PAM indices with new or more results

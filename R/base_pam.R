@@ -8,12 +8,17 @@
 #'
 #' @param data species geographic ranges to be used to create a presence-absence
 #' matrix (PAM). This argument can be: character, data.frame, SpatRaster,
-#' list, or SpatVector. See
-#' details for a description of the characteristics of data for each option.
+#' list, or SpatVector. See details for a description of the characteristics of
+#' data for each option.
 #' @param format (character) if \code{data} is of class character, available
 #' options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
 #' @param master_matrix object of class "master_matrix" or "master_selection".
-#' See details.
+#' See details. Default = NULL. Either this argument or \code{region} must be
+#' defined.
+#' @param region SpatVector of the region of interest; for instance,
+#' a country, another type of administrative are, or a protected area.
+#' Default = NULL. Either this argument or \code{master_matrix} must be
+#' defined. Ignored if \code{master_matrix} is defined.
 #' @param cell_size (numeric) resolution for grid (single number or vector of
 #' two numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
@@ -56,10 +61,10 @@
 #' - SpatRaster.- Each layer must be named as the species which
 #' range it represents, and values in each layer must be 1 (presence) and 0
 #' (absence).
-#' - list.-  a list of RasterLayers that cannot be stacked because of extent or
-#' resolution differences. Each element of the list must be named as the species
-#' which range it represents, and values in each RasterLayer must be 1
-#' (presence) and 0 (absence).
+#' - list.-  a list of SpatRaster objects that cannot be stacked because of
+#' extent or resolution differences. Each element of the list must be named as
+#' the species which range it represents, and values in each SpatRaster must be
+#' 1 (presence, suitable) and 0 (absence, unsuitable).
 #' - SpatVector.- object representing species' geographic ranges.
 #' The data.frame associated with the object must contain a column named
 #' "Species" to distinguish among features representing each species range.
@@ -106,8 +111,8 @@
 #' argument \code{indices}.
 #'
 #' @usage
-#' prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
-#'                  complete_cover = TRUE, clip_grid = FALSE,
+#' prepare_base_PAM(data, format = NULL, master_matrix = NULL, region = NULL,
+#'                  cell_size, complete_cover = TRUE, clip_grid = FALSE,
 #'                  indices = "basic", parallel = FALSE, n_cores = NULL,
 #'                  verbose = TRUE)
 #'
@@ -127,11 +132,18 @@
 #' summary(b_pam$PAM@data[, 1:6])
 
 
-prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
-                             complete_cover = TRUE, clip_grid = FALSE,
-                             indices = "basic", parallel = FALSE,
-                             n_cores = NULL, verbose = TRUE) {
+prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
+                             region = NULL, cell_size, complete_cover = TRUE,
+                             clip_grid = FALSE, indices = "basic",
+                             parallel = FALSE, n_cores = NULL, verbose = TRUE) {
   # Initial tests
+  if (missing(data)) {
+    stop("Argument 'data' must be defined")
+  }
+  if (is.null(master_matrix) | is.null(region)) {
+    stop("One of the arguments 'master_matrix' or 'region' must be defined.")
+  }
+
   clsdata <- class(data)[1]
 
   if (!clsdata %in% c("SpatRaster", "data.frame", "list",
@@ -144,7 +156,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
       stop("Directory defined in 'data' not found")
     }
     if (is.null(format)) {
-      stop("Argument 'format' must be defined if class of 'data' is character")
+      stop("Argument 'format' must be defined if class of 'data' is character.")
     }
   }
 
@@ -154,15 +166,21 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix, cell_size,
     stop("One or more elements defined in 'indices' is not valid, check function's help.")
   }
 
-  # Where to prepare spatial PAM
-  where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
-
   # Create geographic grid
   if (verbose == TRUE) {
     message("Preparing spatial grid")
   }
-  grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size,
-                                 complete_cover)
+
+  if (!is.null(master_matrix)) {
+    # Where to prepare spatial PAM
+    where <- ifelse(!is.null(master_matrix$mask), "mask", "region")
+
+    grid_r_pol <- grid_from_region(master_matrix[[where]], cell_size,
+                                   complete_cover)
+  } else {
+    grid_r_pol <- grid_from_region(region, cell_size, complete_cover)
+  }
+
 
   # Prepare SpatVector from different objects
   if (verbose == TRUE) {

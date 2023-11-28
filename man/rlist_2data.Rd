@@ -4,18 +4,12 @@
 \alias{rlist_2data}
 \title{Creates a data.frame of species' references from a list of raster layers}
 \usage{
-rlist_2data(raster_list, parallel = FALSE, n_cores = NULL)
+rlist_2data(raster_list)
 }
 \arguments{
-\item{raster_list}{list of RasterLayer objects. Each raster layer must be
+\item{raster_list}{list of SpatRaster objects. Each raster layer must be
 named as the species that it represents, and values in each layer must be
 1 (presence) and 0 (absence).}
-
-\item{parallel}{(logical) whether to perform analyses in parallel.
-Default = FALSE.}
-
-\item{n_cores}{(numeric) number of cores to be used when \code{parallel} =
-TRUE. The default, NULL, uses available cores - 1.}
 }
 \value{
 A data.frame of species geographic records derived from values of presence
@@ -28,8 +22,8 @@ input. Useful when raster layers have distinct extent or resolution.
 }
 \examples{
 # Data
-rsp <- raster::stack(system.file("extdata/sp_layers.tif",
-                     package = "biosurvey"))
+rsp <- terra::rast(system.file("extdata/sp_layers.tif",
+                               package = "biosurvey"))
 names(rsp) <- paste0("Species_", 1:5)
 
 rlist <- lapply(1:5, function(x) {rsp[[x]]})

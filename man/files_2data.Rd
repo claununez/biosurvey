@@ -10,15 +10,15 @@ files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 \item{path}{(character) full path name of directory containing raster,
 shapefiles, geopackage, or GeoJSON files representing species geographic
 ranges. Each file must be named as the species that it represents. All files
-must be in the same format. If files are raster, values in each layer must be
-1 (presence) and 0 (absence).}
+must be in the same format. If files are raster layers, values in each layer
+must be 1 (presence, suitable) and 0 (absence, unsuitable).}
 
 \item{format}{(character) the format files found in \code{path}. Current
 available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
 
 \item{spdf_grid}{geographic grid for the region of interest (output of
-function \code{\link{grid_from_region}}). Used when format equals "shp" or
-"gpkg". Default = NULL.}
+function \code{\link{grid_from_region}}). Used when format equals "shp",
+"gpkg", or "geojson". Default = NULL.}
 
 \item{parallel}{(logical) whether to perform analyses in parallel.
 Default = FALSE.}

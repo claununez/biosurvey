@@ -7,8 +7,8 @@
 grid_from_region(region, cell_size, complete_cover = TRUE)
 }
 \arguments{
-\item{region}{SpatialPolygonsDataFrame of the region of interest. Object must
-be unprojected, World Geodetic System (WGS84).}
+\item{region}{SpatVector object of a polygon for the region of interest.
+Object projection must be World Geodetic System (WGS84).}
 
 \item{cell_size}{(numeric) resolution for grid (single number or vector of
 two numbers) in kilometers (km).}
@@ -17,7 +17,7 @@ two numbers) in kilometers (km).}
 partially overlapped with region. Default = TRUE.}
 }
 \value{
-Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
+Grid SpatVector for the region of interest. Each grid cell
 is related to a specific ID and longitude and latitude coordinates.
 }
 \description{
@@ -25,11 +25,10 @@ Divides the region of interest in a grid of a specific cell size.
 }
 \examples{
 # Data
-data("mx", package = "biosurvey")
+mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
 
 # Create grid from polygon
 grid_reg <- grid_from_region(region = mx, cell_size = 100)
 
-sp::plot(grid_reg)
-grid_reg
+terra::plot(grid_reg)
 }
