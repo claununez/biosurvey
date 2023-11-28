@@ -42,13 +42,13 @@ match_rformat <- function(format) {
 #' "ED", for Azimuthal Equidistant and "EA", for Lambert Azimuthal Equal-Area.
 #' Default = "ED".
 #'
-#' @return SpatialPointsDataFrame projected to an option in \code{which}.
+#' @return SpatVector projected to an option in \code{which}.
 #'
 #' @usage
 #' wgs84_2aed_laea(data, longitude, latitude, which = "ED")
 #'
 #' @export
-#' @importFrom sp CRS SpatialPointsDataFrame spTransform
+#' @importFrom terra crs vect project
 #'
 #' @examples
 #' data("sp_occurrences", package = "biosurvey")
@@ -69,17 +69,17 @@ wgs84_2aed_laea <- function (data, longitude, latitude, which = "ED") {
   }
 
   # Initial projection
-  WGS84 <- sp::CRS("+init=epsg:4326")
-  dat_s <- sp::SpatialPointsDataFrame(data[, c(longitude, latitude)],
-                                      data, proj4string = WGS84)
+  WGS84 <- terra::crs("+init=epsg:4326")
+  dat_s <- terra::vect(data, geom = c(x = longitude, y = latitude),
+                       crs = WGS84)
 
   # Projecting points
   cent <- apply(data[, c(longitude, latitude)], 2, mean)
   ini <- ifelse(which[1] == "ED", "+proj=aeqd", "+proj=laea")
-  prj <- sp::CRS(paste0(ini, " +lat_0=", cent[2], " +lon_0=", cent[1],
+  prj <- terra::crs(paste0(ini, " +lat_0=", cent[2], " +lon_0=", cent[1],
                         " +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
 
-  dat_s <- sp::spTransform(dat_s, prj)
+  dat_s <- terra::project(dat_s, prj)
 
   return(dat_s)
 }
