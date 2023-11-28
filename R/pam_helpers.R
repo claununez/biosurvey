@@ -2,58 +2,58 @@
 #'
 #' @description Divides the region of interest in a grid of a specific cell size.
 #'
-#' @param region SpatialPolygonsDataFrame of the region of interest. Object must
-#' be unprojected, World Geodetic System (WGS84).
+#' @param region SpatVector object of a polygon for the region of interest.
+#' Object projection must be World Geodetic System (WGS84).
 #' @param cell_size (numeric) resolution for grid (single number or vector of
 #' two numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with region. Default = TRUE.
 #'
 #' @return
-#' Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
+#' Grid SpatVector for the region of interest. Each grid cell
 #' is related to a specific ID and longitude and latitude coordinates.
 #'
 #' @usage
 #' grid_from_region(region, cell_size, complete_cover = TRUE)
 #'
 #' @export
-#' @importFrom raster extent raster res values mask rasterToPolygons rasterToPoints
-#' @importFrom raster projectRaster rasterize
-#' @importFrom sp proj4string CRS spTransform
-#' @importFrom rgeos gCentroid
+#' @importFrom terra mask rasterize crs ext project geom rast as.data.frame
 #'
 #' @examples
 #' # Data
-#' data("mx", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
 #'
 #' # Create grid from polygon
 #' grid_reg <- grid_from_region(region = mx, cell_size = 100)
 #'
-#' sp::plot(grid_reg)
-#' grid_reg
+#' terra::plot(grid_reg)
 
 grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   # Initial tests
   if (missing(region)) {
     stop("Argument 'region' must be defined")
   }
+  if (class(region)[1] != "SpatVector") {
+    stop("'region' must be of class 'SpatVector'")
+  }
   if (missing(cell_size)) {
     stop("Argument 'cell_size' must be defined")
   } else {
 
     # Projecting region toLambert equeal area projection
-    if (is.na(sp::proj4string(region))) {
+    if (is.na(terra::crs(region))) {
       stop("'region' must be projected to WGS84 (EPSG:4326)")
     }
-    WGS84 <- sp::CRS("+init=epsg:4326")
-    region <- sp::spTransform(region, WGS84)
-    cent <- rgeos::gCentroid(region, byid = FALSE)@coords
-    LAEA <- sp::CRS(paste0("+proj=laea +lat_0=", cent[2], " +lon_0=", cent[1],
-                           " +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
-    region <- sp::spTransform(region, LAEA)
+    WGS84 <- terra::crs("+init=epsg:4326")
+    region <- terra::project(region, WGS84)
+    cent <- terra::geom(terra::centroids(region))[, c("x", "y")]
+    LAEA <- terra::crs(paste0("+proj=laea +lat_0=", cent[2], " +lon_0=",
+                              cent[1], " +x_0=0 +y_0=0 +ellps=WGS84 ",
+                              "+datum=WGS84 +units=m +no_defs"))
+    region <- terra::project(region, LAEA)
 
     # Test if dimensions are valid
-    dims <- raster::extent(region)
+    dims <- terra::ext(region)
     xdim <- diff(dims[1:2])
     ydim <- diff(dims[3:4])
     if (length(cell_size) > 2) {
@@ -69,49 +69,34 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   }
 
   # Creating a grid
-  grid <- raster::raster(raster::extent(region))
-
-  # Grid resolution and values
-  raster::res(grid) <- cell_size * 1000
-  raster::values(grid) <- 1
-
-  # Grid projection
-  sp::proj4string(grid) <- sp::proj4string(region)
+  grid <- terra::rast(region, res = cell_size * 1000, vals = 1)
 
   # Extract grid with region
-  if (complete_cover == TRUE) {
-    SpP_ras <- raster::rasterize(region, grid, getCover = TRUE)
-    SpP_ras[SpP_ras == 0] <- NA
-    grid_reg <- raster::mask(grid, SpP_ras)
-  } else {
-    message("Cells partially covered by polygon representing region won't be included.",
-            "\nTo include such cells use 'complete_cover' = TRUE.")
-    grid_reg <- raster::mask(grid, region)
-  }
+  grid_reg <- terra::mask(grid, region, touches = complete_cover)
 
   # Back to WGS84
-  grid_reg <- raster::projectRaster(grid_reg, crs = WGS84)
+  grid_reg <- terra::project(grid_reg, WGS84)
 
   # Grid for region of interest
-  grid_r_pol <- raster::rasterToPolygons(grid_reg)
+  grid_r_pol <- terra::as.polygons(grid_reg, dissolve = FALSE)
 
   # Points for region of interest
-  matrix_a <- raster::rasterToPoints(grid_reg)
-
-  # Adding ID for PAM
-  ID <- raster::extract(grid_reg, matrix_a[, 1:2], cellnumbers = TRUE)[, 1]
-  grid_r_pol@data <- data.frame(ID = ID, Longitude = matrix_a[, 1],
-                                Latitude = matrix_a[, 2])
+  grid_r_pol <- cbind(grid_r_pol,
+                      terra::as.data.frame(grid_reg, xy = TRUE,
+                                           cells = TRUE)[, 1:3])
+  grid_r_pol[, 1] <- NULL
+  names(grid_r_pol) <- c("ID", "Longitude", "Latitude")
 
   return(grid_r_pol)
 }
 
 
 
-#' Creates a data.frame of species' references from RasterStack
+#' Creates a data.frame of species' references from SpatRaster
 #'
 #' @description Creates a data.frame of species' references that contains
-#' longitude, latitude, and species name, using a SpatRaster as input.
+#' longitude, latitude, and species name, using a SpatRaster representing
+#' multiple species as input.
 #'
 #' @usage
 #' stack_2data(species_layers)
@@ -164,17 +149,17 @@ stack_2data <- function(species_layers) {
 
 
 
-#' Creates a data.frame of species' references from SpatialPolygonsDataFrame
+#' Creates a data.frame of species' references from SpatVector
 #'
 #' @description Creates a data.frame of species' references that contains
-#' identifiers of position and species name, using a SpatialPolygonsDataFrame as
-#' input.
+#' identifiers of position and species name, using a SpatVector representing
+#' multiple species as input.
 #'
-#' @param spdf_object SpatialPolygonsDataFrame representing species' geographic
+#' @param spdf_object SpatVector representing species' geographic
 #' distributions. The data.frame associated with the object must contain a
 #' column named "Species" to distinguish among features.
-#' @param spdf_grid geographic grid for the region of interest (output of
-#' function \code{\link{grid_from_region}}).
+#' @param spdf_grid SpatVector of geographic grid for the region of interest
+#' (output of function \code{\link{grid_from_region}}).
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
 #' @param n_cores (numeric) number of cores to be used when \code{parallel} =
@@ -192,13 +177,13 @@ stack_2data <- function(species_layers) {
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
 #' @importFrom utils txtProgressBar setTxtProgressBar flush.console
-#' @importFrom sp over
+#' @importFrom terra crs project
 #' @importFrom stats na.omit
 #'
 #' @examples
 #' # Data
 #' data("species_data", package = "biosurvey")
-#' data("mx", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
 #'
 #' # GRID
 #' grid_reg <- grid_from_region(region = mx, cell_size = 100)
@@ -216,49 +201,47 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
   if (missing(spdf_grid)) {
     stop("Argument 'spdf_grid' must be defined")
   }
-  cond <- c(class(spdf_object)[1] != "SpatialPolygonsDataFrame",
-            class(spdf_grid)[1] != "SpatialPolygonsDataFrame")
+  cond <- c(class(spdf_object)[1] != "SpatVector",
+            class(spdf_grid)[1] != "SpatVector")
   if (any(cond)) {
-    stop("'spdf_object' and 'spdf_grid' must be of class 'SpatialPolygonsDataFrame'")
+    stop("'spdf_object' and 'spdf_grid' must be of class 'SpatVector'")
   }
 
   # Fixing projections
-  spdf_object <- sp::spTransform(spdf_object, spdf_grid@proj4string)
+  if (terra::crs(spdf_object) != terra::crs(spdf_grid)) {
+    spdf_object <- terra::project(spdf_object, terra::crs(spdf_grid))
+  }
 
   # Names to be matched
-  ID <- spdf_grid@data$ID
-  spnames <- as.character(spdf_object@data$Species)
+  ID <- spdf_grid$ID
+  spnames <- as.character(spdf_object$Species)
 
   if (parallel == TRUE) {
     ## Preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
     ## Progress combine (rbind) function
-    fpc <- function(iterator){
-      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
-      count <- 0
-      function(...) {
-        count <<- count + length(list(...)) - 1
-        utils::setTxtProgressBar(pb, count)
-        Sys.sleep(0.1)
-        utils::flush.console()
-        rbind(...)
-      }
+    pb <- utils::txtProgressBar(min = 1, max = iterations, style = 3)
+    progress <- function(n) {
+      utils::setTxtProgressBar(pb, n)
     }
+    opts <- list(progress = progress)
 
-    ## Start a cluster
-    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
-    doParallel::registerDoParallel(cl)
+
+    ## Make cluster
+    cl <- snow::makeSOCKcluster(n_cores)
+    doSNOW::registerDoSNOW(cl)
 
     ## Processing
-    sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
-                            .combine = fpc(length(spnames))) %dopar% {
+    sps <- foreach::foreach(i = 1:length(spnames), .inorder = FALSE,
+                            .combine = "rbind", .options.snow = opts) %dopar% {
                               sp <- sp::over(spdf_grid,
                                              spdf_object[spnames == spnames[i], ])
+                              #sp <- terra::
                               return(na.omit(data.frame(ID, sp)))
                             }
 
-    parallel::stopCluster(cl)
+    snow::stopCluster(cl)
   } else {
     ## Progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
@@ -271,6 +254,8 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
       utils::setTxtProgressBar(pb, x)
 
       # Preparing data
+      terra::as.data.frame(spdf_grid[spdf_object[spnames == spnames[x], ], ])$ID
+      sp <- terra::extract(spdf_grid, spdf_object[spnames == spnames[x], ])
       sp <- sp::over(spdf_grid, spdf_object[spnames == spnames[x], ])
       sps[[x]] <- na.omit(data.frame(ID, sp))
     }
