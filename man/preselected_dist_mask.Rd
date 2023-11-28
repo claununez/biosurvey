@@ -35,7 +35,7 @@ Default = TRUE.}
 }
 \value{
 A list of two elements: the distance used to obtain \code{expected_points}
-and a SpatialPolygonsDataFrame object created from preselected_sites in
+and a SpatVector object created from preselected_sites in
 master.
 }
 \description{
