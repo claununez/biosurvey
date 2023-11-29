@@ -174,8 +174,9 @@ stack_2data <- function(species_layers) {
 #'
 #' @export
 #' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores makeCluster stopCluster
-#' @importFrom doParallel registerDoParallel
+#' @importFrom parallel detectCores
+#' @importFrom doSNOW registerDoSNOW
+#' @importFrom snow makeSOCKcluster stopCluster
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom terra crs project
 #' @importFrom stats na.omit
@@ -367,38 +368,38 @@ rlist_2data <- function(raster_list) {
 #' files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 #'
 #' @export
-#' @importFrom terra vect
-#' @importFrom sp over
-#' @importFrom terra rast as.data.frame
+#' @importFrom terra vect rast as.data.frame crs wrap unwrap
 #' @importFrom stats na.omit
 #' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores makeCluster stopCluster
-#' @importFrom doParallel registerDoParallel
+#' @importFrom parallel detectCores
+#' @importFrom doSNOW registerDoSNOW
+#' @importFrom snow makeSOCKcluster stopCluster
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @examples
 #' \donttest{
 #' # Data for examples
-#' data("mx", package = "biosurvey")
-#' data("species_data", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
+#' species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+#'                                         package = "biosurvey"))
 #'
 #' # Saving species data in a temporal directory
 #' tdir <- file.path(tempdir(), "testbio")
 #' dir.create(tdir)
 #'
-#' namessp <- paste0("species_", 1:length(species_data))
+#' namessp <- unique(species_data$Species)
 #'
 #'
 #' for (i in 1:length(species_data)) {
-#'   rgdal::writeOGR(species_data[i, ], dsn = tdir, layer = namessp[i],
-#'                   driver = "ESRI Shapefile")
+#'   terra::writeVector(species_data[species_data$Species == namessp[i], ],
+#'                      filename = paste0(tdir, "/", namessp[i], ".gpkg"))
 #' }
 #'
 #' # Preparing grid for analysis
 #' grid_reg <- grid_from_region(region = mx, cell_size = 100)
 #'
 #' # Running analysis with data from directory
-#' sp_data <- files_2data(path = tdir, format = "shp", spdf_grid = grid_reg)
+#' sp_data <- files_2data(path = tdir, format = "gpkg", spdf_grid = grid_reg)
 #' }
 
 files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,

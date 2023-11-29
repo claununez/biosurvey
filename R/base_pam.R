@@ -11,7 +11,7 @@
 #' list, or SpatVector. See details for a description of the characteristics of
 #' data for each option.
 #' @param format (character) if \code{data} is of class character, available
-#' options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
+#' options are: "shp", "gpkg", "GTiff", and "ascii".
 #' @param master_matrix object of class "master_matrix" or "master_selection".
 #' See details. Default = NULL. Either this argument or \code{region} must be
 #' defined.
@@ -50,11 +50,10 @@
 #' (EPSG:4326).
 #'
 #' Description of objects to be used as \code{data}:
-#' - character.- name of directory containing raster, shapefiles, geopackage,
-#' or geojson files representing species geographic ranges. Each file must be
-#' named as the species that it represents. All files must be in the same
-#' format.
-#' If files are in raster format, "GTiff" and "ascii" are acceptable extensions;
+#' - character.- name of directory containing raster, shapefiles or geopackage
+#' files representing species geographic ranges. Each file must be named
+#' as the species that it represents. All files must be in the same format. If
+#' files are in raster format, "GTiff" and "ascii" are acceptable extensions;
 #' values in each layer must be 1 (presence) and 0 (absence).
 #' - data.frame.- a table containing  three columns. Columns must be in the
 #' following order: Longitude, Latitude, Species.
@@ -122,15 +121,16 @@
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
-#' data("species_data", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
+#' species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+#'                                         package = "biosurvey"))
 #'
 #' # Create base_PAM
 #' b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix,
 #'                           cell_size = 100)
-#' sp::plot(b_pam$PAM)
+#' terra::plot(b_pam$PAM)
 #' summary(b_pam$PAM@data[, 1:6])
-
 
 prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
                              region = NULL, cell_size, complete_cover = TRUE,
@@ -140,7 +140,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
   if (missing(data)) {
     stop("Argument 'data' must be defined")
   }
-  if (is.null(master_matrix) | is.null(region)) {
+  if (is.null(master_matrix) & is.null(region)) {
     stop("One of the arguments 'master_matrix' or 'region' must be defined.")
   }
 
@@ -181,7 +181,6 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
     grid_r_pol <- grid_from_region(region, cell_size, complete_cover)
   }
 
-
   # Prepare SpatVector from different objects
   if (verbose == TRUE) {
     message("Preprocessing 'data'")
@@ -194,30 +193,31 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
 
     ## From a list
     if (clsdata == "list") {
-      data <- rlist_2data(raster_list = data, parallel = parallel,
-                          n_cores = n_cores)
+      data <- rlist_2data(raster_list = data)
     }
 
     ## From files stored in a directory
     if (clsdata == "character") {
-      if (!format %in% c("shp", "gpkg", "geojson")) {
+      if (!format %in% c("shp", "gpkg")) {
         data <- files_2data(path = data, format = format, parallel = parallel,
                             n_cores = n_cores)
       }
     }
   } else {
-    sp_points <- terra::vect(data[, 1:2], crs("EPSG:4326"))
+    sp_points <- terra::vect(data, geom = colnames(data)[1:2],
+                             crs("EPSG:4326"))
   }
 
   # SpatialVector from data if needed
   if (!clsdata %in% "SpatVector") {
     if (clsdata == "character") {
-      if (!format %in% c("shp", "gpkg", "geojson")) {
-        sp_points <- terra::vect(data[, 1:2], crs("EPSG:4326"))
+      if (!format %in% c("shp", "gpkg")) {
+        sp_points <- terra::vect(data, geom = colnames(data)[1:2],
+                                 crs("EPSG:4326"))
       }
-    } else if (clsdata %in% c("RasterStack", "RasterBrick")) {
-      sp_points <- sp::SpatialPointsDataFrame(data[, 1:2], data = data,
-                                              proj4string = sp::CRS("+init=epsg:4326"))
+    } else if (clsdata %in% c("SpatRaster", "list")) {
+      sp_points <- terra::vect(data, geom = colnames(data)[1:2],
+                               crs("EPSG:4326"))
     }
   }
 
@@ -229,7 +229,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
                               parallel = parallel, n_cores = n_cores)
     }
     if (clsdata == "character") {
-      if (format %in% c("shp", "gpkg", "geojson")) {
+      if (format %in% c("shp", "gpkg")) {
         sp_points <- files_2data(path = data, format, spdf_grid = grid_r_pol,
                                  parallel = parallel, n_cores = n_cores)
       }
@@ -237,15 +237,10 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
   }
 
   ## Merging with ID if any other object is defined in data
-  if (class(data)[1] %in% c("data.frame", "SpatVector")) {
-    if (class(data)[1] %in% "SpatVector") {
-      sp_points <- data
-    }
-    sp_points <- data.frame(ID = terra::extract(methods::as(sp_points, "SpatialPoints"),
-
-                            grid_r_pol[, "ID"]),
-
-                            Species = sp_points@data[, 3])
+  if (class(data)[1] == "data.frame") {
+    sp_points <- data.frame(ID = terra::extract(grid_r_pol, sp_points)$ID,
+                            Species = sp_points[[1]])
+    sp_points <- unique(sp_points)
   }
 
   # PAM from points
@@ -256,19 +251,25 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
                               species_column = "Species")
 
   # Complete PAM
-  grid_r_pol@data <- merge(grid_r_pol@data, sp_points, by = "ID", all.x = TRUE)
-  grid_r_pol@data[is.na(grid_r_pol@data)] <- 0
-  coltk <- colnames(grid_r_pol@data)
+  terra::values(grid_r_pol) <- merge(grid_r_pol, sp_points, by = "ID",
+                                     all.x = TRUE)
+  terra::values(grid_r_pol)[is.na(terra::values(grid_r_pol))] <- 0
+  coltk <- names(grid_r_pol)
 
   # Clipping if needed
   if (clip_grid == TRUE) {
     if (verbose == TRUE) {
       message("Clipping PAM to region of interest")
     }
-    grid_r_pol <- terra::intersect(grid_r_pol, master_matrix[[where]])
+
+    if (!is.null(master_matrix)) {
+      grid_r_pol <- terra::intersect(grid_r_pol, master_matrix[[where]])
+    } else {
+      grid_r_pol <- terra::intersect(grid_r_pol, region)
+    }
     coltk <- make.names(coltk)
-    coltk <- terra::intersect(coltk, colnames(grid_r_pol@data))
-    grid_r_pol@data <- grid_r_pol@data[, coltk]
+    coltk <- intersect(coltk, names(grid_r_pol))
+    terra::values(grid_r_pol) <- terra::values(grid_r_pol)[, coltk]
   }
 
   # Preparing and returning results

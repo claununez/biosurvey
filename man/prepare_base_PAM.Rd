@@ -16,7 +16,7 @@ list, or SpatVector. See details for a description of the characteristics of
 data for each option.}
 
 \item{format}{(character) if \code{data} is of class character, available
-options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
+options are: "shp", "gpkg", "GTiff", and "ascii".}
 
 \item{master_matrix}{object of class "master_matrix" or "master_selection".
 See details. Default = NULL. Either this argument or \code{region} must be
@@ -82,11 +82,10 @@ Geographic projection of objects or coordinates involved must be WGS84
 
 Description of objects to be used as \code{data}:
 \itemize{
-\item character.- name of directory containing raster, shapefiles, geopackage,
-or geojson files representing species geographic ranges. Each file must be
-named as the species that it represents. All files must be in the same
-format.
-If files are in raster format, "GTiff" and "ascii" are acceptable extensions;
+\item character.- name of directory containing raster, shapefiles or geopackage
+files representing species geographic ranges. Each file must be named
+as the species that it represents. All files must be in the same format. If
+files are in raster format, "GTiff" and "ascii" are acceptable extensions;
 values in each layer must be 1 (presence) and 0 (absence).
 \item data.frame.- a table containing  three columns. Columns must be in the
 following order: Longitude, Latitude, Species.
@@ -132,13 +131,15 @@ indices see Soberon and Cavner (2015)
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
-data("species_data", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
+species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+                                        package = "biosurvey"))
 
 # Create base_PAM
 b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix,
                           cell_size = 100)
-sp::plot(b_pam$PAM)
+terra::plot(b_pam$PAM)
 summary(b_pam$PAM@data[, 1:6])
 }
 \seealso{
