@@ -34,16 +34,13 @@
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #'
 #' # Making blocks for analysis
 #' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
 #'                         variable_2 = "PC2", n_cols = 10, n_rows = 10,
 #'                         block_type = "equal_area")
-#'
-#' # Checking column names and values in variables to define initial distance
-#' colnames(m_blocks$data_matrix)
-#' summary(m_blocks$data_matrix[, c("PC1", "PC2")])
 #'
 #' # Selecting blocks uniformly in E space
 #' block_sel <- block_sample(m_blocks, expected_blocks = 10,
