@@ -149,6 +149,7 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
 
     # Create matrix
     master_m <- data.frame(variables, pca$x[, 1:2])
+    pca$x <- NULL
 
     # Predict in predefined sites
     if (!is.null(preselected_sites)) {
