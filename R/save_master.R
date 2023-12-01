@@ -5,7 +5,7 @@
 #' \code{\link{uniformG_selection}}, \code{\link{uniformE_selection}}, or
 #' \code{uniformEG_selection}.
 #' @param file_name (character) name for the file to save or read the master
-#' object.
+#' object (includes extension ".rds").
 #' @param verbose whether or not to print messages about the process.
 #' Default = TRUE.
 #'
@@ -24,8 +24,8 @@ save_master <- function(master, file_name, verbose = TRUE) {
     stop("Argument 'file_name' must be defined.")
   }
 
-  if (class(master)[1] != "master") {
-    stop("Argument 'master' must be of class 'master' or 'master_selection'.")
+  if (!class(master)[1] %in% c("master_matrix", "master_selection")) {
+    stop("Argument 'master' must be of class 'master_matrix' or 'master_selection'.")
   }
 
   #Wrap spatial objects
@@ -36,10 +36,10 @@ save_master <- function(master, file_name, verbose = TRUE) {
     master$mask <- terra::wrap(master$mask)
   }
 
-  saveRDS(master, paste0(file_name, ".rds"))
+  saveRDS(master, file = file_name)
 
   if (verbose) {
-    message("master saved in ", file_name, ".rds")
+    message("master saved in ", file_name)
   }
 }
 

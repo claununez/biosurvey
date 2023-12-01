@@ -16,7 +16,7 @@ read_master(file_name)
 \code{uniformEG_selection}.}
 
 \item{file_name}{(character) name for the file to save or read the master
-object.}
+object (includes extension ".rds").}
 
 \item{verbose}{whether or not to print messages about the process.
 Default = TRUE.}
