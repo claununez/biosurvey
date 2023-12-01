@@ -2,15 +2,15 @@
 % Please edit documentation in R/data_documentation.R
 \name{sp_layers}
 \alias{sp_layers}
-\title{Example of stack of layers of suitable and unsuitable conditions for species}
+\title{Example of raster layers of suitable and unsuitable conditions for species}
 \format{
-RasterStack with 109 rows, 182 columns, 19838 cells, and 5 layers:
+SpatRaster with 109 rows, 182 columns, 19838 cells, and 5 layers:
 \describe{
-\item{RasterLayer}{suitable (1) and unsuitable (0) conditions}
+\item{Layer}{suitable (1) and unsuitable (0) conditions}
 }
 }
 \description{
-An object of class RasterStack containing information about suitable and
+An object of class SpatRaster containing information about suitable and
 unsuitable conditions for five species.
 }
 \examples{

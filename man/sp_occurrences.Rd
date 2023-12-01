@@ -24,6 +24,7 @@ butterfly.
 }
 \examples{
 data("sp_occurrences", package = "biosurvey")
+
 head(sp_occurrences)
 }
 \keyword{datasets}
