@@ -66,7 +66,8 @@
 #'
 #' @examples
 #' # Data
-#' data("mx", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
+#'
 #' variables <- terra::rast(system.file("extdata/variables.tif",
 #'                                        package = "biosurvey"))
 #'
