@@ -641,11 +641,11 @@ selected_sites_PAM <- function(selected_sites, base_PAM) {
   # Matching sites with PAM IDs
   ls <- lapply(selected_sites, function(x) {
     xp <- terra::vect(x, geom = c("Longitude", "Latitude"), crs = WGS84)
-    xid <- data.frame(ID = base_PAM$PAM[xp, ]$ID, x)
-    pam <- terra::as.data.frame(terra::vect(base_PAM$PAM))
-    colnames(pam)[2:3] <- c("Longitude_PAM", "Latitude_PAM")
-    colnames(xid)[2:3] <- c("Longitude_master", "Latitude_master")
-    merge(xid, pam, by = "ID")
+    xid <- terra::extract(base_PAM$PAM, xp)
+    colnames(x)[1:2] <- c("Longitude_master", "Latitude_master")
+    colnames(xid)[3:4] <- c("Longitude_PAM", "Latitude_PAM")
+    xid <- cbind(ID = xid$ID, x[xid[, 1], ], xid[, -(1:2)])
+    xid[!duplicated(xid$ID), ]
   })
   names(ls) <- names(selected_sites)
   return(ls)
