@@ -9,6 +9,8 @@
 #' @returns
 #' A randomized matrix.
 #'
+#' @export
+#'
 #' @details
 #' The curve ball algorithm was described by Strona et al.
 #' (2014)[https://www.nature.com/articles/ncomms5114].
