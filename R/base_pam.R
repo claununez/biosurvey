@@ -212,11 +212,11 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
     if (clsdata == "character") {
       if (!format %in% c("shp", "gpkg")) {
         sp_points <- terra::vect(data, geom = colnames(data)[1:2],
-                                 crs = terra::crscrs("EPSG:4326"))
+                                 crs = terra::crs("EPSG:4326"))
       }
     } else if (clsdata %in% c("SpatRaster", "list")) {
       sp_points <- terra::vect(data, geom = colnames(data)[1:2],
-                               crs = terra::crscrs("EPSG:4326"))
+                               crs = terra::crs("EPSG:4326"))
     }
   }
 
