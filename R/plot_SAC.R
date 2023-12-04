@@ -84,7 +84,7 @@ plot_SAC <- function(SAC_selected_sites, col_mean = "blue",
     mains <- gsub("_", " ", names(SAC_selected_sites))
   } else {
     ## Options if not null
-    if (class(main) != "character") {
+    if (class(main)[1] != "character") {
       main <- as.character(main)
     }
 
