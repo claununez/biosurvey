@@ -7,8 +7,9 @@
 match_rformat(format)
 }
 \arguments{
-\item{format}{(character) any of the format types allowed for raster objects.
-See \code{\link[raster]{writeFormats}} (e.g., "GTiff").}
+\item{format}{(character) any of the format names allowed for raster objects.
+Options are: "GTiff", "ascii", "EHdr", "SAGA", "IDRISI", "CDF", "ENVI",
+and "HFA".}
 }
 \value{
 Raster extension according to format type.

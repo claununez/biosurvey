@@ -1,7 +1,8 @@
 #' Helper function to find raster extension
 #'
-#' @param format (character) any of the format types allowed for raster objects.
-#' See \code{\link[raster]{writeFormats}} (e.g., "GTiff").
+#' @param format (character) any of the format names allowed for raster objects.
+#' Options are: "GTiff", "ascii", "EHdr", "SAGA", "IDRISI", "CDF", "ENVI",
+#' and "HFA".
 #'
 #' @return Raster extension according to format type.
 #'
@@ -14,7 +15,6 @@ match_rformat <- function(format) {
   # Initial test
   if (missing(format)) {stop("Argument 'format' needs to be defined.")}
   # Defining format
-  if (format == "raster") {format1 <- ".grd"}
   if (format == "GTiff") {format1 <- ".tif"}
   if (format == "EHdr") {format1 <- ".bil"}
   if (format == "ascii") {format1 <- ".asc"}
