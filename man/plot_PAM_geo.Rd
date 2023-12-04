@@ -66,7 +66,8 @@ Plot of PAM indices in geography
 }
 \examples{
 # Data
-data("b_pam", package = "biosurvey")
+b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+                              package = "biosurvey"))
 
 # Plotting
 plot_PAM_geo(b_pam, index = "RI")
