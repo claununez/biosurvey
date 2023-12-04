@@ -28,12 +28,13 @@
 #'                max_n_samples = 1, replicates = 10, set_seed = 1)
 #'
 #' @export
-#' @importFrom sp coordinates
+#' @importFrom terra crds
 #' @importFrom spatstat.geom ppp closepairs
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #' data1 <- m_matrix$data_matrix
 #'
 #' # Thinning the points
@@ -84,7 +85,7 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
   # Preprocessing if space = G
   if (space == "G") {
     data_sp <- wgs84_2aed_laea(data, x_column, y_column, which = "ED")
-    xy <- sp::coordinates(data_sp)
+    xy <- terra::crds(data_sp)
     data$xaed <- xy[, 1]
     data$yaed <- xy[, 2]
     xyo <- c(x_column, y_column)
@@ -158,12 +159,13 @@ point_thinning <- function(data, x_column, y_column, thinning_distance, space,
 #' closest_to_centroid(data, x_column, y_column, space, n = 1, id_column = NULL)
 #'
 #' @export
-#' @importFrom raster pointDistance
+#' @importFrom terra distance
 #' @importFrom stats mahalanobis qchisq cov dist
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #' data1 <- m_matrix$data_matrix
 #'
 #' # Finding the closest point to the centroid
@@ -229,9 +231,9 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
             if (level > 0.98) {
               ## Distance in G space
               if (space == "G") {
-                ds <- raster::pointDistance(cent, gblock[, c(x_column,
-                                                             y_column)],
-                                            lonlat = TRUE)
+                ds <- terra::distance(matrix(cent, ncol = 2),
+                                      as.matrix(gblock[, c(x_column, y_column)]),
+                                      lonlat = TRUE)
               } else {
                 ## Distance in E space
                 ds <- stats::mahalanobis(x = gblock[, c(x_column, y_column)],
@@ -263,8 +265,9 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
         return(gblock[which(ds == sort(ds)[1:n])[1:n], ])
       }
       if (space == "G") {
-        ds <- raster::pointDistance(cent, gblock[c1, c(x_column, y_column)],
-                                    lonlat = TRUE)
+        ds <- terra::distance(matrix(cent, ncol = 2),
+                              as.matrix(gblock[, c(x_column, y_column)]),
+                              lonlat = TRUE)
         return(gblock[which(ds %in% sort(ds)[1:n])[1:n], ])
       } else {
         ds <- as.matrix(stats::dist(rbind(cent, gblock[c1, c(x_column,
@@ -297,7 +300,8 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
 #'
 #' @examples
 #' # Data
-#' data("m_selection", package = "biosurvey")
+#' m_selection <- read_PAM(system.file("extdata/m_selection.rds",
+#'                                     package = "biosurvey"))
 #'
 #' slist <- m_selection$selected_sites_random
 #'
@@ -310,8 +314,8 @@ distance_filter <- function(site_list, median_distance_filter = "max") {
     stop("Argument 'median_distance_filter' is not valid, see function's help.")
   }
   dists <- sapply(site_list, function(x) {
-    dis <- raster::pointDistance(x[, c("Longitude", "Latitude")], lonlat = TRUE)
-    diag(dis) <- NA
+    dis <- terra::distance(as.matrix(x[, c("Longitude", "Latitude")]),
+                           lonlat = TRUE)
     median(c(dis), na.rm = T)
   })
 
