@@ -13,7 +13,7 @@
 #'
 #' @details
 #' The curve ball algorithm was described by Strona et al.
-#' (2014)[https://www.nature.com/articles/ncomms5114].
+#' (2014) <doi:10.1038/ncomms5114>.
 
 randomize_matrix_cb <- function(matrix) {
   RC <- dim(matrix)

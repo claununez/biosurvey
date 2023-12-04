@@ -18,5 +18,5 @@ rows and columns constant.
 }
 \details{
 The curve ball algorithm was described by Strona et al.
-(2014)\link{https://www.nature.com/articles/ncomms5114}.
+(2014) \url{doi:10.1038/ncomms5114}.
 }
