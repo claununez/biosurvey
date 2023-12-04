@@ -116,8 +116,7 @@
 #'                  verbose = TRUE)
 #'
 #' @export
-#' @importFrom sp SpatialPointsDataFrame over
-#' @importFrom methods as
+#' @importFrom terra vect extract crs values intersect
 #'
 #' @examples
 #' # Data
@@ -205,7 +204,7 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
     }
   } else {
     sp_points <- terra::vect(data, geom = colnames(data)[1:2],
-                             crs("EPSG:4326"))
+                             crs = terra::crs("EPSG:4326"))
   }
 
   # SpatialVector from data if needed
@@ -213,11 +212,11 @@ prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
     if (clsdata == "character") {
       if (!format %in% c("shp", "gpkg")) {
         sp_points <- terra::vect(data, geom = colnames(data)[1:2],
-                                 crs("EPSG:4326"))
+                                 crs = terra::crscrs("EPSG:4326"))
       }
     } else if (clsdata %in% c("SpatRaster", "list")) {
       sp_points <- terra::vect(data, geom = colnames(data)[1:2],
-                               crs("EPSG:4326"))
+                               crs = terra::crscrs("EPSG:4326"))
     }
   }
 
