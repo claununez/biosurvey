@@ -20,8 +20,8 @@ Authors@R: c(
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut",
     comment = c(ORCID = "0000-0003-0243-2379")),
     person("Weverton", "Trindade", email = "wevertonf1993@gmail.com", 
-    role = "cnt", comment = c(ORCID = "0000-0003-2045-4555")),
-    person("Can", "Elverici", email = "elverici.can@gmail.com", role = "cnt",
+    role = "ctb", comment = c(ORCID = "0000-0003-2045-4555")),
+    person("Can", "Elverici", email = "elverici.can@gmail.com", role = "ctb",
     comment = c(ORCID = "0000-0002-6153-5602")))
 Maintainer: Claudia Nuñez-Penichet <claununez199o@gmail.com>
 Date: 2023-02-10
