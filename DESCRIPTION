@@ -18,7 +18,11 @@ Authors@R: c(
     person("Adolfo G.", "Navarro-Sigüenza", email = "adolfon@ciencias.unam.mx", 
     role = "aut", comment = c(ORCID = "0000-0003-2652-7719")),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut",
-    comment = c(ORCID = "0000-0003-0243-2379")))
+    comment = c(ORCID = "0000-0003-0243-2379")),
+    person("Weverton", "Trindade", email = "wevertonf1993@gmail.com", 
+    role = "cnt", comment = c(ORCID = "0000-0003-2045-4555")),
+    person("Can", "Elverici", email = "elverici.can@gmail.com", role = "cnt",
+    comment = c(ORCID = "0000-0002-6153-5602")))
 Maintainer: Claudia Nuñez-Penichet <claununez199o@gmail.com>
 Date: 2023-02-10
 Description: A collection of tools that allows users to plan systems of sampling 
@@ -39,6 +43,7 @@ BugReports: https://github.com/claununez/biosurvey/issues
 Imports:
     diptest (>= 0.75),
     doParallel (>= 1.0),
+    doSNOW (>= 1.0),
     foreach (>= 1.5),
     graphics,
     grDevices,
@@ -48,8 +53,7 @@ Imports:
     parallel,
     picante (>= 1.8),
     raster (>= 3.0),
-    rgdal (>= 1.4),
-    rgeos (>= 0.5),
+    snow (>= 0.4),
     sp (>= 1.3),
     spatstat.geom (>= 1.65),
     stats,
