@@ -10,7 +10,7 @@ plot_blocks_EG(master, region_border = TRUE, mask_border = FALSE,
                which = "all", block_ID = FALSE, col_all = NULL,
                col_selected = NULL, col_ID = NULL, cex_all = 0.7,
                cex_selected = 1, cex_ID = 1, pch_all = 16,
-               pch_selected = 16, add_main = TRUE)
+               pch_selected = 16, add_main = TRUE, mar = NULL)
 
 plot_blocks_E(master, which = "all", block_ID = FALSE, col_all = NULL,
               col_selected = NULL, col_ID = NULL, cex_all = 0.7,
@@ -20,7 +20,8 @@ plot_blocks_E(master, which = "all", block_ID = FALSE, col_all = NULL,
 plot_blocks_G(master, region_border = TRUE, mask_border = FALSE,
               which = "all", block_ID = FALSE, col_all = NULL,
               col_selected = NULL, col_ID = NULL, cex_all = 0.7,
-              cex_selected = 1, cex_ID = 1, pch_all = 16, pch_selected = 16)
+              cex_selected = 1, cex_ID = 1, pch_all = 16,
+              pch_selected = 16, mar = NULL)
 }
 \arguments{
 \item{master}{master_matrix object derived from function
@@ -73,6 +74,10 @@ points of selected blocks. Default = 16.}
 Default = TRUE. Titles added are "Environmental space" and "Geographic
 space".}
 
+\item{mar}{(numeric) vector of length 4 to set the margins of the plot in G.
+The default, NULL, is (3.1, 3.1, 2.1, 2.1) for \code{plot_blocks_G} and
+(3.5, 0.5, 0.5, 0.5) for \code{plot_blocks_EG.}}
+
 \item{main}{(character) the main title for the plot.}
 
 \item{xlab}{(character) label for the x axis. The default, NULL, uses
@@ -100,7 +105,8 @@ one, so the selected blocks can be easily identified. See examples.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 # Creating blocks
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",

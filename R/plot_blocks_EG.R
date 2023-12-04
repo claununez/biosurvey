@@ -39,6 +39,9 @@
 #' @param add_main (logical) whether or not to add fixed titles to the plot.
 #' Default = TRUE. Titles added are "Environmental space" and "Geographic
 #' space".
+#' @param mar (numeric) vector of length 4 to set the margins of the plot in G.
+#' The default, NULL, is (3.1, 3.1, 2.1, 2.1) for `plot_blocks_G` and
+#' (3.5, 0.5, 0.5, 0.5) for `plot_blocks_EG.`
 #'
 #' @details
 #' Defining colors in \code{col_all} depends on what is chosen in \code{which}.
@@ -58,16 +61,17 @@
 #'                which = "all", block_ID = FALSE, col_all = NULL,
 #'                col_selected = NULL, col_ID = NULL, cex_all = 0.7,
 #'                cex_selected = 1, cex_ID = 1, pch_all = 16,
-#'                pch_selected = 16, add_main = TRUE)
+#'                pch_selected = 16, add_main = TRUE, mar = NULL)
 #'
 #' @export
 #' @importFrom maps map
-#' @importFrom sp plot
+#' @importFrom terra plot ext vect crs
 #' @importFrom graphics layout par plot.new text title
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #'
 #' # Creating blocks
 #' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
@@ -91,7 +95,8 @@ plot_blocks_EG <- function(master, region_border = TRUE, mask_border = FALSE,
                            which = "all", block_ID = FALSE,
                            col_all = NULL, col_selected = NULL, col_ID = NULL,
                            cex_all = 0.7, cex_selected = 1, cex_ID = 1,
-                           pch_all = 16, pch_selected = 16, add_main = TRUE) {
+                           pch_all = 16, pch_selected = 16, add_main = TRUE,
+                           mar = NULL) {
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
@@ -129,10 +134,12 @@ plot_blocks_EG <- function(master, region_border = TRUE, mask_border = FALSE,
                 pch_all, pch_selected)
 
   ## Geographic space
-  par(mar = c(3.5, rep(0.5, 3)))
+  if (is.null(mar)) {
+    mar <- c(3.5, rep(0.5, 3))
+  }
   plot_blocks_G(master, region_border, mask_border, which, block_ID, col_all,
                 col_selected, col_ID, cex_all, cex_selected, cex_ID, pch_all,
-                pch_selected)
+                pch_selected, mar)
 }
 
 
@@ -264,13 +271,14 @@ plot_blocks_E <- function(master, which = "all", block_ID = FALSE,
 #' plot_blocks_G(master, region_border = TRUE, mask_border = FALSE,
 #'               which = "all", block_ID = FALSE, col_all = NULL,
 #'               col_selected = NULL, col_ID = NULL, cex_all = 0.7,
-#'               cex_selected = 1, cex_ID = 1, pch_all = 16, pch_selected = 16)
+#'               cex_selected = 1, cex_ID = 1, pch_all = 16,
+#'               pch_selected = 16, mar = NULL)
 
 plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
                           which = "all", block_ID = FALSE, col_all = NULL,
                           col_selected = NULL, col_ID = NULL, cex_all = 0.7,
                           cex_selected = 1, cex_ID = 1, pch_all = 16,
-                          pch_selected = 16) {
+                          pch_selected = 16, mar = NULL) {
   # Initial tests
   if (missing(master)) {
     stop("Argument 'master' is required to produce the plot.")
@@ -326,12 +334,11 @@ plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
   }
 
   ## Box to plot
-  boxpam <- t(master$region@bbox)
-  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
-                                       proj4string = master$region@proj4string)
+  boxpam <- matrix(terra::ext(master$region), nrow = 2)
+  boxpam <- terra::vect(boxpam, crs = terra::crs(master$region))
 
   ## Plot
-  sp::plot(boxpam, col = NA)
+  terra::plot(boxpam, col = NA, axes = FALSE, legend = FALSE, mar = mar)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
@@ -339,10 +346,10 @@ plot_blocks_G <- function(master, region_border = TRUE, mask_border = FALSE,
          col = col_all)
 
   if (region_border == TRUE) {
-    sp::plot(master$region, border = "gray50", add = TRUE)
+    terra::plot(master$region, border = "gray50", add = TRUE)
   }
   if (mask_border == TRUE & !is.null(master$mask)) {
-    sp::plot(master$mask, border = "gray50", add = TRUE)
+    terra::plot(master$mask, border = "gray50", add = TRUE)
   }
 
   ## Selected blocks
