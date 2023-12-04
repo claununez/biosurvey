@@ -35,9 +35,10 @@ Description: A collection of tools that allows users to plan systems of sampling
     proposed here are new in the sense that they combine various criteria and 
     points previously made in related literature; some of the theoretical and 
     methodological bases considered are described in:
+    Nuñez-Penichet et al. (2022) <doi:10.1111/2041-210X.13869>,
     Arita et al. (2011) <doi:10.1111/j.1466-8238.2011.00662.x>,
     Soberón and Cavner (2015) <doi:10.17161/bi.v10i0.4801>, and Soberón et al. 
-    (2021).
+    (2021) <doi:10.17161/bi.v16i1.14782>.
 URL: https://github.com/claununez/biosurvey
 BugReports: https://github.com/claununez/biosurvey/issues
 Imports:
@@ -51,7 +52,6 @@ Imports:
     methods,
     parallel,
     picante (>= 1.8),
-    raster (>= 3.0),
     snow (>= 0.4),
     spatstat.geom (>= 1.65),
     stats,
