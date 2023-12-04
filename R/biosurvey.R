@@ -31,7 +31,7 @@
 #' \code{\link{plot_sites_EG}}, \code{\link{prepare_base_PAM}},
 #' \code{\link{prepare_master_matrix}}, \code{\link{prepare_PAM_CS}},
 #' \code{\link{random_selection}}, \code{\link{read_master}},
-#' \code{\link{save_master}}, \code{\link{save_pam}},
+#' \code{\link{read_PAM}}, \code{\link{save_master}}, \code{\link{save_PAM}},
 #' \code{\link{selected_sites_DI}}, \code{\link{selected_sites_SAC}},
 #' \code{\link{subset_PAM}}, \code{\link{uniformE_selection}},
 #' \code{\link{uniformG_selection}}
