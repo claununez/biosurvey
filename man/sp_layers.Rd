@@ -14,8 +14,8 @@ An object of class SpatRaster containing information about suitable and
 unsuitable conditions for five species.
 }
 \examples{
-sp_layers <- raster::stack(system.file("extdata/sp_layers.tif",
-                           package = "biosurvey"))
+sp_layers <- terra::rast(system.file("extdata/sp_layers.tif",
+                                     package = "biosurvey"))
 
 sp_layers
 }

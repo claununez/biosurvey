@@ -14,7 +14,8 @@ A list of 2 elements:
 An S3 object of class base_PAM. See functions \code{\link{prepare_base_PAM}}.
 }
 \examples{
-b_pam <- read_PAM(file_name = "data/b_pam.rds")
+b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+                              package = "biosurvey"))
 
 print(b_pam)
 }

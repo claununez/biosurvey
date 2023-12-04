@@ -127,8 +127,8 @@ NULL
 #' }
 #'
 #' @examples
-#' sp_layers <- raster::stack(system.file("extdata/sp_layers.tif",
-#'                            package = "biosurvey"))
+#' sp_layers <- terra::rast(system.file("extdata/sp_layers.tif",
+#'                                      package = "biosurvey"))
 #'
 #' sp_layers
 #' @name sp_layers
@@ -234,7 +234,8 @@ NULL
 #' @name b_pam
 #'
 #' @examples
-#' b_pam <- read_PAM(file_name = "data/b_pam.rds")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
 #'
 #' print(b_pam)
 NULL
