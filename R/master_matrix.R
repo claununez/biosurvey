@@ -61,7 +61,7 @@
 #'                       variables_in_matrix = NULL, verbose = TRUE)
 #'
 #' @export
-#' @importFrom terra crop as.data.frame
+#' @importFrom terra crop as.data.frame extract
 #' @importFrom stats prcomp predict
 #'
 #' @examples
@@ -117,8 +117,10 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     }
 
     preselected_sites <- data.frame(preselected_sites,
-                                    raster::extract(variables,
-                                                    preselected_sites[, 2:3]))
+                                    terra::extract(
+                                      variables,
+                                      preselected_sites[, 2:3])[, -1]
+                                    )
     colnames(preselected_sites)[2:3] <- c("Longitude", "Latitude")
   }
 
