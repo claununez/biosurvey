@@ -41,7 +41,8 @@ save_PAM <- function(PAM, file_name, verbose = TRUE) {
 #' @rdname save_PAM
 #' @export
 #' @examples
-#' b_pam <- read_PAM(file_name = "data/b_pam.rds")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
 
 read_PAM <- function(file_name) {
   if (missing(file_name)) {

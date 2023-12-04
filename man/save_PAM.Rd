@@ -29,5 +29,6 @@ an object of class base_PAM with its spatial object unwrapped.
 Functions to save and read master objects
 }
 \examples{
-b_pam <- read_PAM(file_name = "data/b_pam.rds")
+b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+                              package = "biosurvey"))
 }
