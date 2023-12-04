@@ -86,8 +86,7 @@
 #'                    verbose = TRUE, force = FALSE)
 #'
 #' @export
-#' @importFrom sp over SpatialPointsDataFrame CRS
-#' @importFrom raster pointDistance
+#' @importFrom terra distance crs vect mask
 #'
 #' @examples
 #' # Data
