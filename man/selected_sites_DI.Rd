@@ -48,8 +48,10 @@ indices can be seen in the documentation of \code{\link[vegan]{vegdist}}.
 }
 \examples{
 # Data
-data("b_pam", package = "biosurvey")
-data("m_selection", package = "biosurvey")
+b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+                              package = "biosurvey"))
+m_selection <- read_PAM(system.file("extdata/m_selection.rds",
+                                    package = "biosurvey"))
 
 # Subsetting base PAM according to selections
 sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
