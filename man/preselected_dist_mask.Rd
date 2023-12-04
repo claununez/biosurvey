@@ -43,7 +43,8 @@ Helper to create objects to detect points to close to preselected sites
 }
 \examples{
 # Data
-data("m_matrix_pre", package = "biosurvey")
+m_matrix_pre <- read_master(system.file("extdata/m_matrix_pre.rds",
+                                        package = "biosurvey"))
 
 # Running
 pdm <- preselected_dist_mask(master = m_matrix_pre, expected_points = 20,
