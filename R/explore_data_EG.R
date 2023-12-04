@@ -47,14 +47,14 @@
 #'
 #' @export
 #' @importFrom ks kde
-#' @importFrom sp plot
-#' @importFrom raster image
+#' @importFrom terra plot
 #' @importFrom graphics image layout par plot.new rasterImage text title box points
 #' @importFrom grDevices as.raster col2rgb rgb
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #'
 #' colnames(m_matrix$data_matrix)
 #'
@@ -129,11 +129,6 @@ explore_data_EG <- function(master, variable_1, variable_2,
   xlim <- range(master$data_matrix[, variable_1])
   ylim  <- range(master$data_matrix[, variable_2])
 
-  # Box to plot
-  boxpam <- t(master$region@bbox)
-  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
-                                       proj4string = master$region@proj4string)
-
   # to fill cells
   to_fill <- !is.na(master$raster_base[])
 
@@ -147,34 +142,30 @@ explore_data_EG <- function(master, variable_1, variable_2,
   text(0.5, 0.5, "Geographic space", cex = 1.2, srt = 90)
 
   ### Variable 1
-  #vf <- as.factor(master$data_matrix[, variable_1])
-  #sp::plot(master$raster_base, col = col_variable1[vf], border = NA)
   master$raster_base[to_fill] <- master$data_matrix[, variable_1]
-  sp::plot(boxpam, col = NA)
-  raster::image(master$raster_base, col = col_variable1, add = TRUE)
+  terra::plot(master$raster_base, col = col_variable1, axes = FALSE,
+              legend = FALSE, mar = rep(0, 4))
 
   if(region_border == TRUE) {
-    sp::plot(master$region, border = "gray50", add = TRUE)
+    terra::plot(master$region, border = "gray50", add = TRUE)
   }
   if (mask_border == TRUE & !is.null(master$mask)) {
-    sp::plot(master$mask, border = "gray50", add = TRUE)
+    terra::plot(master$mask, border = "gray50", add = TRUE)
   }
 
   plot.new()
   bar_legend(xlim, col = col_variable1, title = variable_1)
 
   ### Variable 2
-  #vf <- as.factor(master$data_matrix[, variable_2])
-  #sp::plot(master$raster_base, col = col_variable2[vf], border = NA)
   master$raster_base[to_fill] <- master$data_matrix[, variable_2]
-  sp::plot(boxpam, col = NA)
-  raster::image(master$raster_base, col = col_variable2, add = TRUE)
+  terra::plot(master$raster_base, col = col_variable1, axes = FALSE,
+              legend = FALSE, mar = rep(0, 4))
 
   if(region_border == TRUE) {
-    sp::plot(master$region, border = "gray50", add = TRUE)
+    terra::plot(master$region, border = "gray50", add = TRUE)
   }
   if (mask_border == TRUE & !is.null(master$mask)) {
-    sp::plot(master$mask, border = "gray50", add = TRUE)
+    terra::plot(master$mask, border = "gray50", add = TRUE)
   }
 
   plot.new()
@@ -210,7 +201,7 @@ explore_data_EG <- function(master, variable_1, variable_2,
 
   par(mar = rep(0, 4))
   plot.new()
-  bar_legend(c("Low", "High"), col = col_density, title = "Density", round = 1)
+  bar_legend(c("Low", "High"), col = col_density, title = "Density")
 }
 
 

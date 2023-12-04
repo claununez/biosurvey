@@ -60,7 +60,8 @@ predictor per panel). The two panels at the bottom contain information in a
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 colnames(m_matrix$data_matrix)
 
