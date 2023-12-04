@@ -46,7 +46,7 @@
 #'              col_pre = NULL, pch_sites = 16, pch_pre = 16)
 #'
 #' @export
-#' @importFrom sp plot
+#' @importFrom terra plot
 #' @importFrom graphics layout par plot.new
 #' @importFrom maps map
 #' @importFrom grDevices colorRampPalette
