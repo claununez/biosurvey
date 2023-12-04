@@ -50,6 +50,9 @@
 #' @param add_main (logical) whether or not to add fixed titles to the plot.
 #' Default = TRUE. Titles added are "Environmental space" and "Geographic
 #' space".
+#' @param mar (numeric) vector of length 4 to set the margins of the plot in G.
+#' The default, NULL, is (3.1, 3.1, 2.1, 2.1) for `plot_sites_G` and
+#' (3.5, 0.5, 0.5, 0.5) for `plot_sites_EG.`
 #'
 #' @return
 #' \code{plot_sites_EG} returns a two-panel plot showing the selected sites.
@@ -65,10 +68,10 @@
 #'               region_border = TRUE, mask_border = FALSE, col_all = NULL,
 #'               col_sites = NULL, col_pre = NULL, cex_all = 0.7,
 #'               cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-#'               pch_pre = 16, add_main = TRUE)
+#'               pch_pre = 16, add_main = TRUE, mar = NULL)
 #'
 #' @export
-#' @importFrom sp plot
+#' @importFrom terra plot
 #' @importFrom graphics layout par plot.new text title
 #' @importFrom maps map
 #'
@@ -76,7 +79,8 @@
 #'
 #' @examples
 #' # Data
-#' data("m_selection", package = "biosurvey")
+#' m_selection <- read_master(system.file("extdata/m_selection.rds",
+#'                                        package = "biosurvey"))
 #'
 #' # Plotting
 #' plot_sites_EG(m_selection, selection_type = "E")
@@ -90,7 +94,7 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
                           col_all = NULL, col_sites = NULL, col_pre = NULL,
                           cex_all = 0.7, cex_sites = 1, cex_pre = 1,
                           pch_all = 16, pch_sites = 16, pch_pre = 16,
-                          add_main = TRUE) {
+                          add_main = TRUE, mar = NULL) {
   # Initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
@@ -128,10 +132,12 @@ plot_sites_EG <- function(master_selection, selection_type, variable_1 = NULL,
                cex_sites, cex_pre, pch_all, pch_sites, pch_pre)
 
   ## Geographic space
-  par(mar = c(3.5, rep(0.5, 3)))
+  if (is.null(mar)) {
+    mar <- c(3.5, rep(0.5, 3))
+  }
   plot_sites_G(master_selection, selection_type, selection_number,
                region_border, mask_border, col_all, col_sites, col_pre,
-               cex_all, cex_sites, cex_pre, pch_all, pch_sites, pch_pre)
+               cex_all, cex_sites, cex_pre, pch_all, pch_sites, pch_pre, mar)
 }
 
 
@@ -256,7 +262,8 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
                          region_border = TRUE, mask_border = FALSE,
                          col_all = NULL, col_sites = NULL, col_pre = NULL,
                          cex_all = 0.7, cex_sites = 1, cex_pre = 1,
-                         pch_all = 16, pch_sites = 16, pch_pre = 16) {
+                         pch_all = 16, pch_sites = 16, pch_pre = 16,
+                         mar = NULL) {
   # Initial tests
   if (missing(master_selection)) {
     stop("Argument 'master_selection' is required to produce the plot.")
@@ -301,23 +308,21 @@ plot_sites_G <- function(master_selection, selection_type, selection_number = 1,
 
   # Plot
   ## Box to plot
-  boxpam <- t(master_selection$region@bbox)
-  crsm <- master_selection$region@proj4string
-  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
-                                       proj4string = crsm)
+  boxpam <- matrix(terra::ext(master_selection$region), nrow = 2)
+  boxpam <- terra::vect(boxpam, crs = terra::crs(master_selection$region))
 
   ## The plot
-  sp::plot(boxpam, col = NA)
+  terra::plot(boxpam, col = NA, axes = FALSE, legend = FALSE, mar = mar)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
   box(which = "plot")
 
   ## Region
   if (region_border == TRUE) {
-    sp::plot(master_selection$region, border = "gray50", add = TRUE)
+    terra::plot(master_selection$region, border = "gray50", add = TRUE)
   }
   if (mask_border == TRUE & !is.null(master_selection$mask)) {
-    sp::plot(master_selection$mask, border = "gray50", add = TRUE)
+    terra::plot(master_selection$mask, border = "gray50", add = TRUE)
   }
 
   ## Selected sites
