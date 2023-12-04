@@ -22,8 +22,8 @@ Helper to filter sets of sites by median distance among all points
 }
 \examples{
 # Data
-m_selection <- read_PAM(system.file("extdata/m_selection.rds",
-                                    package = "biosurvey"))
+m_selection <- read_master(system.file("extdata/m_selection.rds",
+                                       package = "biosurvey"))
 
 slist <- m_selection$selected_sites_random
 

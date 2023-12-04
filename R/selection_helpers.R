@@ -300,8 +300,8 @@ closest_to_centroid <- function(data, x_column, y_column, space, n = 1,
 #'
 #' @examples
 #' # Data
-#' m_selection <- read_PAM(system.file("extdata/m_selection.rds",
-#'                                     package = "biosurvey"))
+#' m_selection <- read_master(system.file("extdata/m_selection.rds",
+#'                                        package = "biosurvey"))
 #'
 #' slist <- m_selection$selected_sites_random
 #'
