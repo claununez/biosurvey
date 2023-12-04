@@ -33,7 +33,8 @@
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #'
 #' # Sampling points
 #' points_s <- point_sample(m_matrix$data_matrix,
@@ -264,7 +265,8 @@ find_modes <- function(density) {
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #'
 #' # Cluster detection
 #' clusters <-  find_clusters(m_matrix$data_matrix, x_column = "PC1",
@@ -312,8 +314,9 @@ find_clusters <- function(data, x_column, y_column, space,
       } else {
         ## In G
         cluster <- stats::hclust(as.dist(
-          terra::distance(x = data[, c(x_column, y_column)], lonlat = TRUE)),
-                                 method = "complete")
+          terra::distance(x = as.matrix(data[, c(x_column, y_column)]),
+                          lonlat = TRUE)),
+          method = "complete")
       }
 
       ## Vector defining clusters
@@ -391,7 +394,8 @@ find_clusters <- function(data, x_column, y_column, space,
 #'
 #' @examples
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #' data("dist_list", package = "biosurvey")
 #'
 #' # Making blocks for analysis

@@ -49,7 +49,8 @@ on others.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 # Cluster detection
 clusters <-  find_clusters(m_matrix$data_matrix, x_column = "PC1",
