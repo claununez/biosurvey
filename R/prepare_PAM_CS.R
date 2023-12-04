@@ -70,7 +70,8 @@
 #'
 #' @examples
 #' # Data
-#' data("b_pam", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
 #'
 #' # Preparing data for CS diagram
 #' pcs <- prepare_PAM_CS(PAM = b_pam)
