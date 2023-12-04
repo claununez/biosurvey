@@ -79,7 +79,8 @@
 #'
 #' @examples
 #' # Data
-#' data("b_pam", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
 #'
 #' # Preparing data for CS diagram
 #' pcs <- prepare_PAM_CS(PAM = b_pam)
@@ -221,9 +222,8 @@ plot_PAM_CS_geo <- function(PAM_CS, xy_coordinates = NULL, col_all = "#CACACA",
     }
 
     ## Box to plot
-    boxp <- t(bp@bbox)
-    boxpam <- sp::SpatialPointsDataFrame(boxp, data.frame(boxp),
-                                         proj4string = bp@proj4string)
+    boxp <- matrix(terra::ext(bp), nrow = 2)
+    boxpam <- terra::vect(boxp, crs = terra::crs(bp))
 
     ## limits
     if (is.null(xlim)) {
@@ -272,16 +272,18 @@ plot_PAM_CS_geo <- function(PAM_CS, xy_coordinates = NULL, col_all = "#CACACA",
   # Plot
   if (class(PAM_CS)[1] == "base_PAM") {
     ## bp grid
-    bp <- bp[bp@data$ID %in% names(PAM$S_significance_id), ]
+    bp <- bp[bp$ID %in% names(PAM$S_significance_id), ]
 
     ## border
     border <- ifelse(is.null(border), NA, border)
 
     ## The plot
-    sp::plot(boxpam, col = NA, xlim = xlim, ylim = ylim)
+    terra::plot(boxpam, col = NA, xlim = xlim, ylim = ylim,
+                axes = FALSE, legend = FALSE)
     maps::map(fill = TRUE, col = "gray98", lforce = "n",
               border = "gray90", add = TRUE)
-    sp::plot(bp, col = cols[sigfact], border = border, add = TRUE)
+    terra::plot(bp, col = cols[sigfact], border = border, add = TRUE,
+                legend = FALSE)
     box()
   } else {
     pchs <- c(pch_all, pch_significant_low, pch_significant_high)
