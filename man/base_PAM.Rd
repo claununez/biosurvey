@@ -5,10 +5,10 @@
 \alias{new_base_PAM}
 \title{Constructor of S3 objects of class base_PAM}
 \usage{
-new_base_PAM(PAM = new("SpatialPolygonsDataFrame"), PAM_indices = NULL)
+new_base_PAM(PAM, PAM_indices = NULL)
 }
 \arguments{
-\item{PAM}{SpatialPolygonsDataFrame object associated with information about
+\item{PAM}{SpatVector object associated with information about
 presence and absence of species in a geographic grid.}
 
 \item{PAM_indices}{list of indices derived from a PAM. Default = NULL.}

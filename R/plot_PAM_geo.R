@@ -46,14 +46,15 @@
 #'              col_pre = NULL, pch_sites = 16, pch_pre = 16)
 #'
 #' @export
-#' @importFrom sp plot
+#' @importFrom terra plot
 #' @importFrom graphics layout par plot.new
 #' @importFrom maps map
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
 #' # Data
-#' data("b_pam", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
 #'
 #' # Plotting
 #' plot_PAM_geo(b_pam, index = "RI")
@@ -126,23 +127,22 @@ plot_PAM_geo <- function(PAM, index = "RI", master_selection = NULL,
   col <- col_pal(n)
 
   # Box to plot
-  boxpam <- t(PAM$PAM@bbox)
-  boxpam <- sp::SpatialPointsDataFrame(boxpam, data.frame(boxpam),
-                                       proj4string = PAM$PAM@proj4string)
+  boxpam <- matrix(terra::ext(PAM$PAM), nrow = 2)
+  boxpam <- terra::vect(boxpam, crs = terra::crs(PAM$PAM))
 
   # Plotting
-  sp::plot(boxpam, col = NA)
+  terra::plot(boxpam, col = NA, axes = FALSE, legend = FALSE)
   maps::map(fill = TRUE, col = "gray97", lforce = "n",
             border = "gray80", add = TRUE)
-  sp::plot(PAM$PAM, col = col[ifactor], border = border, add = TRUE)
+  terra::plot(PAM$PAM, col = col[ifactor], border = border, add = TRUE)
   box()
 
   if (!is.null(master_selection)) {
     if (region_border == TRUE) {
-      sp::plot(master_selection$region, border = "gray50", add = TRUE)
+      terra::plot(master_selection$region, border = "gray50", add = TRUE)
     }
     if (mask_border == TRUE & !is.null(master_selection$mask)) {
-      sp::plot(master_selection$mask, border = "gray50", add = TRUE)
+      terra::plot(master_selection$mask, border = "gray50", add = TRUE)
     }
 
     ## Selected sites

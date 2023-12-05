@@ -2,58 +2,58 @@
 #'
 #' @description Divides the region of interest in a grid of a specific cell size.
 #'
-#' @param region SpatialPolygonsDataFrame of the region of interest. Object must
-#' be unprojected, World Geodetic System (WGS84).
+#' @param region SpatVector object of a polygon for the region of interest.
+#' Object projection must be World Geodetic System (WGS84).
 #' @param cell_size (numeric) resolution for grid (single number or vector of
 #' two numbers) in kilometers (km).
 #' @param complete_cover (logical) whether or not to include cells of grid
 #' partially overlapped with region. Default = TRUE.
 #'
 #' @return
-#' Gridded SpatialPolygonsDataFrame for the region of interest. Each grid cell
+#' Grid SpatVector for the region of interest. Each grid cell
 #' is related to a specific ID and longitude and latitude coordinates.
 #'
 #' @usage
 #' grid_from_region(region, cell_size, complete_cover = TRUE)
 #'
 #' @export
-#' @importFrom raster extent raster res values mask rasterToPolygons rasterToPoints
-#' @importFrom raster projectRaster rasterize
-#' @importFrom sp proj4string CRS spTransform
-#' @importFrom rgeos gCentroid
+#' @importFrom terra mask rasterize crs ext project geom rast as.data.frame
 #'
 #' @examples
 #' # Data
-#' data("mx", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
 #'
 #' # Create grid from polygon
 #' grid_reg <- grid_from_region(region = mx, cell_size = 100)
 #'
-#' sp::plot(grid_reg)
-#' grid_reg
+#' terra::plot(grid_reg)
 
 grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   # Initial tests
   if (missing(region)) {
     stop("Argument 'region' must be defined")
   }
+  if (class(region)[1] != "SpatVector") {
+    stop("'region' must be of class 'SpatVector'")
+  }
   if (missing(cell_size)) {
     stop("Argument 'cell_size' must be defined")
   } else {
 
     # Projecting region toLambert equeal area projection
-    if (is.na(sp::proj4string(region))) {
+    if (is.na(terra::crs(region))) {
       stop("'region' must be projected to WGS84 (EPSG:4326)")
     }
-    WGS84 <- sp::CRS("+init=epsg:4326")
-    region <- sp::spTransform(region, WGS84)
-    cent <- rgeos::gCentroid(region, byid = FALSE)@coords
-    LAEA <- sp::CRS(paste0("+proj=laea +lat_0=", cent[2], " +lon_0=", cent[1],
-                           " +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
-    region <- sp::spTransform(region, LAEA)
+    WGS84 <- terra::crs("+init=epsg:4326")
+    region <- terra::project(region, WGS84)
+    cent <- terra::geom(terra::centroids(region))[, c("x", "y")]
+    LAEA <- terra::crs(paste0("+proj=laea +lat_0=", cent[2], " +lon_0=",
+                              cent[1], " +x_0=0 +y_0=0 +ellps=WGS84 ",
+                              "+datum=WGS84 +units=m +no_defs"))
+    region <- terra::project(region, LAEA)
 
     # Test if dimensions are valid
-    dims <- raster::extent(region)
+    dims <- terra::ext(region)
     xdim <- diff(dims[1:2])
     ydim <- diff(dims[3:4])
     if (length(cell_size) > 2) {
@@ -69,49 +69,34 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
   }
 
   # Creating a grid
-  grid <- raster::raster(raster::extent(region))
-
-  # Grid resolution and values
-  raster::res(grid) <- cell_size * 1000
-  raster::values(grid) <- 1
-
-  # Grid projection
-  sp::proj4string(grid) <- sp::proj4string(region)
+  grid <- terra::rast(region, res = cell_size * 1000, vals = 1)
 
   # Extract grid with region
-  if (complete_cover == TRUE) {
-    SpP_ras <- raster::rasterize(region, grid, getCover = TRUE)
-    SpP_ras[SpP_ras == 0] <- NA
-    grid_reg <- raster::mask(grid, SpP_ras)
-  } else {
-    message("Cells partially covered by polygon representing region won't be included.",
-            "\nTo include such cells use 'complete_cover' = TRUE.")
-    grid_reg <- raster::mask(grid, region)
-  }
+  grid_reg <- terra::mask(grid, region, touches = complete_cover)
 
   # Back to WGS84
-  grid_reg <- raster::projectRaster(grid_reg, crs = WGS84)
+  grid_reg <- terra::project(grid_reg, WGS84)
 
   # Grid for region of interest
-  grid_r_pol <- raster::rasterToPolygons(grid_reg)
+  grid_r_pol <- terra::as.polygons(grid_reg, dissolve = FALSE)
 
   # Points for region of interest
-  matrix_a <- raster::rasterToPoints(grid_reg)
-
-  # Adding ID for PAM
-  ID <- raster::extract(grid_reg, matrix_a[, 1:2], cellnumbers = TRUE)[, 1]
-  grid_r_pol@data <- data.frame(ID = ID, Longitude = matrix_a[, 1],
-                                Latitude = matrix_a[, 2])
+  grid_r_pol <- cbind(grid_r_pol,
+                      terra::as.data.frame(grid_reg, xy = TRUE,
+                                           cells = TRUE)[, 1:3])
+  grid_r_pol[, 1] <- NULL
+  names(grid_r_pol) <- c("ID", "Longitude", "Latitude")
 
   return(grid_r_pol)
 }
 
 
 
-#' Creates a data.frame of species' references from RasterStack
+#' Creates a data.frame of species' references from SpatRaster
 #'
 #' @description Creates a data.frame of species' references that contains
-#' longitude, latitude, and species name, using a SpatRaster as input.
+#' longitude, latitude, and species name, using a SpatRaster representing
+#' multiple species as input.
 #'
 #' @usage
 #' stack_2data(species_layers)
@@ -122,7 +107,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #'
 #' @return
 #' A data.frame of species geographic records derived from values of presence
-#' in each layer from the RasterStack.
+#' in each layer from the SpatRaster
 #'
 #' @export
 #' @importFrom terra as.data.frame
@@ -133,7 +118,7 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
 #'                                 package = "biosurvey"))
 #' names(rsp) <- paste0("Species_", 1:5)
 #'
-#' # Species data from RasterStack
+#' # Species data from SpatRaster
 #' sp_data <- stack_2data(species_layers = rsp)
 #' summary(sp_data)
 
@@ -164,17 +149,17 @@ stack_2data <- function(species_layers) {
 
 
 
-#' Creates a data.frame of species' references from SpatialPolygonsDataFrame
+#' Creates a data.frame of species' references from SpatVector
 #'
 #' @description Creates a data.frame of species' references that contains
-#' identifiers of position and species name, using a SpatialPolygonsDataFrame as
-#' input.
+#' identifiers of position and species name, using a SpatVector representing
+#' multiple species as input.
 #'
-#' @param spdf_object SpatialPolygonsDataFrame representing species' geographic
+#' @param spdf_object SpatVector representing species' geographic
 #' distributions. The data.frame associated with the object must contain a
 #' column named "Species" to distinguish among features.
-#' @param spdf_grid geographic grid for the region of interest (output of
-#' function \code{\link{grid_from_region}}).
+#' @param spdf_grid SpatVector of geographic grid for the region of interest
+#' (output of function \code{\link{grid_from_region}}).
 #' @param parallel (logical) whether to perform analyses in parallel.
 #' Default = FALSE.
 #' @param n_cores (numeric) number of cores to be used when \code{parallel} =
@@ -189,16 +174,18 @@ stack_2data <- function(species_layers) {
 #'
 #' @export
 #' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores makeCluster stopCluster
-#' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
-#' @importFrom sp over
+#' @importFrom parallel detectCores
+#' @importFrom doSNOW registerDoSNOW
+#' @importFrom snow makeSOCKcluster stopCluster
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom terra crs project
 #' @importFrom stats na.omit
 #'
 #' @examples
 #' # Data
-#' data("species_data", package = "biosurvey")
-#' data("mx", package = "biosurvey")
+#' species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+#'                                         package = "biosurvey"))
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
 #'
 #' # GRID
 #' grid_reg <- grid_from_region(region = mx, cell_size = 100)
@@ -216,49 +203,51 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
   if (missing(spdf_grid)) {
     stop("Argument 'spdf_grid' must be defined")
   }
-  cond <- c(class(spdf_object)[1] != "SpatialPolygonsDataFrame",
-            class(spdf_grid)[1] != "SpatialPolygonsDataFrame")
+  cond <- c(class(spdf_object)[1] != "SpatVector",
+            class(spdf_grid)[1] != "SpatVector")
   if (any(cond)) {
-    stop("'spdf_object' and 'spdf_grid' must be of class 'SpatialPolygonsDataFrame'")
+    stop("'spdf_object' and 'spdf_grid' must be of class 'SpatVector'")
   }
 
   # Fixing projections
-  spdf_object <- sp::spTransform(spdf_object, spdf_grid@proj4string)
+  if (terra::crs(spdf_object) != terra::crs(spdf_grid)) {
+    spdf_object <- terra::project(spdf_object, terra::crs(spdf_grid))
+  }
 
   # Names to be matched
-  ID <- spdf_grid@data$ID
-  spnames <- as.character(spdf_object@data$Species)
+  spnames <- as.character(spdf_object$Species)
 
   if (parallel == TRUE) {
     ## Preparing parallel running
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
     ## Progress combine (rbind) function
-    fpc <- function(iterator){
-      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
-      count <- 0
-      function(...) {
-        count <<- count + length(list(...)) - 1
-        utils::setTxtProgressBar(pb, count)
-        Sys.sleep(0.1)
-        utils::flush.console()
-        rbind(...)
-      }
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
+    progress <- function(n) {
+      utils::setTxtProgressBar(pb, n)
     }
+    opts <- list(progress = progress)
 
-    ## Start a cluster
-    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
-    doParallel::registerDoParallel(cl)
+    ## Make cluster
+    cl <- snow::makeSOCKcluster(n_cores)
+    doSNOW::registerDoSNOW(cl)
+
+    ## wrap vectors
+    spdf_grid <- terra::wrap(spdf_grid)
+    spdf_object <- terra::wrap(spdf_object)
 
     ## Processing
-    sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
-                            .combine = fpc(length(spnames))) %dopar% {
-                              sp <- sp::over(spdf_grid,
-                                             spdf_object[spnames == spnames[i], ])
-                              return(na.omit(data.frame(ID, sp)))
-                            }
+    sps <- foreach::foreach(
+      i = 1:length(spnames), .inorder = FALSE,
+      .combine = "rbind", .options.snow = opts
+    ) %dopar% {
+      ID <- terra::unwrap(spdf_grid)[
+        terra::unwrap(spdf_object)[spnames == spnames[i], ], ]
 
-    parallel::stopCluster(cl)
+      return(na.omit(data.frame(ID = ID$ID, Species = spnames[i])))
+    }
+
+    snow::stopCluster(cl)
   } else {
     ## Progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
@@ -271,15 +260,13 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
       utils::setTxtProgressBar(pb, x)
 
       # Preparing data
-      sp <- sp::over(spdf_grid, spdf_object[spnames == spnames[x], ])
-      sps[[x]] <- na.omit(data.frame(ID, sp))
+      ID <- spdf_grid[spdf_object[spnames == spnames[x], ], ]$ID
+      sps[[x]] <- na.omit(data.frame(ID, Species = spnames[x]))
     }
     close(pb)
 
     sps <- do.call(rbind, sps)
   }
-
-  colnames(sps) <- c("ID", "Species")
 
   return(sps)
 }
@@ -292,32 +279,24 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #' longitude, latitude, and species name, using a list of raster layers as
 #' input. Useful when raster layers have distinct extent or resolution.
 #'
-#' @param raster_list list of RasterLayer objects. Each raster layer must be
+#' @param raster_list list of SpatRaster objects. Each raster layer must be
 #' named as the species that it represents, and values in each layer must be
 #' 1 (presence) and 0 (absence).
-#' @param parallel (logical) whether to perform analyses in parallel.
-#' Default = FALSE.
-#' @param n_cores (numeric) number of cores to be used when \code{parallel} =
-#' TRUE. The default, NULL, uses available cores - 1.
 #'
 #' @return
 #' A data.frame of species geographic records derived from values of presence
 #' in each layer from the list of raster layers.
 #'
 #' @usage
-#' rlist_2data(raster_list, parallel = FALSE, n_cores = NULL)
+#' rlist_2data(raster_list)
 #'
 #' @export
-#' @importFrom raster rasterToPoints
-#' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores makeCluster stopCluster
-#' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
+#' @importFrom terra as.data.frame
 #'
 #' @examples
 #' # Data
-#' rsp <- raster::stack(system.file("extdata/sp_layers.tif",
-#'                      package = "biosurvey"))
+#' rsp <- terra::rast(system.file("extdata/sp_layers.tif",
+#'                                package = "biosurvey"))
 #' names(rsp) <- paste0("Species_", 1:5)
 #'
 #' rlist <- lapply(1:5, function(x) {rsp[[x]]})
@@ -326,7 +305,7 @@ spdf_2data <- function(spdf_object, spdf_grid, parallel = FALSE,
 #' sp_data <- rlist_2data(raster_list = rlist)
 #' summary(sp_data)
 
-rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
+rlist_2data <- function(raster_list) {
   # Initial tests
   if (missing(raster_list)) {
     stop("Argument 'raster_list' must be defined")
@@ -334,78 +313,21 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
   if (!is.list(raster_list)) {
     stop("'raster_list' must be a list of raster layers")
   }
-  inclas <- sapply(raster_list, function(x) {class(x)[1] != "RasterLayer"})
+  inclas <- sapply(raster_list, function(x) {class(x)[1] != "SpatRaster"})
   if (any(inclas)) {
-    stop("All elements in 'raster_list' must be of class 'RasterLayer'")
+    stop("All elements in 'raster_list' must be of class 'SpatRaster'")
   }
 
   # Running in loop for all elements of list
-  sps <- lapply(1:length(raster_list), function(x) {
-    # Raster to matrix
-    sppm <- raster::rasterToPoints(raster_list[[x]])
-    spname <- names(raster_list[[x]])
+  sps <- lapply(raster_list, function(x) {
+    # Raster to data.frame
+    sppm <- terra::as.data.frame(x, xy = TRUE)
 
     # Preparing data
-    data.frame(sppm[sppm[, 3] == 1, 1:2], spname)
+    data.frame(sppm[sppm[, 3] == 1, 1:2], names(x))
   })
 
-  if (parallel == TRUE) {
-    ## Preparing parallel running
-    n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
-
-    ## Progress combine (rbind) function
-    fpc <- function(iterator){
-      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
-      count <- 0
-      function(...) {
-        count <<- count + length(list(...)) - 1
-        utils::setTxtProgressBar(pb, count)
-        Sys.sleep(0.1)
-        utils::flush.console()
-        rbind(...)
-      }
-    }
-
-    ## Start a cluster
-    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
-    doParallel::registerDoParallel(cl)
-
-    ## Processing
-    sps <- foreach::foreach(i = 1:length(raster_list), .inorder = TRUE,
-                            .combine = fpc(length(raster_list))) %dopar% {
-                              # Raster to matrix
-                              sppm <- raster::rasterToPoints(raster_list[[i]])
-                              spname <- names(raster_list[[i]])
-
-                              # Preparing data
-                              cond <- sppm[, 3] == 1
-                              data.frame(sppm[cond, 1], sppm[cond, 2], spname)
-                            }
-
-    parallel::stopCluster(cl)
-  } else {
-    ## Progress bar
-    pb <- utils::txtProgressBar(min = 1, max = length(raster_list), style = 3)
-
-    # Running in loop for all elements of list
-    sps <- list()
-
-    for (x in 1:length(raster_list)) {
-      Sys.sleep(0.1)
-      utils::setTxtProgressBar(pb, x)
-
-      # Raster to matrix
-      sppm <- raster::rasterToPoints(raster_list[[x]])
-      spname <- names(raster_list[[x]])
-
-      # Preparing data
-      cond <- sppm[, 3] == 1
-      sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spname)
-    }
-    close(pb)
-
-    sps <- do.call(rbind, sps)
-  }
+  sps <- do.call(rbind, sps)
 
   colnames(sps) <- c("Longitude", "Latitude", "Species")
 
@@ -420,12 +342,12 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' longitude, latitude, and species name, from a character.
 #'
 #' @param path (character) full path name of directory containing raster,
-#' shapefiles, geopackage, or GeoJSON files representing species geographic
+#' shapefiles or geopackage files representing species geographic
 #' ranges. Each file must be named as the species that it represents. All files
-#' must be in the same format. If files are raster, values in each layer must be
-#' 1 (presence) and 0 (absence).
+#' must be in the same format. If files are raster layers, values in each layer
+#' must be 1 (presence, suitable) and 0 (absence, unsuitable).
 #' @param format (character) the format files found in \code{path}. Current
-#' available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".
+#' available formats are: "shp", "gpkg", "GTiff", and "ascii".
 #' @param spdf_grid geographic grid for the region of interest (output of
 #' function \code{\link{grid_from_region}}). Used when format equals "shp" or
 #' "gpkg". Default = NULL.
@@ -446,38 +368,38 @@ rlist_2data <- function(raster_list, parallel = FALSE, n_cores = NULL) {
 #' files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 #'
 #' @export
-#' @importFrom terra vect
-#' @importFrom sp over
-#' @importFrom terra rast as.data.frame
+#' @importFrom terra vect rast as.data.frame crs wrap unwrap
 #' @importFrom stats na.omit
 #' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores makeCluster stopCluster
-#' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
+#' @importFrom parallel detectCores
+#' @importFrom doSNOW registerDoSNOW
+#' @importFrom snow makeSOCKcluster stopCluster
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @examples
 #' \donttest{
 #' # Data for examples
-#' data("mx", package = "biosurvey")
-#' data("species_data", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
+#' species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+#'                                         package = "biosurvey"))
 #'
 #' # Saving species data in a temporal directory
 #' tdir <- file.path(tempdir(), "testbio")
 #' dir.create(tdir)
 #'
-#' namessp <- paste0("species_", 1:length(species_data))
+#' namessp <- unique(species_data$Species)
 #'
 #'
 #' for (i in 1:length(species_data)) {
-#'   rgdal::writeOGR(species_data[i, ], dsn = tdir, layer = namessp[i],
-#'                   driver = "ESRI Shapefile")
+#'   terra::writeVector(species_data[species_data$Species == namessp[i], ],
+#'                      filename = paste0(tdir, "/", namessp[i], ".gpkg"))
 #' }
 #'
 #' # Preparing grid for analysis
 #' grid_reg <- grid_from_region(region = mx, cell_size = 100)
 #'
 #' # Running analysis with data from directory
-#' sp_data <- files_2data(path = tdir, format = "shp", spdf_grid = grid_reg)
+#' sp_data <- files_2data(path = tdir, format = "gpkg", spdf_grid = grid_reg)
 #' }
 
 files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
@@ -494,29 +416,24 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
   }
 
   if (is.null(spdf_grid)) {
-    stop("Argument 'spdf_grid' must be defined if 'format' is shp or gpkg")
+    stop("Argument 'spdf_grid' must be defined if 'format' is 'shp' or 'gpkg'")
   }
-  # Names to be matched
-  ID <- spdf_grid@data$ID
+
+  # spdf_grid crs
+  crsg <- terra::crs(spdf_grid)
 
   # Finding files according to format
-  if (format %in% c("shp", "gpkg")) {
-    #Get file path
-    patt <- paste0(".", format, "$")
-    subs <- paste0(".", format)
-    mlist <- list.files(path = path, pattern = patt)
-    spnames <- gsub(subs, "", mlist) }
-
-  if(format %in% c("GTiff", "ascii")) {
-    subs <- match_rformat(format)
-    patt <- subs
-    mlist <- list.files(path = path, pattern = ".tif", full.names = TRUE)
-    spnames <- gsub(paste0(subs, ".*"),
-                    "", list.files(path = path, pattern = patt))
+  if (format %in% c("GTiff", "ascii")) {
+    format <- match_rformat(format)
   }
+  patt <- paste0(".", format, "$")
+
+  mlist <- list.files(path = path, pattern = patt, full.names = TRUE)
+  spnames <- gsub(patt, "", list.files(path = path, pattern = patt))
+
 
   if (length(mlist) == 0) {
-    stop(paste("No file was found in", path, "with the extension specified in 'format'"))
+    stop(paste("No files were found in", path, "with the extension specified in 'format'"))
   }
 
   if (parallel == TRUE) {
@@ -524,57 +441,55 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
     n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
     ## Progress combine (rbind) function
-    fpc <- function(iterator){
-      pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
-      count <- 0
-      function(...) {
-        count <<- count + length(list(...)) - 1
-        utils::setTxtProgressBar(pb, count)
-        Sys.sleep(0.1)
-        utils::flush.console()
-        rbind(...)
-      }
+    pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
+    progress <- function(n) {
+      utils::setTxtProgressBar(pb, n)
     }
+    opts <- list(progress = progress)
 
-    ## Start a cluster
-    cl <- parallel::makeCluster(n_cores, type = 'SOCK')
-    doParallel::registerDoParallel(cl)
+    ## Make cluster
+    cl <- snow::makeSOCKcluster(n_cores)
+    doSNOW::registerDoSNOW(cl)
+
+    ## wrap vectors
+    spdf_grid <- terra::wrap(spdf_grid)
 
     ## Processing
-    sps <- foreach::foreach(i = 1:length(spnames), .inorder = TRUE,
-                            .combine = fpc(length(spnames))) %dopar% {
+    sps <- foreach::foreach(
+      i = 1:length(spnames), .inorder = FALSE,
+      .combine = "rbind", .options.snow = opts
+    ) %dopar% {
+      if (format %in% c("shp", "gpkg")) {
+        rs <- terra::vect(mlist[i])
 
-                              if (format %in% c("shp", "gpkg")) {
-                                rs <- terra::vect(file.path(path, mlist[i]))
-                                ## Fixing projections
-                                rs <- terra::project(rs, terra::crs(spdf_grid))
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
+        }
 
-                                ## Preparing data
-                                sppm <- terra::extract(rs, spdf_grid)[, -1] #Check
-                                if (nrow(na.omit(sppm)) > 0) {
-                                  sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
-                                  sppm$Species <- spnames[i]
-                                } else {
-                                  sppm <- na.omit(data.frame(ID = NA, Species = NA))
-                                }
+        ID <- terra::unwrap(spdf_grid)[rs, ]$ID
 
-                                return(sppm)
+        if (length(ID) > 0) {
+          return(na.omit(data.frame(ID = ID, Species = spnames[i])))
+        } else {
+          return(na.omit(data.frame(ID = NA, Species = NA)))
+        }
 
-                              } else {
-                                ## Raster from file
-                                rs <- terra::rast(mlist[1])
+      } else {
+        rs <- terra::rast(mlist[x])
 
-                                ## Raster to matrix
-                                sppm <- terra::as.data.frame(rs, xy = TRUE)
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
+        }
 
-                                ## Preparing data
-                                cond <- sppm[, 3] == 1
-                                return(data.frame(sppm[cond, 1], sppm[cond, 2],
-                                                  spnames[i]))
-                              }
-                            }
+        # Raster to data.frame
+        sppm <- terra::as.data.frame(rs, xy = TRUE)
 
-    parallel::stopCluster(cl)
+        # Preparing data
+        return(data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x]))
+      }
+    }
+    snow::stopCluster(cl)
+
   } else {
     ## Progress bar
     pb <- utils::txtProgressBar(min = 1, max = length(spnames), style = 3)
@@ -587,34 +502,32 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
       utils::setTxtProgressBar(pb, x)
 
       if (format %in% c("shp", "gpkg")) {
-        rs <- terra::vect(file.path(path, mlist[0]))
-        ## Fixing projections
-        rs <- terra::project(rs, terra::crs(spdf_grid))
+        rs <- terra::vect(mlist[x])
 
-        ## Fixing projections
-        rs <- sp::spTransform(rs, spdf_grid@proj4string)
-
-        ## Preparing data
-        sppm <- terra::extract(rs, spdf_grid)[, -1] #Check
-        if (nrow(na.omit(sppm)) > 0) {
-          sppm <- na.omit(data.frame(ID, Species = sppm[, 1]))
-          sppm$Species <- spnames[x]
-        } else {
-          sppm <- na.omit(data.frame(ID = NA, Species = NA))
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
         }
 
-        return(sppm)
+        ID <- spdf_grid[rs, ]$ID
+
+        if (length(ID) > 0) {
+          sps[[x]] <- na.omit(data.frame(ID, Species = spnames[x]))
+        } else {
+          sps[[x]] <- na.omit(data.frame(ID = NA, Species = NA))
+        }
 
       } else {
-        ## Raster from file
         rs <- terra::rast(mlist[x])
 
-        ## Raster to matrix
+        if (terra::crs(rs) != crsg) {
+          rs <- terra::project(rs, crsg)
+        }
+
+        # Raster to data.frame
         sppm <- terra::as.data.frame(rs, xy = TRUE)
 
-        ## Preparing data
-        cond <- sppm[, 3] == 1
-        sps[[x]] <- data.frame(sppm[cond, 1], sppm[cond, 2], spnames[x])
+        # Preparing data
+        sps[[x]] <- data.frame(sppm[sppm[, 3] == 1, 1:2], spnames[x])
       }
     }
     close(pb)
@@ -630,6 +543,8 @@ files_2data <- function(path, format, spdf_grid = NULL, parallel = FALSE,
 
   return(sps)
 }
+
+
 
 #' Creates presence-absence matrix from a data.frame
 #'
@@ -710,7 +625,7 @@ PAM_from_table <- function(data, ID_column, species_column) {
 #' additional columns.
 #'
 #' @export
-#' @importFrom sp CRS over SpatialPointsDataFrame
+#' @importFrom terra crs vect as.data.frame
 
 selected_sites_PAM <- function(selected_sites, base_PAM) {
   # Initial tests
@@ -721,20 +636,22 @@ selected_sites_PAM <- function(selected_sites, base_PAM) {
     stop("Argument 'base_PAM' must be defined.")
   }
 
-  WGS84 <- base_PAM$PAM@proj4string
+  WGS84 <- terra::crs(base_PAM$PAM)
 
   # Matching sites with PAM IDs
   ls <- lapply(selected_sites, function(x) {
-    xp <- sp::SpatialPointsDataFrame(x[, 1:2], x, proj4string = WGS84)
-    xid <- data.frame(sp::over(xp, base_PAM$PAM[, "ID"]), x)
-    pam <- base_PAM$PAM@data
-    colnames(pam)[2:3] <- c("Longitude_PAM", "Latitude_PAM")
-    colnames(xid)[2:3] <- c("Longitude_master", "Latitude_master")
-    merge(xid, pam, by = "ID")
+    xp <- terra::vect(x, geom = c("Longitude", "Latitude"), crs = WGS84)
+    xid <- terra::extract(base_PAM$PAM, xp)
+    colnames(x)[1:2] <- c("Longitude_master", "Latitude_master")
+    colnames(xid)[3:4] <- c("Longitude_PAM", "Latitude_PAM")
+    xid <- cbind(ID = xid$ID, x[xid[, 1], ], xid[, -(1:2)])
+    xid[!duplicated(xid$ID), ]
   })
   names(ls) <- names(selected_sites)
   return(ls)
 }
+
+
 
 
 #' Helper to refill a list of PAM indices with new or more results

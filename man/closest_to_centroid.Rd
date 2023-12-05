@@ -33,7 +33,8 @@ Detection of the closest points to the centroid of a cloud of points
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 data1 <- m_matrix$data_matrix
 
 # Finding the closest point to the centroid

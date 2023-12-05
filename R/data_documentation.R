@@ -7,17 +7,20 @@
 #' \describe{
 #'   \item{data_matrix}{data.frame with 6276 rows and 10 columns}
 #'   \item{preselected_sites}{NULL}
-#'   \item{region}{object of class SpatialPolygons*}
+#'   \item{region}{object of class SpatVector}
 #'   \item{mask}{NULL}
-#'   \item{raster_base}{object of class RasterLayer}
-#'   \item{PCA_results}{list of length 5}
+#'   \item{raster_base}{object of class SpatRaster}
+#'   \item{PCA_results}{list of length 4}
 #' }
 #'
+#' @name m_matrix
+#'
 #' @examples
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #'
 #' print(m_matrix)
-"m_matrix"
+NULL
 
 
 #' Example of a master_matrix object containing preselected sites
@@ -29,17 +32,20 @@
 #' \describe{
 #'   \item{data_matrix}{data.frame with 6276 rows and 10 columns}
 #'   \item{preselected_sites}{data.frame with 5 rows and 11 columns}
-#'   \item{region}{object of class SpatialPolygons*}
+#'   \item{region}{object of class SpatVector}
 #'   \item{mask}{NULL}
-#'   \item{raster_base}{object of class RasterLayer}
-#'   \item{PCA_results}{list of length 5}
+#'   \item{raster_base}{object of class SpatRaster}
+#'   \item{PCA_results}{list of length 4}
 #' }
 #'
+#' @name m_matrix_pre
+#'
 #' @examples
-#' data("m_matrix_pre", package = "biosurvey")
+#' m_matrix_pre <- read_master(system.file("extdata/m_matrix_pre.rds",
+#'                                         package = "biosurvey"))
 #'
 #' print(m_matrix_pre)
-"m_matrix_pre"
+NULL
 
 
 #' Example of a data.frame of preselected sites
@@ -63,20 +69,17 @@
 
 #' Example of spatial polygon for a region of interest
 #'
-#' An object of class SpatialPolygonsDataFrame.
+#' An object of class SpatVector.
 #'
-#' @format SpatialPolygonsDataFrame:
-#' \describe{
-#'   \item{data}{data.frame with 1 row and 11 columns}
-#'   \item{polygons}{SpatialPolygons}
-#'   \item{proj4string}{object of class CRS}
-#' }
+#' @format SpatVector
+#'
+#' @name mx
 #'
 #' @examples
-#' data("mx", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
 #'
 #' mx
-"mx"
+NULL
 
 
 #' Example of a data.frame of species' found in distinct positions
@@ -97,37 +100,35 @@
 "sp_data"
 
 
-#' Example of species ranges as SpatialPolygonsDataFrame
+#' Example of species ranges as a SpatVector
 #'
-#' An object of class SpatialPolygonsDataFrame.
+#' An object of class SpatVector.
 #'
-#' @format data.frame:
-#' \describe{
-#'   \item{data}{data.frame with 25 rows and 1 column}
-#'   \item{polygons}{SpatialPolygons}
-#'   \item{proj4string}{object of class CRS}
-#' }
+#' @format SpatVector
+#'
+#' @name species_data
 #'
 #' @examples
-#' data("species_data", package = "biosurvey")
+#' species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+#'                                         package = "biosurvey"))
 #'
 #' species_data
-"species_data"
+NULL
 
 
-#' Example of stack of layers of suitable and unsuitable conditions for species
+#' Example of raster layers of suitable and unsuitable conditions for species
 #'
-#' An object of class RasterStack containing information about suitable and
+#' An object of class SpatRaster containing information about suitable and
 #' unsuitable conditions for five species.
 #'
-#' @format RasterStack with 109 rows, 182 columns, 19838 cells, and 5 layers:
+#' @format SpatRaster with 109 rows, 182 columns, 19838 cells, and 5 layers:
 #' \describe{
-#'   \item{RasterLayer}{suitable (1) and unsuitable (0) conditions}
+#'   \item{Layer}{suitable (1) and unsuitable (0) conditions}
 #' }
 #'
 #' @examples
-#' sp_layers <- raster::stack(system.file("extdata/sp_layers.tif",
-#'                            package = "biosurvey"))
+#' sp_layers <- terra::rast(system.file("extdata/sp_layers.tif",
+#'                                      package = "biosurvey"))
 #'
 #' sp_layers
 #' @name sp_layers
@@ -139,19 +140,19 @@ NULL
 #' A dataset containing raster variables for an area that is relevant for used
 #' in examples included in the package \code{\link{biosurvey}}.
 #'
-#' @format A RasterStack with 109 rows, 190 columns, 20710 cells, and 6 layers:
+#' @format A SpatRaster with 109 rows, 190 columns, 20710 cells, and 6 layers:
 #' \describe{
 #'   \item{Temperature}{temperature, in degrees Celsius times 10.}
 #'   \item{Precipitation}{precipitation, in millimeters.}
 #' }
 #'
-#' @source \url{https://www.worldclim.org/data/index.html}
+#' @source \url{https://www.worldclim.org}
 #'
 #' @examples
-#' variables <- raster::stack(system.file("extdata/variables.tif",
-#'                                        package = "biosurvey"))
+#' variables <- terra::rast(system.file("extdata/variables.tif",
+#'                                      package = "biosurvey"))
 #'
-#' raster::plot(variables[[1]])
+#' terra::plot(variables[[1]])
 #' @name variables
 NULL
 
@@ -171,6 +172,7 @@ NULL
 #'
 #' @examples
 #' data("sp_occurrences", package = "biosurvey")
+#'
 #' head(sp_occurrences)
 "sp_occurrences"
 
@@ -199,22 +201,24 @@ NULL
 #' \describe{
 #'   \item{data_matrix}{data.frame with 6276 rows and 10 columns}
 #'   \item{preselected_sites}{NULL}
-#'   \item{region}{object of class SpatialPolygons*}
+#'   \item{region}{object of class SpatVector}
 #'   \item{mask}{NULL}
-#'   \item{raster_base}{object of class RasterLayer}
-#'   \item{PCA_results}{list of length 5}
+#'   \item{raster_base}{object of class SpatRaster}
+#'   \item{PCA_results}{list of length 4}
 #'   \item{selected_sites_random}{list with one data.frame}
 #'   \item{selected_sites_G}{list with one data.frame}
 #'   \item{selected_sites_E}{list with one data.frame}
 #'   \item{selected_sites_EG}{NULL}
 #' }
 #'
+#' @name m_selection
+#'
 #' @examples
-#' data("m_selection", package = "biosurvey")
+#' m_selection <- read_master(system.file("extdata/m_selection.rds",
+#'                                        package = "biosurvey"))
 #'
 #' print(m_selection)
-"m_selection"
-
+NULL
 
 
 #' Example of object obtained from using the function base_PAM
@@ -223,13 +227,16 @@ NULL
 #'
 #' @format A list of 2 elements:
 #' \describe{
-#'   \item{PAM}{SpatialPolygonsDataFrame with 306 features}
+#'   \item{PAM}{SpatVector with 306 features}
 #'   \item{PAM_indices}{a list of 11 elements}
 #' }
 #'
+#' @name b_pam
+#'
 #' @examples
-#' data("b_pam", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
 #'
 #' print(b_pam)
-"b_pam"
+NULL
 

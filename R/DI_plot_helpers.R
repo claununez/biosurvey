@@ -34,8 +34,10 @@
 #'
 #' @examples
 #' # Data
-#' data("b_pam", package = "biosurvey")
-#' data("m_selection", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
+#' m_selection <- read_master(system.file("extdata/m_selection.rds",
+#'                                        package = "biosurvey"))
 #'
 #' # Subsetting base PAM according to selections
 #' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")
@@ -124,8 +126,10 @@ plot_DI <- function(DI_selected_sites, selection_type = "selections",
 #'
 #' @examples
 #' # Data
-#' data("b_pam", package = "biosurvey")
-#' data("m_selection", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
+#' m_selection <- read_master(system.file("extdata/m_selection.rds",
+#'                                        package = "biosurvey"))
 #'
 #' # Subsetting base PAM according to selections
 #' sub_pam_all <- subset_PAM(b_pam, m_selection, selection_type = "all")

@@ -5,7 +5,8 @@
 \title{Preparing data for new range-diversity plot}
 \usage{
 prepare_PAM_CS(PAM, exclude_column = NULL, id_column = NULL,
-               significance_test = FALSE, randomization_iterations = 100,
+               significance_test = FALSE, randomization_method = "picante",
+               randomization_iterations = 100,
                CL = 0.05, picante_iterations = NULL,
                keep_randomizations = FALSE, parallel = FALSE,
                n_cores = NULL)
@@ -25,8 +26,12 @@ ID of sites (cells of the PAM). Default = NULL.}
 sites (cells) that are statistically significant (i.e., the pattern detected
 can be distinguished from random expectations). Default = FALSE.}
 
+\item{randomization_method}{(character) method of randomization to be used.
+Options are: "picante" and "curve_ball". Default = "picante".}
+
 \item{randomization_iterations}{(numeric) number of iterations for the
-randomization test used to calculate statistical significance. Default = 100.}
+randomization test used to calculate statistical significance.
+Valid only with \code{randomization_method} = "picante." Default = 100.}
 
 \item{CL}{(numeric) confidence limit to detect statistically significant
 values. Default = 0.05.}
@@ -64,10 +69,15 @@ in a region based on the data of presence-absence matrices. The
 plots to be produced using the information prepared here are a modification
 of those presented in Arita et al. (2011)
 \doi{https://doi.org/10.1111/j.1466-8238.2011.00662.x}.
+
+More details about the \code{randomization_method} can be found in the description
+of the functions used: from picante \code{\link[picante]{randomizeMatrix}},
+and \code{\link{randomize_matrix_cb}}
 }
 \examples{
 # Data
-data("b_pam", package = "biosurvey")
+b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+                              package = "biosurvey"))
 
 # Preparing data for CS diagram
 pcs <- prepare_PAM_CS(PAM = b_pam)

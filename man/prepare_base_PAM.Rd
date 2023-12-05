@@ -4,22 +4,28 @@
 \alias{prepare_base_PAM}
 \title{Presence-absence matrix (PAM) linked to a spatial grid}
 \usage{
-prepare_base_PAM(data, format = NULL, master_matrix, cell_size,
-                 complete_cover = TRUE, clip_grid = FALSE,
+prepare_base_PAM(data, format = NULL, master_matrix = NULL, region = NULL,
+                 cell_size, complete_cover = TRUE, clip_grid = FALSE,
                  indices = "basic", parallel = FALSE, n_cores = NULL,
                  verbose = TRUE)
 }
 \arguments{
 \item{data}{species geographic ranges to be used to create a presence-absence
-matrix (PAM). This argument can be: character, data.frame, RasterStack,
-RasterBrick, list, SpatialPolygonsDataFrame, or SpatialPointsDataFrame. See
-details for a description of the characteristics of data for each option.}
+matrix (PAM). This argument can be: character, data.frame, SpatRaster,
+list, or SpatVector. See details for a description of the characteristics of
+data for each option.}
 
 \item{format}{(character) if \code{data} is of class character, available
-options are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
+options are: "shp", "gpkg", "GTiff", and "ascii".}
 
 \item{master_matrix}{object of class "master_matrix" or "master_selection".
-See details.}
+See details. Default = NULL. Either this argument or \code{region} must be
+defined.}
+
+\item{region}{SpatVector of the region of interest; for instance,
+a country, another type of administrative are, or a protected area.
+Default = NULL. Either this argument or \code{master_matrix} must be
+defined. Ignored if \code{master_matrix} is defined.}
 
 \item{cell_size}{(numeric) resolution for grid (single number or vector of
 two numbers) in kilometers (km).}
@@ -38,8 +44,8 @@ are calculated all the time, other indices need to be specified. Options are:
 "SRC", "CMSC", and "CMSR". Default = "basic". See details.}
 
 \item{parallel}{(logical) whether to perform analyses in parallel.
-Default = FALSE. Not used if data is of class data.frame, RasterStack, or
-RasterBrick.}
+Default = FALSE. Not used if data is of class data.frame, or
+SpatRaster.}
 
 \item{n_cores}{(numeric) number of cores to be used when \code{parallel} =
 TRUE. The default, NULL, uses available cores - 1.}
@@ -49,11 +55,11 @@ Default = TRUE.}
 }
 \value{
 A presence-absence matrix (PAM) of class \code{\link{base_PAM}} for the
-region of interest associated with a SpatialPolygonsDataFrame, as in a grid
+region of interest associated with a SpatVector, as in a grid
 of \code{cell_size} resolution. Each grid cell is related to a specific ID
 and longitude and latitude coordinates. Presence (1) and absence (0) values
 for each species in every cell of the PAM are included as apart of the
-data.frame of the SpatialPolygonsDataFrame. PAM indices is returned with the
+data.frame of the SpatVector. PAM indices is returned with the
 basic indices of biodiversity as default, but can be changed using the
 argument \code{indices}.
 }
@@ -76,25 +82,24 @@ Geographic projection of objects or coordinates involved must be WGS84
 
 Description of objects to be used as \code{data}:
 \itemize{
-\item character.- name of directory containing raster, shapefiles, geopackage,
-or geojson files representing species geographic ranges. Each file must be
-named as the species that it represents. All files must be in the same
-format.
-If files are in raster format, "GTiff" and "ascii" are acceptable extensions;
+\item character.- name of directory containing raster, shapefiles or geopackage
+files representing species geographic ranges. Each file must be named
+as the species that it represents. All files must be in the same format. If
+files are in raster format, "GTiff" and "ascii" are acceptable extensions;
 values in each layer must be 1 (presence) and 0 (absence).
 \item data.frame.- a table containing  three columns. Columns must be in the
 following order: Longitude, Latitude, Species.
-\item RasterStack or RasterBrick.- Each layer must be named as the species which
+\item SpatRaster.- Each layer must be named as the species which
 range it represents, and values in each layer must be 1 (presence) and 0
 (absence).
-\item list.-  a list of RasterLayers that cannot be stacked because of extent or
-resolution differences. Each element of the list must be named as the species
-which range it represents, and values in each RasterLayer must be 1
-(presence) and 0 (absence).
-\item SpatialPolygonsDataFrame.- object representing species' geographic ranges.
+\item list.-  a list of SpatRaster objects that cannot be stacked because of
+extent or resolution differences. Each element of the list must be named as
+the species which range it represents, and values in each SpatRaster must be
+1 (presence, suitable) and 0 (absence, unsuitable).
+\item SpatVector.- object representing species' geographic ranges.
 The data.frame associated with the object must contain a column named
 "Species" to distinguish among features representing each species range.
-\item SpatialPointsDataFrame.- object of spatial points where each record of a
+\item SpatVector.- object of spatial points where each record of a
 species must be a point. The associated data.frame must contain the
 following columns (in that order): Longitude, Latitude, Species.
 }
@@ -126,14 +131,16 @@ indices see Soberon and Cavner (2015)
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
-data("species_data", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
+species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+                                        package = "biosurvey"))
 
 # Create base_PAM
 b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix,
                           cell_size = 100)
-sp::plot(b_pam$PAM)
-summary(b_pam$PAM@data[, 1:6])
+terra::plot(b_pam$PAM)
+summary(b_pam)
 }
 \seealso{
 \code{\link{PAM_indices}}

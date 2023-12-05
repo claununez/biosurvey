@@ -54,7 +54,8 @@ selected considering the most numerous clusters.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 data("dist_list", package = "biosurvey")
 
 # Making blocks for analysis

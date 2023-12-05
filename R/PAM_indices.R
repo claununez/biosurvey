@@ -87,8 +87,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
   } else {
     if (cpam == "base_PAM") {
       bpam <- PAM
-      PAM <- as.matrix(bpam$PAM@data[, -(1:3)])
-      rownames(PAM) <- bpam$PAM@data[, "ID"]
+      PAM <- as.matrix(terra::values(bpam$PAM)[, -(1:3)])
+      rownames(PAM) <- bpam$PAM$ID
       exclude_column <- NULL
     }
   }
@@ -156,8 +156,8 @@ PAM_indices <- function(PAM, indices = "all", exclude_column = NULL) {
     ## Average
     av_divfield <- mean(div_field)
   } else {
-    d_field <- NULL
-    av_dfield <- NA
+    div_field <- NULL
+    av_divfield <- NA
   }
 
   # Shared community composition

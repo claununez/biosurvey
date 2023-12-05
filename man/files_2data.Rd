@@ -8,13 +8,13 @@ files_2data(path, format, spdf_grid = NULL, parallel = FALSE, n_cores = NULL)
 }
 \arguments{
 \item{path}{(character) full path name of directory containing raster,
-shapefiles, geopackage, or GeoJSON files representing species geographic
+shapefiles or geopackage files representing species geographic
 ranges. Each file must be named as the species that it represents. All files
-must be in the same format. If files are raster, values in each layer must be
-1 (presence) and 0 (absence).}
+must be in the same format. If files are raster layers, values in each layer
+must be 1 (presence, suitable) and 0 (absence, unsuitable).}
 
 \item{format}{(character) the format files found in \code{path}. Current
-available formats are: "shp", "gpkg", "geojson", "GTiff", and "ascii".}
+available formats are: "shp", "gpkg", "GTiff", and "ascii".}
 
 \item{spdf_grid}{geographic grid for the region of interest (output of
 function \code{\link{grid_from_region}}). Used when format equals "shp" or
@@ -41,25 +41,26 @@ longitude, latitude, and species name, from a character.
 \examples{
 \donttest{
 # Data for examples
-data("mx", package = "biosurvey")
-data("species_data", package = "biosurvey")
+mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
+species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+                                        package = "biosurvey"))
 
 # Saving species data in a temporal directory
 tdir <- file.path(tempdir(), "testbio")
 dir.create(tdir)
 
-namessp <- paste0("species_", 1:length(species_data))
+namessp <- unique(species_data$Species)
 
 
 for (i in 1:length(species_data)) {
-  rgdal::writeOGR(species_data[i, ], dsn = tdir, layer = namessp[i],
-                  driver = "ESRI Shapefile")
+  terra::writeVector(species_data[species_data$Species == namessp[i], ],
+                     filename = paste0(tdir, "/", namessp[i], ".gpkg"))
 }
 
 # Preparing grid for analysis
 grid_reg <- grid_from_region(region = mx, cell_size = 100)
 
 # Running analysis with data from directory
-sp_data <- files_2data(path = tdir, format = "shp", spdf_grid = grid_reg)
+sp_data <- files_2data(path = tdir, format = "gpkg", spdf_grid = grid_reg)
 }
 }

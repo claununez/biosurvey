@@ -43,7 +43,7 @@ select blocks uniformly. Default = 10.}
 
 \item{use_preselected_sites}{(logical) whether to use sites that have been
 defined as part of the selected sites previous any selection. Object in
-\code{master} must contain the site(s) preselected in and element of name
+\code{master} must contain the site(s) preselected in in the slot named
 "preselected_sites" for this argument to be effective. Default = TRUE.
 See details for more information on the approach used.}
 
@@ -139,16 +139,14 @@ reduce resources and time needed to sample such sites.
 \examples{
 \donttest{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 # Making blocks for analysis
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
                         n_cols = 10, n_rows = 10, block_type = "equal_area")
 
-# Checking column names
-colnames(m_blocks$data_matrix)
-
-# Selecting sites uniformly in E and G spaces
+# Selecting sites considering E and G spaces
 EG_sel <- EG_selection(master = m_blocks, n_blocks = 10,
                        initial_distance = 1.5, increase = 0.1,
                        replicates = 1, max_n_samplings = 1,

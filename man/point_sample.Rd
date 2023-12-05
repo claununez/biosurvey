@@ -41,7 +41,8 @@ distinct sets of points to be sampled independently.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 # Sampling points
 points_s <- point_sample(m_matrix$data_matrix,

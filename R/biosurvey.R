@@ -29,10 +29,12 @@
 #' \code{\link{plot_DI}}, \code{\link{plot_PAM_geo}},
 #' \code{\link{plot_PAM_CS}}, \code{\link{plot_SAC}},
 #' \code{\link{plot_sites_EG}}, \code{\link{prepare_base_PAM}},
-#' \code{\link{prepare_master_matrix}}, \code{\link{prepare_PAM_CS}}
-#' \code{\link{random_selection}}, \code{\link{selected_sites_DI}}
-#' \code{\link{selected_sites_SAC}}, \code{\link{subset_PAM}},
-#' \code{\link{uniformE_selection}}, \code{\link{uniformG_selection}}
+#' \code{\link{prepare_master_matrix}}, \code{\link{prepare_PAM_CS}},
+#' \code{\link{random_selection}}, \code{\link{read_master}},
+#' \code{\link{read_PAM}}, \code{\link{save_master}}, \code{\link{save_PAM}},
+#' \code{\link{selected_sites_DI}}, \code{\link{selected_sites_SAC}},
+#' \code{\link{subset_PAM}}, \code{\link{uniformE_selection}},
+#' \code{\link{uniformG_selection}}
 #'
 #' @section Other functions (important helpers):
 #' \code{\link{assign_blocks}}, \code{\link{closest_to_centroid}},
@@ -49,11 +51,10 @@
 #' @section Data included:
 #' \code{\link{b_pam}}, \code{\link{distance_filter}}, \code{\link{dist_list}},
 #' \code{\link{files_2data}}, \code{\link{m_matrix}},
-#' \code{\link{m_matrix_pre}}, \code{\link{m_selection}},
-#' \code{\link{mx}}, \code{\link{preselected}},
-#' \code{\link{sp_data}}, \code{\link{species_data}},
+#' \code{\link{m_matrix_pre}}, \code{\link{m_selection}}, \code{\link{mx}},
+#' \code{\link{preselected}}, \code{\link{sp_data}}, \code{\link{species_data}},
 #' \code{\link{sp_layers}}, \code{\link{sp_occurrences}},
-#' \code{\link{variables}},
+#' \code{\link{variables}}
 #'
 #' @docType package
 #' @name biosurvey

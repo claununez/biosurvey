@@ -13,8 +13,11 @@
 #' @param significance_test (logical) whether to perform a test to detect
 #' sites (cells) that are statistically significant (i.e., the pattern detected
 #' can be distinguished from random expectations). Default = FALSE.
+#' @param randomization_method (character) method of randomization to be used.
+#' Options are: "picante" and "curve_ball". Default = "picante".
 #' @param randomization_iterations (numeric) number of iterations for the
-#' randomization test used to calculate statistical significance. Default = 100.
+#' randomization test used to calculate statistical significance.
+#' Valid only with `randomization_method` = "picante." Default = 100.
 #' @param CL (numeric) confidence limit to detect statistically significant
 #' values. Default = 0.05.
 #' @param picante_iterations (numeric) number of iterations to be used for each
@@ -44,10 +47,15 @@
 #' of those presented in Arita et al. (2011)
 #' \doi{https://doi.org/10.1111/j.1466-8238.2011.00662.x}.
 #'
+#' More details about the `randomization_method` can be found in the description
+#' of the functions used: from picante \code{\link[picante]{randomizeMatrix}},
+#' and \code{\link{randomize_matrix_cb}}
+#'
 #'
 #' @usage
 #' prepare_PAM_CS(PAM, exclude_column = NULL, id_column = NULL,
-#'                significance_test = FALSE, randomization_iterations = 100,
+#'                significance_test = FALSE, randomization_method = "picante",
+#'                randomization_iterations = 100,
 #'                CL = 0.05, picante_iterations = NULL,
 #'                keep_randomizations = FALSE, parallel = FALSE,
 #'                n_cores = NULL)
@@ -55,15 +63,15 @@
 #' @export
 #'
 #' @importFrom foreach foreach %dopar%
-#' @importFrom parallel detectCores makeCluster stopCluster
-#' @importFrom doParallel registerDoParallel
-#' @importFrom utils txtProgressBar setTxtProgressBar flush.console
+#' @importFrom parallel detectCores
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom picante randomizeMatrix
 #' @importFrom stats cor
 #'
 #' @examples
 #' # Data
-#' data("b_pam", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
 #'
 #' # Preparing data for CS diagram
 #' pcs <- prepare_PAM_CS(PAM = b_pam)
@@ -72,6 +80,7 @@
 
 prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
                            significance_test = FALSE,
+                           randomization_method = "picante",
                            randomization_iterations = 100, CL = 0.05,
                            picante_iterations = NULL,
                            keep_randomizations = FALSE, parallel = FALSE,
@@ -85,13 +94,14 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
   if (!cpam %in% c("base_PAM", "matrix", "data.frame")) {
     stop("Argument 'PAM' must be of class 'base_PAM', 'matrix', or 'data.frame'.")
   }
+  if (randomization_method %in% c("picante", "curve_ball"))
 
   # Preparing data
   ## Data for analyses
   if (cpam == "base_PAM") {
     bp <- PAM$PAM
-    site_id <- as.character(bp@data[, 1])
-    mtt <- bp@data[, -(1:3)]
+    site_id <- bp$ID
+    mtt <- terra::values(bp)[, -(1:3)]
     rownames(mtt) <- site_id
   } else {
     if (!is.null(id_column)) {
@@ -148,34 +158,35 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
       ## Preparing parallel running
       n_cores <- ifelse(is.null(n_cores), parallel::detectCores() - 1, n_cores)
 
-      ## Progress combine (cbind) function
-      fpc <- function(iterator){
-        pb <- utils::txtProgressBar(min = 1, max = iterator - 1, style = 3)
-        count <- 0
-        function(...) {
-          count <<- count + length(list(...)) - 1
-          utils::setTxtProgressBar(pb, count)
-          Sys.sleep(0.1)
-          utils::flush.console()
-          cbind(...)
-        }
+      ## Progress combine (rbind) function
+      pb <- utils::txtProgressBar(min = 1, max = reps, style = 3)
+      progress <- function(n) {
+        utils::setTxtProgressBar(pb, n)
       }
+      opts <- list(progress = progress)
 
-      ## Start a cluster
-      cl <- parallel::makeCluster(n_cores, type = 'SOCK')
-      doParallel::registerDoParallel(cl)
+      ## Make cluster
+      cl <- snow::makeSOCKcluster(n_cores)
+      doSNOW::registerDoSNOW(cl)
 
       ## Processing
-      alea <- foreach::foreach(i = 1:reps, .inorder = TRUE,
-                               .combine = fpc(reps)) %dopar% {
-                                 mt3 <- picante::randomizeMatrix(mtt,
-                                                                 null.model = "independentswap",
-                                                                 iterations = pit)
-                                 pin <- PAM_indices(mt3, indices = c("DF"))
-                                 return((pin$Dispersion_field / n) / s)
-                               }
+      alea <- foreach::foreach(
+        i = 1:reps, .inorder = TRUE,
+        .combine = "cbind", .options.snow = opts
+      ) %dopar% {
+        if (randomization_method == "picante") {
+          mt3 <- picante::randomizeMatrix(mtt,
+                                          null.model = "independentswap",
+                                          iterations = pit)
+        } else {
+          mt3 <- randomize_matrix_cb(mtt)
+        }
 
-      parallel::stopCluster(cl)
+        pin <- PAM_indices(mt3, indices = c("DF"))
+        return((pin$Dispersion_field / n) / s)
+      }
+
+      snow::stopCluster(cl)
 
     } else {
       ## Progress bar
@@ -188,8 +199,14 @@ prepare_PAM_CS <- function(PAM, exclude_column = NULL, id_column = NULL,
         Sys.sleep(0.1)
         utils::setTxtProgressBar(pb, x)
 
-        mt3 <- picante::randomizeMatrix(mtt, null.model = "independentswap",
-                                        iterations = pit)
+        if (randomization_method == "picante") {
+          mt3 <- picante::randomizeMatrix(mtt,
+                                          null.model = "independentswap",
+                                          iterations = pit)
+        } else {
+          mt3 <- randomize_matrix_cb(mtt)
+        }
+
         pin <- PAM_indices(mt3, indices = c("DF"))
         alea[, x] <- (pin$Dispersion_field / n) / s
       }

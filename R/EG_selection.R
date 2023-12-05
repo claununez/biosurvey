@@ -30,7 +30,7 @@
 #' select blocks uniformly. Default = 10.
 #' @param use_preselected_sites (logical) whether to use sites that have been
 #' defined as part of the selected sites previous any selection. Object in
-#' \code{master} must contain the site(s) preselected in and element of name
+#' \code{master} must contain the site(s) preselected in in the slot named
 #' "preselected_sites" for this argument to be effective. Default = TRUE.
 #' See details for more information on the approach used.
 #' @param select_point (character) how or which point will be selected for each
@@ -127,16 +127,14 @@
 #' @examples
 #' \donttest{
 #' # Data
-#' data("m_matrix", package = "biosurvey")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 #'
 #' # Making blocks for analysis
 #' m_blocks <- make_blocks(m_matrix, variable_1 = "PC1", variable_2 = "PC2",
 #'                         n_cols = 10, n_rows = 10, block_type = "equal_area")
 #'
-#' # Checking column names
-#' colnames(m_blocks$data_matrix)
-#'
-#' # Selecting sites uniformly in E and G spaces
+#' # Selecting sites considering E and G spaces
 #' EG_sel <- EG_selection(master = m_blocks, n_blocks = 10,
 #'                        initial_distance = 1.5, increase = 0.1,
 #'                        replicates = 1, max_n_samplings = 1,
@@ -239,13 +237,13 @@ EG_selection <- function(master, n_blocks, guess_distances = TRUE,
     # Excluding points in close blocks from analysis
     cents <- closest_to_centroid(master$data_matrix, variable_1, variable_2,
                                  space = "E", n = 1, id_column = "Block")
-    data <- sp::SpatialPointsDataFrame(cents[, c(variable_1, variable_2)], cents,
-                                       proj4string = sp::CRS("+init=epsg:4326"))
-    bqs <- data[is.na(sp::over(data, tst$mask)$ID), ]@data$Block
+    data <- terra::vect(cents, geom = c(variable_1, variable_2),
+                        crs = "+init=epsg:4326")
+    bqs <- data[tst$mask, ]$Block
 
     ## Preparing temporal master matrix to be used in new selection
     data <- master$data_matrix
-    data <- data[data$Block %in% bqs, ]
+    data <- data[!data$Block %in% bqs, ]
     tmm <- new_master_matrix(data_matrix = data, region = master$region,
                              raster_base = master$raster_base)
 
@@ -295,7 +293,7 @@ EG_selection <- function(master, n_blocks, guess_distances = TRUE,
         block_data <- block_data[sample(tpoints, sample_for_distance), ]
       }
 
-      dsnna <- na.omit(c(raster::pointDistance(block_data, lonlat = TRUE)))
+      dsnna <- na.omit(c(terra::distance(as.matrix(block_data), lonlat = TRUE)))
       dsnna[dsnna != 0]
     })
     names(distsp) <- rules[[x]]

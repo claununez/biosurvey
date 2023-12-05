@@ -46,7 +46,8 @@ of points, which generally results in blocks of different sizes.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 # Creating blocks
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",

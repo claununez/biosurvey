@@ -21,7 +21,7 @@ information.}
 Default = "ED".}
 }
 \value{
-SpatialPointsDataFrame projected to an option in \code{which}.
+SpatVector projected to an option in \code{which}.
 }
 \description{
 Project spatial points from geographic coordinates

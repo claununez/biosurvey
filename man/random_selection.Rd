@@ -69,7 +69,8 @@ reduce resources and time needed to sample such sites.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 r_selection <- random_selection(m_matrix, n_sites = 20, n_samplings = 5)
 }

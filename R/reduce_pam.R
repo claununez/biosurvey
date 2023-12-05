@@ -25,8 +25,10 @@
 #'
 #' @examples
 #' # Data
-#' data("b_pam", package = "biosurvey")
-#' data("m_selection", package = "biosurvey")
+#' b_pam <- read_PAM(system.file("extdata/b_pam.rds",
+#'                               package = "biosurvey"))
+#' m_selection <- read_master(system.file("extdata/m_selection.rds",
+#'                                        package = "biosurvey"))
 #'
 #' # Subsetting base PAM according to selections
 #' ## only uniform in G
@@ -59,7 +61,7 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
   # Identifying selection types if all
   if (selection_type == "all") {
     selects <- names(master_selection)
-    selection_type <- grep("selected_sites", selects, value = TRUE)
+    selection_type <- grep("^selected_sites", selects, value = TRUE)
   }
 
   # Joining PAM with selected sites
@@ -72,7 +74,7 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
     rpsel <- NULL
   }
 
-  ## E
+  ## G
   if ("selected_sites_G" %in% selection_type &
       !is.null(master_selection$selected_sites_G)) {
     gpsel <- master_selection$selected_sites_G
@@ -81,7 +83,7 @@ subset_PAM <- function(base_PAM, master_selection, selection_type = "all") {
     gpsel <- NULL
   }
 
-  ## G
+  ## E
   if ("selected_sites_E" %in% selection_type &
       !is.null(master_selection$selected_sites_E)) {
     epsel <- master_selection$selected_sites_E

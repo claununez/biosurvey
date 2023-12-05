@@ -61,12 +61,13 @@
 #'                       variables_in_matrix = NULL, verbose = TRUE)
 #'
 #' @export
-#' @importFrom terra crop as.data.frame
+#' @importFrom terra crop as.data.frame extract
 #' @importFrom stats prcomp predict
 #'
 #' @examples
 #' # Data
-#' data("mx", package = "biosurvey")
+#' mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
+#'
 #' variables <- terra::rast(system.file("extdata/variables.tif",
 #'                                        package = "biosurvey"))
 #'
@@ -116,8 +117,10 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
     }
 
     preselected_sites <- data.frame(preselected_sites,
-                                    raster::extract(variables,
-                                                    preselected_sites[, 2:3]))
+                                    terra::extract(
+                                      variables,
+                                      preselected_sites[, 2:3])[, -1]
+                                    )
     colnames(preselected_sites)[2:3] <- c("Longitude", "Latitude")
   }
 
@@ -149,6 +152,7 @@ prepare_master_matrix <- function(region, variables, mask = NULL,
 
     # Create matrix
     master_m <- data.frame(variables, pca$x[, 1:2])
+    pca$x <- NULL
 
     # Predict in predefined sites
     if (!is.null(preselected_sites)) {

@@ -99,7 +99,8 @@ reduce resources and time needed to sample such sites.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 # Selecting sites uniformly in G space
 selectionG <- uniformG_selection(m_matrix, expected_points = 40,

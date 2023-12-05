@@ -11,7 +11,7 @@ plot_sites_EG(master_selection, selection_type, variable_1 = NULL,
               region_border = TRUE, mask_border = FALSE, col_all = NULL,
               col_sites = NULL, col_pre = NULL, cex_all = 0.7,
               cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-              pch_pre = 16, add_main = TRUE)
+              pch_pre = 16, add_main = TRUE, mar = NULL)
 
 plot_sites_E(master_selection, selection_type, variable_1 = NULL,
              variable_2 = NULL, selection_number = 1, col_all = NULL,
@@ -23,7 +23,7 @@ plot_sites_G(master_selection, selection_type, selection_number = 1,
              region_border = TRUE, mask_border = FALSE, col_all = NULL,
              col_sites = NULL, col_pre = NULL, cex_all = 0.7,
              cex_sites = 1, cex_pre = 1, pch_all = 16, pch_sites = 16,
-             pch_pre = 16)
+             pch_pre = 16, mar = NULL)
 }
 \arguments{
 \item{master_selection}{master_selection object derived from functions
@@ -88,6 +88,10 @@ not present in \code{master_selection}.}
 Default = TRUE. Titles added are "Environmental space" and "Geographic
 space".}
 
+\item{mar}{(numeric) vector of length 4 to set the margins of the plot in G.
+The default, NULL, is (3.1, 3.1, 2.1, 2.1) for \code{plot_sites_G} and
+(3.5, 0.5, 0.5, 0.5) for \code{plot_sites_EG.}}
+
 \item{main}{(character) the main title for the plot.}
 
 \item{xlab}{(character) label for the x axis. The default, NULL, uses
@@ -110,7 +114,8 @@ environmental and/or geographic space.
 }
 \examples{
 # Data
-data("m_selection", package = "biosurvey")
+m_selection <- read_master(system.file("extdata/m_selection.rds",
+                                       package = "biosurvey"))
 
 # Plotting
 plot_sites_EG(m_selection, selection_type = "E")

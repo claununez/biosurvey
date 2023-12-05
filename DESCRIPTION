@@ -18,7 +18,11 @@ Authors@R: c(
     person("Adolfo G.", "Navarro-Sigüenza", email = "adolfon@ciencias.unam.mx", 
     role = "aut", comment = c(ORCID = "0000-0003-2652-7719")),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut",
-    comment = c(ORCID = "0000-0003-0243-2379")))
+    comment = c(ORCID = "0000-0003-0243-2379")),
+    person("Weverton", "Trindade", email = "wevertonf1993@gmail.com", 
+    role = "ctb", comment = c(ORCID = "0000-0003-2045-4555")),
+    person("Can", "Elverici", email = "elverici.can@gmail.com", role = "ctb",
+    comment = c(ORCID = "0000-0002-6153-5602")))
 Maintainer: Claudia Nuñez-Penichet <claununez199o@gmail.com>
 Date: 2023-02-10
 Description: A collection of tools that allows users to plan systems of sampling 
@@ -31,14 +35,15 @@ Description: A collection of tools that allows users to plan systems of sampling
     proposed here are new in the sense that they combine various criteria and 
     points previously made in related literature; some of the theoretical and 
     methodological bases considered are described in:
+    Nuñez-Penichet et al. (2022) <doi:10.1111/2041-210X.13869>,
     Arita et al. (2011) <doi:10.1111/j.1466-8238.2011.00662.x>,
     Soberón and Cavner (2015) <doi:10.17161/bi.v10i0.4801>, and Soberón et al. 
-    (2021).
+    (2021) <doi:10.17161/bi.v16i1.14782>.
 URL: https://github.com/claununez/biosurvey
 BugReports: https://github.com/claununez/biosurvey/issues
 Imports:
     diptest (>= 0.75),
-    doParallel (>= 1.0),
+    doSNOW (>= 1.0),
     foreach (>= 1.5),
     graphics,
     grDevices,
@@ -47,12 +52,10 @@ Imports:
     methods,
     parallel,
     picante (>= 1.8),
-    raster (>= 3.0),
-    rgdal (>= 1.4),
-    rgeos (>= 0.5),
-    sp (>= 1.3),
+    snow (>= 0.4),
     spatstat.geom (>= 1.65),
     stats,
+    terra (>= 1.7),
     utils,
     vegan (>= 2.5)
 Depends:
@@ -61,7 +64,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,

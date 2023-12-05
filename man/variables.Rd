@@ -4,22 +4,22 @@
 \alias{variables}
 \title{Example of variables to be used for preparing a master matrix}
 \format{
-A RasterStack with 109 rows, 190 columns, 20710 cells, and 6 layers:
+A SpatRaster with 109 rows, 190 columns, 20710 cells, and 6 layers:
 \describe{
 \item{Temperature}{temperature, in degrees Celsius times 10.}
 \item{Precipitation}{precipitation, in millimeters.}
 }
 }
 \source{
-\url{https://www.worldclim.org/data/index.html}
+\url{https://www.worldclim.org}
 }
 \description{
 A dataset containing raster variables for an area that is relevant for used
 in examples included in the package \code{\link{biosurvey}}.
 }
 \examples{
-variables <- raster::stack(system.file("extdata/variables.tif",
-                                       package = "biosurvey"))
+variables <- terra::rast(system.file("extdata/variables.tif",
+                                     package = "biosurvey"))
 
-raster::plot(variables[[1]])
+terra::plot(variables[[1]])
 }

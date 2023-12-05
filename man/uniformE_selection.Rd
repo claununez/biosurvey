@@ -115,7 +115,8 @@ such sites.
 }
 \examples{
 # Data
-data("m_matrix", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 
 # Making blocks for analysis
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",

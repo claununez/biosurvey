@@ -1,4 +1,4 @@
-itHeader("To cite biosurvey in publications use:")
+citHeader("To cite biosurvey in publications use:")
 
 citEntry(entry = "Article",
         title        = "Selection of sampling sites for biodiversity inventory: Effects of environmental and geographical considerations",
@@ -16,7 +16,7 @@ citEntry(entry = "Article",
         month        = "apr",
         volume       = "00",
         number       = "",
-        pages        = "1-13"
+        pages        = "1-13",
         publisher    = "British Ecological Society",
         url          = "https://doi.org/10.1111/2041-210X.13869",
         doi          = "10.1111/2041-210X.13869",
