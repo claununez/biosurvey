@@ -192,19 +192,23 @@ plot_PAM_CS <- function(PAM_CS, add_significant = FALSE,
 #' Default = NULL
 #' @param border color for cell borders of the PAM grid. The default, NULL, does
 #' not plot any border.
+#' @param mar (numeric) vector of length 4 to set the margins of the plot in
+#' geography. The default, NULL, is (3.1, 3.1, 2.1, 2.1).
+#'
 #' @usage
 #' plot_PAM_CS_geo(PAM_CS, xy_coordinates = NULL, col_all = "#CACACA",
 #'                 col_significant_low = "#6D6D6D",
 #'                 col_significant_high = "#000000", border = NULL,
 #'                 pch_all = 16, pch_significant_low = 16,
-#'                 pch_significant_high = 16, xlim = NULL, ylim = NULL)
+#'                 pch_significant_high = 16, xlim = NULL,
+#'                 ylim = NULL, mar = NULL)
 
 plot_PAM_CS_geo <- function(PAM_CS, xy_coordinates = NULL, col_all = "#CACACA",
                             col_significant_low = "#6D6D6D",
                             col_significant_high = "#000000", border = NULL,
                             pch_all = 16, pch_significant_low = 16,
                             pch_significant_high = 16, xlim = NULL,
-                            ylim = NULL) {
+                            ylim = NULL, mar = NULL) {
 
   # Initial tests
   if (!class(PAM_CS)[1] %in% c("base_PAM", "PAM_CS")) {
@@ -279,7 +283,7 @@ plot_PAM_CS_geo <- function(PAM_CS, xy_coordinates = NULL, col_all = "#CACACA",
 
     ## The plot
     terra::plot(boxpam, col = NA, xlim = xlim, ylim = ylim,
-                axes = FALSE, legend = FALSE)
+                axes = FALSE, legend = FALSE, mar = mar)
     maps::map(fill = TRUE, col = "gray98", lforce = "n",
               border = "gray90", add = TRUE)
     terra::plot(bp, col = cols[sigfact], border = border, add = TRUE,

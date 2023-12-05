@@ -19,7 +19,8 @@ plot_PAM_CS_geo(PAM_CS, xy_coordinates = NULL, col_all = "#CACACA",
                 col_significant_low = "#6D6D6D",
                 col_significant_high = "#000000", border = NULL,
                 pch_all = 16, pch_significant_low = 16,
-                pch_significant_high = 16, xlim = NULL, ylim = NULL)
+                pch_significant_high = 16, xlim = NULL,
+                ylim = NULL, mar = NULL)
 }
 \arguments{
 \item{PAM_CS}{object of class PAM_CS or a base_PAM object containing
@@ -88,6 +89,9 @@ Default = NULL}
 
 \item{border}{color for cell borders of the PAM grid. The default, NULL, does
 not plot any border.}
+
+\item{mar}{(numeric) vector of length 4 to set the margins of the plot in
+geography. The default, NULL, is (3.1, 3.1, 2.1, 2.1).}
 }
 \value{
 For \code{plot_PAM_CS}:
