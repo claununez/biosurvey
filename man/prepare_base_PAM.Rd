@@ -140,7 +140,7 @@ species_data <- terra::vect(system.file("extdata/species_data.gpkg",
 b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix,
                           cell_size = 100)
 terra::plot(b_pam$PAM)
-summary(b_pam$PAM@data[, 1:6])
+summary(b_pam)
 }
 \seealso{
 \code{\link{PAM_indices}}

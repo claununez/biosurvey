@@ -129,7 +129,7 @@
 #' b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix,
 #'                           cell_size = 100)
 #' terra::plot(b_pam$PAM)
-#' summary(b_pam$PAM@data[, 1:6])
+#' summary(b_pam)
 
 prepare_base_PAM <- function(data, format = NULL, master_matrix = NULL,
                              region = NULL, cell_size, complete_cover = TRUE,

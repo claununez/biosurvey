@@ -31,5 +31,6 @@ a master matrix object with unwrapped spatial objects.
 Functions to save and read master objects
 }
 \examples{
-mm <- read_master(file_name = "data/m_matrix.rds")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
 }

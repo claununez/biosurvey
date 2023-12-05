@@ -48,7 +48,8 @@ save_master <- function(master, file_name, verbose = TRUE) {
 #' @rdname save_master
 #' @export
 #' @examples
-#' mm <- read_master(file_name = "data/m_matrix.rds")
+#' m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+#'                                     package = "biosurvey"))
 
 read_master <- function(file_name) {
   if (missing(file_name)) {
