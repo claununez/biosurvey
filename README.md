@@ -2,29 +2,22 @@ biosurvey: Tools for Biological Survey Planning
 ================
 Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta,
 Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend
-Peterson
+Peterson, Weverton Trindade (ctb), Can Elverici (ctb)
 
--   [Package description](#package-description)
--   [Installing the package](#installing-the-package)
--   [biosurvey functions and
-    vignettes](#biosurvey-functions-and-vignettes)
--   [Workflow description](#workflow-description)
-    -   [Initial data](#initial-data)
-    -   [Data preparation](#data-preparation)
-    -   [Selection of sites for biodiversity
-        inventory](#selection-of-sites-for-biodiversity-inventory)
-    -   [Evaluation of sampling site
-        effectiveness](#evaluation-of-sampling-site-effectiveness)
--   [GSoC project description](#gsoc-project-description)
-    -   [Status of the project](#status-of-the-project)
+- [Package description](#package-description)
+- [Installing the package](#installing-the-package)
+- [biosurvey functions and
+  vignettes](#biosurvey-functions-and-vignettes)
+- [Workflow description](#workflow-description)
+  - [Initial data](#initial-data)
+  - [Data preparation](#data-preparation)
+  - [Selection of sites for biodiversity
+    inventory](#selection-of-sites-for-biodiversity-inventory)
+  - [Evaluation of sampling site
+    effectiveness](#evaluation-of-sampling-site-effectiveness)
+- [GSoC project description](#gsoc-project-description)
+  - [Status of the project](#status-of-the-project)
 
-<!-- badges: start -->
-
-[![R build
-status](https://github.com/claununez/biosurvey/workflows/R-CMD-check/badge.svg)](https://github.com/claununez/biosurvey/actions)
-<!-- badges: end -->
-
-<br>
 <hr>
 
 <img src='man/figures/biosurveyfinal.png' align="right" height="200" /></a>
@@ -139,15 +132,14 @@ vignette(package = "biosurvey")
 
 To check vignettes you can use:
 
--   `vignette("biosurvey_preparing_data")`.- For a guide on how to
-    prepare data for analysis.
--   `vignette("biosurvey_selecting_sites")`.- For a guide on how to
-    select sampling sites.
--   `vignette("biosurvey_selection_with_preselected_sites")`.- For a
-    guide on how to select sampling sites when some sites have been
-    preselected.
--   `vignette("biosurvey_testing_module")`.- For a guide on how to use
-    the testing module.
+- `vignette("biosurvey_preparing_data")`.- For a guide on how to prepare
+  data for analysis.
+- `vignette("biosurvey_selecting_sites")`.- For a guide on how to select
+  sampling sites.
+- `vignette("biosurvey_selection_with_preselected_sites")`.- For a guide
+  on how to select sampling sites when some sites have been preselected.
+- `vignette("biosurvey_testing_module")`.- For a guide on how to use the
+  testing module.
 
 <br>
 
@@ -158,42 +150,40 @@ To check vignettes you can use:
 As shown in Fig. 1, to use **biosurvey** and select sites for
 biodiversity inventory you need:
 
--   *Environmental variables*.- These variables must be in raster format
-    (e.g., GTiff, BIL, ASCII). To load these variables to your R
-    environment, you can use the function `stack` from the package
-    `raster`.
--   *Region of interest*.- As your analyses will be focused on a region,
-    a spatial polygon of such an area is needed. Common formats in which
-    your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To load
-    this information to your R environment you can use the function
-    `readOGR` from the `rgdal` package.
+- *Environmental variables*.- These variables must be in raster format
+  (e.g., GTiff, BIL, ASCII). To load these variables to your R
+  environment, you can use the function `ras` from the package `terra`.
+- *Region of interest*.- As your analyses will be focused on a region, a
+  spatial polygon of such an area is needed. Common formats in which
+  your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To load
+  this information to your R environment you can use the function `vect`
+  from the `terra` package.
 
 Additionally, other data can be used to make sampling site selection
 more effective. The functions that help to prepare the data for analysis
 also allow users to include:
 
--   *Sites selected a priori*.- A data.frame of sites that researchers
-    consider important to be included in any set of localities to be
-    sampled. These site(s) will be included (by force) in any of the
-    results obtained in later analyses. Using these sites represents a
-    good opportunity to consider areas that are well known and should be
-    included to monitor biodiversity changes in a region.
--   *A mask to restrict analyses to smaller areas*.- A spatial polygon
-    that reduces the region of interest to areas that are considered to
-    be more relevant for analysis can be considered. Some examples of
-    how to define these masks include areas with natural vegetation,
-    areas that are accessible, regions with particular vegetation cover
-    types, etc. This mask is usually in the same format that the *Region
-    of interest*.
+- *Sites selected a priori*.- A data.frame of sites that researchers
+  consider important to be included in any set of localities to be
+  sampled. These site(s) will be included (by force) in any of the
+  results obtained in later analyses. Using these sites represents a
+  good opportunity to consider areas that are well known and should be
+  included to monitor biodiversity changes in a region.
+- *A mask to restrict analyses to smaller areas*.- A spatial polygon
+  that reduces the region of interest to areas that are considered to be
+  more relevant for analysis can be considered. Some examples of how to
+  define these masks include areas with natural vegetation, areas that
+  are accessible, regions with particular vegetation cover types, etc.
+  This mask is usually in the same format that the *Region of interest*.
 
 If enough, good-quality data on species distributions are available,
 analyses of the effectiveness of sampling sites can be performed. The
 data used to prepare information to perform such analyses can be of
 different types:
 
--   Spatial polygons of species distributions
--   Raster layers defining suitable and unsuitable areas
--   Geographic points of species occurrences
+- Spatial polygons of species distributions
+- Raster layers defining suitable and unsuitable areas
+- Geographic points of species occurrences
 
 <br>
 
@@ -213,15 +203,15 @@ the functions `explore_data_EG()` and `plot_blocks_EG()` can be used.
 After preparing data, distinct functions can be used to select sampling
 sites:
 
--   `random_selection()`.- Random selection of sites to be sampled in a
-    survey.
--   `uniformG_selection()`.- Selection of sites with the goal of
-    maximizing uniformity of points in geographic space.
--   `uniformE_selection()`.- Selection of sites with the goal of
-    maximizing uniformity of points in environmental space.
--   `EG_selection()`.- Selection of sites with the goal of maximizing
-    uniformity of points in environment, but considering geographic
-    patterns of data.
+- `random_selection()`.- Random selection of sites to be sampled in a
+  survey.
+- `uniformG_selection()`.- Selection of sites with the goal of
+  maximizing uniformity of points in geographic space.
+- `uniformE_selection()`.- Selection of sites with the goal of
+  maximizing uniformity of points in environmental space.
+- `EG_selection()`.- Selection of sites with the goal of maximizing
+  uniformity of points in environment, but considering geographic
+  patterns of data.
 
 See also how your selected sites look like with the functions
 `plot_sites_EG()`, `plot_sites_E()`, and `plot_sites_G()`.
@@ -236,30 +226,29 @@ used to explore which sets of sites selected could be better. Explore
 the following functions to prepare your data, and assess how well your
 selected sites perform in representing the exiting biodiversity:
 
--   `prepare_base_PAM()`.- Prepares a presence-absence matrix (PAM) from
-    species distributional data; all sites (rows) will have a value for
-    presence or absence of species (columns).
--   `PAM_indices()`.- Calculates a set of biodiversity indices using
-    values contained in the presence-absence matrix.
--   `plot_PAM_geo()`.- Plot of PAM indices in geography.
--   `subset_PAM()`.- Subsets a base\_PAM object according to sites
-    selected previously that are contained in a master\_selection
-    object.
--   `selected_sites_SAC()`.- Creates species accumulation curves for
-    each set of selected sites contained in elements of PAM\_subset.
--   `plot_SAC()`.- Creates species accumulation curve plots for selected
-    sites.
--   `compare_SAC()`.- Creates comparative plots of two species
-    accumulation curves from information contained in lists obtained
-    with the function `selected_sites_SAC()`.
--   `selected_sites_DI()`.- Computes dissimilarity indices among sites
-    selected and among sets of selected sites, based on the communities
-    of species represented in such units.
--   `plot_DI()`.- Creates matrix-like plots of dissimilarities found
-    among communities of species in distinct sites selected or sets of
-    sites selected.
--   `DI_dendrogram()`.- Plot dissimilarities withing and among sets of
-    selected sites as a dendrogram.
+- `prepare_base_PAM()`.- Prepares a presence-absence matrix (PAM) from
+  species distributional data; all sites (rows) will have a value for
+  presence or absence of species (columns).
+- `PAM_indices()`.- Calculates a set of biodiversity indices using
+  values contained in the presence-absence matrix.
+- `plot_PAM_geo()`.- Plot of PAM indices in geography.
+- `subset_PAM()`.- Subsets a base_PAM object according to sites selected
+  previously that are contained in a master_selection object.
+- `selected_sites_SAC()`.- Creates species accumulation curves for each
+  set of selected sites contained in elements of PAM_subset.
+- `plot_SAC()`.- Creates species accumulation curve plots for selected
+  sites.
+- `compare_SAC()`.- Creates comparative plots of two species
+  accumulation curves from information contained in lists obtained with
+  the function `selected_sites_SAC()`.
+- `selected_sites_DI()`.- Computes dissimilarity indices among sites
+  selected and among sets of selected sites, based on the communities of
+  species represented in such units.
+- `plot_DI()`.- Creates matrix-like plots of dissimilarities found among
+  communities of species in distinct sites selected or sets of sites
+  selected.
+- `DI_dendrogram()`.- Plot dissimilarities withing and among sets of
+  selected sites as a dendrogram.
 
 <br>
 <hr>

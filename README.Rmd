@@ -1,6 +1,6 @@
 ---
 title: "biosurvey: Tools for Biological Survey Planning"
-author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson, Weverton Trindade (ctb), Can Elverici (ctb)"
 output: 
   github_document:
     toc: yes
@@ -13,11 +13,6 @@ library(knitr)
 opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 ```
 
-<!-- badges: start -->
-  [![R build status](https://github.com/claununez/biosurvey/workflows/R-CMD-check/badge.svg)](https://github.com/claununez/biosurvey/actions)
-  <!-- badges: end -->
-
-<br>
 <hr>
 
 <img src='man/figures/biosurveyfinal.png' align="right" height="200" /></a>
@@ -112,8 +107,8 @@ To check vignettes you can use:
 
 As shown in Fig. 1, to use **biosurvey** and select sites for biodiversity inventory you need:
 
-- *Environmental variables*.- These variables must be in raster format (e.g., GTiff, BIL, ASCII). To load these variables to your R environment, you can use the function `stack` from the package `raster`. 
-- *Region of interest*.- As your analyses will be focused on a region, a spatial polygon of such an area is needed. Common formats in which your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To load this information to your R environment you can use the function `readOGR` from the `rgdal` package.
+- *Environmental variables*.- These variables must be in raster format (e.g., GTiff, BIL, ASCII). To load these variables to your R environment, you can use the function `ras` from the package `terra`. 
+- *Region of interest*.- As your analyses will be focused on a region, a spatial polygon of such an area is needed. Common formats in which your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To load this information to your R environment you can use the function `vect` from the `terra` package.
 
 Additionally, other data can be used to make sampling site selection more effective. The functions that help to prepare the data for analysis also allow users to include:
 

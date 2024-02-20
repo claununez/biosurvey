@@ -1,6 +1,6 @@
 ---
 title: "biosurvey: Preparing data"
-author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson, Weverton Trindade (ctb), Can Elverici (ctb)"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{biosurvey: Preparing data}
@@ -47,59 +47,56 @@ The following lines of code help to prepare an S3 object (**master_matrix**) tha
 
 ```{r prepare_master_matrix, eval=FALSE, echo=TRUE}
 # Data
-data("mx", package = "biosurvey")
-variables <- raster::stack(system.file("extdata/variables.tif",
-                                      package = "biosurvey"))
-names(variables) <- c("Mean_temperature", "Max_temperature", "Min_temperature",
-                      "Annual_precipitation", "Prec_wettest_month", 
-                      "Prec_driest_month" )
+mx <- terra::vect(system.file("extdata/mx.gpkg", package = "biosurvey"))
+
+variables <- terra::rast(system.file("extdata/variables.tif",
+                                       package = "biosurvey"))
 
 # Create master matrix object
-m_matrix <- prepare_master_matrix(region = mx, variables = variables, 
+m_matrix <- prepare_master_matrix(region = mx, variables = variables,
                                   do_pca = TRUE, center = TRUE, scale = TRUE)
 #> Processing raster layers, please wait...
 #> Performing PCA analysis
 
 summary(m_matrix)
-#> 
+
 #>                      Summary of a master_matrix object
 #> ---------------------------------------------------------------------------
 #> 
 #> Data matrix summary:
 #>    Longitude          Latitude     Mean_temperature Max_temperature
-#>  Min.   :-116.92   Min.   :14.58   Min.   : 85.0    Min.   :180    
-#>  1st Qu.:-106.79   1st Qu.:19.92   1st Qu.:174.0    1st Qu.:309    
-#>  Median :-102.58   Median :24.25   Median :203.0    Median :335    
-#>  Mean   :-102.52   Mean   :23.95   Mean   :203.6    Mean   :330    
-#>  3rd Qu.: -98.75   3rd Qu.:27.92   3rd Qu.:236.0    3rd Qu.:354    
-#>  Max.   : -86.92   Max.   :32.58   Max.   :291.0    Max.   :425    
+#>  Min.   :-118.25   Min.   :14.58   Min.   : 85.0    Min.   :180.0  
+#>  1st Qu.:-107.08   1st Qu.:19.75   1st Qu.:175.0    1st Qu.:311.0  
+#>  Median :-102.58   Median :24.25   Median :206.0    Median :335.0  
+#>  Mean   :-102.59   Mean   :23.96   Mean   :205.6    Mean   :330.9  
+#>  3rd Qu.: -98.58   3rd Qu.:27.92   3rd Qu.:238.0    3rd Qu.:354.8  
+#>  Max.   : -86.75   Max.   :32.58   Max.   :291.0    Max.   :425.0  
 #>  Min_temperature  Annual_precipitation Prec_wettest_month Prec_driest_month
-#>  Min.   :-60.00   Min.   :  53.0       Min.   :  9.0      Min.   :  0.00   
-#>  1st Qu.: 30.00   1st Qu.: 352.0       1st Qu.: 78.0      1st Qu.:  3.00   
-#>  Median : 60.00   Median : 619.0       Median :144.5      Median :  6.00   
-#>  Mean   : 70.66   Mean   : 768.8       Mean   :164.7      Mean   : 10.67   
-#>  3rd Qu.:112.00   3rd Qu.:1046.2       3rd Qu.:224.0      3rd Qu.: 12.00   
-#>  Max.   :213.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   
-#>       PC1               PC2         
-#>  Min.   :-2.5770   Min.   :-5.9018  
-#>  1st Qu.:-1.3957   1st Qu.:-0.7861  
-#>  Median :-0.6003   Median : 0.1946  
-#>  Mean   : 0.0000   Mean   : 0.0000  
-#>  3rd Qu.: 1.0825   3rd Qu.: 0.9541  
-#>  Max.   : 9.1506   Max.   : 3.1070  
+#>  Min.   :-60.00   Min.   :  44.0       Min.   :  9.0      Min.   :  0.00   
+#>  1st Qu.: 32.00   1st Qu.: 340.2       1st Qu.: 75.0      1st Qu.:  3.00   
+#>  Median : 63.00   Median : 610.0       Median :143.0      Median :  5.00   
+#>  Mean   : 73.66   Mean   : 764.2       Mean   :163.4      Mean   : 10.62   
+#>  3rd Qu.:117.00   3rd Qu.:1052.0       3rd Qu.:224.0      3rd Qu.: 12.00   
+#>  Max.   :214.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   
+#>       PC1              PC2         
+#>  Min.   :-2.554   Min.   :-3.0597  
+#>  1st Qu.:-1.406   1st Qu.:-0.9560  
+#>  Median :-0.601   Median :-0.1948  
+#>  Mean   : 0.000   Mean   : 0.0000  
+#>  3rd Qu.: 1.109   3rd Qu.: 0.7920  
+#>  Max.   : 9.055   Max.   : 5.9662 
 #> 
 #> 
 #> No preselected sites were defined
 #> 
 #> 
 #> Region of interest:
-#> class       : SpatialPolygonsDataFrame 
-#> features    : 1 
-#> extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)
-#> crs         : +proj=longlat +datum=WGS84 +no_defs 
-#> variables   : 11
-#> names       : FIPS, ISO2, ISO3,  UN,   NAME,   AREA,   POP2005, REGION, SUBREGION,      LON,    LAT 
-#> value       :   MX,   MX,  MEX, 484, Mexico, 190869, 104266392,     19,        13, -102.535, 23.951
+#>  class       : SpatVector 
+#>  geometry    : polygons 
+#>  dimensions  : 1, 11  (geometries, attributes)
+#>  extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)
+#>  source      : mx.gpkg
+#>  coord. ref. : lon/lat WGS 84 (EPSG:4326) 
 
 ```
 
@@ -119,32 +116,33 @@ m_matrix_pre <- prepare_master_matrix(region = mx, variables = variables,
 #> Performing PCA analysis
 
 summary(m_matrix_pre)
-#> 
+
 #>                      Summary of a master_matrix object
 #> ---------------------------------------------------------------------------
 #> 
 #> Data matrix summary:
+#> Data matrix summary:
 #>    Longitude          Latitude     Mean_temperature Max_temperature
-#>  Min.   :-116.92   Min.   :14.58   Min.   : 85.0    Min.   :180    
-#>  1st Qu.:-106.79   1st Qu.:19.92   1st Qu.:174.0    1st Qu.:309    
-#>  Median :-102.58   Median :24.25   Median :203.0    Median :335    
-#>  Mean   :-102.52   Mean   :23.95   Mean   :203.6    Mean   :330    
-#>  3rd Qu.: -98.75   3rd Qu.:27.92   3rd Qu.:236.0    3rd Qu.:354    
-#>  Max.   : -86.92   Max.   :32.58   Max.   :291.0    Max.   :425    
+#>  Min.   :-118.25   Min.   :14.58   Min.   : 85.0    Min.   :180.0  
+#>  1st Qu.:-107.08   1st Qu.:19.75   1st Qu.:175.0    1st Qu.:311.0  
+#>  Median :-102.58   Median :24.25   Median :206.0    Median :335.0  
+#>  Mean   :-102.59   Mean   :23.96   Mean   :205.6    Mean   :330.9  
+#>  3rd Qu.: -98.58   3rd Qu.:27.92   3rd Qu.:238.0    3rd Qu.:354.8  
+#>  Max.   : -86.75   Max.   :32.58   Max.   :291.0    Max.   :425.0  
 #>  Min_temperature  Annual_precipitation Prec_wettest_month Prec_driest_month
-#>  Min.   :-60.00   Min.   :  53.0       Min.   :  9.0      Min.   :  0.00   
-#>  1st Qu.: 30.00   1st Qu.: 352.0       1st Qu.: 78.0      1st Qu.:  3.00   
-#>  Median : 60.00   Median : 619.0       Median :144.5      Median :  6.00   
-#>  Mean   : 70.66   Mean   : 768.8       Mean   :164.7      Mean   : 10.67   
-#>  3rd Qu.:112.00   3rd Qu.:1046.2       3rd Qu.:224.0      3rd Qu.: 12.00   
-#>  Max.   :213.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   
-#>       PC1               PC2         
-#>  Min.   :-2.5770   Min.   :-5.9018  
-#>  1st Qu.:-1.3957   1st Qu.:-0.7861  
-#>  Median :-0.6003   Median : 0.1946  
-#>  Mean   : 0.0000   Mean   : 0.0000  
-#>  3rd Qu.: 1.0825   3rd Qu.: 0.9541  
-#>  Max.   : 9.1506   Max.   : 3.1070  
+#>  Min.   :-60.00   Min.   :  44.0       Min.   :  9.0      Min.   :  0.00   
+#>  1st Qu.: 32.00   1st Qu.: 340.2       1st Qu.: 75.0      1st Qu.:  3.00   
+#>  Median : 63.00   Median : 610.0       Median :143.0      Median :  5.00   
+#>  Mean   : 73.66   Mean   : 764.2       Mean   :163.4      Mean   : 10.62   
+#>  3rd Qu.:117.00   3rd Qu.:1052.0       3rd Qu.:224.0      3rd Qu.: 12.00   
+#>  Max.   :214.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   
+#>       PC1              PC2         
+#>  Min.   :-2.554   Min.   :-3.0597  
+#>  1st Qu.:-1.406   1st Qu.:-0.9560  
+#>  Median :-0.601   Median :-0.1948  
+#>  Mean   : 0.000   Mean   : 0.0000  
+#>  3rd Qu.: 1.109   3rd Qu.: 0.7920  
+#>  Max.   : 9.055   Max.   : 5.9662  
 #> 
 #> 
 #> Sites preselected by user:
@@ -157,13 +155,12 @@ summary(m_matrix_pre)
 #> 
 #> 
 #> Region of interest:
-#> class       : SpatialPolygonsDataFrame 
-#> features    : 1 
-#> extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)
-#> crs         : +proj=longlat +datum=WGS84 +no_defs 
-#> variables   : 11
-#> names       : FIPS, ISO2, ISO3,  UN,   NAME,   AREA,   POP2005, REGION, SUBREGION,      LON,    LAT 
-#> value       :   MX,   MX,  MEX, 484, Mexico, 190869, 104266392,     19,        13, -102.535, 23.951
+#>  class       : SpatVector 
+#>  geometry    : polygons 
+#>  dimensions  : 1, 11  (geometries, attributes)
+#>  extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)
+#>  source      : mx.gpkg
+#>  coord. ref. : lon/lat WGS 84 (EPSG:4326) 
 
 ```
 
@@ -208,10 +205,11 @@ m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                        variable_2 = "PC2", n_cols = 10, n_rows = 10,
                        block_type = "equal_area")
 unique(m_blocks$data_matrix$Block)
-#>  [1]   7   9  32   6  31  10   5   8  30   4  29  28   3  42  27  41  40  39  26
-#> [20]  43  38  52  25  51  37  36  53  50  62  61  73  71  72  63  49  59  60  48
-#> [39]  70  64  58  81  80  91  47  68  35  54  24   2  23  82  74  83  92  93  84
-#> [58]  69 102 103  94 104 114 113  65
+
+#>   [1]   5   4   2  23  24   1   6   3  25   7  26  27   8  35  28  36  37  38
+#>  [19]  29  34  39  47  30  48  40  41  46  49  59  60  70  72  71  58  50  62
+#>  [37]  61  51  73  63  84  57  85  95  52  75  42  45  31   9  32  82  94  83
+#>  [55]  81  69  96  74 107 106  93 105 117 118  56
 
 ```
 
