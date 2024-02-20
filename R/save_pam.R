@@ -1,4 +1,4 @@
-#' Functions to save and read master objects
+#' Functions to save and read PAM objects
 #'
 #' @param PAM object of class base_PAM or PAM_subset derived from the functions
 #' \code{\link{prepare_base_PAM}} or \code{\link{subset_PAM}}.

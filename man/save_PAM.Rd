@@ -3,7 +3,7 @@
 \name{save_PAM}
 \alias{save_PAM}
 \alias{read_PAM}
-\title{Functions to save and read master objects}
+\title{Functions to save and read PAM objects}
 \usage{
 save_PAM(PAM, file_name, verbose = TRUE)
 
@@ -26,7 +26,7 @@ was saved.
 an object of class base_PAM with its spatial object unwrapped.
 }
 \description{
-Functions to save and read master objects
+Functions to save and read PAM objects
 }
 \examples{
 b_pam <- read_PAM(system.file("extdata/b_pam.rds",
