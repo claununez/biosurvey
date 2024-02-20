@@ -4,317 +4,356 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="biosurvey">
 <title>biosurvey: Preparing data • biosurvey</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="biosurvey: Preparing data">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="biosurvey: Preparing data">
 <meta property="og:description" content="biosurvey">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">biosurvey</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">biosurvey</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/biosurvey_preparing_data.html">biosurvey: Preparing data</a>
-    </li>
-    <li>
-      <a href="../articles/biosurvey_selecting_sites.html">biosurvey: Selecting sampling sites</a>
-    </li>
-    <li>
-      <a href="../articles/biosurvey_selection_with_preselected_sites.html">biosurvey: Selecting sampling sites using preselected points</a>
-    </li>
-    <li>
-      <a href="../articles/biosurvey_testing_module.html">biosurvey: Testing efficiency of selected sites</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/claununez/biosurvey/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/biosurvey_preparing_data.html">biosurvey: Preparing data</a>
+    <a class="dropdown-item" href="../articles/biosurvey_selecting_sites.html">biosurvey: Selecting sampling sites</a>
+    <a class="dropdown-item" href="../articles/biosurvey_selection_with_preselected_sites.html">biosurvey: Selecting sampling sites using preselected points</a>
+    <a class="dropdown-item" href="../articles/biosurvey_testing_module.html">biosurvey: Testing efficiency of selected sites</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/claununez/biosurvey/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
+    
+  </div>
+</nav><div class="container template-article">
 
-      </header><script src="biosurvey_preparing_data_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>biosurvey: Preparing data</h1>
-                        <h4 class="author">Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson</h4>
+
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="" class="logo" alt=""><h1>biosurvey: Preparing data</h1>
+                        <h4 data-toc-skip class="author">Claudia
+Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani
+Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson,
+Weverton Trindade (ctb), Can Elverici (ctb)</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/claununez/biosurvey/blob/master/vignettes/biosurvey_preparing_data.Rmd"><code>vignettes/biosurvey_preparing_data.Rmd</code></a></small>
-      <div class="hidden name"><code>biosurvey_preparing_data.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/claununez/biosurvey/blob/HEAD/vignettes/biosurvey_preparing_data.Rmd" class="external-link"><code>vignettes/biosurvey_preparing_data.Rmd</code></a></small>
+      <div class="d-none name"><code>biosurvey_preparing_data.Rmd</code></div>
     </div>
 
     
     
 <hr>
 <p><img src="vignette_img/biosurveyfinal.png" align="right" height="200"></p>
-<div id="description-of-data-needed-for-analysis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#description-of-data-needed-for-analysis" class="anchor"></a>Description of data needed for analysis</h3>
-<p>The main goal of <strong>biosurvey</strong> is to help users to identify sites for biodiversity inventory. This package contains tools that use environmental and geographic information to promote the selection of sites that could allow a better sampling of species in a region. The data needed to perform analyses are:</p>
+<div class="section level3">
+<h3 id="description-of-data-needed-for-analysis">Description of data needed for analysis<a class="anchor" aria-label="anchor" href="#description-of-data-needed-for-analysis"></a>
+</h3>
+<p>The main goal of <strong>biosurvey</strong> is to help users to
+identify sites for biodiversity inventory. This package contains tools
+that use environmental and geographic information to promote the
+selection of sites that could allow a better sampling of species in a
+region. The data needed to perform analyses are:</p>
 <ul>
 <li>
-<em>Environmental variables</em>.- These variables must be in raster format (e.g., GTiff, BIL, ASCII). To load these variables to your R environment, you can use the function <code>stack</code> from the package <code>raster</code>.</li>
+<em>Environmental variables</em>.- These variables must be in raster
+format (e.g., GTiff, BIL, ASCII). To load these variables to your R
+environment, you can use the function <code>stack</code> from the
+package <code>raster</code>.</li>
 <li>
-<em>Region of interest</em>.- As your analyses will be focused on a region, a spatial polygon of such an area is needed. Common formats in which your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To load this information to your R environment you can use the function <code>readOGR</code> from the <code>rgdal</code> package.</li>
+<em>Region of interest</em>.- As your analyses will be focused on a
+region, a spatial polygon of such an area is needed. Common formats in
+which your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To
+load this information to your R environment you can use the function
+<code>readOGR</code> from the <code>rgdal</code> package.</li>
 </ul>
-<p>Additionally, other data can be used to make sampling site selection more effective. The functions that help to prepare the data for analysis also allow users to include:</p>
+<p>Additionally, other data can be used to make sampling site selection
+more effective. The functions that help to prepare the data for analysis
+also allow users to include:</p>
 <ul>
 <li>
-<em>Sites selected a priori</em>.- A data.frame of sites that researchers consider important to be included in any set of localities to be sampled. These site(s) will be included (by force) in any of the results obtained in later analyses. Using these sites represents a good opportunity to consider areas that are well known and should be included to monitor biodiversity changes in a region.</li>
+<em>Sites selected a priori</em>.- A data.frame of sites that
+researchers consider important to be included in any set of localities
+to be sampled. These site(s) will be included (by force) in any of the
+results obtained in later analyses. Using these sites represents a good
+opportunity to consider areas that are well known and should be included
+to monitor biodiversity changes in a region.</li>
 <li>
-<em>A mask to restrict analyses to smaller areas</em>.- A spatial polygon that reduces the region of interest to areas that are considered to be more relevant for analysis can be considered. Some examples of how to define these masks include areas with natural vegetation, areas that are accessible, regions with particular vegetation cover types, etc. This mask is usually in the same format that the <em>Region of interest</em>.</li>
+<em>A mask to restrict analyses to smaller areas</em>.- A spatial
+polygon that reduces the region of interest to areas that are considered
+to be more relevant for analysis can be considered. Some examples of how
+to define these masks include areas with natural vegetation, areas that
+are accessible, regions with particular vegetation cover types, etc.
+This mask is usually in the same format that the <em>Region of
+interest</em>.</li>
 </ul>
-<p>If enough, good-quality data on species distributions are available, analyses of the effectiveness of sampling sites can be performed. The data used to prepare information to perform such analyses can be of different types:</p>
+<p>If enough, good-quality data on species distributions are available,
+analyses of the effectiveness of sampling sites can be performed. The
+data used to prepare information to perform such analyses can be of
+different types:</p>
 <ul>
 <li>Spatial polygons of species distributions</li>
 <li>Raster layers defining suitable and unsuitable areas</li>
 <li>Geographic points of species occurrences</li>
 </ul>
-<p>The geographic projection of objects or coordinates involved in analyses must be WGS84 (EPSG:4326). Environmental and geographic information is all what is needed to select biodiversity survey sites (sampling sites). Information about species distribution is not required, but if it exists and is reliable, it can be used to test the effectiveness of the sampling sites selected based on what is known about species richness in the region of interest.</p>
+<p>The geographic projection of objects or coordinates involved in
+analyses must be WGS84 (EPSG:4326). Environmental and geographic
+information is all what is needed to select biodiversity survey sites
+(sampling sites). Information about species distribution is not
+required, but if it exists and is reliable, it can be used to test the
+effectiveness of the sampling sites selected based on what is known
+about species richness in the region of interest.</p>
 <p><br></p>
 </div>
-<div id="example-of-how-to-prepare-the-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-of-how-to-prepare-the-data" class="anchor"></a>Example of how to prepare the data</h3>
-<div id="preparing-an-object-that-contains-all-information-needed" class="section level4">
-<h4 class="hasAnchor">
-<a href="#preparing-an-object-that-contains-all-information-needed" class="anchor"></a>Preparing an object that contains all information needed</h4>
-<p>The following lines of code help to prepare an S3 object (<strong>master_matrix</strong>) that will serve as the base to perform all further analyses. This object will contain: 1) <em>data_matrix</em>, with information about geographic location of raster cells, initial environmental data, and principal components derived from original data (PCs are optional); 2) an optional set of <em>preselected_sites</em>; 3) a spatial polygon representing the <em>region</em> of interest; 4) an optional <em>mask</em> to reduce the region of interest (to restrict it to natural areas, for instance); 5) a spatial object that serves as a <em>raster_base</em> to be used for plotting purposes; and 6) the <em>PCA_results</em>, if such analysis was used when constructing the <strong>master_matrix</strong>.</p>
+<div class="section level3">
+<h3 id="example-of-how-to-prepare-the-data">Example of how to prepare the data<a class="anchor" aria-label="anchor" href="#example-of-how-to-prepare-the-data"></a>
+</h3>
+<div class="section level4">
+<h4 id="preparing-an-object-that-contains-all-information-needed">Preparing an object that contains all information needed<a class="anchor" aria-label="anchor" href="#preparing-an-object-that-contains-all-information-needed"></a>
+</h4>
+<p>The following lines of code help to prepare an S3 object
+(<strong>master_matrix</strong>) that will serve as the base to perform
+all further analyses. This object will contain: 1) <em>data_matrix</em>,
+with information about geographic location of raster cells, initial
+environmental data, and principal components derived from original data
+(PCs are optional); 2) an optional set of <em>preselected_sites</em>; 3)
+a spatial polygon representing the <em>region</em> of interest; 4) an
+optional <em>mask</em> to reduce the region of interest (to restrict it
+to natural areas, for instance); 5) a spatial object that serves as a
+<em>raster_base</em> to be used for plotting purposes; and 6) the
+<em>PCA_results</em>, if such analysis was used when constructing the
+<strong>master_matrix</strong>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"mx"</span>, package <span class="op">=</span> <span class="st">"biosurvey"</span><span class="op">)</span>
-<span class="va">variables</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/stack.html">stack</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/variables.tif"</span>,
-                                      package <span class="op">=</span> <span class="st">"biosurvey"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">variables</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Mean_temperature"</span>, <span class="st">"Max_temperature"</span>, <span class="st">"Min_temperature"</span>,
-                      <span class="st">"Annual_precipitation"</span>, <span class="st">"Prec_wettest_month"</span>, 
-                      <span class="st">"Prec_driest_month"</span> <span class="op">)</span>
-
-<span class="co"># Create master matrix object</span>
-<span class="va">m_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_master_matrix.html">prepare_master_matrix</a></span><span class="op">(</span>region <span class="op">=</span> <span class="va">mx</span>, variables <span class="op">=</span> <span class="va">variables</span>, 
-                                  do_pca <span class="op">=</span> <span class="cn">TRUE</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Processing raster layers, please wait...</span>
-<span class="co">#&gt; Performing PCA analysis</span>
-
-<span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">m_matrix</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;                      Summary of a master_matrix object</span>
-<span class="co">#&gt; ---------------------------------------------------------------------------</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Data matrix summary:</span>
-<span class="co">#&gt;    Longitude          Latitude     Mean_temperature Max_temperature</span>
-<span class="co">#&gt;  Min.   :-116.92   Min.   :14.58   Min.   : 85.0    Min.   :180    </span>
-<span class="co">#&gt;  1st Qu.:-106.79   1st Qu.:19.92   1st Qu.:174.0    1st Qu.:309    </span>
-<span class="co">#&gt;  Median :-102.58   Median :24.25   Median :203.0    Median :335    </span>
-<span class="co">#&gt;  Mean   :-102.52   Mean   :23.95   Mean   :203.6    Mean   :330    </span>
-<span class="co">#&gt;  3rd Qu.: -98.75   3rd Qu.:27.92   3rd Qu.:236.0    3rd Qu.:354    </span>
-<span class="co">#&gt;  Max.   : -86.92   Max.   :32.58   Max.   :291.0    Max.   :425    </span>
-<span class="co">#&gt;  Min_temperature  Annual_precipitation Prec_wettest_month Prec_driest_month</span>
-<span class="co">#&gt;  Min.   :-60.00   Min.   :  53.0       Min.   :  9.0      Min.   :  0.00   </span>
-<span class="co">#&gt;  1st Qu.: 30.00   1st Qu.: 352.0       1st Qu.: 78.0      1st Qu.:  3.00   </span>
-<span class="co">#&gt;  Median : 60.00   Median : 619.0       Median :144.5      Median :  6.00   </span>
-<span class="co">#&gt;  Mean   : 70.66   Mean   : 768.8       Mean   :164.7      Mean   : 10.67   </span>
-<span class="co">#&gt;  3rd Qu.:112.00   3rd Qu.:1046.2       3rd Qu.:224.0      3rd Qu.: 12.00   </span>
-<span class="co">#&gt;  Max.   :213.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   </span>
-<span class="co">#&gt;       PC1               PC2         </span>
-<span class="co">#&gt;  Min.   :-2.5770   Min.   :-5.9018  </span>
-<span class="co">#&gt;  1st Qu.:-1.3957   1st Qu.:-0.7861  </span>
-<span class="co">#&gt;  Median :-0.6003   Median : 0.1946  </span>
-<span class="co">#&gt;  Mean   : 0.0000   Mean   : 0.0000  </span>
-<span class="co">#&gt;  3rd Qu.: 1.0825   3rd Qu.: 0.9541  </span>
-<span class="co">#&gt;  Max.   : 9.1506   Max.   : 3.1070  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; No preselected sites were defined</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Region of interest:</span>
-<span class="co">#&gt; class       : SpatialPolygonsDataFrame </span>
-<span class="co">#&gt; features    : 1 </span>
-<span class="co">#&gt; extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; crs         : +proj=longlat +datum=WGS84 +no_defs </span>
-<span class="co">#&gt; variables   : 11</span>
-<span class="co">#&gt; names       : FIPS, ISO2, ISO3,  UN,   NAME,   AREA,   POP2005, REGION, SUBREGION,      LON,    LAT </span>
-<span class="co">#&gt; value       :   MX,   MX,  MEX, 484, Mexico, 190869, 104266392,     19,        13, -102.535, 23.951</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Data</span></span>
+<span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/vect.html" class="external-link">vect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/mx.gpkg"</span>, package <span class="op">=</span> <span class="st">"biosurvey"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">variables</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/variables.tif"</span>,</span>
+<span>                                       package <span class="op">=</span> <span class="st">"biosurvey"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create master matrix object</span></span>
+<span><span class="va">m_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_master_matrix.html">prepare_master_matrix</a></span><span class="op">(</span>region <span class="op">=</span> <span class="va">mx</span>, variables <span class="op">=</span> <span class="va">variables</span>,</span>
+<span>                                  do_pca <span class="op">=</span> <span class="cn">TRUE</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Processing raster layers, please wait...</span></span>
+<span><span class="co">#&gt; Performing PCA analysis</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">m_matrix</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#&gt;                      Summary of a master_matrix object</span></span>
+<span><span class="co">#&gt; ---------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Data matrix summary:</span></span>
+<span><span class="co">#&gt;    Longitude          Latitude     Mean_temperature Max_temperature</span></span>
+<span><span class="co">#&gt;  Min.   :-118.25   Min.   :14.58   Min.   : 85.0    Min.   :180.0  </span></span>
+<span><span class="co">#&gt;  1st Qu.:-107.08   1st Qu.:19.75   1st Qu.:175.0    1st Qu.:311.0  </span></span>
+<span><span class="co">#&gt;  Median :-102.58   Median :24.25   Median :206.0    Median :335.0  </span></span>
+<span><span class="co">#&gt;  Mean   :-102.59   Mean   :23.96   Mean   :205.6    Mean   :330.9  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: -98.58   3rd Qu.:27.92   3rd Qu.:238.0    3rd Qu.:354.8  </span></span>
+<span><span class="co">#&gt;  Max.   : -86.75   Max.   :32.58   Max.   :291.0    Max.   :425.0  </span></span>
+<span><span class="co">#&gt;  Min_temperature  Annual_precipitation Prec_wettest_month Prec_driest_month</span></span>
+<span><span class="co">#&gt;  Min.   :-60.00   Min.   :  44.0       Min.   :  9.0      Min.   :  0.00   </span></span>
+<span><span class="co">#&gt;  1st Qu.: 32.00   1st Qu.: 340.2       1st Qu.: 75.0      1st Qu.:  3.00   </span></span>
+<span><span class="co">#&gt;  Median : 63.00   Median : 610.0       Median :143.0      Median :  5.00   </span></span>
+<span><span class="co">#&gt;  Mean   : 73.66   Mean   : 764.2       Mean   :163.4      Mean   : 10.62   </span></span>
+<span><span class="co">#&gt;  3rd Qu.:117.00   3rd Qu.:1052.0       3rd Qu.:224.0      3rd Qu.: 12.00   </span></span>
+<span><span class="co">#&gt;  Max.   :214.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   </span></span>
+<span><span class="co">#&gt;       PC1              PC2         </span></span>
+<span><span class="co">#&gt;  Min.   :-2.554   Min.   :-3.0597  </span></span>
+<span><span class="co">#&gt;  1st Qu.:-1.406   1st Qu.:-0.9560  </span></span>
+<span><span class="co">#&gt;  Median :-0.601   Median :-0.1948  </span></span>
+<span><span class="co">#&gt;  Mean   : 0.000   Mean   : 0.0000  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 1.109   3rd Qu.: 0.7920  </span></span>
+<span><span class="co">#&gt;  Max.   : 9.055   Max.   : 5.9662 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; No preselected sites were defined</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Region of interest:</span></span>
+<span><span class="co">#&gt;  class       : SpatVector </span></span>
+<span><span class="co">#&gt;  geometry    : polygons </span></span>
+<span><span class="co">#&gt;  dimensions  : 1, 11  (geometries, attributes)</span></span>
+<span><span class="co">#&gt;  extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt;  source      : mx.gpkg</span></span>
+<span><span class="co">#&gt;  coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span></code></pre></div>
 <p><br></p>
-<p>If you want to define points that need to be included in the final selection of sites to be sampled, you can do it by adding them as a <code>data.frame</code> in one of the arguments of the function <code>prepare_master_matrix</code>. See below:</p>
+<p>If you want to define points that need to be included in the final
+selection of sites to be sampled, you can do it by adding them as a
+<code>data.frame</code> in one of the arguments of the function
+<code>prepare_master_matrix</code>. See below:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># preselected site example</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"preselected"</span>, package <span class="op">=</span> <span class="st">"biosurvey"</span><span class="op">)</span>
-
-<span class="co"># Create master matrix object</span>
-<span class="va">m_matrix_pre</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_master_matrix.html">prepare_master_matrix</a></span><span class="op">(</span>region <span class="op">=</span> <span class="va">mx</span>, variables <span class="op">=</span> <span class="va">variables</span>, 
-                                      preselected_sites <span class="op">=</span> <span class="va">preselected</span>,  
-                                      do_pca <span class="op">=</span> <span class="cn">TRUE</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Processing raster layers, please wait...</span>
-<span class="co">#&gt; Performing PCA analysis</span>
-
-<span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">m_matrix_pre</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;                      Summary of a master_matrix object</span>
-<span class="co">#&gt; ---------------------------------------------------------------------------</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Data matrix summary:</span>
-<span class="co">#&gt;    Longitude          Latitude     Mean_temperature Max_temperature</span>
-<span class="co">#&gt;  Min.   :-116.92   Min.   :14.58   Min.   : 85.0    Min.   :180    </span>
-<span class="co">#&gt;  1st Qu.:-106.79   1st Qu.:19.92   1st Qu.:174.0    1st Qu.:309    </span>
-<span class="co">#&gt;  Median :-102.58   Median :24.25   Median :203.0    Median :335    </span>
-<span class="co">#&gt;  Mean   :-102.52   Mean   :23.95   Mean   :203.6    Mean   :330    </span>
-<span class="co">#&gt;  3rd Qu.: -98.75   3rd Qu.:27.92   3rd Qu.:236.0    3rd Qu.:354    </span>
-<span class="co">#&gt;  Max.   : -86.92   Max.   :32.58   Max.   :291.0    Max.   :425    </span>
-<span class="co">#&gt;  Min_temperature  Annual_precipitation Prec_wettest_month Prec_driest_month</span>
-<span class="co">#&gt;  Min.   :-60.00   Min.   :  53.0       Min.   :  9.0      Min.   :  0.00   </span>
-<span class="co">#&gt;  1st Qu.: 30.00   1st Qu.: 352.0       1st Qu.: 78.0      1st Qu.:  3.00   </span>
-<span class="co">#&gt;  Median : 60.00   Median : 619.0       Median :144.5      Median :  6.00   </span>
-<span class="co">#&gt;  Mean   : 70.66   Mean   : 768.8       Mean   :164.7      Mean   : 10.67   </span>
-<span class="co">#&gt;  3rd Qu.:112.00   3rd Qu.:1046.2       3rd Qu.:224.0      3rd Qu.: 12.00   </span>
-<span class="co">#&gt;  Max.   :213.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   </span>
-<span class="co">#&gt;       PC1               PC2         </span>
-<span class="co">#&gt;  Min.   :-2.5770   Min.   :-5.9018  </span>
-<span class="co">#&gt;  1st Qu.:-1.3957   1st Qu.:-0.7861  </span>
-<span class="co">#&gt;  Median :-0.6003   Median : 0.1946  </span>
-<span class="co">#&gt;  Mean   : 0.0000   Mean   : 0.0000  </span>
-<span class="co">#&gt;  3rd Qu.: 1.0825   3rd Qu.: 0.9541  </span>
-<span class="co">#&gt;  Max.   : 9.1506   Max.   : 3.1070  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Sites preselected by user:</span>
-<span class="co">#&gt;                Site  Longitude Latitude</span>
-<span class="co">#&gt; 1           Chamela -105.04479 19.50090</span>
-<span class="co">#&gt; 2       Los Tuxtlas  -95.07419 18.58489</span>
-<span class="co">#&gt; 3            Chajul  -90.94067 16.17000</span>
-<span class="co">#&gt; 4 Parque de Tlalpan  -99.19778 19.29139</span>
-<span class="co">#&gt; 5  Parque Chipinque -100.35940 25.61750</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Region of interest:</span>
-<span class="co">#&gt; class       : SpatialPolygonsDataFrame </span>
-<span class="co">#&gt; features    : 1 </span>
-<span class="co">#&gt; extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; crs         : +proj=longlat +datum=WGS84 +no_defs </span>
-<span class="co">#&gt; variables   : 11</span>
-<span class="co">#&gt; names       : FIPS, ISO2, ISO3,  UN,   NAME,   AREA,   POP2005, REGION, SUBREGION,      LON,    LAT </span>
-<span class="co">#&gt; value       :   MX,   MX,  MEX, 484, Mexico, 190869, 104266392,     19,        13, -102.535, 23.951</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># preselected site example</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"preselected"</span>, package <span class="op">=</span> <span class="st">"biosurvey"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create master matrix object</span></span>
+<span><span class="va">m_matrix_pre</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_master_matrix.html">prepare_master_matrix</a></span><span class="op">(</span>region <span class="op">=</span> <span class="va">mx</span>, variables <span class="op">=</span> <span class="va">variables</span>, </span>
+<span>                                      preselected_sites <span class="op">=</span> <span class="va">preselected</span>,  </span>
+<span>                                      do_pca <span class="op">=</span> <span class="cn">TRUE</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Processing raster layers, please wait...</span></span>
+<span><span class="co">#&gt; Performing PCA analysis</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">m_matrix_pre</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#&gt;                      Summary of a master_matrix object</span></span>
+<span><span class="co">#&gt; ---------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Data matrix summary:</span></span>
+<span><span class="co">#&gt; Data matrix summary:</span></span>
+<span><span class="co">#&gt;    Longitude          Latitude     Mean_temperature Max_temperature</span></span>
+<span><span class="co">#&gt;  Min.   :-118.25   Min.   :14.58   Min.   : 85.0    Min.   :180.0  </span></span>
+<span><span class="co">#&gt;  1st Qu.:-107.08   1st Qu.:19.75   1st Qu.:175.0    1st Qu.:311.0  </span></span>
+<span><span class="co">#&gt;  Median :-102.58   Median :24.25   Median :206.0    Median :335.0  </span></span>
+<span><span class="co">#&gt;  Mean   :-102.59   Mean   :23.96   Mean   :205.6    Mean   :330.9  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: -98.58   3rd Qu.:27.92   3rd Qu.:238.0    3rd Qu.:354.8  </span></span>
+<span><span class="co">#&gt;  Max.   : -86.75   Max.   :32.58   Max.   :291.0    Max.   :425.0  </span></span>
+<span><span class="co">#&gt;  Min_temperature  Annual_precipitation Prec_wettest_month Prec_driest_month</span></span>
+<span><span class="co">#&gt;  Min.   :-60.00   Min.   :  44.0       Min.   :  9.0      Min.   :  0.00   </span></span>
+<span><span class="co">#&gt;  1st Qu.: 32.00   1st Qu.: 340.2       1st Qu.: 75.0      1st Qu.:  3.00   </span></span>
+<span><span class="co">#&gt;  Median : 63.00   Median : 610.0       Median :143.0      Median :  5.00   </span></span>
+<span><span class="co">#&gt;  Mean   : 73.66   Mean   : 764.2       Mean   :163.4      Mean   : 10.62   </span></span>
+<span><span class="co">#&gt;  3rd Qu.:117.00   3rd Qu.:1052.0       3rd Qu.:224.0      3rd Qu.: 12.00   </span></span>
+<span><span class="co">#&gt;  Max.   :214.00   Max.   :4103.0       Max.   :750.0      Max.   :140.00   </span></span>
+<span><span class="co">#&gt;       PC1              PC2         </span></span>
+<span><span class="co">#&gt;  Min.   :-2.554   Min.   :-3.0597  </span></span>
+<span><span class="co">#&gt;  1st Qu.:-1.406   1st Qu.:-0.9560  </span></span>
+<span><span class="co">#&gt;  Median :-0.601   Median :-0.1948  </span></span>
+<span><span class="co">#&gt;  Mean   : 0.000   Mean   : 0.0000  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 1.109   3rd Qu.: 0.7920  </span></span>
+<span><span class="co">#&gt;  Max.   : 9.055   Max.   : 5.9662  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sites preselected by user:</span></span>
+<span><span class="co">#&gt;                Site  Longitude Latitude</span></span>
+<span><span class="co">#&gt; 1           Chamela -105.04479 19.50090</span></span>
+<span><span class="co">#&gt; 2       Los Tuxtlas  -95.07419 18.58489</span></span>
+<span><span class="co">#&gt; 3            Chajul  -90.94067 16.17000</span></span>
+<span><span class="co">#&gt; 4 Parque de Tlalpan  -99.19778 19.29139</span></span>
+<span><span class="co">#&gt; 5  Parque Chipinque -100.35940 25.61750</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Region of interest:</span></span>
+<span><span class="co">#&gt;  class       : SpatVector </span></span>
+<span><span class="co">#&gt;  geometry    : polygons </span></span>
+<span><span class="co">#&gt;  dimensions  : 1, 11  (geometries, attributes)</span></span>
+<span><span class="co">#&gt;  extent      : -118.4042, -86.7014, 14.55055, 32.71846  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt;  source      : mx.gpkg</span></span>
+<span><span class="co">#&gt;  coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span></code></pre></div>
 <p><br></p>
 </div>
-<div id="exploring-your-data-in-environmental-and-geographic-spaces" class="section level4">
-<h4 class="hasAnchor">
-<a href="#exploring-your-data-in-environmental-and-geographic-spaces" class="anchor"></a>Exploring your data in environmental and geographic spaces</h4>
-<p>The data can be explored by creating four-panel plots using two environmental variables (at a time). The two top panels contain the information in geographic space (one predictor per panel). The two panels at the bottom contain information in a 2D environmental space for the two variables.</p>
+<div class="section level4">
+<h4 id="exploring-your-data-in-environmental-and-geographic-spaces">Exploring your data in environmental and geographic spaces<a class="anchor" aria-label="anchor" href="#exploring-your-data-in-environmental-and-geographic-spaces"></a>
+</h4>
+<p>The data can be explored by creating four-panel plots using two
+environmental variables (at a time). The two top panels contain the
+information in geographic space (one predictor per panel). The two
+panels at the bottom contain information in a 2D environmental space for
+the two variables.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Plot using environmental variables</span>
-<span class="fu"><a href="../reference/explore_data_EG.html">explore_data_EG</a></span><span class="op">(</span><span class="va">m_matrix</span>, variable_1 <span class="op">=</span> <span class="st">"Mean_temperature"</span>, 
-                variable_2 <span class="op">=</span> <span class="st">"Annual_precipitation"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Plot using environmental variables</span></span>
+<span><span class="fu"><a href="../reference/explore_data_EG.html">explore_data_EG</a></span><span class="op">(</span><span class="va">m_matrix</span>, variable_1 <span class="op">=</span> <span class="st">"Mean_temperature"</span>, </span>
+<span>                variable_2 <span class="op">=</span> <span class="st">"Annual_precipitation"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_img/V1f1.png" width="350"></p>
 <p><br></p>
-<p>Now let’s use the principal components that summarize most of the variance in your variables.</p>
+<p>Now let’s use the principal components that summarize most of the
+variance in your variables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Plot using Principal Components resulted</span>
-<span class="fu"><a href="../reference/explore_data_EG.html">explore_data_EG</a></span><span class="op">(</span><span class="va">m_matrix</span>, variable_1 <span class="op">=</span> <span class="st">"PC1"</span>, variable_2 <span class="op">=</span> <span class="st">"PC2"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Plot using Principal Components resulted</span></span>
+<span><span class="fu"><a href="../reference/explore_data_EG.html">explore_data_EG</a></span><span class="op">(</span><span class="va">m_matrix</span>, variable_1 <span class="op">=</span> <span class="st">"PC1"</span>, variable_2 <span class="op">=</span> <span class="st">"PC2"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_img/V1f2.png" width="350"></p>
 <p><br></p>
 </div>
-<div id="partitioning-environmental-space-to-achieve-uniformity-in-selections" class="section level4">
-<h4 class="hasAnchor">
-<a href="#partitioning-environmental-space-to-achieve-uniformity-in-selections" class="anchor"></a>Partitioning environmental space to achieve uniformity in selections</h4>
-<p>Block-like partitioning of environmental space. Here, a two-dimensional cloud of points will be blocked according to a user-defined number of rows and columns. These will allow us to see the environmental space more uniformly.</p>
+<div class="section level4">
+<h4 id="partitioning-environmental-space-to-achieve-uniformity-in-selections">Partitioning environmental space to achieve uniformity in
+selections<a class="anchor" aria-label="anchor" href="#partitioning-environmental-space-to-achieve-uniformity-in-selections"></a>
+</h4>
+<p>Block-like partitioning of environmental space. Here, a
+two-dimensional cloud of points will be blocked according to a
+user-defined number of rows and columns. These will allow us to see the
+environmental space more uniformly.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Creating blocks</span>
-<span class="va">m_blocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_blocks.html">make_blocks</a></span><span class="op">(</span><span class="va">m_matrix</span>, variable_1 <span class="op">=</span> <span class="st">"PC1"</span>,
-                       variable_2 <span class="op">=</span> <span class="st">"PC2"</span>, n_cols <span class="op">=</span> <span class="fl">10</span>, n_rows <span class="op">=</span> <span class="fl">10</span>,
-                       block_type <span class="op">=</span> <span class="st">"equal_area"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">m_blocks</span><span class="op">$</span><span class="va">data_matrix</span><span class="op">$</span><span class="va">Block</span><span class="op">)</span>
-<span class="co">#&gt;  [1]   7   9  32   6  31  10   5   8  30   4  29  28   3  42  27  41  40  39  26</span>
-<span class="co">#&gt; [20]  43  38  52  25  51  37  36  53  50  62  61  73  71  72  63  49  59  60  48</span>
-<span class="co">#&gt; [39]  70  64  58  81  80  91  47  68  35  54  24   2  23  82  74  83  92  93  84</span>
-<span class="co">#&gt; [58]  69 102 103  94 104 114 113  65</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Creating blocks</span></span>
+<span><span class="va">m_blocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_blocks.html">make_blocks</a></span><span class="op">(</span><span class="va">m_matrix</span>, variable_1 <span class="op">=</span> <span class="st">"PC1"</span>,</span>
+<span>                       variable_2 <span class="op">=</span> <span class="st">"PC2"</span>, n_cols <span class="op">=</span> <span class="fl">10</span>, n_rows <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                       block_type <span class="op">=</span> <span class="st">"equal_area"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">m_blocks</span><span class="op">$</span><span class="va">data_matrix</span><span class="op">$</span><span class="va">Block</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#&gt;   [1]   5   4   2  23  24   1   6   3  25   7  26  27   8  35  28  36  37  38</span></span>
+<span><span class="co">#&gt;  [19]  29  34  39  47  30  48  40  41  46  49  59  60  70  72  71  58  50  62</span></span>
+<span><span class="co">#&gt;  [37]  61  51  73  63  84  57  85  95  52  75  42  45  31   9  32  82  94  83</span></span>
+<span><span class="co">#&gt;  [55]  81  69  96  74 107 106  93 105 117 118  56</span></span></code></pre></div>
 <p><br></p>
-<p>Let’s check how the blocked environment looks like in environmental and geographic spaces.</p>
+<p>Let’s check how the blocked environment looks like in environmental
+and geographic spaces.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plotting all blocks</span>
-<span class="fu"><a href="../reference/plot_blocks_EG.html">plot_blocks_EG</a></span><span class="op">(</span>master <span class="op">=</span> <span class="va">m_blocks</span>, block_ID <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># plotting all blocks</span></span>
+<span><span class="fu"><a href="../reference/plot_blocks_EG.html">plot_blocks_EG</a></span><span class="op">(</span>master <span class="op">=</span> <span class="va">m_blocks</span>, block_ID <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="vignette_img/V1f3.png" width="350"></p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-      </div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by Claudia Nuñez-Penichet, Marlon E. Cobos, Jorge Soberón, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Sigüenza, A. Townsend Peterson.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Claudia Nuñez-Penichet, Marlon E. Cobos, Jorge Soberón, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Sigüenza, A. Townsend Peterson.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
