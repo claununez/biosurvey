@@ -1,6 +1,6 @@
 ---
 title: "biosurvey: Selecting sampling sites"
-author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson, Weverton Trindade (ctb), Can Elverici (ctb)"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{biosurvey: Selecting sampling sites}
@@ -19,6 +19,7 @@ Let's first prepare the data to continue with further processes.
 ```{r data, eval=FALSE, echo=TRUE}
 # Data
 data("m_matrix", package = "biosurvey")
+
 # Creating blocks
 m_blocks <- make_blocks(m_matrix, variable_1 = "PC1",
                        variable_2 = "PC2", n_cols = 20, n_rows = 20,
@@ -35,6 +36,7 @@ The goal of this type of selection is maximizing uniformity of points in environ
 ```{r EG_selection, eval=FALSE, echo=TRUE}
 # Selecting sites uniformly in E and G spaces
 EG_sel <- EG_selection(master = m_blocks, n_blocks = 10)
+
 #> Element 'preselected_sites' in 'master' is NULL, setting
 #> 'use_preselected_sites' = FALSE
 #> Preparing data for analysis
@@ -79,8 +81,12 @@ Selecting survey sites randomly is one of the multiple ways to select places to 
 **Note**: We are going to use the object that resulted from the previous process of selection (a **master_selection** object) as it allows to add other sets of selected sites to maintain your results organized. 
 
 ```{r random_selection, eval=FALSE, echo=TRUE}
+# Number of sites
+nsites <- nrow(EG_sel$selected_sites_EG$selection_1)
+
 # Selecting sites randomly
-EG_r_selection <- random_selection(EG_sel, n_sites = 15, n_samplings = 5)
+EG_r_selection <- random_selection(EG_sel, n_sites = nsites, n_samplings = 5)
+
 #> Element 'preselected_sites' in 'master' is NULL, setting
 #> 'use_preselected_sites' = FALSE
 #> Selecting sampling sites randomly
@@ -109,8 +115,9 @@ With the following lines of code, survey sites can be selected so they are locat
 
 ```{r uniformG_selection, eval=FALSE, echo=TRUE}
 # Selecting sites uniformly in G space
-EG_r_G_selection <- uniformG_selection(EG_r_selection, expected_points = 15, 
+EG_r_G_selection <- uniformG_selection(EG_r_selection, expected_points = nsites, 
                                        max_n_samplings = 1, replicates = 5)
+
 #> Element 'preselected_sites' in 'master' is NULL, setting
 #> 'use_preselected_sites' = FALSE
 #> Running algorithm for selecting sites, please wait...
@@ -146,8 +153,9 @@ With the following lines of code you can select sampling sites that are uniforml
 
 ```{r uniformE_selection_blocks, eval=FALSE, echo=TRUE}
 # Selecting sites uniformly in E space
-EG_r_G_E_selection <- uniformE_selection(EG_r_G_selection, expected_points = 15, 
+EG_r_G_E_selection <- uniformE_selection(EG_r_G_selection, expected_points = nsites, 
                                          max_n_samplings = 1, replicates = 5)
+
 #> Element 'preselected_sites' in 'master' is NULL, setting
 #> 'use_preselected_sites' = FALSE
 #> Running algorithm for selecting sites, please wait...

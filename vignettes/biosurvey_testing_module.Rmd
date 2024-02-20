@@ -1,6 +1,6 @@
 ---
 title: "biosurvey: Testing efficiency of selected sites"
-author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson"
+author: "Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta, Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend Peterson, Weverton Trindade (ctb), Can Elverici (ctb)"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{biosurvey: Testing efficiency of selected sites}
@@ -26,11 +26,16 @@ With the following lines of code we are going to prepare a presence-absence matr
 
 ```{r preare_base_PAM, eval=FALSE, echo=TRUE}
 # Data
-data("species_data", package = "biosurvey")
+m_matrix <- read_master(system.file("extdata/m_matrix.rds",
+                                    package = "biosurvey"))
+
+species_data <- terra::vect(system.file("extdata/species_data.gpkg",
+                                        package = "biosurvey"))
 
 # Create base_pam
 b_pam <- prepare_base_PAM(data = species_data, master_matrix = m_matrix, 
                           cell_size = 50)
+
 #> Preparing spatial grid
 #> Preprocessing 'data'
 #> |======================================================================| 100%
@@ -43,19 +48,25 @@ summary(b_pam)
 #> ---------------------------------------------------------------------------
 #> 
 #> Presence-absence matrix:
-#>   Number of cells:    1020
+#>   Number of cells:    927
 #>   Number of species:  25
 #> 
 #> Spatial object representing the PAM:
-#> class       : SpatialPolygonsDataFrame 
-#> features    : 1020 
-#> extent      : -118.4298, -86.51483, 14.28854, 32.77954  (xmin, xmax, ymin, ymax)
-#> crs         : +proj=longlat +datum=WGS84 +no_defs 
-#> variables   : 28
-#> names       :   ID,         Longitude,         Latitude, Species_1, Species_2, Species_3, Species_4, Species_5, Species_6, Species_7, Species_8, Species_9, Species_10, Species_11, Species_12, ... 
-#> min values  :  471, -118.184325012541, 14.5140353096983,         0,         0,         0,         0,         0,         0,         0,         0,         0,          0,          0,          0, ... 
-#> max values  : 3602,  -86.760325012541, 32.5540353096983,         1,         1,         1,         1,         1,         1,         1,         1,         1,          1,          1,          1, ...
-
+#>  class       : SpatVector 
+#>  geometry    : polygons 
+#>  dimensions  : 927, 28  (geometries, attributes)
+#>  extent      : -118.4677, -86.55536, 14.55027, 32.92406  (xmin, xmax, ymin, ymax)
+#>  coord. ref. : lon/lat WGS 84 
+#>  names       :    ID Longitude Latitude Species_1 Species_2 Species_3 Species_4 Species_5
+#>  type        : <num>     <num>    <num>     <num>     <num>     <num>     <num>     <num>
+#>  values      :    75    -117.3    32.68         0         0         0         0         0
+#>                   76    -116.8    32.68         0         0         0         0         0
+#>                   77    -116.3    32.68         0         0         0         0         0
+#>  Species_6 Species_7 (and 18 more)
+#>      <num>     <num>              
+#>          0         0              
+#>          0         0              
+#>          0         0 
 ```
 
 <br>
@@ -82,7 +93,8 @@ Example of a **master_selection** object obtained using three types of selection
 
 ```{r m_selection, eval=FALSE, echo=TRUE}
 # Data
-data("m_selection", package = "biosurvey")
+m_selection <- read_master(system.file("extdata/m_selection.rds",
+                                       package = "biosurvey"))
 ```
 
 Now let's subset the **base_PAM** object according to the sites that were selected for sampling.
@@ -162,7 +174,8 @@ The next line of code will compute dissimilarity indices for sets of selected si
 
 ```{r, eval=FALSE, echo=TRUE}
 # calculating dissimilarities
-DI_sel <- selected_sites_DI(PAM_subset = sub_pam_all, selection_type = "all", method = "jaccard")
+DI_sel <- selected_sites_DI(PAM_subset = sub_pam_all, selection_type = "all", 
+                            method = "jaccard")
 
 ```
 
