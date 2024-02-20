@@ -1,5 +1,8 @@
 destination: docs
 
+template:
+  bootstrap: 5
+
 reference:
 - title: Package description
   contents:
@@ -24,6 +27,23 @@ reference:
   - subset_PAM
   - selected_sites_DI
   - selected_sites_SAC
+
+- title: Construct, save, and read objects
+  contents:
+  - master_matrix
+  - base_PAM
+  - master_selection
+  - PAM_subset
+  - PAM_CS
+  - save_master
+  - save_PAM
+  - read_master
+  - read_PAM
+
+- title: Summary and print
+  contents:
+  - print
+  - summary
 
 - title: Visualization and plotting
   contents:
@@ -54,4 +74,32 @@ reference:
   - sp_occurrences
   - variables
 
+- title: Helpers for selection analyses
+  contents:
+  - assign_blocks
+  - block_sample
+  - closest_to_centroid
+  - dis_loop
+  - distance_filter
+  - find_clusters
+  - find_modes
+  - point_sample
+  - point_sample_cluster
+  - point_thinning
+  - preselected_dist_mask
+  - unimodal_test
 
+- title: Helpers for PAM analyses
+  contents:
+  - files_2data
+  - grid_from_region
+  - match_rformat
+  - PAM_from_table
+  - PAM_indices
+  - randomize_matrix_cb
+  - refill_PAM_indices
+  - rlist_2data
+  - selected_sites_PAM
+  - spdf_2data
+  - stack_2data
+  - wgs84_2aed_laea

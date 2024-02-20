@@ -152,7 +152,7 @@ biodiversity inventory you need:
 
 - *Environmental variables*.- These variables must be in raster format
   (e.g., GTiff, BIL, ASCII). To load these variables to your R
-  environment, you can use the function `ras` from the package `terra`.
+  environment, you can use the function `rast` from the package `terra`.
 - *Region of interest*.- As your analyses will be focused on a region, a
   spatial polygon of such an area is needed. Common formats in which
   your polygon can be are Shapefile, GeoPackage, GeoJSON, etc. To load
