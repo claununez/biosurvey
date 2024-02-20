@@ -2,7 +2,7 @@ biosurvey: Tools for Biological Survey Planning
 ================
 Claudia Nunez-Penichet, Marlon E. Cobos, Jorge Soberon, Tomer Gueta,
 Narayani Barve, Vijay Barve, Adolfo G. Navarro-Siguenza, A. Townsend
-Peterson
+Peterson, Weverton Trindade (ctb), Can Elverici (ctb)
 
 - [Package description](#package-description)
 - [Installing the package](#installing-the-package)
