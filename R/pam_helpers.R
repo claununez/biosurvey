@@ -47,6 +47,9 @@ grid_from_region <- function(region, cell_size, complete_cover = TRUE) {
     WGS84 <- terra::crs("+init=epsg:4326")
     region <- terra::project(region, WGS84)
     cent <- terra::geom(terra::centroids(region))[, c("x", "y")]
+    if (class(cent)[1] == "matrix") {
+      cent <- apply(cent, 2, mean)
+    }
     LAEA <- terra::crs(paste0("+proj=laea +lat_0=", cent[2], " +lon_0=",
                               cent[1], " +x_0=0 +y_0=0 +ellps=WGS84 ",
                               "+datum=WGS84 +units=m +no_defs"))
